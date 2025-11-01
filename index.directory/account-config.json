@@ -1,7 +1,7 @@
 {
-  "starting_balance": 1000.00,
+  "starting_balance": 140,
   "deposits": [],
   "notes": "Starting balance is your initial capital. Add deposits separately to track internal investments.",
   "version": "1.0",
-  "last_updated": "2025-11-01T20:10:00.000000"
+  "last_updated": "2025-11-01T21:41:09.242Z"
 }
