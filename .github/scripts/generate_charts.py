@@ -8,6 +8,7 @@ and creates a static chart image using matplotlib (if available)
 import json
 import os
 from datetime import datetime
+from collections import defaultdict
 
 # Try to import matplotlib, but don't fail if it's not available
 try:
@@ -505,8 +506,6 @@ def generate_portfolio_value_charts(trades, account_config):
             continue
     
     # Generate data for each timeframe
-    from collections import defaultdict
-    
     # Helper function to aggregate by timeframe
     def aggregate_by_timeframe(dates, values, timeframe):
         if not dates:
@@ -638,8 +637,6 @@ def generate_total_return_charts(trades, account_config):
             continue
     
     # Generate data for each timeframe
-    from collections import defaultdict
-    
     def aggregate_by_timeframe(dates, values, timeframe):
         if not dates:
             # Return 0% if no trades

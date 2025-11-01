@@ -233,7 +233,7 @@ async function loadReturnChart(timeframe) {
  * Get Portfolio Chart Options
  */
 function getPortfolioChartOptions() {
-  const baseOptions = window.SFTiChartConfig ? SFTiChartConfig.getCommonChartOptions() : getDefaultChartOptions();
+  const baseOptions = window.SFTiChartConfig?.getCommonChartOptions() ?? getDefaultChartOptions();
   
   return {
     ...baseOptions,
@@ -246,7 +246,7 @@ function getPortfolioChartOptions() {
         ...baseOptions.plugins.tooltip,
         callbacks: {
           label: function(context) {
-            return 'Portfolio Value: $' + context.parsed.y.toFixed(2);
+            return `Portfolio Value: $${context.parsed.y.toFixed(2)}`;
           }
         }
       }
@@ -258,7 +258,7 @@ function getPortfolioChartOptions() {
  * Get Return Chart Options
  */
 function getReturnChartOptions() {
-  const baseOptions = window.SFTiChartConfig ? SFTiChartConfig.getCommonChartOptions() : getDefaultChartOptions();
+  const baseOptions = window.SFTiChartConfig?.getCommonChartOptions() ?? getDefaultChartOptions();
   
   return {
     ...baseOptions,
@@ -272,7 +272,7 @@ function getReturnChartOptions() {
         borderColor: '#00d4ff',
         callbacks: {
           label: function(context) {
-            return 'Total Return: ' + context.parsed.y.toFixed(2) + '%';
+            return `Total Return: ${context.parsed.y.toFixed(2)}%`;
           }
         }
       }
@@ -284,7 +284,7 @@ function getReturnChartOptions() {
         ticks: {
           ...baseOptions.scales.y.ticks,
           callback: function(value) {
-            return value.toFixed(0) + '%';
+            return `${value.toFixed(0)}%`;
           }
         }
       }
@@ -357,6 +357,8 @@ function renderEmptyPortfolioChart(ctx, timeframe) {
     return;
   }
   
+  const chartOptions = getPortfolioChartOptions();
+  
   portfolioChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -369,9 +371,9 @@ function renderEmptyPortfolioChart(ctx, timeframe) {
       }]
     },
     options: {
-      ...getPortfolioChartOptions(),
+      ...chartOptions,
       plugins: {
-        ...getPortfolioChartOptions().plugins,
+        ...chartOptions.plugins,
         title: {
           display: true,
           text: message,
@@ -397,6 +399,8 @@ function renderEmptyReturnChart(ctx, timeframe) {
     return;
   }
   
+  const chartOptions = getReturnChartOptions();
+  
   returnChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -409,9 +413,9 @@ function renderEmptyReturnChart(ctx, timeframe) {
       }]
     },
     options: {
-      ...getReturnChartOptions(),
+      ...chartOptions,
       plugins: {
-        ...getReturnChartOptions().plugins,
+        ...chartOptions.plugins,
         title: {
           display: true,
           text: message,
