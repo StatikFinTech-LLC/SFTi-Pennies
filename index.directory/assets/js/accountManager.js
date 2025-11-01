@@ -53,11 +53,16 @@ class AccountManager {
       const response = await fetch(`${this.basePath}/index.directory/account-config.json`);
       if (response.ok) {
         this.config = await response.json();
+        // Ensure withdrawals array exists
+        if (!this.config.withdrawals) {
+          this.config.withdrawals = [];
+        }
       } else {
         // Create default config
         this.config = {
           starting_balance: 1000.00,
           deposits: [],
+          withdrawals: [],
           notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
           version: "1.0",
           last_updated: new Date().toISOString()
@@ -68,6 +73,7 @@ class AccountManager {
       this.config = {
         starting_balance: 1000.00,
         deposits: [],
+        withdrawals: [],
         notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
         version: "1.0",
         last_updated: new Date().toISOString()
@@ -221,22 +227,18 @@ class AccountManager {
   }
 
   /**
-   * Update display elements
+   * Update display elements (now updates modal displays if open)
    */
   updateDisplay() {
     // Load from localStorage first (client-side changes)
     this.loadFromLocalStorage();
     
-    const balanceDisplay = document.getElementById('balance-display');
-    const totalDepositsEl = document.getElementById('total-deposits');
-    
-    if (balanceDisplay) {
-      balanceDisplay.textContent = `$${this.formatCurrency(this.config.starting_balance)}`;
+    // Update modal displays if modals are open
+    if (window.updatePortfolioModalDisplay) {
+      window.updatePortfolioModalDisplay();
     }
-    
-    const totalDeposits = this.getTotalDeposits();
-    if (totalDepositsEl) {
-      totalDepositsEl.textContent = `$${this.formatCurrency(totalDeposits)}`;
+    if (window.updateReturnModalDisplay) {
+      window.updateReturnModalDisplay();
     }
   }
 
@@ -322,142 +324,4 @@ window.accountManager = null;
 SFTiUtils.onDOMReady(async () => {
   window.accountManager = new AccountManager();
   await window.accountManager.init();
-});
-
-/**
- * Edit balance inline
- */
-function editBalance() {
-  const display = document.getElementById('balance-display');
-  const input = document.getElementById('balance-input');
-  
-  if (!display || !input || !accountManager) return;
-  
-  // Get current value without $ and commas
-  const currentValue = accountManager.config.starting_balance;
-  
-  display.style.display = 'none';
-  input.style.display = 'inline-block';
-  input.value = currentValue;
-  input.focus();
-  input.select();
-}
-
-/**
- * Save balance
- */
-function saveBalance() {
-  const display = document.getElementById('balance-display');
-  const input = document.getElementById('balance-input');
-  
-  if (!display || !input || !accountManager) return;
-  
-  const newValue = parseFloat(input.value);
-  if (isNaN(newValue) || newValue < 0) {
-    alert('Please enter a valid positive number');
-    input.focus();
-    return;
-  }
-  
-  accountManager.updateStartingBalance(newValue);
-  
-  input.style.display = 'none';
-  display.style.display = 'inline';
-  
-  // Refresh the page stats
-  if (window.tradingJournal && window.tradingJournal.loadRecentTrades) {
-    window.tradingJournal.loadRecentTrades();
-  }
-}
-
-/**
- * Show deposit modal
- */
-function showDepositModal() {
-  const modal = document.getElementById('deposit-modal');
-  if (!modal) return;
-  
-  // Set default date to today
-  const dateInput = document.getElementById('deposit-date');
-  if (dateInput && !dateInput.value) {
-    dateInput.value = new Date().toISOString().split('T')[0];
-  }
-  
-  modal.style.display = 'flex';
-}
-
-/**
- * Close deposit modal
- */
-function closeDepositModal() {
-  const modal = document.getElementById('deposit-modal');
-  if (!modal) return;
-  
-  modal.style.display = 'none';
-  
-  // Clear form
-  const form = document.getElementById('deposit-form');
-  if (form) {
-    form.reset();
-  }
-}
-
-/**
- * Add deposit
- */
-function addDeposit(event) {
-  event.preventDefault();
-  
-  const amount = document.getElementById('deposit-amount').value;
-  const date = document.getElementById('deposit-date').value;
-  const note = document.getElementById('deposit-note').value;
-  
-  if (!amount || !date || !accountManager) {
-    alert('Please fill in all required fields');
-    return;
-  }
-  
-  accountManager.addDeposit(amount, date, note);
-  
-  closeDepositModal();
-  
-  // Refresh the page stats
-  if (window.tradingJournal && window.tradingJournal.loadRecentTrades) {
-    window.tradingJournal.loadRecentTrades();
-  }
-  
-  // Show success message
-  const notification = document.createElement('div');
-  notification.style.cssText = `
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--accent-green);
-    color: #000;
-    padding: 1rem 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 10000;
-    font-weight: 600;
-  `;
-  notification.textContent = `Deposit of $${parseFloat(amount).toFixed(2)} added successfully!`;
-  document.body.appendChild(notification);
-  
-  setTimeout(() => {
-    notification.style.transition = 'opacity 0.3s';
-    notification.style.opacity = '0';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
-}
-
-// Close modal on background click
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('deposit-modal');
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeDepositModal();
-      }
-    });
-  }
 });
