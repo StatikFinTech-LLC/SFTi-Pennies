@@ -453,6 +453,270 @@ def generate_ticker_performance_data(trades):
     }
 
 
+def load_account_config():
+    """Load the account configuration JSON file"""
+    try:
+        with open("index.directory/account-config.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("account-config.json not found. Using default values.")
+        return {"starting_balance": 0, "deposits": [], "withdrawals": []}
+
+
+def generate_portfolio_value_charts(trades, account_config):
+    """
+    Generate portfolio value charts for all timeframes
+    Portfolio Value = Starting Balance + Deposits - Withdrawals + Cumulative P&L
+    
+    Args:
+        trades (list): List of trade dictionaries
+        account_config (dict): Account configuration with starting balance, deposits, withdrawals
+    """
+    starting_balance = account_config.get("starting_balance", 0)
+    deposits = account_config.get("deposits", [])
+    withdrawals = account_config.get("withdrawals", [])
+    
+    # Calculate total deposits and withdrawals
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
+    
+    # Sort trades by date
+    sorted_trades = sorted(
+        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
+    )
+    
+    # Calculate cumulative P&L at each trade
+    trade_dates = []
+    portfolio_values = []
+    cumulative_pnl = 0
+    
+    base_value = starting_balance + total_deposits - total_withdrawals
+    
+    for trade in sorted_trades:
+        pnl = trade.get("pnl_usd", 0)
+        cumulative_pnl += pnl
+        
+        date_str = trade.get("exit_date", trade.get("entry_date", ""))
+        try:
+            date_obj = datetime.fromisoformat(str(date_str))
+            trade_dates.append(date_obj)
+            portfolio_values.append(base_value + cumulative_pnl)
+        except (ValueError, TypeError):
+            continue
+    
+    # Generate data for each timeframe
+    from collections import defaultdict
+    
+    # Helper function to aggregate by timeframe
+    def aggregate_by_timeframe(dates, values, timeframe):
+        if not dates:
+            # Return starting balance if no trades
+            return {
+                "labels": ["Start"],
+                "datasets": [{
+                    "label": "Portfolio Value",
+                    "data": [base_value],
+                    "borderColor": "#00ff88",
+                    "backgroundColor": "rgba(0, 255, 136, 0.1)",
+                    "fill": True,
+                    "tension": 0.4,
+                    "pointRadius": 5,
+                    "pointHoverRadius": 8,
+                    "pointBackgroundColor": "#00ff88",
+                    "pointBorderColor": "#0a0e27",
+                    "pointBorderWidth": 2,
+                }]
+            }
+        
+        aggregated = defaultdict(list)
+        
+        for date, value in zip(dates, values):
+            if timeframe == "day":
+                # Group by hour for intraday
+                key = date.strftime("%H:%M")
+            elif timeframe == "week":
+                # Group by day of week
+                key = date.strftime("%a")
+            elif timeframe == "month":
+                # Group by week
+                week_num = (date.day - 1) // 7 + 1
+                key = f"Week {week_num}"
+            elif timeframe == "quarter":
+                # Group by month
+                key = date.strftime("%b")
+            elif timeframe == "year":
+                # Group by month
+                key = date.strftime("%b")
+            elif timeframe == "5year":
+                # Group by year
+                key = date.strftime("%Y")
+            else:
+                key = date.strftime("%Y-%m-%d")
+            
+            aggregated[key].append(value)
+        
+        # Take the last value for each period
+        labels = list(aggregated.keys())
+        data = [values[-1] for values in aggregated.values()]
+        
+        # Add starting balance at the beginning if we have data
+        if labels:
+            labels.insert(0, "Start")
+            data.insert(0, base_value)
+        
+        return {
+            "labels": labels,
+            "datasets": [{
+                "label": "Portfolio Value",
+                "data": data,
+                "borderColor": "#00ff88",
+                "backgroundColor": "rgba(0, 255, 136, 0.1)",
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "pointBackgroundColor": "#00ff88",
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }]
+        }
+    
+    # Generate for each timeframe
+    timeframes = ["day", "week", "month", "quarter", "year", "5year"]
+    for timeframe in timeframes:
+        chart_data = aggregate_by_timeframe(trade_dates, portfolio_values, timeframe)
+        
+        output_path = f"index.directory/assets/charts/portfolio-value-{timeframe}.json"
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(chart_data, f, indent=2)
+        print(f"  ✓ Portfolio value ({timeframe}) data saved")
+
+
+def generate_total_return_charts(trades, account_config):
+    """
+    Generate total return percentage charts for all timeframes
+    Total Return % = (Current Value - Starting Investment) / Starting Investment * 100
+    
+    Args:
+        trades (list): List of trade dictionaries
+        account_config (dict): Account configuration
+    """
+    starting_balance = account_config.get("starting_balance", 0)
+    deposits = account_config.get("deposits", [])
+    withdrawals = account_config.get("withdrawals", [])
+    
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
+    
+    starting_investment = starting_balance + total_deposits - total_withdrawals
+    
+    if starting_investment == 0:
+        starting_investment = 1  # Avoid division by zero
+    
+    # Sort trades by date
+    sorted_trades = sorted(
+        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
+    )
+    
+    # Calculate return percentage at each trade
+    trade_dates = []
+    return_percentages = []
+    cumulative_pnl = 0
+    
+    for trade in sorted_trades:
+        pnl = trade.get("pnl_usd", 0)
+        cumulative_pnl += pnl
+        
+        return_pct = (cumulative_pnl / starting_investment) * 100
+        
+        date_str = trade.get("exit_date", trade.get("entry_date", ""))
+        try:
+            date_obj = datetime.fromisoformat(str(date_str))
+            trade_dates.append(date_obj)
+            return_percentages.append(return_pct)
+        except (ValueError, TypeError):
+            continue
+    
+    # Generate data for each timeframe
+    from collections import defaultdict
+    
+    def aggregate_by_timeframe(dates, values, timeframe):
+        if not dates:
+            # Return 0% if no trades
+            return {
+                "labels": ["Start"],
+                "datasets": [{
+                    "label": "Total Return %",
+                    "data": [0],
+                    "borderColor": "#00d4ff",
+                    "backgroundColor": "rgba(0, 212, 255, 0.1)",
+                    "fill": True,
+                    "tension": 0.4,
+                    "pointRadius": 5,
+                    "pointHoverRadius": 8,
+                    "pointBackgroundColor": "#00d4ff",
+                    "pointBorderColor": "#0a0e27",
+                    "pointBorderWidth": 2,
+                }]
+            }
+        
+        aggregated = defaultdict(list)
+        
+        for date, value in zip(dates, values):
+            if timeframe == "day":
+                key = date.strftime("%H:%M")
+            elif timeframe == "week":
+                key = date.strftime("%a")
+            elif timeframe == "month":
+                week_num = (date.day - 1) // 7 + 1
+                key = f"Week {week_num}"
+            elif timeframe == "quarter":
+                key = date.strftime("%b")
+            elif timeframe == "year":
+                key = date.strftime("%b")
+            elif timeframe == "5year":
+                key = date.strftime("%Y")
+            else:
+                key = date.strftime("%Y-%m-%d")
+            
+            aggregated[key].append(value)
+        
+        labels = list(aggregated.keys())
+        data = [round(values[-1], 2) for values in aggregated.values()]
+        
+        # Add starting point
+        if labels:
+            labels.insert(0, "Start")
+            data.insert(0, 0)
+        
+        return {
+            "labels": labels,
+            "datasets": [{
+                "label": "Total Return %",
+                "data": data,
+                "borderColor": "#00d4ff",
+                "backgroundColor": "rgba(0, 212, 255, 0.1)",
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "pointBackgroundColor": "#00d4ff",
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }]
+        }
+    
+    # Generate for each timeframe
+    timeframes = ["day", "week", "month", "quarter", "year", "5year"]
+    for timeframe in timeframes:
+        chart_data = aggregate_by_timeframe(trade_dates, return_percentages, timeframe)
+        
+        output_path = f"index.directory/assets/charts/total-return-{timeframe}.json"
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(chart_data, f, indent=2)
+        print(f"  ✓ Total return ({timeframe}) data saved")
+
+
 def main():
     """Main execution function"""
     print("Generating charts...")
@@ -463,10 +727,10 @@ def main():
         return
 
     trades = index_data.get("trades", [])
-    if not trades:
-        print("No trades found in index")
-        return
-
+    
+    # Load account config
+    account_config = load_account_config()
+    
     print(f"Processing {len(trades)} trades...")
 
     # Ensure output directory exists
@@ -512,6 +776,14 @@ def main():
     ) as f:
         json.dump(ticker_data, f, indent=2)
     print("  ✓ Ticker performance data saved")
+    
+    # 5. Portfolio Value Charts (all timeframes)
+    print("\nGenerating Portfolio Value charts...")
+    generate_portfolio_value_charts(trades, account_config)
+    
+    # 6. Total Return Charts (all timeframes)
+    print("\nGenerating Total Return charts...")
+    generate_total_return_charts(trades, account_config)
 
     # Generate static charts (PNG images)
     print("\nGenerating static chart images...")
