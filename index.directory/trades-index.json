@@ -56,9 +56,9 @@
     "largest_win": -3.9,
     "largest_loss": -3.9,
     "total_volume": 15,
-    "max_drawdown": 0,
+    "max_drawdown": -3.9,
     "profit_factor": 0.0
   },
-  "generated_at": "2025-11-01T19:55:44.464823",
+  "generated_at": "2025-11-01T21:42:37.233235",
   "version": "1.0"
 }

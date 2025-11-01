@@ -19,6 +19,20 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 
+def load_account_config():
+    """Load account configuration with starting balance and deposits"""
+    try:
+        with open("index.directory/account-config.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print("index.directory/account-config.json not found, using defaults")
+        return {
+            "starting_balance": 1000.00,
+            "deposits": [],
+            "version": "1.0"
+        }
+
+
 def load_trades_index():
     """Load the trades index JSON file"""
     try:
@@ -27,6 +41,96 @@ def load_trades_index():
     except FileNotFoundError:
         print("index.directory/trades-index.json not found. Run parse_trades.py first.")
         return None
+
+
+def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict]) -> Dict:
+    """
+    Calculate percentage-based returns metrics
+    
+    Args:
+        trades: List of trade dictionaries
+        starting_balance: Initial account balance
+        deposits: List of deposit records
+        
+    Returns:
+        Dict: Returns metrics including total return %, avg return %, etc.
+    """
+    if not trades or starting_balance <= 0:
+        return {
+            "total_return_percent": 0.0,
+            "avg_return_percent": 0.0,
+            "max_drawdown_percent": 0.0,
+            "avg_risk_percent": 0.0,
+            "avg_position_size_percent": 0.0
+        }
+    
+    # Calculate total P&L
+    total_pnl = sum(t.get("pnl_usd", 0) for t in trades)
+    
+    # Calculate total deposits
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    
+    # Initial capital for returns calculation
+    initial_capital = starting_balance + total_deposits
+    
+    # Total return % = (Total P&L / Initial Capital) * 100
+    total_return_percent = (total_pnl / initial_capital * 100) if initial_capital > 0 else 0
+    
+    # Average return per trade as % of account
+    avg_return_percent = (total_pnl / len(trades) / initial_capital * 100) if initial_capital > 0 and len(trades) > 0 else 0
+    
+    # Calculate max drawdown as percentage
+    cumulative_pnl = []
+    running_total = 0
+    for trade in trades:
+        running_total += trade.get("pnl_usd", 0)
+        cumulative_pnl.append(running_total)
+    
+    peak = 0
+    max_drawdown_dollars = 0
+    for value in cumulative_pnl:
+        if value > peak:
+            peak = value
+        drawdown = value - peak
+        if drawdown < max_drawdown_dollars:
+            max_drawdown_dollars = drawdown
+    
+    # Max drawdown % = (Max DD in $) / (Starting Balance + Deposits) * 100
+    max_drawdown_percent = (max_drawdown_dollars / initial_capital * 100) if initial_capital > 0 else 0
+    
+    # Average risk per trade (as % of account at time of trade)
+    # This requires tracking account balance at each trade
+    avg_risk_percent = 0.0
+    total_risk_percent = 0.0
+    account_balance = initial_capital
+    
+    for trade in trades:
+        pnl = trade.get("pnl_usd", 0)
+        position_value = abs(trade.get("entry_price", 0) * trade.get("position_size", 0))
+        
+        if account_balance > 0:
+            # Position size as % of account
+            if position_value > 0:
+                total_risk_percent += (position_value / account_balance * 100)
+        
+        # Update account balance for next trade
+        account_balance += pnl
+    
+    avg_position_size_percent = total_risk_percent / len(trades) if len(trades) > 0 else 0
+    
+    # Calculate average risk based on actual losses
+    losses = [t for t in trades if t.get("pnl_usd", 0) < 0]
+    if losses:
+        avg_loss = abs(sum(t.get("pnl_usd", 0) for t in losses) / len(losses))
+        avg_risk_percent = (avg_loss / initial_capital * 100) if initial_capital > 0 else 0
+    
+    return {
+        "total_return_percent": round(total_return_percent, 2),
+        "avg_return_percent": round(avg_return_percent, 4),
+        "max_drawdown_percent": round(max_drawdown_percent, 2),
+        "avg_risk_percent": round(avg_risk_percent, 3),
+        "avg_position_size_percent": round(avg_position_size_percent, 2)
+    }
 
 
 def calculate_expectancy(trades: List[Dict]) -> float:
@@ -167,8 +271,8 @@ def calculate_drawdown_series(trades: List[Dict]) -> Dict:
         except:
             labels.append(date_str)
 
-    # Calculate drawdown from peak
-    peak = cumulative_pnl[0] if cumulative_pnl else 0
+    # Calculate drawdown from peak (start peak at 0 for proper drawdown calculation)
+    peak = 0
     for value in cumulative_pnl:
         if value > peak:
             peak = value
@@ -299,12 +403,23 @@ def main():
     """Main execution function"""
     print("Generating analytics...")
 
+    # Load account config
+    account_config = load_account_config()
+    starting_balance = account_config.get("starting_balance", 1000.00)
+    total_deposits = sum(d.get("amount", 0) for d in account_config.get("deposits", []))
+    
     # Load trades index
     index_data = load_trades_index()
     if not index_data:
         return
 
     trades = index_data.get("trades", [])
+    stats = index_data.get("statistics", {})
+    total_pnl = stats.get("total_pnl", 0)
+    
+    # Calculate portfolio value
+    portfolio_value = starting_balance + total_deposits + total_pnl
+    
     if not trades:
         print("No trades found in index")
         # Create empty analytics
@@ -319,6 +434,12 @@ def main():
             "by_setup": {},
             "by_session": {},
             "drawdown_series": {"labels": [], "values": []},
+            "account": {
+                "starting_balance": starting_balance,
+                "total_deposits": total_deposits,
+                "total_pnl": total_pnl,
+                "portfolio_value": portfolio_value
+            },
             "generated_at": datetime.now().isoformat(),
         }
     else:
@@ -338,6 +459,13 @@ def main():
             min(drawdown_series["values"]) if drawdown_series["values"] else 0
         )
         kelly = calculate_kelly_criterion(sorted_trades)
+        
+        # Calculate percentage-based returns metrics
+        returns_metrics = calculate_returns_metrics(
+            sorted_trades, 
+            starting_balance, 
+            account_config.get("deposits", [])
+        )
 
         # Aggregate by tags
         by_strategy = aggregate_by_tag(sorted_trades, "strategy")
@@ -350,11 +478,24 @@ def main():
             "max_win_streak": max_win_streak,
             "max_loss_streak": max_loss_streak,
             "max_drawdown": max_drawdown,
+            "max_drawdown_percent": returns_metrics["max_drawdown_percent"],
             "kelly_criterion": kelly,
             "by_strategy": by_strategy,
             "by_setup": by_setup,
             "by_session": by_session,
             "drawdown_series": drawdown_series,
+            "returns": {
+                "total_return_percent": returns_metrics["total_return_percent"],
+                "avg_return_percent": returns_metrics["avg_return_percent"],
+                "avg_risk_percent": returns_metrics["avg_risk_percent"],
+                "avg_position_size_percent": returns_metrics["avg_position_size_percent"]
+            },
+            "account": {
+                "starting_balance": starting_balance,
+                "total_deposits": total_deposits,
+                "total_pnl": total_pnl,
+                "portfolio_value": portfolio_value
+            },
             "generated_at": datetime.now().isoformat(),
         }
 

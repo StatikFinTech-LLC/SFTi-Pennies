@@ -205,15 +205,15 @@ def calculate_statistics(trades):
     avg_winner = total_winner_pnl / winning_trades if winning_trades > 0 else 0
     avg_loser = total_loser_pnl / losing_trades if losing_trades > 0 else 0
 
-    # Calculate max drawdown efficiently
+    # Calculate max drawdown efficiently (start peak at 0 for proper drawdown calculation)
     max_drawdown = 0
     if cumulative_pnl:
-        peak = cumulative_pnl[0]
+        peak = 0
         for value in cumulative_pnl:
             if value > peak:
                 peak = value
-            drawdown = peak - value
-            if drawdown > max_drawdown:
+            drawdown = value - peak
+            if drawdown < max_drawdown:
                 max_drawdown = drawdown
 
     # Handle edge cases for extremes

@@ -1,6 +1,7 @@
 /**
  * Import Page JavaScript
  * Handles CSV upload, broker detection, preview, and import workflow
+ * Integrated with EventBus for reactive updates
  * 
  * Note: Backend CSV processing uses Python importers in .github/scripts/importers/
  * This frontend provides UI for file upload, validation, and preview.
@@ -12,6 +13,7 @@
 let uploadedFile = null;
 let parsedTrades = [];
 let detectedBroker = null;
+const eventBus = window.SFTiEventBus;
 
 // DOM elements
 const csvFileInput = document.getElementById('csv-file-input');
@@ -265,6 +267,16 @@ async function handleImport() {
       URL.revokeObjectURL(url);
       
       showStatus('CSV downloaded. Place in import/ directory and push to complete.', 'success');
+      
+      // Emit event that CSV import was initiated
+      if (eventBus) {
+        eventBus.emit('trades:csv-downloaded', {
+          broker: detectedBroker,
+          trade_count: parsedTrades.length,
+          timestamp: new Date().toISOString()
+        });
+        console.log('[Import] CSV download initiated, event emitted');
+      }
     }
     
   } catch (error) {

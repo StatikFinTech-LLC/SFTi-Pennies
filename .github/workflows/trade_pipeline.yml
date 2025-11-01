@@ -8,6 +8,7 @@ on:
       - 'index.directory/assets/sfti.tradez.assets/**'
       - 'index.directory/Informational.Bookz/**'
       - 'index.directory/SFTi.Notez/**'
+      - 'index.directory/account-config.json'
       - '.github/assets/**'
       - '.github/scripts/**'
       - '.github/workflows/trade_pipeline.yml'

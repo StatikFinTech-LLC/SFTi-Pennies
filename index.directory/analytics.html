@@ -51,6 +51,16 @@
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
           <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Total Return</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-green);" id="metric-total-return">0.00%</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Avg Return/Trade</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-green);" id="metric-avg-return">0.00%</div>
+          </div>
+          
+          <div>
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Expectancy</div>
             <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-green);" id="metric-expectancy">$0.00</div>
           </div>
@@ -61,6 +71,26 @@
           </div>
           
           <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Avg Risk %</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-yellow);" id="metric-avg-risk">0.00%</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Avg Position Size</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);" id="metric-avg-position">0.00%</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Max Drawdown</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-red);" id="metric-max-drawdown">$0.00 (0%)</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Kelly %</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-yellow);" id="metric-kelly">0%</div>
+          </div>
+          
+          <div>
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Win Streak</div>
             <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-green);" id="metric-win-streak">0</div>
           </div>
@@ -68,16 +98,6 @@
           <div>
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Loss Streak</div>
             <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-red);" id="metric-loss-streak">0</div>
-          </div>
-          
-          <div>
-            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Max Drawdown</div>
-            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-red);" id="metric-max-drawdown">$0.00</div>
-          </div>
-          
-          <div>
-            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Kelly %</div>
-            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-yellow);" id="metric-kelly">0%</div>
           </div>
         </div>
       </div>
@@ -206,6 +226,7 @@
   </script>
   <!-- Load shared utilities first -->
   <script src="assets/js/utils.js"></script>
+  <script src="assets/js/eventBus.js"></script>
   <script src="assets/js/chartConfig.js"></script>
   
   <!-- Application scripts -->

@@ -10,6 +10,7 @@ class TradingJournal {
     this.uploadedImages = [];
     // Get base path from URL to make code portable
     this.basePath = SFTiUtils.getBasePath();
+    this.eventBus = window.SFTiEventBus;
     this.initializeApp();
   }
   
@@ -52,6 +53,9 @@ class TradingJournal {
     // Set up navigation
     this.setupNavigation();
     
+    // Set up event listeners
+    this.setupEventListeners();
+    
     // Load trades on homepage
     if (document.getElementById('recent-trades')) {
       this.loadRecentTrades();
@@ -64,6 +68,67 @@ class TradingJournal {
     
     // Set up auth UI
     this.setupAuthUI();
+  }
+  
+  /**
+   * Setup event listeners for reactive updates
+   */
+  setupEventListeners() {
+    if (!this.eventBus) return;
+    
+    // Listen for account balance changes
+    this.eventBus.on('account:balance-updated', () => {
+      console.log('[TradingJournal] Account balance updated, refreshing stats');
+      this.refreshStats();
+    });
+    
+    // Listen for deposit additions
+    this.eventBus.on('account:deposit-added', () => {
+      console.log('[TradingJournal] Deposit added, refreshing stats');
+      this.refreshStats();
+    });
+    
+    // Listen for trades updates
+    this.eventBus.on('trades:updated', () => {
+      console.log('[TradingJournal] Trades updated, refreshing stats');
+      this.refreshStats();
+    });
+    
+    // Listen for analytics updates
+    this.eventBus.on('analytics:updated', () => {
+      console.log('[TradingJournal] Analytics updated, refreshing display');
+      this.refreshStats();
+    });
+  }
+  
+  /**
+   * Refresh stats without reloading trades
+   */
+  async refreshStats() {
+    try {
+      // Load latest trades data
+      const response = await fetch(`${this.basePath}/index.directory/trades-index.json`);
+      if (!response.ok) return;
+      
+      const data = await response.json();
+      
+      // Load analytics
+      let analyticsData = null;
+      try {
+        const analyticsResponse = await fetch(`${this.basePath}/index.directory/assets/charts/analytics-data.json`);
+        if (analyticsResponse.ok) {
+          analyticsData = await analyticsResponse.json();
+        }
+      } catch (err) {
+        console.warn('Could not load analytics data:', err);
+      }
+      
+      // Update stats
+      this.updateStats(data.statistics || {}, analyticsData);
+      
+    } catch (error) {
+      console.warn('Could not refresh stats:', error);
+    }
   }
   
   /**
@@ -187,8 +252,19 @@ class TradingJournal {
         this.createTradeCard(trade, index)
       ).join('');
       
-      // Update stats
-      this.updateStats(data.statistics || {});
+      // Load analytics for percentage returns
+      let analyticsData = null;
+      try {
+        const analyticsResponse = await fetch(`${this.basePath}/index.directory/assets/charts/analytics-data.json`);
+        if (analyticsResponse.ok) {
+          analyticsData = await analyticsResponse.json();
+        }
+      } catch (err) {
+        console.warn('Could not load analytics data:', err);
+      }
+      
+      // Update stats with analytics data
+      this.updateStats(data.statistics || {}, analyticsData);
       
     } catch (error) {
       console.warn('Could not load trades:', error);
@@ -253,12 +329,27 @@ class TradingJournal {
   /**
    * Update stats display
    * @param {Object} stats - Statistics object from trades index
+   * @param {Object} analytics - Analytics data with percentage returns
    */
-  updateStats(stats) {
+  updateStats(stats, analytics = null) {
     if (!stats || Object.keys(stats).length === 0) return;
+    
+    // Calculate portfolio value if accountManager is available
+    let portfolioValue = 0;
+    if (window.accountManager && window.accountManager.initialized) {
+      portfolioValue = window.accountManager.calculatePortfolioValue(stats.total_pnl || 0);
+    }
+    
+    // Get total return percentage from analytics
+    let totalReturnPercent = 0;
+    if (analytics && analytics.returns) {
+      totalReturnPercent = analytics.returns.total_return_percent || 0;
+    }
     
     // Update DOM
     const statElements = {
+      'stat-portfolio-value': `$${portfolioValue.toFixed(2)}`,
+      'stat-total-return': `${totalReturnPercent >= 0 ? '+' : ''}${totalReturnPercent.toFixed(2)}%`,
       'stat-total-trades': stats.total_trades || 0,
       'stat-win-rate': `${stats.win_rate || 0}%`,
       'stat-total-pnl': `$${(stats.total_pnl || 0).toFixed(2)}`,
@@ -272,7 +363,18 @@ class TradingJournal {
         // Add positive/negative class for P&L
         if (id.includes('pnl')) {
           const totalPnL = stats.total_pnl || 0;
+          element.classList.remove('positive', 'negative');
           element.classList.add(totalPnL >= 0 ? 'positive' : 'negative');
+        }
+        // Add positive/negative class for portfolio value
+        if (id === 'stat-portfolio-value') {
+          element.classList.remove('positive', 'negative');
+          element.classList.add(portfolioValue >= 0 ? 'positive' : 'negative');
+        }
+        // Add positive/negative class for total return
+        if (id === 'stat-total-return') {
+          element.classList.remove('positive', 'negative');
+          element.classList.add(totalReturnPercent >= 0 ? 'positive' : 'negative');
         }
       }
     });

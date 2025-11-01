@@ -15,12 +15,16 @@
 let analyticsData = null;
 
 // DOM elements
+const metricTotalReturn = document.getElementById('metric-total-return');
+const metricAvgReturn = document.getElementById('metric-avg-return');
 const metricExpectancy = document.getElementById('metric-expectancy');
 const metricProfitFactor = document.getElementById('metric-profit-factor');
-const metricWinStreak = document.getElementById('metric-win-streak');
-const metricLossStreak = document.getElementById('metric-loss-streak');
+const metricAvgRisk = document.getElementById('metric-avg-risk');
+const metricAvgPosition = document.getElementById('metric-avg-position');
 const metricMaxDrawdown = document.getElementById('metric-max-drawdown');
 const metricKelly = document.getElementById('metric-kelly');
+const metricWinStreak = document.getElementById('metric-win-streak');
+const metricLossStreak = document.getElementById('metric-loss-streak');
 const strategyTableBody = document.getElementById('strategy-table-body');
 
 // Charts
@@ -35,35 +39,78 @@ let drawdownChart = null;
 async function initAnalytics() {
   try {
     // Load analytics-data.json
-    try {
-      const response = await fetch('assets/charts/analytics-data.json');
-      if (response.ok) {
-        analyticsData = await response.json();
-        console.log('Loaded analytics data from file');
-      } else {
-        console.warn('Analytics data not found, using mock data');
-        analyticsData = getMockAnalyticsData();
-      }
-    } catch (fetchError) {
-      console.warn('Error fetching analytics data, using mock data:', fetchError);
-      analyticsData = getMockAnalyticsData();
-    }
+    await loadAnalyticsData();
     
-    // Update metrics
-    updateMetrics(analyticsData);
-    
-    // Render charts
-    renderStrategyChart(analyticsData);
-    renderSetupChart(analyticsData);
-    renderWinRateChart(analyticsData);
-    renderDrawdownChart(analyticsData);
-    
-    // Render table
-    renderStrategyTable(analyticsData);
+    // Setup event listeners for reactive updates
+    setupAnalyticsEventListeners();
     
   } catch (error) {
     console.error('Error loading analytics:', error);
   }
+}
+
+/**
+ * Load analytics data
+ */
+async function loadAnalyticsData() {
+  try {
+    const response = await fetch('assets/charts/analytics-data.json');
+    if (response.ok) {
+      analyticsData = await response.json();
+      console.log('Loaded analytics data from file');
+    } else {
+      console.warn('Analytics data not found, using mock data');
+      analyticsData = getMockAnalyticsData();
+    }
+  } catch (fetchError) {
+    console.warn('Error fetching analytics data, using mock data:', fetchError);
+    analyticsData = getMockAnalyticsData();
+  }
+  
+  // Update display
+  updateMetrics(analyticsData);
+  renderStrategyChart(analyticsData);
+  renderSetupChart(analyticsData);
+  renderWinRateChart(analyticsData);
+  renderDrawdownChart(analyticsData);
+  renderStrategyTable(analyticsData);
+}
+
+/**
+ * Setup event listeners for reactive updates
+ */
+function setupAnalyticsEventListeners() {
+  const eventBus = window.SFTiEventBus;
+  if (!eventBus) return;
+  
+  // Listen for account changes
+  eventBus.on('account:balance-updated', () => {
+    console.log('[Analytics] Account balance updated, reloading analytics');
+    loadAnalyticsData();
+  });
+  
+  eventBus.on('account:deposit-added', () => {
+    console.log('[Analytics] Deposit added, reloading analytics');
+    loadAnalyticsData();
+  });
+  
+  // Listen for trades updates
+  eventBus.on('trades:updated', () => {
+    console.log('[Analytics] Trades updated, reloading analytics');
+    loadAnalyticsData();
+  });
+  
+  // Listen for analytics updates
+  eventBus.on('analytics:updated', (data) => {
+    console.log('[Analytics] Analytics updated, refreshing display');
+    analyticsData = data;
+    updateMetrics(analyticsData);
+    renderStrategyChart(analyticsData);
+    renderSetupChart(analyticsData);
+    renderWinRateChart(analyticsData);
+    renderDrawdownChart(analyticsData);
+    renderStrategyTable(analyticsData);
+  });
 }
 
 /**
@@ -72,12 +119,61 @@ async function initAnalytics() {
 function updateMetrics(data) {
   if (!data) return;
   
-  metricExpectancy.textContent = `$${data.expectancy?.toFixed(2) || '0.00'}`;
-  metricProfitFactor.textContent = data.profit_factor?.toFixed(2) || '0.00';
-  metricWinStreak.textContent = data.max_win_streak || '0';
-  metricLossStreak.textContent = data.max_loss_streak || '0';
-  metricMaxDrawdown.textContent = `$${Math.abs(data.max_drawdown || 0).toFixed(2)}`;
-  metricKelly.textContent = `${(data.kelly_criterion || 0).toFixed(1)}%`;
+  // Returns metrics
+  const returns = data.returns || {};
+  const totalReturn = returns.total_return_percent || 0;
+  const avgReturn = returns.avg_return_percent || 0;
+  const avgRisk = returns.avg_risk_percent || 0;
+  const avgPosition = returns.avg_position_size_percent || 0;
+  
+  // Update percentage-based metrics with color coding
+  if (metricTotalReturn) {
+    metricTotalReturn.textContent = `${totalReturn >= 0 ? '+' : ''}${totalReturn.toFixed(2)}%`;
+    metricTotalReturn.style.color = totalReturn >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+  }
+  
+  if (metricAvgReturn) {
+    metricAvgReturn.textContent = `${avgReturn >= 0 ? '+' : ''}${avgReturn.toFixed(4)}%`;
+    metricAvgReturn.style.color = avgReturn >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+  }
+  
+  if (metricAvgRisk) {
+    metricAvgRisk.textContent = `${avgRisk.toFixed(3)}%`;
+  }
+  
+  if (metricAvgPosition) {
+    metricAvgPosition.textContent = `${avgPosition.toFixed(2)}%`;
+  }
+  
+  // Dollar-based metrics
+  if (metricExpectancy) {
+    const expectancy = data.expectancy || 0;
+    metricExpectancy.textContent = `$${expectancy.toFixed(2)}`;
+    metricExpectancy.style.color = expectancy >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+  }
+  
+  if (metricProfitFactor) {
+    metricProfitFactor.textContent = data.profit_factor?.toFixed(2) || '0.00';
+  }
+  
+  // Drawdown with both dollar and percentage
+  if (metricMaxDrawdown) {
+    const ddDollars = Math.abs(data.max_drawdown || 0);
+    const ddPercent = Math.abs(data.max_drawdown_percent || 0);
+    metricMaxDrawdown.textContent = `$${ddDollars.toFixed(2)} (${ddPercent.toFixed(2)}%)`;
+  }
+  
+  if (metricKelly) {
+    metricKelly.textContent = `${(data.kelly_criterion || 0).toFixed(1)}%`;
+  }
+  
+  if (metricWinStreak) {
+    metricWinStreak.textContent = data.max_win_streak || '0';
+  }
+  
+  if (metricLossStreak) {
+    metricLossStreak.textContent = data.max_loss_streak || '0';
+  }
 }
 
 /**
@@ -254,7 +350,20 @@ function getMockAnalyticsData() {
     max_win_streak: 5,
     max_loss_streak: 3,
     max_drawdown: -425.00,
+    max_drawdown_percent: -4.25,
     kelly_criterion: 12.5,
+    returns: {
+      total_return_percent: 11.89,
+      avg_return_percent: 0.34,
+      avg_risk_percent: 2.15,
+      avg_position_size_percent: 15.5
+    },
+    account: {
+      starting_balance: 10000.00,
+      total_deposits: 0,
+      total_pnl: 1189.70,
+      portfolio_value: 11189.70
+    },
     by_strategy: {
       'Breakout': {
         total_trades: 15,

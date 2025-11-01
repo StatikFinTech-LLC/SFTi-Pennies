@@ -21,7 +21,9 @@ Welcome to **SFTi-Pennies** - a comprehensive, fully automated trading journal s
 - **🎨 Beautiful Dark UI** - Terminal-inspired interface with sparkling animations
 - **📱 Mobile-First PWA** - Install on any device, works offline
 - **🤖 Fully Automated** - GitHub Actions handle all processing and deployments
-- **📊 Advanced Analytics** - Expectancy, profit factor, Kelly Criterion, and more
+- **📊 Advanced Analytics** - Expectancy, profit factor, Kelly Criterion, max drawdown (all verified and production-ready)
+- **💰 Account Tracking** - Starting balance, deposits, portfolio value with percentage-based returns
+- **⚡ Real-Time Updates** - Reactive event system updates all pages instantly without reload
 - **📥 Import/Export** - CSV import from major brokers (IBKR, Schwab, Robinhood, Webull)
 - **📝 Weekly Reviews** - Structured review workflow for continuous improvement
 - **📚 Integrated Library** - Books and notes management with PDF/Markdown viewers
@@ -141,8 +143,11 @@ Created a **fully transparent, organized trading account** with complete documen
 - [Quick Start Guide](./.github/docs/QUICKSTART.md)
 - [Developer Documentation](./.github/docs/README-DEV.md)
 - [System Architecture](./.github/docs/STRUCTURE.md)
+- [System Mermaid Diagrams](./.github/docs/SYSTEM-MERMAID.md) - **Complete visual system architecture**
 - [Trade Pipeline](./.github/docs/TRADE_PIPELINE.md)
-- [Troubleshooting Guides](./.github/docs/)
+- [Analytics Documentation](./.github/docs/ANALYTICS.md)
+- [Event Bus Integration Guide](./docs/EVENT_BUS_GUIDE.md)
+- [Implementation Summary](./docs/IMPLEMENTATION_SUMMARY.md)
 
 ## 🚀 Quick Start Guide
 
@@ -281,12 +286,18 @@ This journal follows key principles:
 ### 📊 Advanced Analytics
 - ✅ Automated P&L calculation
 - ✅ Win rate & profit factor
-- ✅ Expectancy calculation
-- ✅ Kelly Criterion
+- ✅ Expectancy calculation (verified)
+- ✅ Kelly Criterion (verified)
+- ✅ Max Drawdown (fixed and verified)
+- ✅ Percentage-based returns
+- ✅ Account balance tracking
+- ✅ Deposit tracking
+- ✅ Portfolio value calculation
 - ✅ Equity curve charts
 - ✅ Per-strategy breakdowns
-- ✅ Drawdown analysis
+- ✅ Drawdown analysis ($ and %)
 - ✅ Win/loss streaks
+- ✅ Real-time metric updates
 
 </td>
 <td width="33%">

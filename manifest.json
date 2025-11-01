@@ -1,8 +1,9 @@
 {
   "name": "SFTi-Pennies Trading Journal",
   "short_name": "SFTi-Pennies",
-  "description": "Professional penny stock trading journal with automated tracking and analysis",
+  "description": "Professional penny stock trading journal with real-time analytics, account tracking, and automated performance metrics",
   "start_url": "/SFTi-Pennies/",
+  "scope": "/SFTi-Pennies/",
   "display": "standalone",
   "background_color": "#0a0e27",
   "theme_color": "#00ff88",
@@ -21,6 +22,71 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["finance", "productivity"],
-  "screenshots": []
+  "categories": ["finance", "productivity", "business"],
+  "screenshots": [],
+  "prefer_related_applications": false,
+  "features": [
+    "Account balance tracking with deposits",
+    "Real-time analytics updates",
+    "Percentage-based performance metrics",
+    "CSV import support",
+    "Trade journal with screenshots",
+    "Advanced charting and statistics",
+    "Offline data persistence via localStorage",
+    "Reactive event-driven UI updates"
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Trade",
+      "short_name": "New Trade",
+      "description": "Record a new trade",
+      "url": "/SFTi-Pennies/index.directory/add-trade.html",
+      "icons": [
+        {
+          "src": "/SFTi-Pennies/index.directory/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "short_name": "Analytics",
+      "description": "View trading analytics and performance metrics",
+      "url": "/SFTi-Pennies/index.directory/analytics.html",
+      "icons": [
+        {
+          "src": "/SFTi-Pennies/index.directory/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "All Trades",
+      "short_name": "Trades",
+      "description": "View all trades",
+      "url": "/SFTi-Pennies/index.directory/all-trades.html",
+      "icons": [
+        {
+          "src": "/SFTi-Pennies/index.directory/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Import CSV",
+      "short_name": "Import",
+      "description": "Import trades from CSV",
+      "url": "/SFTi-Pennies/index.directory/import.html",
+      "icons": [
+        {
+          "src": "/SFTi-Pennies/index.directory/assets/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "iarc_rating_id": "",
+  "lang": "en-US",
+  "dir": "ltr"
 }
