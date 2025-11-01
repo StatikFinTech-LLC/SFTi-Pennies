@@ -4,7 +4,7 @@
   "max_win_streak": 0,
   "max_loss_streak": 1,
   "max_drawdown": -3.9,
-  "max_drawdown_percent": -0.39,
+  "max_drawdown_percent": -2.79,
   "kelly_criterion": 0.0,
   "by_strategy": {
     "Dip Buy for a VWAP Test": {
@@ -48,16 +48,16 @@
     ]
   },
   "returns": {
-    "total_return_percent": -0.39,
-    "avg_return_percent": -0.39,
-    "avg_risk_percent": 0.39,
-    "avg_position_size_percent": 5.15
+    "total_return_percent": -2.79,
+    "avg_return_percent": -2.7857,
+    "avg_risk_percent": 2.786,
+    "avg_position_size_percent": 36.75
   },
   "account": {
-    "starting_balance": 1000.0,
+    "starting_balance": 140,
     "total_deposits": 0,
     "total_pnl": -3.9,
-    "portfolio_value": 996.1
+    "portfolio_value": 136.1
   },
-  "generated_at": "2025-11-01T21:32:27.703119"
+  "generated_at": "2025-11-01T21:42:39.610721"
 }
