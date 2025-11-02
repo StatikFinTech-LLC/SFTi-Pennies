@@ -194,6 +194,17 @@
   box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
 }
 
+.btn-primary:active,
+.btn-primary:focus {
+  background: var(--accent-blue);
+  outline: none;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
 .btn-secondary {
   padding: 0.75rem 1.5rem;
   background: transparent;
@@ -207,6 +218,17 @@
 .btn-secondary:hover {
   border-color: var(--accent-green);
   color: var(--accent-green);
+}
+
+.btn-secondary:active,
+.btn-secondary:focus {
+  background: transparent;
+  outline: none;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--border-color);
+  outline-offset: 2px;
 }
 
 .btn-danger {
@@ -224,6 +246,17 @@
   background: #ff6b7a;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+}
+
+.btn-danger:active,
+.btn-danger:focus {
+  background: var(--accent-red);
+  outline: none;
+}
+
+.btn-danger:focus-visible {
+  outline: 2px solid var(--accent-red);
+  outline-offset: 2px;
 }
 
 /* Responsive Design */
@@ -277,6 +310,35 @@
     min-height: 48px;
     font-size: 16px; /* Prevents zoom on iOS */
   }
+  
+  /* Ensure buttons don't overlap on small screens */
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    flex: 1;
+    min-width: 100px;
+  }
+}
+
+/* Hide number input spinners (the grey slider issue) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Improve input focus states */
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="text"]:focus {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
+  border-color: var(--accent-green);
 }
 
 /* Custom Scrollbar for Modal */
