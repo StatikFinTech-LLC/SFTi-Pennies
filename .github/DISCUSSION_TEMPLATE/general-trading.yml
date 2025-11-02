@@ -1,0 +1,54 @@
+title: "[General Trading] "
+labels:
+  - general-discussion
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💬 General Trading Discussion
+        
+        Use this template for general trading discussions, questions, and community conversations that don't fit other categories.
+
+  - type: input
+    id: topic
+    attributes:
+      label: Discussion Topic
+      description: What do you want to discuss?
+      placeholder: "e.g., Risk Management, Trading Psychology, Market Conditions"
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: Discussion Content
+      description: Share your thoughts, ask questions, or start a conversation
+      placeholder: |
+        What's on your mind? Share experiences, ask for advice, discuss market conditions, 
+        trading psychology, tools, or anything related to trading.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: categories
+    attributes:
+      label: Related Topics
+      description: Which topics does this discussion relate to? (Select all that apply)
+      options:
+        - label: Risk Management
+        - label: Trading Psychology
+        - label: Market Analysis
+        - label: Trading Tools/Software
+        - label: Broker Platforms
+        - label: Position Sizing
+        - label: Trade Journal Usage
+        - label: Education/Learning Resources
+        - label: Community/Networking
+        - label: Other
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional information, links, or resources?
+      placeholder: Share relevant links, articles, books, videos, or additional context

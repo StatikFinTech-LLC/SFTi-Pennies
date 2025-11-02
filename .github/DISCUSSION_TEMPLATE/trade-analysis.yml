@@ -1,0 +1,79 @@
+title: "[Trade Analysis] "
+labels:
+  - trade-analysis
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📈 Trade Analysis Discussion
+        
+        Use this template to discuss specific trades, analyze setups, and learn from wins and losses.
+
+  - type: input
+    id: ticker
+    attributes:
+      label: Ticker Symbol
+      description: What stock was traded?
+      placeholder: "e.g., TSLA, AAPL, NVDA"
+    validations:
+      required: true
+
+  - type: input
+    id: date
+    attributes:
+      label: Trade Date
+      description: When did this trade occur?
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Trade Direction
+      description: Long or short?
+      options:
+        - Long
+        - Short
+    validations:
+      required: true
+
+  - type: textarea
+    id: setup
+    attributes:
+      label: Trade Setup
+      description: What was the setup or pattern that triggered the trade?
+      placeholder: Describe catalysts, chart patterns, technical indicators, news, etc.
+    validations:
+      required: true
+
+  - type: textarea
+    id: execution
+    attributes:
+      label: Trade Execution
+      description: How did you enter and exit the trade?
+      placeholder: Entry price, exit price, stop loss, position size, time in trade
+
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Trade Outcome
+      description: Was this a winning or losing trade?
+      options:
+        - Winner
+        - Loser
+        - Breakeven
+
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Lessons Learned
+      description: What did you learn from this trade?
+      placeholder: What went right? What went wrong? What would you do differently?
+
+  - type: textarea
+    id: chart
+    attributes:
+      label: Chart or Screenshots
+      description: Link to chart images or screenshots (optional)
+      placeholder: Paste image URLs or links
