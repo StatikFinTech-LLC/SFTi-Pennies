@@ -7,7 +7,7 @@ and creates a static chart image using matplotlib (if available)
 
 import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import defaultdict
 
 # Try to import matplotlib, but don't fail if it's not available
@@ -464,6 +464,33 @@ def load_account_config():
         return {"starting_balance": 0, "deposits": [], "withdrawals": []}
 
 
+def format_date_label(date, timeframe):
+    """
+    Format a date object into a label string based on the timeframe
+    
+    Args:
+        date (datetime): The date to format
+        timeframe (str): The timeframe (day, week, month, quarter, year, 5year)
+    
+    Returns:
+        str: Formatted date label
+    """
+    if timeframe == "day":
+        return date.strftime("%H:%M")
+    elif timeframe == "week":
+        return date.strftime("%a %m/%d")
+    elif timeframe == "month":
+        return date.strftime("%m/%d")
+    elif timeframe == "quarter":
+        return date.strftime("%m/%d")
+    elif timeframe == "year":
+        return date.strftime("%b")
+    elif timeframe == "5year":
+        return date.strftime("%Y Q") + str((date.month - 1) // 3 + 1)
+    else:
+        return date.strftime("%Y-%m-%d")
+
+
 def aggregate_data_by_timeframe(dates, values, timeframe, start_date, base_value):
     """
     Helper function to aggregate trade data by timeframe with date-aware labels
@@ -480,48 +507,14 @@ def aggregate_data_by_timeframe(dates, values, timeframe, start_date, base_value
     """
     if not dates:
         # Return base value at start date if no trades
-        if timeframe == "day":
-            start_label = start_date.strftime("%H:%M")
-        elif timeframe == "week":
-            start_label = start_date.strftime("%a %m/%d")
-        elif timeframe == "month":
-            start_label = start_date.strftime("%m/%d")
-        elif timeframe == "quarter":
-            start_label = start_date.strftime("%m/%d")
-        elif timeframe == "year":
-            start_label = start_date.strftime("%b")
-        elif timeframe == "5year":
-            start_label = start_date.strftime("%Y Q") + str((start_date.month - 1) // 3 + 1)
-        else:
-            start_label = start_date.strftime("%Y-%m-%d")
-        
+        start_label = format_date_label(start_date, timeframe)
         return ([start_label], [base_value])
     
     # Aggregate trades by timeframe
     aggregated = defaultdict(lambda: {"dates": [], "values": []})
     
     for date, value in zip(dates, values):
-        if timeframe == "day":
-            # For intraday, show time labels
-            key = date.strftime("%H:%M")
-        elif timeframe == "week":
-            # For weekly view, show actual day names with dates
-            key = date.strftime("%a %m/%d")
-        elif timeframe == "month":
-            # For monthly view, show actual dates
-            key = date.strftime("%m/%d")
-        elif timeframe == "quarter":
-            # For quarterly view, show dates
-            key = date.strftime("%m/%d")
-        elif timeframe == "year":
-            # For yearly view, show month abbreviations
-            key = date.strftime("%b")
-        elif timeframe == "5year":
-            # For 5-year view, show years and quarters
-            key = date.strftime("%Y Q") + str((date.month - 1) // 3 + 1)
-        else:
-            key = date.strftime("%Y-%m-%d")
-        
+        key = format_date_label(date, timeframe)
         aggregated[key]["dates"].append(date)
         aggregated[key]["values"].append(value)
     
@@ -533,20 +526,7 @@ def aggregate_data_by_timeframe(dates, values, timeframe, start_date, base_value
     data = [aggregated[key]["values"][-1] for key in sorted_keys]
     
     # Prepend starting point ONLY if it's not already in the labels
-    if timeframe == "day":
-        start_label = start_date.strftime("%H:%M")
-    elif timeframe == "week":
-        start_label = start_date.strftime("%a %m/%d")
-    elif timeframe == "month":
-        start_label = start_date.strftime("%m/%d")
-    elif timeframe == "quarter":
-        start_label = start_date.strftime("%m/%d")
-    elif timeframe == "year":
-        start_label = start_date.strftime("%b")
-    elif timeframe == "5year":
-        start_label = start_date.strftime("%Y Q") + str((start_date.month - 1) // 3 + 1)
-    else:
-        start_label = start_date.strftime("%Y-%m-%d")
+    start_label = format_date_label(start_date, timeframe)
     
     # Only add start point if it's not already in the labels
     if start_label not in labels:
@@ -588,6 +568,7 @@ def generate_portfolio_value_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(account_opening_date))
         except (ValueError, TypeError):
+            # Invalid or missing account_opening_date; will try first trade date next
             pass
     
     if not start_date and sorted_trades:
@@ -596,6 +577,7 @@ def generate_portfolio_value_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(first_trade_date))
         except (ValueError, TypeError):
+            # Invalid or missing first trade date; will fall back to current date
             pass
     
     if not start_date:
@@ -689,6 +671,7 @@ def generate_total_return_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(account_opening_date))
         except (ValueError, TypeError):
+            # Invalid or missing account_opening_date; will try first trade date next
             pass
     
     if not start_date and sorted_trades:
@@ -697,6 +680,7 @@ def generate_total_return_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(first_trade_date))
         except (ValueError, TypeError):
+            # Invalid or missing first trade date; will fall back to current date
             pass
     
     if not start_date:
