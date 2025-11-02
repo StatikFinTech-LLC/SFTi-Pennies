@@ -28,6 +28,9 @@ def load_account_config():
     
     Returns:
         dict: Account configuration data with defaults if file not found
+        
+    Note:
+        Default starting_balance is 0 to match the repository's account-config.json
     """
     try:
         with open("index.directory/account-config.json", "r", encoding="utf-8") as f:

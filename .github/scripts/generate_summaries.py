@@ -19,7 +19,6 @@ from collections import defaultdict
 from utils import load_trades_index
 
 # Regex patterns for file matching
-# Regex patterns for file matching
 WEEKLY_PATTERN = r"weekly-\d{4}-W(\d{2})\.md"
 MONTHLY_PATTERN = r"monthly-\d{4}-(\d{2})\.md"
 
