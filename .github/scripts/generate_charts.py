@@ -577,6 +577,7 @@ def generate_portfolio_value_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(first_trade_date))
         except (ValueError, TypeError):
+            # If parsing the first trade date fails, fall back to using the current date below
             # Invalid or missing first trade date; will fall back to current date
             pass
     
