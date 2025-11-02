@@ -785,42 +785,16 @@
     let currentWeekData = null;
     
     // Load weeks data from trades-index.json
+    // Load weeks data using shared utility
     async function loadWeeks() {
       try {
-        const response = await fetch('./trades-index.json');
-        const data = await response.json();
-        const trades = data.trades || [];
+        allWeeks = await window.SFTiUtils.loadTradesByWeek();
         
-        // Group trades by week
-        const weekMap = {};
-        
-        trades.forEach(trade => {
-          // Extract week from file path (e.g., "SFTi.Tradez/week.2025.43/...")
-          const weekMatch = trade.file_path?.match(/week\.(\d{4})\.(\d{2})/);
-          if (weekMatch) {
-            const weekKey = `${weekMatch[1]}-W${weekMatch[2]}`;
-            if (!weekMap[weekKey]) {
-              weekMap[weekKey] = {
-                year: weekMatch[1],
-                week: weekMatch[2],
-                key: weekKey,
-                trades: [],
-                totalPnL: 0,
-                wins: 0,
-                losses: 0
-              };
-            }
-            
-            weekMap[weekKey].trades.push(trade);
-            const pnl = parseFloat(trade.pnl_usd) || 0;
-            weekMap[weekKey].totalPnL += pnl;
-            if (pnl > 0) weekMap[weekKey].wins++;
-            else if (pnl < 0) weekMap[weekKey].losses++;
-          }
-        });
-        
-        // Convert to array and sort by date (most recent first)
-        allWeeks = Object.values(weekMap).sort((a, b) => b.key.localeCompare(a.key));
+        // Convert keys to match review.html format (YYYY-WXX)
+        allWeeks = allWeeks.map(week => ({
+          ...week,
+          key: `${week.year}-W${week.week}`
+        }));
         
         populateWeekDropdown();
       } catch (error) {
@@ -830,7 +804,7 @@
       }
     }
     
-    // Populate week dropdown
+    // Populate week dropdown using shared utilities
     function populateWeekDropdown() {
       const weekSelect = document.getElementById('week-select');
       
@@ -844,15 +818,9 @@
       allWeeks.forEach(week => {
         const option = document.createElement('option');
         option.value = week.key;
-        option.textContent = `Week ${parseInt(week.week)}, ${week.year} - ${week.trades.length} trades (${formatCurrency(week.totalPnL)})`;
+        option.textContent = `Week ${parseInt(week.week)}, ${week.year} - ${week.trades.length} trades (${window.SFTiUtils.formatCurrency(week.totalPnL)})`;
         weekSelect.appendChild(option);
       });
-    }
-    
-    // Helper function to format currency
-    function formatCurrency(amount) {
-      const sign = amount >= 0 ? '+' : '';
-      return `${sign}$${Math.abs(amount).toFixed(2)}`;
     }
     
     // Handle week selection
@@ -886,14 +854,14 @@
       await loadExistingSummary(weekKey);
     });
     
-    // Display week summary
+    // Display week summary using shared utilities
     function displayWeekSummary(weekData) {
       // Update title
       document.getElementById('week-title').textContent = `Week ${parseInt(weekData.week)}, ${weekData.year}`;
       
-      // Calculate statistics
+      // Calculate statistics using shared utilities
       const totalTrades = weekData.trades.length;
-      const winRate = totalTrades > 0 ? (weekData.wins / totalTrades * 100).toFixed(1) : '0.0';
+      const winRate = window.SFTiUtils.calculateWinRate(weekData.wins, totalTrades);
       const avgPnL = totalTrades > 0 ? (weekData.totalPnL / totalTrades).toFixed(2) : '0.00';
       
       // Update stats grid
@@ -918,13 +886,13 @@
         <div class="stat-card">
           <div class="stat-label">Total P&L</div>
           <div class="stat-value ${weekData.totalPnL >= 0 ? 'positive' : 'negative'}">
-            ${formatCurrency(weekData.totalPnL)}
+            ${window.SFTiUtils.formatCurrency(weekData.totalPnL)}
           </div>
         </div>
         <div class="stat-card">
           <div class="stat-label">Avg P&L</div>
           <div class="stat-value ${parseFloat(avgPnL) >= 0 ? 'positive' : 'negative'}">
-            ${formatCurrency(parseFloat(avgPnL))}
+            ${window.SFTiUtils.formatCurrency(parseFloat(avgPnL))}
           </div>
         </div>
       `;
@@ -944,7 +912,7 @@
               </span>
             </div>
             <div class="trade-pnl ${pnlClass}">
-              ${formatCurrency(pnl)}
+              ${window.SFTiUtils.formatCurrency(pnl)}
             </div>
           </div>
         `;

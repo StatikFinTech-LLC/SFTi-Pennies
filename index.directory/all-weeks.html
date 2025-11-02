@@ -381,45 +381,10 @@
       markdownRenderer = new MarkdownRenderer();
     });
     
-    // Load weeks data
+    // Load weeks data using shared utility
     async function loadWeeks() {
       try {
-        const response = await fetch('./trades-index.json');
-        const data = await response.json();
-        const trades = data.trades || [];
-        
-        // Group trades by week
-        const weekMap = {};
-        
-        trades.forEach(trade => {
-          // Extract week from file path (e.g., "SFTi.Tradez/week.2025.43/...")
-          const weekMatch = trade.file_path?.match(/week\.(\d{4})\.(\d{2})/);
-          if (weekMatch) {
-            const weekKey = `${weekMatch[1]}.${weekMatch[2]}`;
-            if (!weekMap[weekKey]) {
-              weekMap[weekKey] = {
-                year: weekMatch[1],
-                week: weekMatch[2],
-                trades: [],
-                totalPnL: 0,
-                wins: 0,
-                losses: 0
-              };
-            }
-            
-            weekMap[weekKey].trades.push(trade);
-            const pnl = parseFloat(trade.pnl_usd) || 0;
-            weekMap[weekKey].totalPnL += pnl;
-            if (pnl > 0) weekMap[weekKey].wins++;
-            else if (pnl < 0) weekMap[weekKey].losses++;
-          }
-        });
-        
-        // Convert to array and sort by date (most recent first)
-        allWeeks = Object.entries(weekMap)
-          .map(([key, data]) => ({ key, ...data }))
-          .sort((a, b) => b.key.localeCompare(a.key));
-        
+        allWeeks = await window.SFTiUtils.loadTradesByWeek();
         renderWeeks();
       } catch (error) {
         console.error('Error loading weeks:', error);
@@ -427,7 +392,7 @@
       }
     }
     
-    // Render weeks grid
+    // Render weeks grid using shared utilities
     function renderWeeks() {
       const container = document.getElementById('weeks-container');
       
@@ -438,16 +403,13 @@
       
       container.innerHTML = allWeeks.map(week => {
         const pnlClass = week.totalPnL >= 0 ? 'positive' : 'negative';
-        const pnlSign = week.totalPnL >= 0 ? '+' : '';
-        const winRate = week.trades.length > 0 
-          ? ((week.wins / week.trades.length) * 100).toFixed(1) 
-          : '0.0';
+        const winRate = window.SFTiUtils.calculateWinRate(week.wins, week.trades.length);
         
         return `
           <div class="week-card" onclick="showWeekModal('${week.key}')">
             <div class="week-header">
               <div class="week-title">Week ${week.week}, ${week.year}</div>
-              <div class="stat-value ${pnlClass}">${pnlSign}$${week.totalPnL.toFixed(2)}</div>
+              <div class="stat-value ${pnlClass}">${window.SFTiUtils.formatCurrency(week.totalPnL)}</div>
             </div>
             <div class="week-stats">
               <div class="stat-item">
@@ -488,7 +450,7 @@
       
       // Add week header
       allTradesMarkdown += `# Week ${week.week}, ${week.year}\n\n`;
-      allTradesMarkdown += `**Total P&L:** ${week.totalPnL >= 0 ? '+' : ''}$${week.totalPnL.toFixed(2)}\n\n`;
+      allTradesMarkdown += `**Total P&L:** ${window.SFTiUtils.formatCurrency(week.totalPnL)}\n\n`;
       allTradesMarkdown += `**Trades:** ${week.trades.length} | **Wins:** ${week.wins} | **Losses:** ${week.losses}\n\n`;
       allTradesMarkdown += `---\n\n`;
       

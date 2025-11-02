@@ -103,6 +103,79 @@
     return `${year}.${String(weekNumber).padStart(2, '0')}`;
   }
 
+  /**
+   * Load and parse trades data from trades-index.json
+   * Efficiently groups trades by week with calculated statistics
+   * @returns {Promise<Array>} Array of week objects with trade data and stats
+   */
+  async function loadTradesByWeek() {
+    try {
+      const response = await fetch('./trades-index.json');
+      const data = await response.json();
+      const trades = data.trades || [];
+      
+      // Group trades by week using efficient Map
+      const weekMap = new Map();
+      
+      trades.forEach(trade => {
+        // Extract week from file path (e.g., "SFTi.Tradez/week.2025.43/...")
+        const weekMatch = trade.file_path?.match(/week\.(\d{4})\.(\d{2})/);
+        if (weekMatch) {
+          const year = weekMatch[1];
+          const week = weekMatch[2];
+          const weekKey = `${year}.${week}`;
+          
+          if (!weekMap.has(weekKey)) {
+            weekMap.set(weekKey, {
+              year,
+              week,
+              key: weekKey,
+              trades: [],
+              totalPnL: 0,
+              wins: 0,
+              losses: 0
+            });
+          }
+          
+          const weekData = weekMap.get(weekKey);
+          weekData.trades.push(trade);
+          
+          const pnl = parseFloat(trade.pnl_usd) || 0;
+          weekData.totalPnL += pnl;
+          if (pnl > 0) weekData.wins++;
+          else if (pnl < 0) weekData.losses++;
+        }
+      });
+      
+      // Convert to array and sort by date (most recent first)
+      return Array.from(weekMap.values()).sort((a, b) => b.key.localeCompare(a.key));
+    } catch (error) {
+      console.error('Error loading trades by week:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Format currency value with sign
+   * @param {number} amount - Amount to format
+   * @returns {string} Formatted currency string
+   */
+  function formatCurrency(amount) {
+    const sign = amount >= 0 ? '+' : '';
+    return `${sign}$${Math.abs(amount).toFixed(2)}`;
+  }
+
+  /**
+   * Calculate win rate percentage
+   * @param {number} wins - Number of wins
+   * @param {number} total - Total number of trades
+   * @returns {string} Win rate as percentage string
+   */
+  function calculateWinRate(wins, total) {
+    if (total === 0) return '0.0';
+    return ((wins / total) * 100).toFixed(1);
+  }
+
   // Expose utilities globally
   window.SFTiUtils = {
     getBasePath,
@@ -111,7 +184,10 @@
     getPnLColors,
     onDOMReady,
     formatDateForFilename,
-    getYearWeekNumber
+    getYearWeekNumber,
+    loadTradesByWeek,
+    formatCurrency,
+    calculateWinRate
   };
 })();
 
