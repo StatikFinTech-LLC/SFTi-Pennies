@@ -12,7 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/marked": "^6.0.0",
-    "esbuild": "^0.25.11",
+    "esbuild": "^0.25.12",
     "highlight.js": "^11.11.1",
     "marked": "^16.4.1",
     "marked-gfm-heading-id": "^4.1.2",
