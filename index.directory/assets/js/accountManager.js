@@ -63,10 +63,16 @@ class AccountManager {
           starting_balance: 1000.00,
           deposits: [],
           withdrawals: [],
+          account_opening_date: null,
           notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
           version: "1.0",
           last_updated: new Date().toISOString()
         };
+      }
+      
+      // Ensure account_opening_date field exists (for backward compatibility)
+      if (!this.config.account_opening_date) {
+        this.config.account_opening_date = null;
       }
     } catch (error) {
       console.warn('Could not load account config, using defaults:', error);
@@ -74,6 +80,7 @@ class AccountManager {
         starting_balance: 1000.00,
         deposits: [],
         withdrawals: [],
+        account_opening_date: null,
         notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
         version: "1.0",
         last_updated: new Date().toISOString()
