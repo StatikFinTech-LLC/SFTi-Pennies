@@ -65,12 +65,20 @@
 /* Prevent canvas elements from blocking clicks */
 canvas {
   pointer-events: none !important;
+  display: none !important; /* Hide canvas entirely if Chart.js doesn't load */
+}
+
+/* Show canvas only when it has content */
+canvas[style*="width"],
+canvas.chartjs-render-monitor {
+  display: block !important;
 }
 
 .modal-chart-container {
   pointer-events: none;
   position: relative;
   z-index: 0;
+  min-height: 150px; /* Prevent layout shift */
 }
 
 /* Hide scrollbar completely on WebKit browsers */
