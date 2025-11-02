@@ -47,26 +47,25 @@ def create_trade_list_html(trades):
     Args:
         trades (list): List of trade dictionaries
     """
-    if not trades:
-        return
-
-    # Sort by trade number
-    sorted_trades = sorted(trades, key=lambda t: t.get("trade_number", 0), reverse=True)
-
     # Generate table rows
     rows = []
-    for trade in sorted_trades:
-        pnl = trade.get("pnl_usd", 0)
-        pnl_class = "positive" if pnl >= 0 else "negative"
-        pnl_sign = "+" if pnl >= 0 else ""
+    
+    if trades:
+        # Sort by trade number
+        sorted_trades = sorted(trades, key=lambda t: t.get("trade_number", 0), reverse=True)
+        
+        for trade in sorted_trades:
+            pnl = trade.get("pnl_usd", 0)
+            pnl_class = "positive" if pnl >= 0 else "negative"
+            pnl_sign = "+" if pnl >= 0 else ""
 
-        # Generate trade page link
-        trade_number = trade.get("trade_number", 0)
-        ticker = trade.get("ticker", "UNKNOWN")
-        trade_link = f"trades/trade-{trade_number:03d}-{ticker}.html"
+            # Generate trade page link
+            trade_number = trade.get("trade_number", 0)
+            ticker = trade.get("ticker", "UNKNOWN")
+            trade_link = f"trades/trade-{trade_number:03d}-{ticker}.html"
 
-        rows.append(
-            f"""
+            rows.append(
+                f"""
         <tr style="cursor: pointer;" onclick="window.location.href='{trade_link}'">
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;">#{trade.get('trade_number', 'N/A')}</a></td>
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;"><strong>{trade.get('ticker', 'N/A')}</strong></a></td>
@@ -77,6 +76,17 @@ def create_trade_list_html(trades):
             <td class="{pnl_class}">{pnl_sign}${abs(pnl):.2f}</td>
             <td>{trade.get('entry_date', 'N/A')}</td>
             <td>{trade.get('strategy', 'N/A')}</td>
+        </tr>
+        """
+            )
+    else:
+        # Show empty state message
+        rows.append(
+            """
+        <tr>
+            <td colspan="9" style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                No trades recorded yet. Add your first trade to get started!
+            </td>
         </tr>
         """
         )
