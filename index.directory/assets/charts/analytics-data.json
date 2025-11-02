@@ -1,63 +1,22 @@
 {
-  "expectancy": -3.9,
-  "profit_factor": 0.0,
+  "expectancy": 0,
+  "profit_factor": 0,
   "max_win_streak": 0,
-  "max_loss_streak": 1,
-  "max_drawdown": -3.9,
-  "max_drawdown_percent": -2.79,
-  "kelly_criterion": 0.0,
-  "by_strategy": {
-    "Dip Buy for a VWAP Test": {
-      "total_trades": 1,
-      "winning_trades": 0,
-      "losing_trades": 1,
-      "win_rate": 0.0,
-      "total_pnl": -3.9,
-      "avg_pnl": -3.9,
-      "expectancy": -3.9
-    }
-  },
-  "by_setup": {
-    "Unclassified": {
-      "total_trades": 1,
-      "winning_trades": 0,
-      "losing_trades": 1,
-      "win_rate": 0.0,
-      "total_pnl": -3.9,
-      "avg_pnl": -3.9,
-      "expectancy": -3.9
-    }
-  },
-  "by_session": {
-    "Unclassified": {
-      "total_trades": 1,
-      "winning_trades": 0,
-      "losing_trades": 1,
-      "win_rate": 0.0,
-      "total_pnl": -3.9,
-      "avg_pnl": -3.9,
-      "expectancy": -3.9
-    }
-  },
+  "max_loss_streak": 0,
+  "max_drawdown": 0,
+  "kelly_criterion": 0,
+  "by_strategy": {},
+  "by_setup": {},
+  "by_session": {},
   "drawdown_series": {
-    "labels": [
-      "10/23"
-    ],
-    "values": [
-      -3.9
-    ]
-  },
-  "returns": {
-    "total_return_percent": -2.79,
-    "avg_return_percent": -2.7857,
-    "avg_risk_percent": 2.786,
-    "avg_position_size_percent": 36.75
+    "labels": [],
+    "values": []
   },
   "account": {
-    "starting_balance": 140,
+    "starting_balance": 0,
     "total_deposits": 0,
-    "total_pnl": -3.9,
-    "portfolio_value": 136.1
+    "total_pnl": 0,
+    "portfolio_value": 0
   },
-  "generated_at": "2025-11-01T23:33:11.162099"
+  "generated_at": "2025-11-02T03:57:15.344645"
 }

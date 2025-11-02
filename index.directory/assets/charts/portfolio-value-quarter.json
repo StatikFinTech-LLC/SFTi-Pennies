@@ -1,21 +1,19 @@
 {
   "labels": [
-    "Start",
-    "Oct"
+    "Start"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
-        140,
-        136.1
+        0
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
       "fill": true,
       "tension": 0.4,
-      "pointRadius": 4,
-      "pointHoverRadius": 7,
+      "pointRadius": 5,
+      "pointHoverRadius": 8,
       "pointBackgroundColor": "#00ff88",
       "pointBorderColor": "#0a0e27",
       "pointBorderWidth": 2

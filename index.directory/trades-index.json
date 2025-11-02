@@ -1,64 +1,18 @@
 {
-  "trades": [
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.43/10:23:2025.1.md",
-      "body": "# Trade #1 - SGBX\n\n## Trade Details\n\n- **Ticker**: SGBX\n- **Direction**: LONG\n- **Entry**: $3.43 on 2025-10-23 at 17:24\n- **Exit**: $3.17 on 2025-10-23 at 18:17\n- **Position Size**: 15 shares\n- **Stra...",
-      "notes": "The trade was an unsuccessful attempt to execute the Step #5 Dip Buy. The stock had previously peaked above $4.20 and was in a strong Cliff Dive Step #4. The entry at $3.43, 05:24:07, was below the session VWAP of $3.77, identifying the correct area of value for a bounce attempt. However, the anticipated buying pressure failed to appear, and the price continued to bleed lower. The trader correctly utilized the stop-limit order, exiting at $3.17, 06:17:23, for a controlled loss of -$4.98. This outcome, while a loss, is a successful display of risk management, as it prevented a small loss from escalating into a larger one as the stock continued to decline toward $2.87.",
-      "trade_number": 1,
-      "ticker": "SGBX",
-      "entry_date": "2025-10-23",
-      "entry_time": "1044",
-      "exit_date": "2025-10-23",
-      "exit_time": "1097",
-      "entry_price": 3.43,
-      "exit_price": 3.17,
-      "position_size": 15.0,
-      "direction": "LONG",
-      "strategy": "Dip Buy for a VWAP Test",
-      "stop_loss": 3.17,
-      "target_price": 3.8,
-      "risk_reward_ratio": 1.42,
-      "broker": "IBKR",
-      "pnl_usd": -3.9,
-      "pnl_percent": -7.58,
-      "strategy_tags": [
-        "VWAP Test",
-        "Step #5",
-        "Dip Buy"
-      ],
-      "setup_tags": [
-        "Failed Bounce",
-        "Breakdown"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility",
-        "Weak Trend"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.43/10:23:2025.1/IMG_2707.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.43/10:23:2025.1/IMG_2703.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.43/10:23:2025.1/IMG_2704.jpeg"
-      ]
-    }
-  ],
+  "trades": [],
   "statistics": {
-    "total_trades": 1,
+    "total_trades": 0,
     "winning_trades": 0,
-    "losing_trades": 1,
-    "win_rate": 0.0,
-    "total_pnl": -3.9,
-    "avg_pnl": -3.9,
+    "losing_trades": 0,
+    "win_rate": 0,
+    "total_pnl": 0,
+    "avg_pnl": 0,
     "avg_winner": 0,
-    "avg_loser": -3.9,
-    "largest_win": -3.9,
-    "largest_loss": -3.9,
-    "total_volume": 15,
-    "max_drawdown": -3.9,
-    "profit_factor": 0.0
+    "avg_loser": 0,
+    "largest_win": 0,
+    "largest_loss": 0,
+    "total_volume": 0
   },
-  "generated_at": "2025-11-01T23:33:08.634757",
+  "generated_at": "2025-11-02T03:57:03.489778",
   "version": "1.0"
 }

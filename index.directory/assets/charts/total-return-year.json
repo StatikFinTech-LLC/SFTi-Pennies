@@ -1,21 +1,19 @@
 {
   "labels": [
-    "Start",
-    "Oct"
+    "Start"
   ],
   "datasets": [
     {
       "label": "Total Return %",
       "data": [
-        0,
-        -2.79
+        0
       ],
       "borderColor": "#00d4ff",
       "backgroundColor": "rgba(0, 212, 255, 0.1)",
       "fill": true,
       "tension": 0.4,
-      "pointRadius": 4,
-      "pointHoverRadius": 7,
+      "pointRadius": 5,
+      "pointHoverRadius": 8,
       "pointBackgroundColor": "#00d4ff",
       "pointBorderColor": "#0a0e27",
       "pointBorderWidth": 2

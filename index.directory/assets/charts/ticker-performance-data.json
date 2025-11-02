@@ -1,20 +1,10 @@
 {
-  "labels": [
-    "SGBX"
-  ],
+  "labels": [],
   "datasets": [
     {
-      "label": "Total P&L ($)",
-      "data": [
-        -3.9
-      ],
-      "backgroundColor": [
-        "#ff4757"
-      ],
-      "borderColor": [
-        "#ff4757"
-      ],
-      "borderWidth": 2
+      "label": "Total P&L",
+      "data": [],
+      "backgroundColor": []
     }
   ]
 }

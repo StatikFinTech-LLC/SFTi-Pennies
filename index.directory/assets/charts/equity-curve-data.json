@@ -1,22 +1,12 @@
 {
-  "labels": [
-    "2025-10-23"
-  ],
+  "labels": [],
   "datasets": [
     {
       "label": "Equity Curve",
-      "data": [
-        -3.9
-      ],
+      "data": [],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
-      "fill": true,
-      "tension": 0.4,
-      "pointRadius": 4,
-      "pointHoverRadius": 6,
-      "pointBackgroundColor": "#00ff88",
-      "pointBorderColor": "#0a0e27",
-      "pointBorderWidth": 2
+      "tension": 0.4
     }
   ]
 }
