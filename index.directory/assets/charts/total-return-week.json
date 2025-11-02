@@ -1,6 +1,6 @@
 {
   "labels": [
-    "Start"
+    "Sun 11/02"
   ],
   "datasets": [
     {
@@ -12,8 +12,8 @@
       "backgroundColor": "rgba(0, 212, 255, 0.1)",
       "fill": true,
       "tension": 0.4,
-      "pointRadius": 5,
-      "pointHoverRadius": 8,
+      "pointRadius": 4,
+      "pointHoverRadius": 7,
       "pointBackgroundColor": "#00d4ff",
       "pointBorderColor": "#0a0e27",
       "pointBorderWidth": 2

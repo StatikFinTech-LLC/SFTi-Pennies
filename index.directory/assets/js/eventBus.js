@@ -116,7 +116,8 @@ class StateManager {
         starting_balance: 1000.00,
         deposits: [],
         total_deposits: 0,
-        portfolio_value: 0
+        portfolio_value: 0,
+        account_opening_date: null
       },
       trades: {
         data: [],
@@ -232,7 +233,8 @@ class StateManager {
       starting_balance: parseFloat(config.starting_balance || 1000),
       deposits: deposits,
       total_deposits: total_deposits,
-      portfolio_value: parseFloat(config.starting_balance || 1000) + total_deposits + total_pnl
+      portfolio_value: parseFloat(config.starting_balance || 1000) + total_deposits + total_pnl,
+      account_opening_date: config.account_opening_date || null
     };
     
     window.SFTiEventBus.emit('account:updated', this.state.account);
