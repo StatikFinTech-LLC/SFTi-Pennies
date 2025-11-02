@@ -7,9 +7,12 @@ Please provide a brief summary of the changes in this pull request.
 - [ ] Feature  
 - [ ] Code Refactor  
 - [ ] Documentation Update  
-- [ ] IBKR Integration Enhancement
+- [ ] Broker Integration Enhancement
+- [ ] Analytics/Metrics Enhancement
 - [ ] UI/UX Improvement
 - [ ] Performance Optimization
+- [ ] Trading Strategy/Framework Update
+- [ ] Automation/Workflow Improvement
 - [ ] Other (describe below)
 
 ## Description
@@ -20,30 +23,45 @@ Closes #[issue-number]
 Depends on #[dependency-issue-number]
 
 ## Changes Made
-- [ ] Frontend changes (React/TypeScript)
-- [ ] Backend changes (Node.js services)
-- [ ] IBKR integration updates
-- [ ] Styling updates (Tailwind CSS)
-- [ ] Configuration changes
+- [ ] Frontend changes (HTML/CSS/Vanilla JavaScript)
+- [ ] Python automation scripts
+- [ ] GitHub Actions workflows
+- [ ] Trading templates (trade.md, weekly-summary.md)
+- [ ] Analytics/chart generation
+- [ ] CSV import/export functionality
+- [ ] Broker integration (IBKR/Schwab/Robinhood/Webull)
 - [ ] Documentation updates
+- [ ] Configuration changes
 
 ## Testing Checklist
-- [ ] Code builds successfully (`npm run build`)
-- [ ] Linting passes (`npm run lint`)
-- [ ] Development server starts (`npm run dev`)
-- [ ] Application loads at http://localhost:5000
-- [ ] Core functionality tested manually
-- [ ] IBKR connection handling tested (if applicable)
-- [ ] Demo mode functionality verified
+- [ ] JavaScript builds successfully (`npm run build`)
+- [ ] Python scripts run without errors
+- [ ] Local development server works (`python -m http.server 8000`)
+- [ ] Application loads at http://localhost:8000/
+- [ ] GitHub Pages deployment tested (if applicable)
+- [ ] Core functionality tested manually in browser
+- [ ] Trade submission and processing verified
+- [ ] Analytics calculations verified (if applicable)
+- [ ] CSV import/export tested (if applicable)
+- [ ] Mobile responsive design verified
+- [ ] PWA installation tested (if applicable)
 
 ## Screenshots / Evidence
 > If your changes affect the UI, please provide screenshots or videos demonstrating the changes.
 
-## IBKR Integration Impact
-- [ ] No IBKR changes
-- [ ] Enhanced IBKR connectivity
-- [ ] New IBKR API features
-- [ ] IBKR error handling improvements
+## Broker Integration Impact
+- [ ] No broker integration changes
+- [ ] Enhanced broker CSV import
+- [ ] New broker support added
+- [ ] Broker parsing improvements
+- [ ] Multi-broker compatibility maintained
+
+## Analytics Impact
+- [ ] No analytics changes
+- [ ] New metrics added
+- [ ] Chart visualization improvements
+- [ ] Calculation accuracy improvements
+- [ ] Performance metrics updates
 
 ## Breaking Changes
 - [ ] No breaking changes
@@ -51,21 +69,29 @@ Depends on #[dependency-issue-number]
 
 If breaking changes, describe:
 - What breaks
-- Migration steps
+- Migration steps for existing trades/data
 - Backwards compatibility considerations
+- Schema changes required
 
 ## Additional Notes
 Any additional information for reviewers:
 - Performance considerations
-- Security implications
+- Security implications (PAT, sensitive data handling)
 - Dependencies added/removed
 - Configuration changes required
+- Impact on existing trades or data
+- Trading strategy implications
 
 ---
 
 **Reviewer Checklist:**
 - [ ] Code follows project standards
+  - [ ] Python code follows PEP 8 guidelines
+  - [ ] JavaScript follows vanilla JS best practices
 - [ ] Changes are well-documented
-- [ ] No sensitive data exposed
-- [ ] IBKR integration secure and reliable
+- [ ] No sensitive data exposed (PATs, account numbers, API keys)
+- [ ] Trade data integrity maintained
+- [ ] Analytics calculations are mathematically correct
 - [ ] UI changes are responsive and accessible
+- [ ] Mobile PWA functionality preserved
+- [ ] GitHub Actions workflows validated

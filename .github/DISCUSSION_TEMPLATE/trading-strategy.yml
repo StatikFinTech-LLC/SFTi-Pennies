@@ -1,0 +1,63 @@
+title: "[Trading Strategy] "
+labels:
+  - trading-strategy
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📊 Trading Strategy Discussion
+        
+        Use this template to discuss trading strategies, patterns, and methodologies used in the SFTi-Pennies Trading Journal.
+
+  - type: input
+    id: strategy-name
+    attributes:
+      label: Strategy Name
+      description: What is the name or type of trading strategy?
+      placeholder: "e.g., Dip and Rip, GSTRWT Method, Breakout Pattern"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Strategy Description
+      description: Describe the trading strategy in detail
+      placeholder: Explain the strategy, setup requirements, entry/exit criteria, etc.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: timeframe
+    attributes:
+      label: Trading Timeframe
+      description: What timeframe does this strategy work on?
+      options:
+        - Day Trading (intraday)
+        - Swing Trading (days to weeks)
+        - Position Trading (weeks to months)
+        - Scalping (seconds to minutes)
+        - Multiple timeframes
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk-management
+    attributes:
+      label: Risk Management
+      description: How do you manage risk with this strategy?
+      placeholder: Stop loss placement, position sizing, risk/reward ratio, etc.
+
+  - type: textarea
+    id: experience
+    attributes:
+      label: Your Experience
+      description: Have you used this strategy? What were the results?
+      placeholder: Share your experience, win rate, profitability, lessons learned
+
+  - type: textarea
+    id: resources
+    attributes:
+      label: Additional Resources
+      description: Any links, books, or resources related to this strategy?
+      placeholder: Books, videos, articles, charts, examples

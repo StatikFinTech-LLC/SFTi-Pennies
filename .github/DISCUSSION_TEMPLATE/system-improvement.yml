@@ -1,0 +1,77 @@
+title: "[System Improvement] "
+labels:
+  - enhancement
+  - discussion
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🛠️ System Improvement Discussion
+        
+        Use this template to discuss ideas for improving the SFTi-Pennies Trading Journal system, 
+        automation, analytics, or features. This is for brainstorming before creating feature requests.
+
+  - type: input
+    id: improvement-title
+    attributes:
+      label: Improvement Idea
+      description: What aspect of the system do you want to improve?
+      placeholder: "e.g., Enhanced Analytics, Better CSV Import, Mobile Experience"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: System Area
+      description: Which part of the system does this relate to?
+      options:
+        - Trade Entry/Submission
+        - Analytics Dashboard
+        - CSV Import/Export
+        - Chart Generation
+        - Weekly Review Workflow
+        - Books/Notes Management
+        - Mobile/PWA Experience
+        - GitHub Actions Automation
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: How does it work now?
+      placeholder: Describe the current functionality or workflow
+
+  - type: textarea
+    id: proposed-improvement
+    attributes:
+      label: Proposed Improvement
+      description: How would you improve it?
+      placeholder: Describe your idea for improvement, new features, or enhancements
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Expected Benefits
+      description: What benefits would this improvement bring?
+      placeholder: Better analytics, time savings, easier workflow, improved accuracy, etc.
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Implementation Ideas
+      description: Any thoughts on how this could be implemented?
+      placeholder: Technical approach, tools needed, challenges to consider
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or References
+      description: Any examples from other tools or systems?
+      placeholder: Links to similar features in other apps, mockups, screenshots
