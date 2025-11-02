@@ -1,6 +1,6 @@
 {
   "labels": [
-    "2025-11-02"
+    "Sun 11/02"
   ],
   "datasets": [
     {
@@ -12,8 +12,8 @@
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
       "fill": true,
       "tension": 0.4,
-      "pointRadius": 5,
-      "pointHoverRadius": 8,
+      "pointRadius": 4,
+      "pointHoverRadius": 7,
       "pointBackgroundColor": "#00ff88",
       "pointBorderColor": "#0a0e27",
       "pointBorderWidth": 2
