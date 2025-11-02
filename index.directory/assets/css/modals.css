@@ -18,6 +18,14 @@
   justify-content: center;
   padding: 1rem;
   animation: fadeIn 0.3s ease;
+  overflow: hidden; /* Prevent any overflow artifacts */
+}
+
+/* Higher z-index for sub-modals (deposit, withdrawal) */
+#deposit-modal,
+#withdrawal-modal {
+  z-index: 10001;
+  background: rgba(0, 0, 0, 0.92); /* Darker to hide underlying modal */
 }
 
 @keyframes fadeIn {
@@ -39,6 +47,21 @@
   max-height: 90vh;
   overflow-y: auto;
   animation: slideUp 0.3s ease;
+  position: relative;
+  /* Ensure no scrollbar shows on sides */
+  scrollbar-gutter: stable;
+}
+
+/* Hide scrollbar completely on WebKit browsers */
+.modal-container::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+/* Hide scrollbar on Firefox */
+.modal-container {
+  scrollbar-width: none;
 }
 
 @keyframes slideUp {
@@ -186,6 +209,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .btn-primary:hover {
@@ -198,6 +224,7 @@
 .btn-primary:focus {
   background: var(--accent-blue);
   outline: none;
+  transform: none;
 }
 
 .btn-primary:focus-visible {
@@ -213,6 +240,9 @@
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .btn-secondary:hover {
@@ -224,6 +254,8 @@
 .btn-secondary:focus {
   background: transparent;
   outline: none;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
 }
 
 .btn-secondary:focus-visible {
@@ -240,6 +272,9 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s;
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
 }
 
 .btn-danger:hover {
@@ -252,6 +287,7 @@
 .btn-danger:focus {
   background: var(--accent-red);
   outline: none;
+  transform: none;
 }
 
 .btn-danger:focus-visible {
@@ -317,6 +353,14 @@
   .btn-danger {
     flex: 1;
     min-width: 100px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Ensure form buttons are always clickable */
+  form > div:last-child {
+    position: relative;
+    z-index: 2;
+    margin-top: 1.5rem;
   }
 }
 
@@ -324,7 +368,9 @@
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
+  display: none;
 }
 
 input[type="number"] {
@@ -341,24 +387,7 @@ input[type="text"]:focus {
   border-color: var(--accent-green);
 }
 
-/* Custom Scrollbar for Modal */
-.modal-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.modal-container::-webkit-scrollbar-track {
-  background: var(--bg-tertiary);
-  border-radius: 4px;
-}
-
-.modal-container::-webkit-scrollbar-thumb {
-  background: var(--accent-green);
-  border-radius: 4px;
-}
-
-.modal-container::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-green-dim);
-}
+/* Remove the old scrollbar styles that were causing issues */
 
 /* Hover effects for clickable stat cards */
 .stat-card.clickable {
