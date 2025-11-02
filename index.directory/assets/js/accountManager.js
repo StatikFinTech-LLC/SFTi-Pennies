@@ -71,7 +71,7 @@ class AccountManager {
       }
       
       // Ensure account_opening_date field exists (for backward compatibility)
-      if (!this.config.account_opening_date) {
+      if (this.config.account_opening_date === undefined) {
         this.config.account_opening_date = null;
       }
     } catch (error) {
