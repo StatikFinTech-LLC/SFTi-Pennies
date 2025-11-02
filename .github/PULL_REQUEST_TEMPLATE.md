@@ -37,7 +37,7 @@ Depends on #[dependency-issue-number]
 - [ ] JavaScript builds successfully (`npm run build`)
 - [ ] Python scripts run without errors
 - [ ] Local development server works (`python -m http.server 8000`)
-- [ ] Application loads at http://localhost:8000/index.directory/
+- [ ] Application loads at http://localhost:8000/
 - [ ] GitHub Pages deployment tested (if applicable)
 - [ ] Core functionality tested manually in browser
 - [ ] Trade submission and processing verified
@@ -85,7 +85,9 @@ Any additional information for reviewers:
 ---
 
 **Reviewer Checklist:**
-- [ ] Code follows project standards (PEP 8 for Python, vanilla JS best practices)
+- [ ] Code follows project standards
+  - [ ] Python code follows PEP 8 guidelines
+  - [ ] JavaScript follows vanilla JS best practices
 - [ ] Changes are well-documented
 - [ ] No sensitive data exposed (PATs, account numbers, API keys)
 - [ ] Trade data integrity maintained

@@ -73,6 +73,6 @@ We appreciate security researchers who help keep SFTi-Pennies Trading Journal se
 
 For security-related questions or concerns:
 - **Primary**: Ascend.Gremlin@gmail.com
-- **Alternative**: Open a private security advisory via GitHub
+- **Alternative**: Create a private security advisory in the repository's Security tab
 
 Thank you for helping keep SFTi-Pennies Trading Journal and its users secure.
