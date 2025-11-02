@@ -50,6 +50,16 @@
   position: relative;
   /* Ensure no scrollbar shows on sides */
   scrollbar-gutter: stable;
+  /* Prevent modal from exceeding viewport */
+  max-width: calc(100vw - 2rem) !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Specific handling for deposit and withdrawal modals */
+#deposit-modal .modal-container,
+#withdrawal-modal .modal-container {
+  max-width: min(500px, calc(100vw - 2rem)) !important;
 }
 
 /* Hide scrollbar completely on WebKit browsers */
