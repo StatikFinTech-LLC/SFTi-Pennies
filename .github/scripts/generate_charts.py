@@ -671,6 +671,7 @@ def generate_total_return_charts(trades, account_config):
         try:
             start_date = datetime.fromisoformat(str(account_opening_date))
         except (ValueError, TypeError):
+            # If parsing fails, we'll try other options or fall back to today below
             # Invalid or missing account_opening_date; will try first trade date next
             pass
     
