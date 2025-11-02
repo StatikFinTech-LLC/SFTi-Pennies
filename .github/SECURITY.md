@@ -12,12 +12,12 @@ We support the current stable version and actively maintained development branch
 
 ## Reporting Vulnerabilities
 
-Security is critical for financial applications. If you discover a security vulnerability in IB-G.Scanner:
+Security is critical for financial applications. If you discover a security vulnerability in SFTi-Pennies Trading Journal:
 
 ### 🚨 For Critical Security Issues
 - **DO NOT** create a public issue
 - Email directly: **Ascend.Gremlin@gmail.com**
-- Use subject line: "[SECURITY] IB-G.Scanner Vulnerability Report"
+- Use subject line: "[SECURITY] SFTi-Pennies Vulnerability Report"
 - Include detailed information about the vulnerability
 
 ### 📧 What to Include
@@ -34,32 +34,37 @@ Security is critical for financial applications. If you discover a security vuln
 
 ### 🛡️ Security Considerations
 
-This application handles sensitive financial data and IBKR connections:
+This application handles sensitive trading data and broker integrations:
 
-- **IBKR Credentials**: Never commit API keys, account credentials, or connection details
-- **Market Data**: Ensure proper handling of real-time financial data
-- **Local Storage**: Be careful with sensitive data in browser storage
-- **Network Security**: All IBKR communications should use secure protocols
+- **GitHub Personal Access Tokens (PATs)**: Never commit or expose PATs in client-side code
+- **Trading Data**: Protect personal trade records, P&L information, and account details
+- **Broker CSV Files**: Handle imported trade data securely, never commit sensitive CSV files
+- **Local/Browser Storage**: Be careful with sensitive data in browser localStorage
+- **API Communications**: Ensure GitHub API calls use proper authentication and HTTPS
 
 ### 🔒 Best Practices for Contributors
 
-- Use environment variables for sensitive configuration
-- Validate all user inputs, especially financial parameters
+- Use environment variables or secure configuration for sensitive data
+- Validate all user inputs, especially trade data and financial parameters
 - Implement proper error handling that doesn't leak sensitive information
 - Follow secure coding practices for financial applications
 - Keep dependencies updated to avoid known vulnerabilities
+- Never commit actual trade data with account numbers or sensitive information
+- Sanitize CSV imports before including in documentation or examples
 
 ### 📋 Common Security Areas
 
-- Interactive Brokers API integration
-- WebSocket connections and data handling
-- User authentication and session management
-- Financial data processing and display
-- Client-side data storage and caching
+- GitHub API integration and PAT handling
+- Browser localStorage and data persistence
+- User authentication via GitHub OAuth (if implemented)
+- Trading data processing, storage, and display
+- CSV import/export functionality
+- Python script execution and file handling
+- GitHub Actions workflow security and secrets management
 
 ### 🏆 Recognition
 
-We appreciate security researchers who help keep IB-G.Scanner secure:
+We appreciate security researchers who help keep SFTi-Pennies Trading Journal secure:
 - Acknowledged contributors will be credited (with permission)
 - Significant vulnerabilities may be eligible for recognition
 - We believe in responsible disclosure and will work with you on timing
@@ -68,6 +73,6 @@ We appreciate security researchers who help keep IB-G.Scanner secure:
 
 For security-related questions or concerns:
 - **Primary**: Ascend.Gremlin@gmail.com
-- **Alternative**: Open a private issue if email is unavailable
+- **Alternative**: Open a private security advisory via GitHub
 
-Thank you for helping keep IB-G.Scanner and its users secure.
+Thank you for helping keep SFTi-Pennies Trading Journal and its users secure.

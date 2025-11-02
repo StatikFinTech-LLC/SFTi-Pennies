@@ -1,30 +1,30 @@
-# 📊 Contributor Covenant // IB-G.Scanner Edition
+# 📊 Contributor Covenant // SFTi-Pennies Trading Journal Edition
 
 ## v.1.0. // "We Build. We Don't Harass."
 
 ### Our Pledge
-We, the developers behind IB-G.Scanner, pledge to build this Interactive Brokers penny stock scanner in a way that's free from harassment, dogma, and drama. Regardless of whether you're trading from a home office or contributing code from anywhere in the world, you're welcome here.
+We, the developers and contributors behind SFTi-Pennies Trading Journal, pledge to build this comprehensive trading journal system in a way that's free from harassment, dogma, and drama. Regardless of whether you're trading from a home office, learning trading strategies, or contributing code from anywhere in the world, you're welcome here.
 
-We pledge to interact like professional developers focused on building robust financial tools. This means no harassment, no discrimination, and no being a jerk.
+We pledge to interact like professional developers focused on building robust trading tools and educational resources. This means no harassment, no discrimination, and no being a jerk.
 
 ### Our Standards
 Want to contribute? Great. Here's the vibe:
 
 ## Expected behavior:
 
-- Treat others like they're debugging complex financial algorithms. Go easy.
-- Respect different views on trading strategies and technical approaches.
-- Give feedback like you're helping improve critical trading infrastructure.
+- Treat others like they're debugging complex trading analytics. Go easy.
+- Respect different views on trading strategies, technical approaches, and educational methodologies.
+- Give feedback like you're helping improve critical trading infrastructure and learning tools.
 - Take responsibility when you break things. Apologize. Learn. Fix it.
-- Remember the mission: Build reliable stock scanning tools. Don't act like a broken system.
+- Remember the mission: Build reliable trading journal tools and educational resources. Don't act like a broken system.
 
 ## Unacceptable behavior:
 
-- Inappropriate comments or content unrelated to financial technology development.
+- Inappropriate comments or content unrelated to trading journal development and trading education.
 - Trolling, flame wars, or "git blame" culture.
 - Harassment, public or private.
 - Doxxing or sharing personal information without consent.
-- Turning this into ideological battlegrounds unrelated to stock scanning.
+- Turning this into ideological battlegrounds unrelated to trading journaling and education.
 
 ### Enforcement Responsibilities
 Maintainers have the final say on conduct issues. If you're disrupting the development process, they'll take appropriate action. They reserve the right to:
