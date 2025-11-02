@@ -240,10 +240,42 @@
   .timeframe-btn {
     padding: 0.4rem 0.75rem;
     font-size: 0.75rem;
+    /* Increase touch target size on mobile */
+    min-height: 44px;
   }
 
   .control-group {
     padding: 1rem;
+  }
+
+  .btn-icon {
+    /* Ensure touch targets are at least 44x44px on mobile */
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    /* Better touch targets on mobile */
+    min-height: 48px;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .modal-close {
+    /* Better touch target for close button */
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.625rem;
+  }
+
+  /* Better spacing for form inputs on mobile */
+  input[type="number"],
+  input[type="date"],
+  input[type="text"] {
+    min-height: 48px;
+    font-size: 16px; /* Prevents zoom on iOS */
   }
 }
 
@@ -264,6 +296,27 @@
 
 .modal-container::-webkit-scrollbar-thumb:hover {
   background: var(--accent-green-dim);
+}
+
+/* Hover effects for clickable stat cards */
+.stat-card.clickable {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2);
+}
+
+/* Active/Focus states for better accessibility */
+.stat-card.clickable:active {
+  transform: translateY(-2px);
+}
+
+.stat-card.clickable:focus-visible {
+  outline: 2px solid var(--accent-green);
+  outline-offset: 2px;
 }
 
 /* Additional color variants */

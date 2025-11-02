@@ -49,12 +49,12 @@
       </h1>
       
       <div class="hero-stats">
-        <div class="stat-card clickable" onclick="openPortfolioModal()" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0, 255, 136, 0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+        <div class="stat-card clickable" id="portfolio-value-card" data-action="open-portfolio-modal">
           <div class="stat-label">Portfolio Value</div>
           <div class="stat-value" id="stat-portfolio-value">$0.00</div>
         </div>
         
-        <div class="stat-card clickable" onclick="openTotalReturnModal()" style="cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0, 255, 136, 0.2)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+        <div class="stat-card clickable" id="total-return-card" data-action="open-return-modal">
           <div class="stat-label">Total Return</div>
           <div class="stat-value" id="stat-total-return">0.00%</div>
         </div>
@@ -189,7 +189,7 @@
           </svg>
           Portfolio Value
         </h3>
-        <button onclick="closePortfolioModal()" class="modal-close" title="Close">
+        <button class="modal-close" data-action="close-portfolio-modal" title="Close">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -197,13 +197,13 @@
       </div>
       
       <!-- Time Frame Selector -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
-        <button class="timeframe-btn active" data-timeframe="day" onclick="switchPortfolioTimeframe('day')">Day</button>
-        <button class="timeframe-btn" data-timeframe="week" onclick="switchPortfolioTimeframe('week')">Week</button>
-        <button class="timeframe-btn" data-timeframe="month" onclick="switchPortfolioTimeframe('month')">Month</button>
-        <button class="timeframe-btn" data-timeframe="quarter" onclick="switchPortfolioTimeframe('quarter')">Quarter</button>
-        <button class="timeframe-btn" data-timeframe="year" onclick="switchPortfolioTimeframe('year')">Year</button>
-        <button class="timeframe-btn" data-timeframe="5year" onclick="switchPortfolioTimeframe('5year')">5 Year</button>
+      <div id="portfolio-timeframe-selector" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
+        <button class="timeframe-btn active" data-timeframe="day">Day</button>
+        <button class="timeframe-btn" data-timeframe="week">Week</button>
+        <button class="timeframe-btn" data-timeframe="month">Month</button>
+        <button class="timeframe-btn" data-timeframe="quarter">Quarter</button>
+        <button class="timeframe-btn" data-timeframe="year">Year</button>
+        <button class="timeframe-btn" data-timeframe="5year">5 Year</button>
       </div>
       
       <!-- Chart -->
@@ -221,13 +221,13 @@
             <label>Starting Balance</label>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
               <span id="modal-balance-display" style="font-family: var(--font-mono); font-weight: 600; color: var(--accent-green);">$0.00</span>
-              <button onclick="editModalBalance()" class="btn-icon" title="Edit starting balance">
+              <button class="btn-icon" data-action="edit-balance" title="Edit starting balance">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                 </svg>
               </button>
             </div>
-            <input type="number" id="modal-balance-input" style="display: none; width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--accent-green); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono);" step="0.01" min="0" onblur="saveModalBalance()" onkeypress="if(event.key==='Enter') saveModalBalance()">
+            <input type="number" id="modal-balance-input" style="display: none; width: 100%; margin-top: 0.5rem; padding: 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--accent-green); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono);" step="0.01" min="0">
           </div>
           
           <!-- Balance Out -->
@@ -235,7 +235,7 @@
             <label>Balance Out (Withdrawals)</label>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
               <span id="total-withdrawals" style="font-family: var(--font-mono); font-weight: 600; color: var(--accent-red);">$0.00</span>
-              <button onclick="showWithdrawalModal()" class="btn-icon" title="Add withdrawal">
+              <button class="btn-icon" data-action="add-withdrawal" title="Add withdrawal">
                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
                 </svg>
@@ -257,7 +257,7 @@
           </svg>
           Total Return
         </h3>
-        <button onclick="closeTotalReturnModal()" class="modal-close" title="Close">
+        <button class="modal-close" data-action="close-return-modal" title="Close">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -265,13 +265,13 @@
       </div>
       
       <!-- Time Frame Selector -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
-        <button class="timeframe-btn active" data-timeframe="day" onclick="switchReturnTimeframe('day')">Day</button>
-        <button class="timeframe-btn" data-timeframe="week" onclick="switchReturnTimeframe('week')">Week</button>
-        <button class="timeframe-btn" data-timeframe="month" onclick="switchReturnTimeframe('month')">Month</button>
-        <button class="timeframe-btn" data-timeframe="quarter" onclick="switchReturnTimeframe('quarter')">Quarter</button>
-        <button class="timeframe-btn" data-timeframe="year" onclick="switchReturnTimeframe('year')">Year</button>
-        <button class="timeframe-btn" data-timeframe="5year" onclick="switchReturnTimeframe('5year')">5 Year</button>
+      <div id="return-timeframe-selector" style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center;">
+        <button class="timeframe-btn active" data-timeframe="day">Day</button>
+        <button class="timeframe-btn" data-timeframe="week">Week</button>
+        <button class="timeframe-btn" data-timeframe="month">Month</button>
+        <button class="timeframe-btn" data-timeframe="quarter">Quarter</button>
+        <button class="timeframe-btn" data-timeframe="year">Year</button>
+        <button class="timeframe-btn" data-timeframe="5year">5 Year</button>
       </div>
       
       <!-- Chart -->
@@ -294,7 +294,7 @@
           
           <!-- Add Deposit Button -->
           <div class="control-item">
-            <button onclick="showDepositModalFromReturn()" class="btn-primary" style="width: 100%;">
+            <button class="btn-primary" data-action="add-deposit" style="width: 100%;">
               <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 0.5rem;">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
               </svg>
@@ -316,7 +316,7 @@
           </svg>
           Add Withdrawal
         </h3>
-        <button onclick="closeWithdrawalModal()" class="modal-close" title="Close">
+        <button class="modal-close" data-action="close-withdrawal-modal" title="Close">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -325,7 +325,7 @@
       
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Record capital withdrawn from your trading account.</p>
       
-      <form id="withdrawal-form" onsubmit="addWithdrawal(event)">
+      <form id="withdrawal-form">
         <div style="margin-bottom: 1rem;">
           <label for="withdrawal-amount" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Amount ($)</label>
           <input type="number" id="withdrawal-amount" step="0.01" min="0.01" required style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono); font-size: 1rem;" placeholder="0.00">
@@ -342,7 +342,7 @@
         </div>
         
         <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-          <button type="button" onclick="closeWithdrawalModal()" class="btn-secondary">
+          <button type="button" class="btn-secondary" data-action="close-withdrawal-modal">
             Cancel
           </button>
           <button type="submit" class="btn-danger">
@@ -363,7 +363,7 @@
           </svg>
           Add Deposit
         </h3>
-        <button onclick="closeDepositModal()" class="modal-close" title="Close">
+        <button class="modal-close" data-action="close-deposit-modal" title="Close">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
@@ -372,7 +372,7 @@
       
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Record additional capital added to your trading account. This is tracked separately from trade P&L.</p>
       
-      <form id="deposit-form" onsubmit="addDeposit(event)">
+      <form id="deposit-form">
         <div style="margin-bottom: 1rem;">
           <label for="deposit-amount" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Amount ($)</label>
           <input type="number" id="deposit-amount" step="0.01" min="0.01" required style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono); font-size: 1rem;" placeholder="0.00">
@@ -389,7 +389,7 @@
         </div>
         
         <div style="display: flex; gap: 1rem; justify-content: flex-end;">
-          <button type="button" onclick="closeDepositModal()" class="btn-secondary">
+          <button type="button" class="btn-secondary" data-action="close-deposit-modal">
             Cancel
           </button>
           <button type="submit" class="btn-primary">

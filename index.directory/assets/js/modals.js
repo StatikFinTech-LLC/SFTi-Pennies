@@ -698,4 +698,98 @@ document.addEventListener('DOMContentLoaded', () => {
       closeDepositModal();
     }
   });
+
+  // Event delegation for all modal actions
+  document.addEventListener('click', handleModalActions);
+
+  // Event delegation for Portfolio timeframe buttons
+  const portfolioTimeframeSelector = document.getElementById('portfolio-timeframe-selector');
+  if (portfolioTimeframeSelector) {
+    portfolioTimeframeSelector.addEventListener('click', (e) => {
+      const btn = e.target.closest('.timeframe-btn');
+      if (btn) {
+        const timeframe = btn.dataset.timeframe;
+        if (timeframe) {
+          switchPortfolioTimeframe(timeframe);
+        }
+      }
+    });
+  }
+
+  // Event delegation for Return timeframe buttons
+  const returnTimeframeSelector = document.getElementById('return-timeframe-selector');
+  if (returnTimeframeSelector) {
+    returnTimeframeSelector.addEventListener('click', (e) => {
+      const btn = e.target.closest('.timeframe-btn');
+      if (btn) {
+        const timeframe = btn.dataset.timeframe;
+        if (timeframe) {
+          switchReturnTimeframe(timeframe);
+        }
+      }
+    });
+  }
+
+  // Handle balance input events
+  const balanceInput = document.getElementById('modal-balance-input');
+  if (balanceInput) {
+    balanceInput.addEventListener('blur', saveModalBalance);
+    balanceInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        saveModalBalance();
+      }
+    });
+  }
+
+  // Handle form submissions
+  const withdrawalForm = document.getElementById('withdrawal-form');
+  if (withdrawalForm) {
+    withdrawalForm.addEventListener('submit', addWithdrawal);
+  }
+
+  const depositForm = document.getElementById('deposit-form');
+  if (depositForm) {
+    depositForm.addEventListener('submit', addDeposit);
+  }
 });
+
+/**
+ * Handle Modal Actions via Event Delegation
+ */
+function handleModalActions(e) {
+  const actionElement = e.target.closest('[data-action]');
+  if (!actionElement) return;
+
+  const action = actionElement.dataset.action;
+
+  switch (action) {
+    case 'open-portfolio-modal':
+      openPortfolioModal();
+      break;
+    case 'open-return-modal':
+      openTotalReturnModal();
+      break;
+    case 'close-portfolio-modal':
+      closePortfolioModal();
+      break;
+    case 'close-return-modal':
+      closeTotalReturnModal();
+      break;
+    case 'close-withdrawal-modal':
+      closeWithdrawalModal();
+      break;
+    case 'close-deposit-modal':
+      closeDepositModal();
+      break;
+    case 'edit-balance':
+      editModalBalance();
+      break;
+    case 'add-withdrawal':
+      showWithdrawalModal();
+      break;
+    case 'add-deposit':
+      showDepositModalFromReturn();
+      break;
+  }
+}
+
