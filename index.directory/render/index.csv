@@ -5,7 +5,7 @@ markdownRenderer.js,configureMarked,method,Configure marked with GFM options and
 markdownRenderer.js,renderCallout,method,Render GitHub-style callout/admonition boxes,74-99
 markdownRenderer.js,render,method,Render markdown to HTML with YAML frontmatter stripping,101-126
 markdownRenderer.js,fixImagePaths,method,Process and fix image paths in rendered HTML,128-156
-markdownRenderer.js,window export,global export,Export MarkdownRenderer class to window object,159-162
+markdownRenderer.js,window export,global export,Export MarkdownRenderer class to window object,161-164
 pdfRenderer.js,PDFRenderer,class,PDF renderer with lazy loading and memory management,14-823
 pdfRenderer.js,MAX_PIXEL_RATIO,static constant,Maximum device pixel ratio for rendering (prevents excessive memory),16
 pdfRenderer.js,MIN_VIEWPORT_WIDTH,static constant,Minimum viewport width in pixels (ensures readable text),17
