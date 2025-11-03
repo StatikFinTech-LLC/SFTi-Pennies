@@ -1,16 +1,16 @@
 Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
-index.html,SFTi-Pennies Trading Journal Homepage,page,Main landing page with trading statistics and performance charts,1-437
-index.html,Hero Section,section,Welcome banner displaying key performance metrics (portfolio value and returns),44-82
-index.html,Statistics Cards Grid,component,Six stat cards showing portfolio value (total return and trade P&L),52-80
-index.html,Recent Trades Section,section,Grid displaying latest trading activity (dynamically populated),86-93
-index.html,Performance Charts Section,section,Interactive charts showing equity curve and trade distribution,96-148
-index.html,Mentors Section,section,Resource cards linking to trading mentors (Timothy Sykes and Tim Bohen),151-179
-index.html,Portfolio Value Modal,modal,Detailed portfolio tracking with timeframe charts and account management,183-248
-index.html,Total Return Modal,modal,Percentage-based return tracking with deposit management controls,251-307
-index.html,Withdrawal Modal,modal,Form for recording capital withdrawn from trading account,310-354
-index.html,Deposit Modal,modal,Form for recording capital added to trading account,357-401
-index.html,JavaScript Dependencies,section,Loading and initialization of Chart.js and application scripts,407-436
-manifest.json,PWA Manifest Configuration,configuration,Progressive Web App configuration for installable mobile experience,1-92
+index.html,SFTi-Pennies Trading Journal Homepage,page,Main landing page with trading statistics and performance charts,1-484
+index.html,Hero Section,section,Welcome banner displaying key performance metrics (portfolio value and returns),59-105
+index.html,Statistics Cards Grid,component,Six stat cards showing Portfolio Value Total Return Total Trades Win Rate Trade P&L and Average P&L,68-104
+index.html,Recent Trades Section,section,Grid displaying latest trading activity (dynamically populated),110-118
+index.html,Performance Charts Section,section,Interactive charts showing equity curve and trade distribution,123-176
+index.html,Mentors Section,section,Resource cards linking to trading mentors (Timothy Sykes and Tim Bohen),181-211
+index.html,Portfolio Value Modal,modal,Detailed portfolio tracking with timeframe charts and account management,217-282
+index.html,Total Return Modal,modal,Percentage-based return tracking with deposit management controls,287-343
+index.html,Withdrawal Modal,modal,Form for recording capital withdrawn from trading account,348-392
+index.html,Deposit Modal,modal,Form for recording capital added to trading account,397-441
+index.html,JavaScript Dependencies,section,Loading and initialization of Chart.js and application scripts,451-482
+manifest.json,PWA Manifest Configuration,configuration,Progressive Web App configuration for installable mobile experience,1-102
 manifest.json,App Metadata,config,Name (description and display settings for the PWA),2-10
 manifest.json,Icons Array,config,App icons for different sizes (192x192 and 512x512),12-23
 manifest.json,Categories Array,config,App store categorization (finance and productivity and business),25-29
