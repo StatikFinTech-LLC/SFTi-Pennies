@@ -16,6 +16,8 @@ import os
 import re
 from datetime import datetime, timedelta
 from collections import defaultdict
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from utils import load_trades_index
 
 # Regex patterns for file matching
