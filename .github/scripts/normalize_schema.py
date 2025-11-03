@@ -15,7 +15,7 @@ import json
 import os
 import argparse
 from datetime import datetime
-from .utils import load_trades_index
+from utils import load_trades_index
 
 
 CURRENT_SCHEMA_VERSION = "1.1"
