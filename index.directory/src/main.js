@@ -17,21 +17,21 @@ import hljs from 'highlight.js';
 
 /**
  * Marked.js library for Markdown parsing
- * @type {Object}
+ * @type {typeof marked}
  * @global
  */
 window.marked = marked;
 
 /**
  * PDF.js library for PDF rendering
- * @type {Object}
+ * @type {typeof import('pdfjs-dist')}
  * @global
  */
 window.pdfjsLib = pdfjsLib;
 
 /**
  * Highlight.js library for syntax highlighting
- * @type {Object}
+ * @type {typeof hljs}
  * @global
  */
 window.hljs = hljs;
