@@ -13,10 +13,10 @@
     "values": []
   },
   "account": {
-    "starting_balance": 0,
+    "starting_balance": 165,
     "total_deposits": 0,
     "total_pnl": 0,
-    "portfolio_value": 0
+    "portfolio_value": 165
   },
-  "generated_at": "2025-11-03T19:38:59.884801"
+  "generated_at": "2025-11-03T20:54:15.244788"
 }
