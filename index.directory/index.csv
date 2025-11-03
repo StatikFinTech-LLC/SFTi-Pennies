@@ -1,0 +1,195 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+README.md,Directory Documentation,documentation,"Overview of index.directory structure and contents",1-500
+add-note.html,Add Note Page,page,"Form for creating and uploading markdown notes with rich text editing",1-577
+add-pdf.html,Add PDF Page,page,"Form for uploading and indexing PDF documents with metadata",1-348
+add-trade.html,Add Trade Page,page,"Trade entry form with P&L calculations and image upload",1-295
+all-trades.html,All Trades Page,page,"Paginated view of all trading history with filtering",1-126
+all-weeks.html,All Summaries Page,page,"Weekly trade summaries with performance metrics",1-828
+analytics.html,Analytics Page,page,"Detailed analytics dashboard with charts and statistics",1-242
+books.html,Books Page,page,"Book library with PDF viewer and search functionality",1-332
+import.html,Import Trades Page,page,"CSV import tool supporting multiple broker formats (IBKR Schwab Robinhood Webull)",1-276
+notes.html,Notes Page,page,"Note library with markdown rendering and search",1-322
+review.html,Review Trades Page,page,"Trade review interface for editing and analyzing past trades",1-1239
+assets/css/glass-effects.css,Glass Effects Stylesheet,stylesheet,"Glassmorphism effects and gradient backgrounds",1-455
+assets/css/glowing-bubbles.css,Glowing Bubbles Stylesheet,stylesheet,"Animated floating navigation bubbles with glassmorphism",1-627
+assets/css/import.css,Import Page Stylesheet,stylesheet,"Styles for CSV import and validation interface",1-142
+assets/css/main.css,Main Stylesheet,stylesheet,"Core application styles including typography layout and components",1-1160
+assets/css/modals.css,Modals Stylesheet,stylesheet,"Modal dialog styles for overlays and popups",1-272
+assets/css/review-trades.css,Review Trades Stylesheet,stylesheet,"Styles for trade review and editing interface",1-110
+assets/js/accountManager.js,AccountManager,class,"Manages starting balance deposits withdrawals and portfolio value calculations",7-325
+assets/js/accountManager.js,AccountManager.init,method,"Initialize account manager and load configuration",18-28
+assets/js/accountManager.js,AccountManager.loadConfig,method,"Load account configuration from JSON file with fallback defaults",51-89
+assets/js/accountManager.js,AccountManager.saveConfig,method,"Save account config to localStorage and commit to repository via GitHub API",96-125
+assets/js/accountManager.js,AccountManager.commitConfigToRepo,method,"Commit account-config.json to repository using GitHub API",131-280
+assets/js/accountManager.js,AccountManager.updateDisplay,method,"Update all account-related UI elements with current values",282-325
+assets/js/analytics.js,initAnalytics,function,"Initialize analytics page with charts and event listeners",38-52
+assets/js/analytics.js,loadAnalyticsData,function,"Load analytics data from JSON file with fallback to mock data",54-79
+assets/js/analytics.js,setupAnalyticsEventListeners,function,"Setup event listeners for reactive updates via EventBus",81-116
+assets/js/analytics.js,updateMetrics,function,"Update analytics metrics display with statistics",118-179
+assets/js/analytics.js,renderStrategyChart,function,"Render performance by strategy bar chart using Chart.js",181-210
+assets/js/analytics.js,renderSetupChart,function,"Render performance by setup bar chart using Chart.js",212-241
+assets/js/analytics.js,renderWinRateChart,function,"Render win rate pie chart comparing wins vs losses",243-286
+assets/js/analytics.js,renderDrawdownChart,function,"Render drawdown line chart showing equity drawdowns over time",288-314
+assets/js/analytics.js,renderStrategyTable,function,"Render strategy breakdown table with detailed statistics",316-343
+assets/js/analytics.js,getMockAnalyticsData,function,"Generate mock analytics data for development and testing",345-408
+assets/js/app.js,TradingJournal,class,"Main application controller handling trade forms calculations and homepage interactions",7-887
+assets/js/app.js,TradingJournal.getYearWeekNumber,method,"Calculate ISO week number from date for trade organization",24-26
+assets/js/app.js,TradingJournal.getTradeCountForDate,method,"Get trade count for specific date to generate trade numbers",33-38
+assets/js/app.js,TradingJournal.formatDateForFilename,method,"Format date from YYYY-MM-DD to MM:DD:YYYY for filenames",45-47
+assets/js/app.js,TradingJournal.initializeApp,method,"Initialize application including navigation forms and auth",52-71
+assets/js/app.js,TradingJournal.setupEventListeners,method,"Setup EventBus listeners for reactive UI updates",76-106
+assets/js/app.js,TradingJournal.setupNavigation,method,"Setup navigation highlighting and page-specific initialization",116-149
+assets/js/app.js,TradingJournal.setupAuthUI,method,"Setup authentication UI with PAT input and status display",159-168
+assets/js/app.js,TradingJournal.setupTradeForm,method,"Setup trade entry form with calculations and validations",182-233
+assets/js/app.js,TradingJournal.updatePnL,method,"Calculate and update P&L based on entry exit prices and shares",245-263
+assets/js/app.js,TradingJournal.handleImageUpload,method,"Handle trade screenshot uploads with preview",273-337
+assets/js/app.js,TradingJournal.submitTrade,method,"Submit trade to repository via GitHub API with validation",356-559
+assets/js/app.js,TradingJournal.commitTradeToRepo,method,"Commit individual trade file to repository via GitHub API",575-710
+assets/js/app.js,TradingJournal.loadRecentTrades,method,"Load and display recent trades on homepage with stats",726-805
+assets/js/app.js,TradingJournal.refreshStats,method,"Refresh homepage statistics and performance metrics",815-867
+assets/js/auth.js,GitHubAuth,class,"GitHub authentication supporting OAuth and Personal Access Token (PAT) methods",15-282
+assets/js/auth.js,GitHubAuth.getRepoInfoFromURL,method,"Extract repository owner and name from GitHub Pages URL",40-57
+assets/js/auth.js,GitHubAuth.checkStoredAuth,method,"Check for stored PAT in localStorage on initialization",62-71
+assets/js/auth.js,GitHubAuth.initiateOAuth,method,"Initiate OAuth flow for GitHub App authentication (placeholder)",77-82
+assets/js/auth.js,GitHubAuth.setPAT,method,"Set Personal Access Token manually with validation and localStorage storage",89-107
+assets/js/auth.js,GitHubAuth.clearAuth,method,"Clear stored authentication and reset auth state",112-120
+assets/js/auth.js,GitHubAuth.isAuthenticated,method,"Check if user is currently authenticated",126-128
+assets/js/auth.js,GitHubAuth.getAuthHeaders,method,"Get authentication headers for GitHub API requests",133-144
+assets/js/auth.js,GitHubAuth.verifyAuth,method,"Verify authentication by testing API access and retrieving user info",150-175
+assets/js/auth.js,GitHubAuth.getRepoFiles,method,"Get list of files in repository directory via GitHub API",182-208
+assets/js/auth.js,GitHubAuth.createOrUpdateFile,method,"Create or update file in repository via GitHub API with conflict handling",215-282
+assets/js/auth.js,showAuthPrompt,function,"Display authentication modal prompting user to enter GitHub PAT",289-292
+assets/js/background.js,BackgroundAnimation,class,"Animated gradient background with moving particles",8-71
+assets/js/background.js,BackgroundAnimation.init,method,"Initialize canvas and start animation loop",16-28
+assets/js/background.js,BackgroundAnimation.animate,method,"Animation loop rendering gradient and particles",36-40
+assets/js/background.js,BackgroundAnimation.renderGradient,method,"Render animated gradient background on canvas",48-54
+assets/js/background.js,BackgroundAnimation.cleanup,method,"Clean up animation and remove canvas",62-70
+assets/js/chartConfig.js,getCommonChartOptions,function,"Get common Chart.js configuration options for consistent styling",13-36
+assets/js/chartConfig.js,getCommonTooltipConfig,function,"Get common tooltip configuration with custom styling",38-62
+assets/js/chartConfig.js,getCommonScaleConfig,function,"Get common axis scale configuration with grid styling",64-99
+assets/js/chartConfig.js,getBarChartOptions,function,"Get bar chart specific options with P&L color coding",101-124
+assets/js/chartConfig.js,getLineChartOptions,function,"Get line chart specific options with smooth curves",126-137
+assets/js/chartConfig.js,renderEmptyChart,function,"Render placeholder chart when data is unavailable",139-161
+assets/js/charts.js,loadEquityCurveChart,function,"Load and render equity curve chart showing portfolio growth over time",22-46
+assets/js/charts.js,loadTradeDistributionChart,function,"Load and render trade distribution pie chart by outcome",48-72
+assets/js/charts.js,loadPerformanceByDayChart,function,"Load and render performance by day of week bar chart",74-98
+assets/js/charts.js,loadTickerPerformanceChart,function,"Load and render ticker performance chart showing top gainers and losers",100-129
+assets/js/charts.js,switchChart,function,"Switch between different chart views with tab navigation",131-161
+assets/js/charts.js,initCharts,function,"Initialize all charts on page load with default views",163-172
+assets/js/eventBus.js,EventBus,class,"Central event management system for reactive updates across application",15-100
+assets/js/eventBus.js,EventBus.on,method,"Subscribe to event with callback returning unsubscribe function",26-37
+assets/js/eventBus.js,EventBus.once,method,"Subscribe to event one-time only",44-49
+assets/js/eventBus.js,EventBus.emit,method,"Emit event with data to all subscribers",56-70
+assets/js/eventBus.js,EventBus.off,method,"Remove all listeners for specific event",76-78
+assets/js/eventBus.js,EventBus.clear,method,"Remove all listeners from all events",83-85
+assets/js/eventBus.js,EventBus.getEvents,method,"Get array of all active event names",90-92
+assets/js/eventBus.js,EventBus.getListenerCount,method,"Get count of listeners for specific event",97-99
+assets/js/eventBus.js,StateManager,class,"Centralized application state with automatic persistence and reactivity",112-315
+assets/js/eventBus.js,StateManager.init,method,"Initialize state manager and load all data sources",139-149
+assets/js/eventBus.js,StateManager.loadAllData,method,"Load all data in parallel (account trades analytics)",154-160
+assets/js/eventBus.js,StateManager.loadAccountConfig,method,"Load account configuration from JSON file and localStorage",165-188
+assets/js/eventBus.js,StateManager.loadTrades,method,"Load trades data from JSON file",193-205
+assets/js/eventBus.js,StateManager.loadAnalytics,method,"Load analytics data from JSON file",210-222
+assets/js/eventBus.js,StateManager.updateAccount,method,"Update account state and recalculate portfolio value",227-241
+assets/js/eventBus.js,StateManager.updateTrades,method,"Update trades state and recalculate portfolio value",246-265
+assets/js/eventBus.js,StateManager.updateAnalytics,method,"Update analytics state and emit event",270-277
+assets/js/eventBus.js,StateManager.getState,method,"Get complete application state",282-284
+assets/js/eventBus.js,StateManager.getAccount,method,"Get account state only",289-291
+assets/js/eventBus.js,StateManager.getTrades,method,"Get trades state only",296-298
+assets/js/eventBus.js,StateManager.getAnalytics,method,"Get analytics state only",303-305
+assets/js/eventBus.js,StateManager.refresh,method,"Refresh all data sources and emit refresh event",310-314
+assets/js/footer.js,Footer,class,"Footer component with navigation and info links",8-45
+assets/js/footer.js,Footer.render,method,"Render footer HTML and inject into page",16-43
+assets/js/glowing-bubbles.js,initGlowingBubbles,function,"Create fixed navigation bubbles with glassmorphism and animations",13-224
+assets/js/glowing-bubbles.js,setupBubbleAuth,function,"Setup authentication for Add Trade bubble with PAT validation",226-266
+assets/js/import.js,initImportPage,function,"Initialize import page with event listeners and UI handlers",39-50
+assets/js/import.js,handleFileUpload,function,"Handle CSV file upload with broker auto-detection",52-87
+assets/js/import.js,detectBrokerFromCSV,function,"Auto-detect broker from CSV headers and content patterns",89-117
+assets/js/import.js,clearFile,function,"Clear uploaded file and reset UI state",119-137
+assets/js/import.js,handleBrokerChange,function,"Handle broker selection change and update UI accordingly",139-152
+assets/js/import.js,handleValidate,function,"Validate uploaded CSV against selected broker format",154-195
+assets/js/import.js,parseCSVForBroker,function,"Parse CSV content based on broker-specific format (IBKR Schwab Robinhood Webull)",197-239
+assets/js/import.js,handleImport,function,"Import validated trades to repository via GitHub API",241-289
+assets/js/import.js,handleDownloadMapping,function,"Download sample field mapping CSV for selected broker",291-352
+assets/js/import.js,handleExportCsv,function,"Export parsed trades to CSV format",354-411
+assets/js/import.js,displayPreview,function,"Display preview table of parsed trades with validation",413-473
+assets/js/import.js,showStatus,function,"Show status message with type (success error warning info)",475-485
+assets/js/import.js,hideStatus,function,"Hide status message",487-491
+assets/js/modals.js,openPortfolioModal,function,"Open Portfolio Value modal and load chart data",16-30
+assets/js/modals.js,closePortfolioModal,function,"Close Portfolio Value modal",32-46
+assets/js/modals.js,openTotalReturnModal,function,"Open Total Return modal and load chart data",48-62
+assets/js/modals.js,closeTotalReturnModal,function,"Close Total Return modal",64-78
+assets/js/modals.js,updatePortfolioModalDisplay,function,"Update Portfolio modal with current balance and deposits",80-98
+assets/js/modals.js,updateReturnModalDisplay,function,"Update Return modal with percentage returns and P&L",100-112
+assets/js/modals.js,getTotalWithdrawals,function,"Calculate total withdrawals from account config",114-122
+assets/js/modals.js,switchPortfolioTimeframe,function,"Switch portfolio chart timeframe (day week month quarter year 5year)",124-138
+assets/js/modals.js,switchReturnTimeframe,function,"Switch return chart timeframe (day week month quarter year 5year)",140-154
+assets/js/modals.js,loadPortfolioChart,function,"Load and render portfolio value chart for selected timeframe",156-193
+assets/js/modals.js,loadReturnChart,function,"Load and render total return percentage chart for selected timeframe",195-232
+assets/js/modals.js,getPortfolioChartOptions,function,"Get Chart.js options for portfolio value chart with custom formatting",234-257
+assets/js/modals.js,getReturnChartOptions,function,"Get Chart.js options for return percentage chart with custom formatting",259-295
+assets/js/modals.js,getDefaultChartOptions,function,"Get default Chart.js options as fallback",297-349
+assets/js/modals.js,renderEmptyPortfolioChart,function,"Render empty portfolio chart with no data message",351-391
+assets/js/modals.js,renderEmptyReturnChart,function,"Render empty return chart with no data message",393-433
+assets/js/modals.js,editModalBalance,function,"Enable editing of starting balance in modal",435-451
+assets/js/modals.js,saveModalBalance,function,"Save edited starting balance to account config",453-474
+assets/js/modals.js,showWithdrawalModal,function,"Show withdrawal modal for recording capital withdrawals",476-490
+assets/js/modals.js,closeWithdrawalModal,function,"Close withdrawal modal",492-506
+assets/js/modals.js,addWithdrawal,function,"Add withdrawal to account config and commit to repository",508-558
+assets/js/modals.js,showDepositModalFromReturn,function,"Show deposit modal from return modal context",560-569
+assets/js/modals.js,showDepositModal,function,"Show deposit modal for recording capital deposits",571-585
+assets/js/modals.js,closeDepositModal,function,"Close deposit modal",587-601
+assets/js/modals.js,addDeposit,function,"Add deposit to account config and commit to repository",603-627
+assets/js/modals.js,showNotification,function,"Display toast notification with message and type",629-654
+assets/js/navbar.js,Navbar,class,"Navigation bar component with responsive mobile menu",8-204
+assets/js/navbar.js,Navbar.render,method,"Render navbar HTML and inject into page",16-122
+assets/js/navbar.js,Navbar.highlightCurrentPage,method,"Highlight current page link in navigation",131-145
+assets/js/navbar.js,Navbar.toggleMobileMenu,method,"Toggle mobile menu visibility",153-160
+assets/js/navbar.js,Navbar.closeMobileMenu,method,"Close mobile menu",168-171
+assets/js/navbar.js,Navbar.handleResize,method,"Handle window resize and adjust menu state",179-187
+assets/js/navbar.js,Navbar.cleanup,method,"Clean up event listeners and remove navbar",195-203
+assets/js/utils.js,getBasePath,function,"Get base path for application supporting GitHub Pages and custom domains",14-23
+assets/js/utils.js,formatFileSize,function,"Format file size in human-readable format (bytes KB MB)",29-34
+assets/js/utils.js,getBrokerName,function,"Get full broker display name from broker code",40-49
+assets/js/utils.js,getPnLColors,function,"Get colors for P&L value (green for positive red for negative)",55-62
+assets/js/utils.js,onDOMReady,function,"Execute callback when DOM is ready with fallback for already loaded state",67-74
+assets/js/utils.js,formatDateForFilename,function,"Format date from YYYY-MM-DD to MM:DD:YYYY for filenames",80-84
+assets/js/utils.js,getYearWeekNumber,function,"Calculate ISO week number and year from date for trade grouping",90-108
+assets/js/utils.js,loadTradesByWeek,function,"Load and parse trades data grouped by week from trades-index.json",110-160
+assets/js/utils.js,formatCurrency,function,"Format number as currency with sign and decimals",162-171
+assets/js/utils.js,calculateWinRate,function,"Calculate win rate percentage from wins and total trades",173-180
+render/markdownRenderer.js,MarkdownRenderer,class,"GitHub-Flavored Markdown renderer with syntax highlighting and callouts",6-157
+render/markdownRenderer.js,MarkdownRenderer.configureMarked,method,"Configure marked.js with GFM options and syntax highlighting",21-72
+render/markdownRenderer.js,MarkdownRenderer.renderCallout,method,"Render GitHub-style callout/admonition (Note Tip Important Warning Caution)",77-99
+render/markdownRenderer.js,MarkdownRenderer.render,method,"Render markdown to HTML with YAML frontmatter stripping",106-126
+render/markdownRenderer.js,MarkdownRenderer.fixImagePaths,method,"Fix relative image paths and add lightbox support",131-156
+render/pdfRenderer.js,PDFRenderer,class,"PDF renderer with lazy loading memory management zoom and scroll controls",14-818
+render/pdfRenderer.js,PDFRenderer.initializeContainer,method,"Initialize PDF container and scroll wrapper",62-76
+render/pdfRenderer.js,PDFRenderer.createControls,method,"Create zoom and navigation control buttons",81-97
+render/pdfRenderer.js,PDFRenderer.loadPDF,method,"Load PDF from URL with progressive loading and error handling",105-187
+render/pdfRenderer.js,PDFRenderer.updateLoadingProgress,method,"Update loading progress bar during PDF download",193-203
+render/pdfRenderer.js,PDFRenderer.calculateInitialScale,method,"Calculate responsive initial scale based on viewport width",209-280
+render/pdfRenderer.js,PDFRenderer.setupLazyLoading,method,"Setup lazy loading with Intersection Observer for efficient memory usage",286-314
+render/pdfRenderer.js,PDFRenderer.setupIntersectionObserver,method,"Setup Intersection Observer to detect and render visible pages",320-354
+render/pdfRenderer.js,PDFRenderer.createPagePlaceholder,method,"Create placeholder container for page with dimensions",361-390
+render/pdfRenderer.js,PDFRenderer.queuePageRender,method,"Add page to render queue for lazy loading",396-409
+render/pdfRenderer.js,PDFRenderer.processRenderQueue,method,"Process render queue one page at a time to avoid memory issues",415-444
+render/pdfRenderer.js,PDFRenderer.cleanupDistantPages,method,"Free memory by removing canvases of pages far from viewport",451-466
+render/pdfRenderer.js,PDFRenderer.unrenderPage,method,"Unrender page and restore placeholder to free memory",472-497
+render/pdfRenderer.js,PDFRenderer.maybeUnrenderPage,method,"Check if page should be unrendered based on distance and count",503-513
+render/pdfRenderer.js,PDFRenderer.renderAllPages,method,"Render all PDF pages without lazy loading (legacy mode)",519-532
+render/pdfRenderer.js,PDFRenderer.renderPage,method,"Render single page with memory-efficient canvas settings",538-645
+render/pdfRenderer.js,PDFRenderer.zoomIn,method,"Zoom in by 20%",650-652
+render/pdfRenderer.js,PDFRenderer.zoomOut,method,"Zoom out by 20%",657-659
+render/pdfRenderer.js,PDFRenderer.fitToWidth,method,"Fit PDF to container width",664-673
+render/pdfRenderer.js,PDFRenderer.setScale,method,"Set zoom scale and re-render visible pages",679-737
+render/pdfRenderer.js,PDFRenderer.getCurrentPage,method,"Get current page number based on scroll position",742-756
+render/pdfRenderer.js,PDFRenderer.scrollToPage,method,"Scroll to specific page number",761-766
+render/pdfRenderer.js,PDFRenderer.destroy,method,"Destroy renderer and clean up resources (observers canvases memory)",772-817
+src/main.js,Module Imports,module,"Import and expose external libraries (marked pdfjs-dist highlight.js) to global scope",1-8
+styles/markdown.css,Markdown Stylesheet,stylesheet,"Styles for rendered markdown including code blocks tables callouts and typography",1-489
+styles/pdf-viewer.css,PDF Viewer Stylesheet,stylesheet,"Styles for PDF viewer including controls canvas layout and loading states",1-327
+account-config.json,Account Configuration,config,"Account configuration including starting balance deposits withdrawals and opening date",N/A
+books-index.json,Books Index,data,"Index of PDF books with metadata titles authors and file paths",N/A
+notes-index.json,Notes Index,data,"Index of markdown notes with metadata titles tags and file paths",N/A
+trades-index.json,Trades Index,data,"Index of all trades with metadata and weekly statistics",N/A

@@ -12,6 +12,17 @@
 
 This is the **main application directory** containing all public-facing content, trading data, assets, and frontend code for the SFTi-Pennies trading journal. Everything in this directory is served via GitHub Pages and accessible on the live site.
 
+## 📋 Directory Index
+
+A comprehensive **[index.csv](./index.csv)** file catalogs all code files, classes, functions, and components in this directory:
+- **195 entries** documenting the entire codebase
+- Includes all JavaScript classes, methods, and functions
+- Documents all HTML pages and CSS stylesheets
+- Provides line number ranges for easy navigation
+- Detailed descriptions for each component
+
+Use the index.csv to quickly locate specific functionality or understand the codebase structure.
+
 ## 📂 Directory Structure
 
 ```

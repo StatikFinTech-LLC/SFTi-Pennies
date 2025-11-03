@@ -17,30 +17,9 @@ import json
 import os
 from datetime import datetime
 from typing import Dict, List, Tuple
-
-
-def load_account_config():
-    """Load account configuration with starting balance and deposits"""
-    try:
-        with open("index.directory/account-config.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("index.directory/account-config.json not found, using defaults")
-        return {
-            "starting_balance": 1000.00,
-            "deposits": [],
-            "version": "1.0"
-        }
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("index.directory/trades-index.json not found. Run parse_trades.py first.")
-        return None
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index, load_account_config
 
 
 def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict]) -> Dict:

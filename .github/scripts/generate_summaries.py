@@ -12,25 +12,17 @@ Performance Optimizations:
 - Optimized date parsing with string operations
 """
 
-import json
 import os
 import re
 from datetime import datetime, timedelta
 from collections import defaultdict
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index
 
 # Regex patterns for file matching
 WEEKLY_PATTERN = r"weekly-\d{4}-W(\d{2})\.md"
 MONTHLY_PATTERN = r"monthly-\d{4}-(\d{2})\.md"
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("index.directory/trades-index.json not found. Run parse_trades.py first.")
-        return None
 
 
 def load_existing_summary(filepath):

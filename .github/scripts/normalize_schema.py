@@ -15,6 +15,7 @@ import json
 import os
 import argparse
 from datetime import datetime
+from utils import load_trades_index
 
 
 CURRENT_SCHEMA_VERSION = "1.1"
@@ -24,16 +25,6 @@ SCHEMA_VERSIONS = {
     "1.0": "Initial schema with basic trade fields",
     "1.1": "Added tags (strategy, setup, session, market_condition) and notes field",
 }
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("Error: index.directory/trades-index.json not found")
-        return None
 
 
 def get_schema_version(index_data):

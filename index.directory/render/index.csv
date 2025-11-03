@@ -1,0 +1,39 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+markdownRenderer.js,MarkdownRenderer,class,GitHub-Flavored Markdown renderer with syntax highlighting and callouts,6-162
+markdownRenderer.js,constructor,method,Initialize renderer with marked and hljs libraries,7-16
+markdownRenderer.js,configureMarked,method,Configure marked with GFM options and extensions,18-72
+markdownRenderer.js,renderCallout,method,Render GitHub-style callout/admonition boxes,74-99
+markdownRenderer.js,render,method,Render markdown to HTML with YAML frontmatter stripping,101-126
+markdownRenderer.js,fixImagePaths,method,Process and fix image paths in rendered HTML,128-156
+markdownRenderer.js,window export,global export,Export MarkdownRenderer class to window object,161-164
+pdfRenderer.js,PDFRenderer,class,PDF renderer with lazy loading and memory management,14-823
+pdfRenderer.js,MAX_PIXEL_RATIO,static constant,Maximum device pixel ratio for rendering (prevents excessive memory),16
+pdfRenderer.js,MIN_VIEWPORT_WIDTH,static constant,Minimum viewport width in pixels (ensures readable text),17
+pdfRenderer.js,INTERSECTION_MARGIN,static constant,Preload buffer zone for intersection observer,18
+pdfRenderer.js,UNRENDER_DELAY_MS,static constant,Delay before unrendering off-screen pages in milliseconds,19
+pdfRenderer.js,MIN_SCALE,static constant,Minimum zoom scale (10%),20
+pdfRenderer.js,MAX_SCALE,static constant,Maximum zoom scale (500%),21
+pdfRenderer.js,constructor,method,Initialize PDF renderer with container and options,23-57
+pdfRenderer.js,initializeContainer,method,Initialize the PDF container and scroll container,59-76
+pdfRenderer.js,createControls,method,Create zoom and navigation controls,78-97
+pdfRenderer.js,loadPDF,method,Load PDF from URL with progressive loading and lazy loading,99-187
+pdfRenderer.js,updateLoadingProgress,method,Update loading progress indicator with percentage,189-203
+pdfRenderer.js,calculateInitialScale,method,Calculate initial scale based on viewport width for responsive display,205-280
+pdfRenderer.js,setupLazyLoading,method,Set up lazy loading with Intersection Observer and page placeholders,282-314
+pdfRenderer.js,setupIntersectionObserver,method,Set up Intersection Observer to detect visible pages,316-354
+pdfRenderer.js,createPagePlaceholder,method,Create a placeholder container for a page with dimensions,356-390
+pdfRenderer.js,queuePageRender,method,Queue a page for rendering in the render queue,392-409
+pdfRenderer.js,processRenderQueue,method,Process the render queue and render pages one at a time,411-444
+pdfRenderer.js,cleanupDistantPages,method,Clean up pages far from viewport to free memory,446-466
+pdfRenderer.js,unrenderPage,method,Unrender a page to free memory by removing canvas,468-497
+pdfRenderer.js,maybeUnrenderPage,method,Check if a page should be unrendered based on visibility,499-513
+pdfRenderer.js,renderAllPages,method,Render all PDF pages (legacy mode for compatibility),515-532
+pdfRenderer.js,renderPage,method,Render a single page with memory-efficient settings,534-645
+pdfRenderer.js,zoomIn,method,Zoom in by increasing scale by 1.2x,647-652
+pdfRenderer.js,zoomOut,method,Zoom out by decreasing scale by 1.2x,654-659
+pdfRenderer.js,fitToWidth,method,Fit PDF to container width,661-673
+pdfRenderer.js,setScale,method,Set zoom scale and re-render visible pages,675-737
+pdfRenderer.js,getCurrentPage,method,Get current page number based on scroll position,739-756
+pdfRenderer.js,scrollToPage,method,Scroll to specific page number,758-766
+pdfRenderer.js,destroy,method,Destroy the renderer and clean up resources properly,768-817
+pdfRenderer.js,window export,global export,Export PDFRenderer class to window object,820-823

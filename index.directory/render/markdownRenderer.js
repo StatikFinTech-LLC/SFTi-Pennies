@@ -50,6 +50,8 @@ class MarkdownRenderer {
         return src.match(/^>\s*\[!/m)?.index;
       },
       tokenizer(src) {
+        // Match GitHub-style callouts: > [!NOTE], > [!TIP], etc.
+        // Captures: [1] callout type, [2] content lines starting with >
         const match = src.match(/^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n((?:>\s*.*\n?)*)/i);
         if (match) {
           const type = match[1].toUpperCase();

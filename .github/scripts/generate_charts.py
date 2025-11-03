@@ -9,6 +9,9 @@ import json
 import os
 from datetime import datetime
 from collections import defaultdict
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index, load_account_config
 
 # Try to import matplotlib, but don't fail if it's not available
 try:
@@ -22,16 +25,6 @@ try:
 except ImportError:
     MATPLOTLIB_AVAILABLE = False
     print("Note: matplotlib not available, skipping static chart generation")
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("index.directory/trades-index.json not found. Run parse_trades.py first.")
-        return None
 
 
 def generate_equity_curve_data(trades):
@@ -452,16 +445,6 @@ def generate_ticker_performance_data(trades):
             }
         ],
     }
-
-
-def load_account_config():
-    """Load the account configuration JSON file"""
-    try:
-        with open("index.directory/account-config.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("account-config.json not found. Using default values.")
-        return {"starting_balance": 0, "deposits": [], "withdrawals": []}
 
 
 def format_date_label(date, timeframe):

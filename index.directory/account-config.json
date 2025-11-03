@@ -4,5 +4,6 @@
   "account_opening_date": null,
   "notes": "Starting balance is your initial capital. Add deposits separately to track additional investments. Account opening date is automatically set to your first trade date if not specified.",
   "version": "1.0",
-  "last_updated": "2025-11-02T03:54:30.131Z"
+  "last_updated": "2025-11-03T14:53:31.797Z",
+  "withdrawals": []
 }

@@ -1,0 +1,16 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+README.md,SFTi Notez Assets Documentation,documentation,Documentation for trading framework and educational note assets,1-100
+7.step.framework.assets/README.md,7-Step Framework Assets Documentation,documentation,Documentation for 7-step trading framework phase images,1-80
+7.step.framework.assets/Step.1.png,Pre-Pump Phase Image,image,Chart image showing Step 1 of 7-step framework (Pre-Pump phase),N/A
+7.step.framework.assets/Step.2.png,Ramp Phase Image,image,Chart image showing Step 2 of 7-step framework (Ramp phase),N/A
+7.step.framework.assets/Step.3.png,Supernova Phase Image,image,Chart image showing Step 3 of 7-step framework (Supernova phase),N/A
+7.step.framework.assets/Step.4.png,Cliff Dive Phase Image,image,Chart image showing Step 4 of 7-step framework (Cliff Dive phase),N/A
+7.step.framework.assets/Step.5.png,Bounces Phase Image,image,Chart image showing Step 5 of 7-step framework (Bounces phase),N/A
+7.step.framework.assets/Step.6.png,Long Kiss Goodnight Phase Image,image,Chart image showing Step 6 of 7-step framework (Long Kiss Goodnight phase),N/A
+7.step.framework.assets/Step.7.png,Final Phase Image,image,Chart image showing Step 7 of 7-step framework (Final phase),N/A
+dip.n.rip.assets/README.md,Dip and Rip Assets Documentation,documentation,Documentation for dip and rip trading pattern examples,1-60
+dip.n.rip.assets/BOF.png,BOF Trade Example,image,Chart showing BOF dip and rip pattern example,N/A
+dip.n.rip.assets/HOLO.png,HOLO Trade Example,image,Chart showing HOLO dip and rip pattern example,N/A
+trade.plan.assets/README.md,Trade Plan Assets Documentation,documentation,Documentation for trading strategy and indicator setup diagrams,1-60
+trade.plan.assets/Penny_Plan.png,Penny Stock Trading Plan,image,Strategy diagram for penny stock trading plan with indicators and rules,N/A
+trade.plan.assets/Rigged_Plan.png,Rigged Trading Plan,image,Strategy diagram for rigged trading plan with entry/exit criteria,N/A

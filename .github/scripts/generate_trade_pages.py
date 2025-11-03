@@ -18,21 +18,11 @@ Performance Optimizations:
 Output: index.directory/trades/{trade-id}.html
 """
 
-import json
 import os
 from pathlib import Path
 from datetime import datetime
 from navbar_template import get_navbar_html
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("Error: index.directory/trades-index.json not found")
-        return None
+from utils import load_trades_index
 
 
 def generate_trade_html(trade):

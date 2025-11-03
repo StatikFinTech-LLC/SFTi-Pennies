@@ -1,14 +1,20 @@
 {
   "name": "sfti-pennies",
   "version": "1.0.0",
-  "description": "**📁 You are here:** `/` (root)",
+  "description": "SFTi-Pennies Trading Journal - Professional penny stock trading journal with automated tracking and analysis",
   "main": "index.js",
   "scripts": {
     "build": "node .github/scripts/build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "trading-journal",
+    "penny-stocks",
+    "analytics",
+    "pwa",
+    "portfolio-tracking"
+  ],
+  "author": "StatikFintech LLC",
   "license": "ISC",
   "dependencies": {
     "@types/marked": "^6.0.0",

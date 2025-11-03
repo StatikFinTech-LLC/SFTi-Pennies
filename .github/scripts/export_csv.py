@@ -9,20 +9,13 @@ Features:
 - Standard CSV format compatible with spreadsheet applications
 """
 
-import json
 import csv
 import argparse
 from datetime import datetime
-
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("Error: index.directory/trades-index.json not found")
-        return None
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index
 
 
 def export_to_csv(trades, output_file="trades-export.csv"):

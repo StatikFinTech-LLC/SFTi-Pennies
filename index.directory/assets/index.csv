@@ -1,0 +1,10 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+README.md,Assets Directory Documentation,documentation,Central documentation for all visual assets including organization structure and usage guidelines,1-180
+charts/,Charts Data Directory,directory,JSON chart data files for Chart.js visualizations (equity curves, portfolio value, total return),N/A
+css/,CSS Stylesheets Directory,directory,All CSS stylesheets including main styles, glass effects, glowing bubbles, modals, and import page,N/A
+icons/,Icons Directory,directory,PWA application icons for mobile installation and home screen display,N/A
+img/,Images Directory,directory,SVG images for logos and UI icons,N/A
+js/,JavaScript Directory,directory,Client-side JavaScript modules for application functionality, authentication, charts, and utilities,N/A
+sfti.mentor.assets/,Mentor Assets Directory,directory,Profile images for trading mentors (Timothy Sykes and Tim Bohen),N/A
+sfti.notez.assets/,Trading Notes Assets Directory,directory,Visual resources for trading frameworks strategies and educational content,N/A
+sfti.tradez.assets/,Trade Journal Assets Directory,directory,Screenshots and charts from actual trading activity organized by week,N/A

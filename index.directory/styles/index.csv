@@ -1,0 +1,86 @@
+Filename,Class/Selector Name,Type,Brief Description,Line Number Range
+markdown.css,.markdown-body,style rule,Main container for GitHub-flavored markdown content with dark theme,19-28
+markdown.css,.markdown-body h1-h6,style rule,All heading levels with monospace font and accent color,35-49
+markdown.css,.markdown-body h1,style rule,Primary heading with 2em font size and prominent border,52-55
+markdown.css,.markdown-body h2,style rule,Secondary heading with 1.5em font size,58-60
+markdown.css,.markdown-body h3,style rule,Tertiary heading without bottom border,63-66
+markdown.css,.markdown-body h4-h6,style rule,Minor headings with minimal visual weight,69-74
+markdown.css,.markdown-body p,style rule,Paragraph spacing and layout,82-85
+markdown.css,.markdown-body strong,style rule,Bold text with high contrast,88-91
+markdown.css,.markdown-body em,style rule,Italic text for emphasis,94-97
+markdown.css,.markdown-body code,style rule,Inline code with monospace font and background,104-112
+markdown.css,.markdown-body pre,style rule,Multi-line code blocks with syntax highlighting support,115-124
+markdown.css,.markdown-body pre code,style rule,Code within pre blocks - removes inline styling,126-138
+markdown.css,.markdown-body a,style rule,Hyperlinks with themed accent color,145-149
+markdown.css,.markdown-body a:hover,style rule,Link hover state with underline,151-153
+markdown.css,.markdown-body img,style rule,Responsive images with styling,156-163
+markdown.css,.markdown-body ul/ol,style rule,Unordered and ordered list containers,172-176
+markdown.css,.markdown-body li,style rule,List items with compact spacing,179-181
+markdown.css,.markdown-body li + li,style rule,Adjacent list item spacing,183-185
+markdown.css,.markdown-body table,style rule,Responsive table with borders,194-201
+markdown.css,.markdown-body table th/td,style rule,Table cells - headers and data,204-207
+markdown.css,.markdown-body table th,style rule,Table headers with darker background,210-213
+markdown.css,.markdown-body table tr,style rule,Table rows with borders,216-219
+markdown.css,.markdown-body table tr:nth-child(2n),style rule,Zebra striping for better table readability,222-224
+markdown.css,.markdown-body blockquote,style rule,Blockquotes with left border accent,233-239
+markdown.css,.markdown-body blockquote > :first-child,style rule,Remove top margin from first blockquote child,241-243
+markdown.css,.markdown-body blockquote > :last-child,style rule,Remove bottom margin from last blockquote child,245-247
+markdown.css,.markdown-body hr,style rule,Horizontal rule section dividers,256-262
+markdown.css,.markdown-callout,style rule,Base callout container with gradient background,269-276
+markdown.css,.markdown-callout-header,style rule,Callout header with icon and title,279-285
+markdown.css,.markdown-callout-icon,style rule,Icon styling for callouts,288-291
+markdown.css,.markdown-callout-title,style rule,Uppercase and spaced callout titles,294-299
+markdown.css,.markdown-callout-content,style rule,Main content area of callouts,303-305
+markdown.css,.markdown-callout-content p:last-child,style rule,Remove bottom margin from last paragraph,307-309
+markdown.css,.markdown-callout-note,style rule,Blue-themed note callout for informational content,311-314
+markdown.css,.markdown-callout-note .markdown-callout-header,style rule,Note callout header color,317-319
+markdown.css,.markdown-callout-tip,style rule,Green-themed tip callout for helpful suggestions,322-325
+markdown.css,.markdown-callout-tip .markdown-callout-header,style rule,Tip callout header color,327-329
+markdown.css,.markdown-callout-important,style rule,Purple-themed important callout for critical info,332-335
+markdown.css,.markdown-callout-important .markdown-callout-header,style rule,Important callout header color,337-339
+markdown.css,.markdown-callout-warning,style rule,Yellow/Orange-themed warning callout,342-345
+markdown.css,.markdown-callout-warning .markdown-callout-header,style rule,Warning callout header color,347-349
+markdown.css,.markdown-callout-caution,style rule,Red-themed caution callout for dangers,352-355
+markdown.css,.markdown-callout-caution .markdown-callout-header,style rule,Caution callout header color,357-359
+markdown.css,.hljs,style rule,Base syntax highlighting container,365-368
+markdown.css,.hljs-comment/quote,style rule,Comments and quotes in muted gray,374-377
+markdown.css,.hljs-keyword/selector-tag/subst,style rule,Keywords and selectors in salmon red,380-383
+markdown.css,.hljs-number/literal/variable,style rule,Numbers and literals in light blue,386-391
+markdown.css,.hljs-string/doctag,style rule,Strings and documentation in pale blue,394-396
+markdown.css,.hljs-title/section/selector-id,style rule,Titles and sections in purple,399-403
+markdown.css,.hljs-type/class,style rule,Types and class names in orange,406-408
+markdown.css,.hljs-tag/name/attribute,style rule,Tags and attributes in green,411-414
+markdown.css,.hljs-regexp/link,style rule,Regular expressions and links in pale blue,417-419
+markdown.css,.hljs-symbol/bullet,style rule,Symbols and bullets in light blue,422-424
+markdown.css,.hljs-built_in/builtin-name,style rule,Built-in functions in orange,427-429
+markdown.css,.hljs-meta,style rule,Metadata in muted gray,432-434
+markdown.css,.hljs-deletion,style rule,Deletion diff with red background,437-440
+markdown.css,.hljs-addition,style rule,Addition diff with green background,443-446
+markdown.css,.hljs-emphasis,style rule,Text emphasis with italic style,449-451
+markdown.css,.hljs-strong,style rule,Strong text with bold weight,453-455
+markdown.css,@media (max-width: 768px),media query,Mobile and tablet responsive optimizations,464-481
+pdf-viewer.css,.pdf-viewer-container,style rule,Main PDF viewer container with dark theme and flexbox,22-30
+pdf-viewer.css,.pdf-controls,style rule,Top control bar with navigation and zoom buttons,37-46
+pdf-viewer.css,.pdf-control-btn,style rule,Control buttons for navigation and zoom,49-63
+pdf-viewer.css,.pdf-control-btn:hover,style rule,Button hover state with themed accent,66-70
+pdf-viewer.css,.pdf-control-btn:active,style rule,Button active state with scale feedback,73-75
+pdf-viewer.css,.pdf-zoom-level,style rule,Zoom level indicator with monospace font,78-85
+pdf-viewer.css,.pdf-scroll-container,style rule,Scrollable container for PDF pages,92-99
+pdf-viewer.css,.pdf-scroll-container::-webkit-scrollbar,style rule,Custom scrollbar width,102-104
+pdf-viewer.css,.pdf-scroll-container::-webkit-scrollbar-track,style rule,Scrollbar track styling,106-109
+pdf-viewer.css,.pdf-scroll-container::-webkit-scrollbar-thumb,style rule,Scrollbar thumb with border,111-115
+pdf-viewer.css,.pdf-scroll-container::-webkit-scrollbar-thumb:hover,style rule,Scrollbar thumb hover state,117-119
+pdf-viewer.css,.pdf-page-container,style rule,Individual PDF page wrapper with white background,126-134
+pdf-viewer.css,.pdf-page-container canvas,style rule,Canvas element for rendered PDF pages,137-141
+pdf-viewer.css,.pdf-page-container:last-child,style rule,Remove bottom margin from last page,144-146
+pdf-viewer.css,.pdf-page-label,style rule,Page number indicator overlay,149-161
+pdf-viewer.css,.pdf-loading,style rule,Loading indicator with centered alignment,168-177
+pdf-viewer.css,.pdf-loading::before,style rule,Animated spinner before loading text,180-190
+pdf-viewer.css,@keyframes pdf-spin,animation,Spinner rotation animation,193-197
+pdf-viewer.css,.pdf-error,style rule,Error display container with centered layout,204-214
+pdf-viewer.css,.pdf-error p:first-child,style rule,Error heading - large and prominent,217-221
+pdf-viewer.css,.pdf-error-details,style rule,Error details in monospace for technical info,224-235
+pdf-viewer.css,@media (prefers-color-scheme: dark),media query,System dark mode preference support,242-254
+pdf-viewer.css,@media (max-width: 768px),media query,Mobile and tablet responsive adjustments,262-296
+pdf-viewer.css,@media print,media query,Print-optimized styles for PDF pages,304-327
+README.md,N/A,documentation,Comprehensive documentation for stylesheets directory,1-527

@@ -5,18 +5,13 @@ Updates the index.html with the 3 most recent trades
 Injects trade data into the homepage HTML
 """
 
-import json
+import sys
+import os
 from datetime import datetime
 
-
-def load_trades_index():
-    """Load the trades index JSON file"""
-    try:
-        with open("index.directory/trades-index.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print("index.directory/trades-index.json not found. Run parse_trades.py first.")
-        return None
+# Add the scripts directory to the path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index
 
 
 def main():
