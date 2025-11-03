@@ -175,7 +175,7 @@ function initCharts() {
       e.stopPropagation();
       const isExpanded = chartSelectorButton.getAttribute('aria-expanded') === 'true';
       chartSelectorButton.setAttribute('aria-expanded', !isExpanded);
-      chartSelectorMenu.style.display = isExpanded ? 'none' : 'block';
+      chartSelectorMenu.classList.toggle('show');
     });
 
     // Handle option selection
@@ -197,7 +197,7 @@ function initCharts() {
         
         // Close dropdown
         chartSelectorButton.setAttribute('aria-expanded', 'false');
-        chartSelectorMenu.style.display = 'none';
+        chartSelectorMenu.classList.remove('show');
         
         // Switch chart
         switchChart(value);
@@ -208,7 +208,7 @@ function initCharts() {
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.chart-selector-container')) {
         chartSelectorButton.setAttribute('aria-expanded', 'false');
-        chartSelectorMenu.style.display = 'none';
+        chartSelectorMenu.classList.remove('show');
       }
     });
 

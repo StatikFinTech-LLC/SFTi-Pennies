@@ -436,20 +436,26 @@ code {
   position: relative;
 }
 
-.chart-selector-btn svg {
+.chart-selector-arrow {
+  margin-left: 0.5rem;
   transition: transform 0.3s ease;
 }
 
-.chart-selector-btn[aria-expanded="true"] svg {
+.chart-selector-btn[aria-expanded="true"] .chart-selector-arrow {
   transform: rotate(180deg);
 }
 
 .chart-selector-menu {
+  display: none;
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
   min-width: 200px;
   z-index: 1000;
+}
+
+.chart-selector-menu.show {
+  display: block;
 }
 
 .chart-selector-menu .chart-option {
