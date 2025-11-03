@@ -145,7 +145,7 @@
         link.innerHTML = bubble.icon;
         container.appendChild(link);
       } else if (bubble.type === 'dropdown') {
-        // Dropdown bubble
+        // Dropdown bubble - use native select on mobile, custom dropdown on desktop
         const wrapper = document.createElement('div');
         wrapper.className = 'glowing-bubble-wrapper has-dropdown';
         
@@ -155,44 +155,99 @@
         bubbleElement.setAttribute('aria-label', bubble.tooltip);
         bubbleElement.innerHTML = bubble.icon;
         
-        const dropdown = document.createElement('div');
-        dropdown.className = 'bubble-dropdown';
+        // Check if mobile (width <= 768px)
+        const isMobile = window.innerWidth <= 768;
         
-        bubble.dropdownItems.forEach(item => {
-          const link = document.createElement('a');
-          link.href = item.href;
-          link.textContent = item.label;
-          if (item.external) {
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-          }
-          dropdown.appendChild(link);
-        });
-        
-        wrapper.appendChild(bubbleElement);
-        wrapper.appendChild(dropdown);
-        container.appendChild(wrapper);
-        
-        // Toggle dropdown on click/touch
-        bubbleElement.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
+        if (isMobile) {
+          // Mobile: Use native <select> element for system rendering
+          const select = document.createElement('select');
+          select.className = 'bubble-native-select';
+          select.setAttribute('aria-label', bubble.tooltip);
           
-          const isActive = wrapper.classList.contains('active');
+          // Add a default/placeholder option
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = bubble.tooltip;
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          select.appendChild(defaultOption);
           
-          // Close all other dropdowns
-          document.querySelectorAll('.glowing-bubble-wrapper').forEach(w => {
-            if (w !== wrapper) w.classList.remove('active');
+          bubble.dropdownItems.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.href;
+            option.textContent = item.label;
+            if (item.external) {
+              option.setAttribute('data-external', 'true');
+            }
+            select.appendChild(option);
           });
           
-          // Toggle this dropdown
-          wrapper.classList.toggle('active', !isActive);
-        });
-        
-        // Prevent dropdown from closing when clicking inside it
-        dropdown.addEventListener('click', (e) => {
-          e.stopPropagation();
-        });
+          wrapper.appendChild(bubbleElement);
+          wrapper.appendChild(select);
+          container.appendChild(wrapper);
+          
+          // Handle select change - navigate to selected URL
+          select.addEventListener('change', (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            if (selectedOption.value) {
+              if (selectedOption.getAttribute('data-external') === 'true') {
+                window.open(selectedOption.value, '_blank', 'noopener,noreferrer');
+              } else {
+                window.location.href = selectedOption.value;
+              }
+              // Reset to default
+              e.target.selectedIndex = 0;
+            }
+          });
+          
+          // Show select when bubble is clicked
+          bubbleElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            select.focus();
+            select.click();
+          });
+        } else {
+          // Desktop: Use custom dropdown
+          const dropdown = document.createElement('div');
+          dropdown.className = 'bubble-dropdown';
+          
+          bubble.dropdownItems.forEach(item => {
+            const link = document.createElement('a');
+            link.href = item.href;
+            link.textContent = item.label;
+            if (item.external) {
+              link.target = '_blank';
+              link.rel = 'noopener noreferrer';
+            }
+            dropdown.appendChild(link);
+          });
+          
+          wrapper.appendChild(bubbleElement);
+          wrapper.appendChild(dropdown);
+          container.appendChild(wrapper);
+          
+          // Toggle dropdown on click/touch
+          bubbleElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = wrapper.classList.contains('active');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.glowing-bubble-wrapper').forEach(w => {
+              if (w !== wrapper) w.classList.remove('active');
+            });
+            
+            // Toggle this dropdown
+            wrapper.classList.toggle('active', !isActive);
+          });
+          
+          // Prevent dropdown from closing when clicking inside it
+          dropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+          });
+        }
       } else if (bubble.type === 'button') {
         // Button bubble (for auth)
         const button = document.createElement('button');
