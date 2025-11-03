@@ -1,9 +1,21 @@
 /**
  * GitHub-Flavored Markdown Styles
  * Includes GitHub callouts/admonitions and proper GFM rendering
+ * 
+ * This stylesheet provides comprehensive GitHub-style markdown rendering
+ * with support for dark themes, syntax highlighting, and GitHub callouts.
+ * Uses CSS custom properties for theming and maintains consistency with
+ * the main application design system.
+ * 
+ * @author StatikFintech LLC
+ * @version 1.0.0
  */
 
-/* Base markdown body styles */
+/* ========================================
+   BASE CONTAINER STYLES
+   ======================================== */
+
+/* Main markdown body container with dark theme support */
 .markdown-body {
   background-color: var(--bg-tertiary, #0d1117) !important;
   color: var(--text-primary, #e6edf3) !important;
@@ -15,7 +27,11 @@
   word-wrap: break-word;
 }
 
-/* Headers */
+/* ========================================
+   TYPOGRAPHY - HEADERS
+   ======================================== */
+
+/* All heading levels - uses monospace font for technical documentation feel */
 .markdown-body h1,
 .markdown-body h2,
 .markdown-body h3,
@@ -32,20 +48,24 @@
   padding-bottom: 0.3em;
 }
 
+/* Primary heading - largest with prominent border */
 .markdown-body h1 {
   font-size: 2em;
   border-bottom-width: 2px;
 }
 
+/* Secondary heading - section headers */
 .markdown-body h2 {
   font-size: 1.5em;
 }
 
+/* Tertiary heading - subsection headers without border */
 .markdown-body h3 {
   font-size: 1.25em;
   border-bottom: none;
 }
 
+/* Minor headings - minimal visual weight */
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
@@ -53,24 +73,34 @@
   border-bottom: none;
 }
 
-/* Paragraphs */
+
+/* ========================================
+   TYPOGRAPHY - TEXT ELEMENTS
+   ======================================== */
+
+/* Paragraphs - standard spacing */
 .markdown-body p {
   margin-top: 0;
   margin-bottom: 16px;
 }
 
-/* Bold and italic */
+/* Bold text - high contrast */
 .markdown-body strong {
   font-weight: 600;
   color: var(--text-primary, #e6edf3);
 }
 
+/* Italic text - emphasis */
 .markdown-body em {
   font-style: italic;
   color: var(--text-primary, #e6edf3);
 }
 
-/* Inline code */
+/* ========================================
+   CODE ELEMENTS
+   ======================================== */
+
+/* Inline code - small snippets within text */
 .markdown-body code {
   font-family: var(--font-mono, "JetBrains Mono", "Fira Code", Consolas, monospace) !important;
   background-color: var(--bg-secondary, rgba(110, 118, 129, 0.2)) !important;
@@ -81,7 +111,7 @@
   border-radius: 6px;
 }
 
-/* Code blocks */
+/* Code blocks - multi-line code with syntax highlighting support */
 .markdown-body pre {
   background-color: var(--bg-secondary, #161b22) !important;
   border-radius: 6px;
@@ -92,6 +122,7 @@
   margin-bottom: 16px;
 }
 
+/* Code within pre blocks - removes inline code styling */
 .markdown-body pre code {
   background-color: transparent !important;
   padding: 0;
@@ -106,7 +137,11 @@
   line-height: inherit;
 }
 
-/* Links */
+/* ========================================
+   LINKS AND IMAGES
+   ======================================== */
+
+/* Hyperlinks - themed with hover effects */
 .markdown-body a {
   color: var(--accent-green, #58a6ff) !important;
   text-decoration: none;
@@ -117,7 +152,7 @@
   text-decoration: underline;
 }
 
-/* Images */
+/* Images - responsive with styling */
 .markdown-body img {
   max-width: 100%;
   height: auto;
@@ -128,7 +163,12 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Lists */
+
+/* ========================================
+   LISTS
+   ======================================== */
+
+/* Unordered and ordered lists */
 .markdown-body ul,
 .markdown-body ol {
   margin-top: 0;
@@ -136,6 +176,7 @@
   padding-left: 2em;
 }
 
+/* List items - compact spacing */
 .markdown-body li {
   margin-top: 0.25em;
 }
@@ -144,7 +185,11 @@
   margin-top: 0.25em;
 }
 
-/* Tables */
+/* ========================================
+   TABLES
+   ======================================== */
+
+/* Responsive table with borders */
 .markdown-body table {
   border-spacing: 0;
   border-collapse: collapse;
@@ -155,27 +200,36 @@
   margin-bottom: 16px;
 }
 
+/* Table cells - headers and data */
 .markdown-body table th,
 .markdown-body table td {
   padding: 6px 13px;
   border: 1px solid var(--border-color, #30363d);
 }
 
+/* Table headers - darker background */
 .markdown-body table th {
   font-weight: 600;
   background-color: var(--bg-secondary, #161b22);
 }
 
+/* Table rows - with alternating backgrounds */
 .markdown-body table tr {
   background-color: var(--bg-primary, #0d1117);
   border-top: 1px solid var(--border-color, #30363d);
 }
 
+/* Zebra striping for better readability */
 .markdown-body table tr:nth-child(2n) {
   background-color: var(--bg-secondary, rgba(110, 118, 129, 0.05));
 }
 
-/* Regular blockquotes (non-callout) */
+
+/* ========================================
+   BLOCKQUOTES
+   ======================================== */
+
+/* Standard blockquotes (non-callout) with left border accent */
 .markdown-body blockquote {
   margin: 0 0 16px 0;
   padding: 0 1em;
@@ -193,7 +247,12 @@
   margin-bottom: 0;
 }
 
-/* Horizontal rules */
+
+/* ========================================
+   HORIZONTAL RULES
+   ======================================== */
+
+/* Section dividers */
 .markdown-body hr {
   height: 2px;
   padding: 0;
@@ -203,9 +262,10 @@
 }
 
 /* ========================================
-   GitHub-Style Callouts/Admonitions
+   GITHUB-STYLE CALLOUTS/ADMONITIONS
    ======================================== */
 
+/* Base callout container with gradient background */
 .markdown-callout {
   margin: 16px 0;
   padding: 16px;
@@ -215,6 +275,7 @@
   position: relative;
 }
 
+/* Callout header with icon and title */
 .markdown-callout-header {
   display: flex;
   align-items: center;
@@ -223,11 +284,13 @@
   margin-bottom: 8px;
 }
 
+/* Callout icon styling */
 .markdown-callout-icon {
   font-size: 1.2em;
   line-height: 1;
 }
 
+/* Callout title - uppercase and spaced */
 .markdown-callout-title {
   font-weight: 600;
   text-transform: uppercase;
@@ -235,6 +298,7 @@
   letter-spacing: 0.05em;
 }
 
+/* Callout content area */
 .markdown-callout-content {
   color: var(--text-primary, #e6edf3);
 }
@@ -243,7 +307,7 @@
   margin-bottom: 0;
 }
 
-/* Note - Blue */
+/* Note callout - Blue theme for informational content */
 .markdown-callout-note {
   border-left-color: #3b82f6;
   background: linear-gradient(to right, rgba(59, 130, 246, 0.1), transparent);
@@ -253,7 +317,7 @@
   color: #60a5fa;
 }
 
-/* Tip - Green */
+/* Tip callout - Green theme for helpful suggestions */
 .markdown-callout-tip {
   border-left-color: #22c55e;
   background: linear-gradient(to right, rgba(34, 197, 94, 0.1), transparent);
@@ -263,7 +327,7 @@
   color: #4ade80;
 }
 
-/* Important - Purple */
+/* Important callout - Purple theme for critical information */
 .markdown-callout-important {
   border-left-color: #a855f7;
   background: linear-gradient(to right, rgba(168, 85, 247, 0.1), transparent);
@@ -273,7 +337,7 @@
   color: #c084fc;
 }
 
-/* Warning - Yellow/Orange */
+/* Warning callout - Yellow/Orange theme for cautions */
 .markdown-callout-warning {
   border-left-color: #f59e0b;
   background: linear-gradient(to right, rgba(245, 158, 11, 0.1), transparent);
@@ -283,7 +347,7 @@
   color: #fbbf24;
 }
 
-/* Caution - Red */
+/* Caution callout - Red theme for dangers and errors */
 .markdown-callout-caution {
   border-left-color: #ef4444;
   background: linear-gradient(to right, rgba(239, 68, 68, 0.1), transparent);
@@ -294,26 +358,30 @@
 }
 
 /* ========================================
-   Syntax Highlighting (GitHub Dark Theme)
+   SYNTAX HIGHLIGHTING (GitHub Dark Theme)
    ======================================== */
 
+/* Base syntax highlighting container */
 .hljs {
   color: #e6edf3;
   background: #0d1117;
 }
 
+/* Comments and quotes - muted gray */
 .hljs-comment,
 .hljs-quote {
   color: #8b949e;
   font-style: italic;
 }
 
+/* Keywords and selectors - salmon red */
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-subst {
   color: #ff7b72;
 }
 
+/* Numbers and literals - light blue */
 .hljs-number,
 .hljs-literal,
 .hljs-variable,
@@ -322,11 +390,13 @@
   color: #79c0ff;
 }
 
+/* Strings and documentation - pale blue */
 .hljs-string,
 .hljs-doctag {
   color: #a5d6ff;
 }
 
+/* Titles and sections - purple */
 .hljs-title,
 .hljs-section,
 .hljs-selector-id {
@@ -334,46 +404,55 @@
   font-weight: bold;
 }
 
+/* Types and class names - orange */
 .hljs-type,
 .hljs-class .hljs-title {
   color: #ffa657;
 }
 
+/* Tags and attributes - green */
 .hljs-tag,
 .hljs-name,
 .hljs-attribute {
   color: #7ee787;
 }
 
+/* Regular expressions and links - pale blue */
 .hljs-regexp,
 .hljs-link {
   color: #a5d6ff;
 }
 
+/* Symbols and bullets - light blue */
 .hljs-symbol,
 .hljs-bullet {
   color: #79c0ff;
 }
 
+/* Built-in functions - orange */
 .hljs-built_in,
 .hljs-builtin-name {
   color: #ffa657;
 }
 
+/* Metadata - muted gray */
 .hljs-meta {
   color: #8b949e;
 }
 
+/* Deletion diff - red background */
 .hljs-deletion {
   background-color: #490202;
   color: #ffebe9;
 }
 
+/* Addition diff - green background */
 .hljs-addition {
   background-color: #04260f;
   color: #aff5b4;
 }
 
+/* Text emphasis and strong */
 .hljs-emphasis {
   font-style: italic;
 }
@@ -383,15 +462,18 @@
 }
 
 /* ========================================
-   Responsive Adjustments
+   RESPONSIVE ADJUSTMENTS
    ======================================== */
 
+/* Mobile and tablet optimizations */
 @media (max-width: 768px) {
+  /* Reduce padding and font size on mobile */
   .markdown-body {
     padding: 1rem;
     font-size: 14px;
   }
 
+  /* Adjust heading sizes for mobile screens */
   .markdown-body h1 {
     font-size: 1.75em;
   }
@@ -400,6 +482,7 @@
     font-size: 1.4em;
   }
 
+  /* Compact callout padding on mobile */
   .markdown-callout {
     padding: 12px;
   }

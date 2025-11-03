@@ -1,8 +1,24 @@
 /**
  * PDF Viewer Styles
  * Styles for smooth scrolling PDF viewer with zoom controls
+ * 
+ * This stylesheet provides a comprehensive PDF viewing experience with:
+ * - Smooth scrolling pagination
+ * - Zoom controls (in/out)
+ * - Loading states
+ * - Error handling
+ * - Responsive design
+ * - Print support
+ * 
+ * @author StatikFintech LLC
+ * @version 1.0.0
  */
 
+/* ========================================
+   MAIN CONTAINER
+   ======================================== */
+
+/* Primary PDF viewer container with dark theme */
 .pdf-viewer-container {
   width: 100%;
   height: 100%;
@@ -13,7 +29,11 @@
   overflow: hidden;
 }
 
-/* PDF Controls */
+/* ========================================
+   CONTROL BAR
+   ======================================== */
+
+/* Top control bar with navigation and zoom buttons */
 .pdf-controls {
   display: flex;
   align-items: center;
@@ -25,6 +45,7 @@
   flex-shrink: 0;
 }
 
+/* Control buttons - navigation and zoom */
 .pdf-control-btn {
   background-color: var(--bg-primary, #0d1117);
   color: var(--text-primary, #e6edf3);
@@ -41,16 +62,19 @@
   justify-content: center;
 }
 
+/* Button hover state - themed accent color */
 .pdf-control-btn:hover {
   background-color: var(--bg-tertiary, #21262d);
   border-color: var(--accent-green, #58a6ff);
   color: var(--accent-green, #58a6ff);
 }
 
+/* Button active state - slight scale down for feedback */
 .pdf-control-btn:active {
   transform: scale(0.95);
 }
 
+/* Zoom level indicator - monospace for consistent width */
 .pdf-zoom-level {
   color: var(--text-primary, #e6edf3);
   font-family: var(--font-mono, "JetBrains Mono", monospace);
@@ -60,7 +84,11 @@
   text-align: center;
 }
 
-/* PDF Scroll Container */
+/* ========================================
+   SCROLL CONTAINER
+   ======================================== */
+
+/* Scrollable container for PDF pages */
 .pdf-scroll-container {
   flex: 1;
   overflow-y: auto;
@@ -70,7 +98,7 @@
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar for PDF container */
+/* Custom scrollbar styling for better aesthetics */
 .pdf-scroll-container::-webkit-scrollbar {
   width: 12px;
 }
@@ -90,7 +118,11 @@
   background: var(--accent-green, #58a6ff);
 }
 
-/* PDF Page Container */
+/* ========================================
+   PAGE CONTAINERS
+   ======================================== */
+
+/* Individual PDF page wrapper with white background */
 .pdf-page-container {
   margin: 0 auto 24px auto;
   text-align: center;
@@ -101,17 +133,19 @@
   display: inline-block;
 }
 
+/* Canvas element for rendered PDF pages */
 .pdf-page-container canvas {
   display: block;
   margin: 0 auto;
   border-radius: 4px;
 }
 
+/* Remove bottom margin from last page */
 .pdf-page-container:last-child {
   margin-bottom: 0;
 }
 
-/* PDF Page Label */
+/* Page number indicator overlay */
 .pdf-page-label {
   position: absolute;
   bottom: 8px;
@@ -126,7 +160,11 @@
   pointer-events: none;
 }
 
-/* Loading State */
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+/* Loading indicator with spinner animation */
 .pdf-loading {
   display: flex;
   align-items: center;
@@ -138,6 +176,7 @@
   font-family: var(--font-mono, monospace);
 }
 
+/* Animated spinner before loading text */
 .pdf-loading::before {
   content: '';
   display: inline-block;
@@ -150,13 +189,18 @@
   animation: pdf-spin 0.8s linear infinite;
 }
 
+/* Spinner rotation animation */
 @keyframes pdf-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-/* Error State */
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+/* Error display container */
 .pdf-error {
   display: flex;
   flex-direction: column;
@@ -169,12 +213,14 @@
   color: var(--accent-red, #f85149);
 }
 
+/* Error heading - large and prominent */
 .pdf-error p:first-child {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 12px;
 }
 
+/* Error details - monospace for technical info */
 .pdf-error-details {
   color: var(--text-secondary, #8b949e);
   font-family: var(--font-mono, monospace);
@@ -188,7 +234,11 @@
   word-wrap: break-word;
 }
 
-/* Dark Mode Support */
+/* ========================================
+   DARK MODE SUPPORT
+   ======================================== */
+
+/* System dark mode preference support */
 @media (prefers-color-scheme: dark) {
   .pdf-viewer-container {
     background-color: #0d1117;
@@ -203,48 +253,66 @@
   }
 }
 
-/* Responsive Adjustments */
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile and tablet adjustments */
 @media (max-width: 768px) {
+  /* Reduced padding on mobile */
   .pdf-scroll-container {
     padding: 10px;
   }
   
+  /* Tighter page spacing on mobile */
   .pdf-page-container {
     margin-bottom: 16px;
   }
   
+  /* Compact control bar on mobile */
   .pdf-controls {
     gap: 8px;
     padding: 8px;
   }
   
+  /* Smaller buttons on mobile */
   .pdf-control-btn {
     padding: 6px 12px;
     font-size: 14px;
   }
   
+  /* Smaller zoom indicator on mobile */
   .pdf-zoom-level {
     font-size: 12px;
     min-width: 50px;
   }
   
+  /* Smaller page labels on mobile */
   .pdf-page-label {
     font-size: 10px;
     padding: 3px 8px;
   }
 }
 
-/* Print Styles */
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+/* Print-optimized styles for PDF pages */
 @media print {
+  /* Hide controls when printing */
   .pdf-controls {
     display: none;
   }
   
+  /* Remove scroll behavior for printing */
   .pdf-scroll-container {
     overflow: visible;
     padding: 0;
   }
   
+  /* Page break handling for multi-page PDFs */
   .pdf-page-container {
     page-break-after: always;
     page-break-inside: avoid;
@@ -252,6 +320,7 @@
     margin: 0;
   }
   
+  /* Hide page labels when printing */
   .pdf-page-label {
     display: none;
   }
