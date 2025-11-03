@@ -1,0 +1,8 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+main.js,Module Documentation,documentation,Bundle entry point module documentation,1-13
+main.js,marked import,import,Import marked library for Markdown parsing,14
+main.js,pdfjsLib import,import,Import PDF.js library for PDF rendering,15
+main.js,hljs import,import,Import Highlight.js for syntax highlighting,16
+main.js,window.marked,global export,Expose marked globally on window object,18-23
+main.js,window.pdfjsLib,global export,Expose PDF.js globally on window object,25-30
+main.js,window.hljs,global export,Expose Highlight.js globally on window object,32-37

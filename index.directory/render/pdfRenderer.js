@@ -586,15 +586,15 @@ class PDFRenderer {
       // Apply transform to scale the rendering context
       const transform = outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
       
-      // Render page to canvas with optimized settings
+      // Render page to canvas with optimized settings for memory efficiency
       const renderContext = {
         canvasContext: context,
         viewport: viewport,
         transform: transform,
-        // Optimization flags
-        intent: 'display',
-        enableWebGL: false, // Disable WebGL to avoid memory issues
-        renderInteractiveForms: false
+        // Optimization flags to reduce memory usage and improve performance
+        intent: 'display',                    // Optimize for screen display vs. printing
+        enableWebGL: false,                   // Disable WebGL to avoid memory issues
+        renderInteractiveForms: false         // Skip form rendering for static PDFs
       };
       
       await page.render(renderContext).promise;
