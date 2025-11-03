@@ -1,3 +1,17 @@
+/* Disable ALL glowing effects when modal is open */
+body:has(.modal-overlay:not([style*="display: none"])) .glowing-bubble {
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.modal-overlay:not([style*="display: none"])) .glowing-bubble::before {
+  display: none !important;
+}
+
+body:has(.modal-overlay:not([style*="display: none"])) .glowing-bubble:hover {
+  box-shadow: none !important;
+}
+
 /* Glowing Bubbles Navigation - Fixed to bottom of viewport */
 
 /* Add bottom padding to body to prevent content from being covered by bubbles */
