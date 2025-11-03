@@ -110,7 +110,7 @@
    */
   async function loadTradesByWeek() {
     try {
-      const response = await fetch('trades-index.json');
+      const response = await fetch('./trades-index.json');
       const data = await response.json();
       const trades = data.trades || [];
       
