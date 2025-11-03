@@ -1,0 +1,48 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+README.md,CSS Directory Documentation,documentation,Comprehensive documentation for all stylesheets including color schemes responsive design and component styles,1-357
+glass-effects.css,Glass Effects Stylesheet,stylesheet,iOS-inspired glassmorphism design system with enhanced transparency blur effects and depth perception,1-455
+glass-effects.css,Core Glass Variables,css-variables,Enhanced glass properties including blur levels, opacity, borders, shadows, and accent colors,8-45
+glass-effects.css,Base Glass Card,class,Primary glass card component with backdrop-filter border radius and shadow effects,48-60
+glass-effects.css,Glass Card Highlight,pseudo-element,Top highlight overlay for glass reflection effect,63-75
+glass-effects.css,Glass Card Gradient,pseudo-element,Subtle gradient overlay for depth perception,78-90
+glowing-bubbles.css,Glowing Bubbles Stylesheet,stylesheet,Animated background with glowing bubbles effect for trading journal interface,1-627
+glowing-bubbles.css,Bubble Animation Variables,css-variables,Configuration for bubble sizes, colors, speeds, and positioning,1-50
+glowing-bubbles.css,Bubble Container,class,Full-screen container for animated bubble background,60-80
+glowing-bubbles.css,Bubble Elements,class,Individual bubble styling with glow effects and animations,85-120
+glowing-bubbles.css,Keyframe Animations,animation,Float and glow animations for bubbles with various speeds and directions,125-627
+import.css,Import Page Stylesheet,stylesheet,Styles for CSV import page including file upload dropzone and preview table,1-142
+import.css,Dropzone Styling,class,File upload dropzone with drag-and-drop feedback and hover effects,15-45
+import.css,Preview Table,class,Trade preview table styling with alternating rows and responsive design,50-80
+import.css,Import Button Group,class,Action button container with proper spacing and alignment,85-100
+import.css,Error Messages,class,Validation error display with red accent and clear typography,105-120
+main.css,Main Stylesheet,stylesheet,Primary stylesheet for trading journal with dark terminal theme responsive layout and component styles,1-1160
+main.css,CSS Variables Root,css-variables,Color scheme spacing typography transitions and design tokens for entire application,7-37
+main.css,Reset and Base Styles,css-reset,Global reset styles and base HTML element styling for consistent cross-browser rendering,40-65
+main.css,Layout System,layout,Container grid flexbox and responsive layout utilities,70-150
+main.css,Typography Styles,typography,Heading, paragraph, link, and text styling with font families and weights,155-220
+main.css,Navigation Components,component,"Navbar, hamburger menu, dropdowns, and navigation styling",225-350
+main.css,Card Components,component,Trade cards stat cards and content card styling with hover effects,355-480
+main.css,Form Components,component,Input, textarea, select, button, and form control styling,485-620
+main.css,Chart Containers,component,Responsive chart wrappers with proper aspect ratios and dark theme,625-700
+main.css,Modal Components,component,Modal overlay backdrop container and dialog styling,705-800
+main.css,Utility Classes,utility,Spacing, display, color, typography, and helper classes,805-950
+main.css,Responsive Breakpoints,media-query,Mobile-first responsive styles for tablet and desktop viewports,955-1100
+main.css,Animations and Keyframes,animation,Fade-in, slide-up, pulse, and other transition animations,1105-1160
+modals.css,Modals Stylesheet,stylesheet,Specialized modal styles for Portfolio Value and Total Return modals with glassmorphism,1-272
+modals.css,Modal Overlay,class,Fixed full-screen overlay with blur backdrop and fade-in animation,7-21
+modals.css,Fade In Animation,animation,Smooth opacity transition for modal overlay entrance,23-30
+modals.css,Modal Container,class,Glassmorphic modal box with gradient background border and shadow,33-42
+modals.css,Slide Up Animation,animation,Vertical slide and fade entrance animation for modal container,44-53
+modals.css,Modal Header,class,Header section with title and close button styling,56-63
+modals.css,Modal Close Button,class,Close button with hover effects and transition animations,65-85
+modals.css,Timeframe Selector,class,Chart timeframe button group with active state styling,90-150
+modals.css,Chart Container,class,Responsive container for Chart.js canvas elements,155-180
+modals.css,Account Management Section,class,Account controls for deposits, withdrawals, and balance tracking,185-220
+modals.css,Action Button Group,class,Button container for account management actions,225-245
+modals.css,Responsive Modal Styles,media-query,Mobile-optimized modal sizing and spacing,250-272
+review-trades.css,Review Trades Stylesheet,stylesheet,Styles for trade review page with trade listing filtering and detail views,1-110
+review-trades.css,Review Container,class,Main container for trade review interface with proper spacing,10-25
+review-trades.css,Filter Controls,class,Trade filtering interface with date range, and status selectors,30-50
+review-trades.css,Trade List Table,class,Responsive table displaying trade entries with alternating row colors,55-80
+review-trades.css,Trade Status Badge,class,Color-coded badges for trade status (win/loss/breakeven),85-100
+review-trades.css,Responsive Table,media-query,Mobile-friendly table layout with horizontal scrolling,105-110

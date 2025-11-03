@@ -1,0 +1,19 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+README.md,Charts Directory Documentation,documentation,Comprehensive documentation for all chart data files and visualization guidelines,1-250
+analytics-data.json,Analytics Data Store,data,Stores trading analytics metrics including expectancy, profit_factor, win/loss streaks, drawdown, and account summary,1-22
+equity-curve-data.json,Equity Curve Chart Data,data,Chart.js dataset for cumulative P&L equity curve visualization with terminal green styling,1-11
+performance-by-day-data.json,Performance by Day Chart Data,data,Chart.js dataset for average P&L by day of week bar chart visualization,1-8
+portfolio-value-5year.json,Portfolio Value 5-Year Chart Data,data,Chart.js dataset for portfolio value over 5-year timeframe with quarterly labels,1-22
+portfolio-value-day.json,Portfolio Value Daily Chart Data,data,Chart.js dataset for portfolio value over single day with hourly labels,1-22
+portfolio-value-month.json,Portfolio Value Monthly Chart Data,data,Chart.js dataset for portfolio value over month with daily labels,1-22
+portfolio-value-quarter.json,Portfolio Value Quarterly Chart Data,data,Chart.js dataset for portfolio value over quarter with daily labels,1-22
+portfolio-value-week.json,Portfolio Value Weekly Chart Data,data,Chart.js dataset for portfolio value over week with daily labels,1-22
+portfolio-value-year.json,Portfolio Value Yearly Chart Data,data,Chart.js dataset for portfolio value over year with monthly labels,1-22
+ticker-performance-data.json,Ticker Performance Chart Data,data,Chart.js dataset for total P&L by stock ticker horizontal bar chart (top 20 tickers),1-8
+total-return-5year.json,Total Return 5-Year Chart Data,data,Chart.js dataset for percentage returns over 5-year timeframe with cyan styling,1-22
+total-return-day.json,Total Return Daily Chart Data,data,Chart.js dataset for percentage returns over single day with hourly labels,1-22
+total-return-month.json,Total Return Monthly Chart Data,data,Chart.js dataset for percentage returns over month with daily labels,1-22
+total-return-quarter.json,Total Return Quarterly Chart Data,data,Chart.js dataset for percentage returns over quarter with daily labels,1-22
+total-return-week.json,Total Return Weekly Chart Data,data,Chart.js dataset for percentage returns over week with daily labels,1-22
+total-return-year.json,Total Return Yearly Chart Data,data,Chart.js dataset for percentage returns over year with monthly labels,1-22
+trade-distribution-data.json,Trade Distribution Chart Data,data,Chart.js dataset for individual trade P&L bar chart with color-coded wins and losses,1-8
