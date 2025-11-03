@@ -95,7 +95,7 @@ def create_trade_list_html(trades):
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Complete list of all recorded trades">
     <meta name="theme-color" content="#00ff88">
     
