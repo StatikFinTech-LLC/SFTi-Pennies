@@ -123,21 +123,13 @@
     <section class="trades-section">
       <div class="section-header">
         <h2>Performance</h2>
-        <!-- Chart Type Selector - Custom Glassmorphic Dropdown -->
-        <div class="chart-selector-container">
-          <button id="chart-selector-button" class="chart-selector-btn btn-secondary" aria-haspopup="true" aria-expanded="false">
-            <span id="chart-selector-text">Equity Curve</span>
-            <svg class="chart-selector-arrow" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-            </svg>
-          </button>
-          <ul id="chart-selector-menu" class="chart-selector-menu nav-submenu" role="menu">
-            <li role="none"><a href="#" role="menuitem" class="nav-link chart-option" data-value="equity-curve">Equity Curve</a></li>
-            <li role="none"><a href="#" role="menuitem" class="nav-link chart-option" data-value="trade-distribution">Trade Distribution</a></li>
-            <li role="none"><a href="#" role="menuitem" class="nav-link chart-option" data-value="performance-by-day">Performance By Day</a></li>
-            <li role="none"><a href="#" role="menuitem" class="nav-link chart-option" data-value="ticker-performance">Ticker Performance</a></li>
-          </ul>
-        </div>
+        <!-- Chart Type Selector -->
+        <select id="chart-selector" class="btn btn-secondary" style="min-width: 200px; padding: 0.5rem 1rem;">
+          <option value="equity-curve">Equity Curve</option>
+          <option value="trade-distribution">Trade Distribution</option>
+          <option value="performance-by-day">Performance By Day</option>
+          <option value="ticker-performance">Ticker Performance</option>
+        </select>
       </div>
       
       <div class="glass-chart">

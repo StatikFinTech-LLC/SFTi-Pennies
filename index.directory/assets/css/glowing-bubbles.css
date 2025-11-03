@@ -367,6 +367,42 @@ body {
   transform: translateX(4px);
 }
 
+/* Desktop: Keep glassmorphic dropdowns */
+@media (min-width: 769px) {
+  .bubble-dropdown {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+  }
+}
+
+/* Mobile: Use native system-style dropdown appearance */
+@media (max-width: 768px) {
+  .bubble-dropdown {
+    /* Make it look more like a native system menu on mobile */
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    padding: 0.25rem;
+  }
+  
+  .bubble-dropdown a {
+    color: #000;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 400;
+  }
+  
+  .bubble-dropdown a:hover,
+  .bubble-dropdown a:active {
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
+    transform: none;
+  }
+}
+
 /* Mentors, Books, Notes, and Trades dropdowns - uniform styling with no wrapping */
 .glowing-bubble-wrapper:has(.bubble-mentors) .bubble-dropdown,
 .glowing-bubble-wrapper:has(.bubble-books) .bubble-dropdown,
