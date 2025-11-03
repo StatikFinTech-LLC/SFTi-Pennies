@@ -78,7 +78,15 @@ canvas.chartjs-render-monitor {
   pointer-events: none;
   position: relative;
   z-index: 0;
-  min-height: 150px; /* Prevent layout shift */
+  min-height: 0 !important; /* Remove min-height that creates grey box */
+  height: 0 !important; /* Set height to 0 when empty */
+  overflow: hidden !important; /* Hide any overflow */
+}
+
+/* Show chart container only when canvas has been rendered */
+.modal-chart-container:has(canvas[width]) {
+  min-height: 150px !important;
+  height: auto !important;
 }
 
 /* Hide scrollbar completely on WebKit browsers */
