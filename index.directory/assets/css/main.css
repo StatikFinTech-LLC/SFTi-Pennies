@@ -445,6 +445,7 @@ code {
     font-family: var(--font-mono) !important;
     font-weight: 600 !important;
     padding: 0.5rem 2.5rem 0.5rem 1rem !important;
+    min-width: 200px !important;
     cursor: pointer !important;
     position: relative !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -470,13 +471,15 @@ code {
   }
 }
 
-/* Mobile: keep native system style */
+/* Mobile: keep native system style with proper sizing */
 @media (max-width: 768px) {
   #chart-selector {
     /* Let browser use native select styling */
     appearance: auto !important;
     -webkit-appearance: menulist !important;
     -moz-appearance: menulist !important;
+    min-width: 200px !important;
+    padding: 0.5rem 1rem !important;
   }
 }
 
