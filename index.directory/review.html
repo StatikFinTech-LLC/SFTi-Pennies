@@ -1151,7 +1151,7 @@
     // Load existing summary if available
     async function loadExistingSummary(weekKey) {
       try {
-        const response = await fetch(`./summaries/weekly-${weekKey}.md`);
+        const response = await fetch(`summaries/weekly-${weekKey}.md`);
         if (response.ok) {
           const content = await response.text();
           
