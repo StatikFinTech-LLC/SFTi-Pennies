@@ -12,8 +12,10 @@ let tradeDistributionChart = null;
 let performanceByDayChart = null;
 let tickerPerformanceChart = null;
 
-// Chart selector
-const chartSelector = document.getElementById('chart-selector');
+// Chart selector elements
+const chartSelectorButton = document.getElementById('chart-selector-button');
+const chartSelectorMenu = document.getElementById('chart-selector-menu');
+const chartSelectorText = document.getElementById('chart-selector-text');
 
 // Chart options are now imported from chartConfig.js
 
@@ -165,11 +167,56 @@ function initCharts() {
   // Load equity curve by default
   loadEquityCurveChart();
 
-  // Set up chart selector event listener
-  if (chartSelector) {
-    chartSelector.addEventListener('change', (e) => {
-      switchChart(e.target.value);
+  // Set up custom chart selector dropdown
+  if (chartSelectorButton && chartSelectorMenu) {
+    // Toggle dropdown on button click
+    chartSelectorButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isExpanded = chartSelectorButton.getAttribute('aria-expanded') === 'true';
+      chartSelectorButton.setAttribute('aria-expanded', !isExpanded);
+      chartSelectorMenu.style.display = isExpanded ? 'none' : 'block';
     });
+
+    // Handle option selection
+    const chartOptions = chartSelectorMenu.querySelectorAll('.chart-option');
+    chartOptions.forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const value = option.getAttribute('data-value');
+        const text = option.textContent;
+        
+        // Update button text
+        chartSelectorText.textContent = text;
+        
+        // Update active state
+        chartOptions.forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+        
+        // Close dropdown
+        chartSelectorButton.setAttribute('aria-expanded', 'false');
+        chartSelectorMenu.style.display = 'none';
+        
+        // Switch chart
+        switchChart(value);
+      });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.chart-selector-container')) {
+        chartSelectorButton.setAttribute('aria-expanded', 'false');
+        chartSelectorMenu.style.display = 'none';
+      }
+    });
+
+    // Set initial active state
+    const firstOption = chartOptions[0];
+    if (firstOption) {
+      firstOption.classList.add('active');
+    }
   }
 }
 

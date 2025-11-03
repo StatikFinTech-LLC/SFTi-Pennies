@@ -422,6 +422,50 @@ code {
   margin-bottom: var(--spacing-lg);
 }
 
+/* Custom Chart Selector Dropdown - Matches navbar glassmorphic style */
+.chart-selector-container {
+  position: relative;
+}
+
+.chart-selector-btn {
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.chart-selector-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.chart-selector-btn[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.chart-selector-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 200px;
+  z-index: 1000;
+}
+
+.chart-selector-menu .chart-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.chart-selector-menu .chart-option.active {
+  background: linear-gradient(135deg,
+    rgba(0, 255, 136, 0.12) 0%,
+    rgba(0, 255, 136, 0.08) 100%);
+  border-left: 2px solid rgba(0, 255, 136, 0.85);
+  padding-left: calc(var(--spacing-md) - 2px);
+}
+
 .trades-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
