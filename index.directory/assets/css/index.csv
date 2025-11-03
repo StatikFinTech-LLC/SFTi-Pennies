@@ -1,6 +1,6 @@
 Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
 README.md,CSS Directory Documentation,documentation,Comprehensive documentation for all stylesheets including color schemes responsive design and component styles,1-357
-glass-effects.css,Glass Effects Stylesheet,stylesheet,iOS 26-inspired glassmorphism design system with enhanced transparency blur effects and depth perception,1-455
+glass-effects.css,Glass Effects Stylesheet,stylesheet,iOS-inspired glassmorphism design system with enhanced transparency blur effects and depth perception,1-455
 glass-effects.css,Core Glass Variables,css-variables,Enhanced glass properties including blur levels opacity borders shadows and accent colors,8-45
 glass-effects.css,Base Glass Card,class,Primary glass card component with backdrop-filter border radius and shadow effects,48-60
 glass-effects.css,Glass Card Highlight,pseudo-element,Top highlight overlay for glass reflection effect,63-75

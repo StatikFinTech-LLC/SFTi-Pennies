@@ -65,7 +65,7 @@ background.js,Canvas Variables,variable,Canvas context and dimensions,20-25
 background.js,initBackground,function,Initializes canvas and starts animation loop,30-50
 background.js,drawMatrix,function,Draws matrix-style falling characters effect,55-75
 background.js,animate,function,Animation loop using requestAnimationFrame,80-90
-bundle.min.js,Bundled Dependencies,bundle,Minified bundle of PDF.js Marked.js and Highlight.js libraries for PDF and markdown rendering,N/A
+bundle.min.js,Bundled Dependencies,bundle,Minified bundle (~1.5MB) of PDF.js Marked.js and Highlight.js libraries for PDF and markdown rendering,N/A
 chartConfig.js,Chart Configuration Module,module,Common Chart.js configuration options for consistent styling across all charts,1-150
 chartConfig.js,getCommonChartOptions,function,Returns shared Chart.js options object with theme colors and typography,14-33
 chartConfig.js,getCommonTooltipConfig,function,Returns tooltip configuration with dark theme styling,39-59
@@ -141,7 +141,7 @@ navbar.js,updateActiveLink,function,Updates active link highlighting based on cu
 navbar.js,setupScrollBehavior,function,Adds navbar shadow on scroll,145-170
 navbar.js,setupDropdowns,function,Sets up dropdown menus for desktop navigation,175-210
 navbar.js,handleResize,function,Handles window resize and closes mobile menu if needed,215-235
-pdf.worker.min.mjs,PDF.js Web Worker,worker,PDF.js web worker for background PDF parsing and rendering without blocking UI,N/A
+pdf.worker.min.mjs,PDF.js Web Worker,worker,PDF.js web worker (~1MB) for background PDF parsing and rendering without blocking UI,N/A
 utils.js,Utilities Module,module,Shared utility functions used across multiple files exposed globally via window.SFTiUtils,1-193
 utils.js,getBasePath,function,Gets base path for application works with GitHub Pages and custom domains,15-23
 utils.js,formatFileSize,function,Formats file size in human-readable format (bytes KB MB),30-34
