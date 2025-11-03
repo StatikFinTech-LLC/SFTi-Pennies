@@ -18,8 +18,8 @@ class Navbar {
    * @returns {string} HTML string for navbar
    */
   getNavbarHTML() {
-    const { logoPath, homePath, booksPath, notesPath, allTradesPath, 
-            allWeeksPath, analyticsPath, importPath, reviewPath, 
+    const { logoPath, homePath, booksPath, notesPath, addPdfPath, addNotePath,
+            allTradesPath, allWeeksPath, analyticsPath, importPath, reviewPath, 
             addTradePath, homeIconPath } = this.getPaths();
 
     return `
@@ -35,12 +35,20 @@ class Navbar {
     </a>
     
     <ul class="nav-menu">
-      <li class="nav-item">
-        <a href="${booksPath}" class="nav-link">Books</a>
+      <li class="nav-item has-submenu">
+        <a href="#" class="nav-link">Books</a>
+        <ul class="nav-submenu">
+          <li><a href="${booksPath}" class="nav-link">Study</a></li>
+          <li><a href="${addPdfPath}" class="nav-link">Write</a></li>
+        </ul>
       </li>
       
-      <li class="nav-item">
-        <a href="${notesPath}" class="nav-link">Notes</a>
+      <li class="nav-item has-submenu">
+        <a href="#" class="nav-link">Notes</a>
+        <ul class="nav-submenu">
+          <li><a href="${notesPath}" class="nav-link">Study</a></li>
+          <li><a href="${addNotePath}" class="nav-link">Write</a></li>
+        </ul>
       </li>
       
       <li class="nav-item has-submenu">
@@ -89,6 +97,8 @@ class Navbar {
         homePath: '../../index.html',
         booksPath: `${prefix}books.html`,
         notesPath: `${prefix}notes.html`,
+        addPdfPath: `${prefix}add-pdf.html`,
+        addNotePath: `${prefix}add-note.html`,
         allTradesPath: `${prefix}all-trades.html`,
         allWeeksPath: `${prefix}all-weeks.html`,
         analyticsPath: `${prefix}analytics.html`,
@@ -105,6 +115,8 @@ class Navbar {
         homePath: '../index.html',
         booksPath: 'books.html',
         notesPath: 'notes.html',
+        addPdfPath: 'add-pdf.html',
+        addNotePath: 'add-note.html',
         allTradesPath: 'all-trades.html',
         allWeeksPath: 'all-weeks.html',
         analyticsPath: 'analytics.html',
@@ -120,6 +132,8 @@ class Navbar {
         homePath: 'index.html',
         booksPath: 'index.directory/books.html',
         notesPath: 'index.directory/notes.html',
+        addPdfPath: 'index.directory/add-pdf.html',
+        addNotePath: 'index.directory/add-note.html',
         allTradesPath: 'index.directory/all-trades.html',
         allWeeksPath: 'index.directory/all-weeks.html',
         analyticsPath: 'index.directory/analytics.html',
