@@ -939,7 +939,7 @@
               <strong>${strategy}</strong> (${data.count} ${data.count === 1 ? 'trade' : 'trades'})
             </span>
             <span class="trade-pnl ${pnlClass}">
-              ${window.SFTiUtils.formatCurrency(data.pnl)}
+              ${formatCurrency(data.pnl)}
             </span>
           </div>
         `;
@@ -1028,8 +1028,7 @@
       carouselTrack.innerHTML = allDaysData.map((dayData, index) => {
         // Get first screenshot as preview
         const previewImg = dayData.screenshots[0];
-        // Remove path prefixes to create proper relative path from review.html
-        const imgPath = previewImg.path.replace(/^\.\.\/\.\.\//, '');
+        const imgPath = previewImg.path.replace('../../', '');
         
         return `
           <div class="day-card" onclick="openDayModal(${index})">
@@ -1071,8 +1070,7 @@
       
       // Populate images
       modalImages.innerHTML = dayData.screenshots.map((screenshot, idx) => {
-        // Remove path prefixes to create proper relative path from review.html
-        const imgPath = screenshot.path.replace(/^\.\.\/\.\.\//, '');
+        const imgPath = screenshot.path.replace('../../', '');
         
         return `
           <div class="modal-image-wrapper">
@@ -1153,8 +1151,7 @@
     // Load existing summary if available
     async function loadExistingSummary(weekKey) {
       try {
-        const basePath = window.SFTiUtils.getBasePath();
-        const response = await fetch(`${basePath}/index.directory/summaries/weekly-${weekKey}.md`);
+        const response = await fetch(`./summaries/weekly-${weekKey}.md`);
         if (response.ok) {
           const content = await response.text();
           
