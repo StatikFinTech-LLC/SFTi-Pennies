@@ -20,7 +20,7 @@ package.json,NPM Package Configuration,configuration,Node.js project dependencie
 package.json,Dependencies Object,config,Frontend libraries (esbuild, marked.js, pdfjs-dist, and highlight.js),13-21
 package.json,Scripts Object,config,Build command pointing to .github/scripts/build.mjs,6-8
 _config.yml,Jekyll Site Configuration,configuration,GitHub Pages build settings and content processing rules,1-96
-_config.yml,Site Metadata,config,Title and description and URL for SEO and site identification,8-11
+_config.yml,Site Metadata,config,Title, description, and URL for SEO and site identification,8-11
 _config.yml,Build Settings,config,Markdown processor (kramdown) and syntax highlighter (rouge),17-18
 _config.yml,File Exclusions,config,Directories and files to exclude from Jekyll processing,24-47
 _config.yml,Plugins Array,config,Jekyll plugins for relative links and SEO tags,55-57
