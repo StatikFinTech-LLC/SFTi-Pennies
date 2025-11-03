@@ -23,7 +23,7 @@ _config.yml,Jekyll Site Configuration,configuration,GitHub Pages build settings 
 _config.yml,Site Metadata,config,Title, description, and URL for SEO and site identification,8-11
 _config.yml,Build Settings,config,Markdown processor (kramdown) and syntax highlighter (rouge),17-18
 _config.yml,File Exclusions,config,Directories and files to exclude from Jekyll processing,24-47
-_config.yml,Plugins Array,config,Jekyll plugins for relative links and SEO tags,55-57
+_config.yml,Plugins Array,config,Jekyll plugins for relative links, and SEO tags,55-57
 _config.yml,Content Defaults,config,Default frontmatter values for trade journal content,63-67
 README.md,Repository Documentation,documentation,Comprehensive overview of the SFTi-Pennies trading journal system,1-375
 README.md,Overview Section,documentation,Project description and key features,15-30
