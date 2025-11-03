@@ -200,7 +200,7 @@ def main():
     print("\n" + "=" * 70)
     print("TEST RESULTS")
     print("=" * 70)
-    successful_imports = len(python_files) - len(failed_imports)
+    successful_imports = sum(1 for f in python_files if test_file_import(f, base_dir)[0])
     print(f"Total files tested: {len(python_files)}")
     print(f"Successful imports: {successful_imports}")
     print(f"Failed tests: {len(failed_imports)}")
