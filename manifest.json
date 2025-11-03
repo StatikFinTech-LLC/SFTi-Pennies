@@ -8,6 +8,7 @@
   "background_color": "#0a0e27",
   "theme_color": "#00ff88",
   "orientation": "portrait-primary",
+  
   "icons": [
     {
       "src": "/Personal-Pennies/index.directory/assets/icons/icon-192.png",
@@ -22,9 +23,16 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["finance", "productivity", "business"],
+  
+  "categories": [
+    "finance",
+    "productivity",
+    "business"
+  ],
+  
   "screenshots": [],
   "prefer_related_applications": false,
+  
   "features": [
     "Account balance tracking with deposits",
     "Real-time analytics updates",
@@ -35,6 +43,7 @@
     "Offline data persistence via localStorage",
     "Reactive event-driven UI updates"
   ],
+  
   "shortcuts": [
     {
       "name": "Add Trade",
@@ -85,6 +94,7 @@
       ]
     }
   ],
+  
   "related_applications": [],
   "iarc_rating_id": "",
   "lang": "en-US",

@@ -1,50 +1,82 @@
+# ============================================================================
 # GitHub Pages Configuration for SFTi-Pennies Trading Journal
-# Root configuration to ensure proper site building
+# ============================================================================
+# This configuration file controls how Jekyll builds and deploys the static
+# site on GitHub Pages. It defines site metadata, build settings, and
+# exclusions to prevent processing errors.
 
-# Site settings
-title: "SFTi-Pennies Trading Journal"
-description: "Professional penny stock trading journal with automated tracking and analysis"
-baseurl: ""
-url: "https://statikfintechllc.github.io/SFTi-Pennies"
+# ----------------------------------------------------------------------------
+# Site Metadata
+# ----------------------------------------------------------------------------
+# These values are used for SEO, RSS feeds, and site identification
+title: "SFTi-Pennies Trading Journal"                          # Site title
+description: "Professional penny stock trading journal with automated tracking and analysis"  # Site description
+baseurl: ""  # No subdirectory path needed for root deployment
+url: "https://statikfintechllc.github.io/SFTi-Pennies"         # Full site URL
 
-# Build settings
-markdown: kramdown
-highlighter: rouge
+# ----------------------------------------------------------------------------
+# Build Settings
+# ----------------------------------------------------------------------------
+# Configure the static site generator's processing behavior
+markdown: kramdown    # Markdown processor with GitHub Pages compatibility
+highlighter: rouge    # Syntax highlighting engine
 
-# Exclude from processing - files with colons cause Jekyll build errors
+# ----------------------------------------------------------------------------
+# File Exclusions
+# ----------------------------------------------------------------------------
+# Prevent Jekyll from processing these files/directories to avoid build errors
+# Note: Files with colons in frontmatter can cause Jekyll build failures
 exclude:
+  # Documentation files
   - README.md
   - TODO.Feat.md
   - DIRECTORY_STRUCTURE.md
   - FIXES_SUMMARY.md
-  - .github/
+  - LICENSE.md
+  
+  # Build and dependency files
+  - .github/          # CI/CD workflows and scripts
   - .gitignore
   - Gemfile
   - Gemfile.lock
-  - node_modules/
+  - node_modules/     # npm dependencies
   - vendor/
   - package.json
   - package-lock.json
-  - LICENSE.md
-  - index.directory/src/
-  - index.directory/SFTi.Tradez/
+  
+  # Source and data directories
+  - index.directory/src/           # Source code before build
+  - index.directory/SFTi.Tradez/   # Trade data with YAML frontmatter
 
-# Include necessary files
+# ----------------------------------------------------------------------------
+# File Inclusions
+# ----------------------------------------------------------------------------
+# Force Jekyll to include these files in the build output
 include:
   - index.directory/_config.yml
 
+# ----------------------------------------------------------------------------
 # Plugins
+# ----------------------------------------------------------------------------
+# Jekyll extensions for enhanced functionality
 plugins:
-  - jekyll-relative-links
-  - jekyll-seo-tag
+  - jekyll-relative-links  # Convert relative links to work with GitHub Pages
+  - jekyll-seo-tag        # Automatic SEO meta tags
 
-# Don't process markdown files in SFTi.Tradez
+# ----------------------------------------------------------------------------
+# Content Defaults
+# ----------------------------------------------------------------------------
+# Apply default front matter values to specific content paths
 defaults:
   - scope:
       path: "index.directory/SFTi.Tradez"
     values:
-      sitemap: false
+      sitemap: false  # Exclude trade journals from sitemap
 
+# ----------------------------------------------------------------------------
+# Plugin Configuration
+# ----------------------------------------------------------------------------
+# Settings for relative links plugin
 relative_links:
-  enabled: true
-  collections: false
+  enabled: true       # Enable relative link conversion
+  collections: false  # Don't process Jekyll collections

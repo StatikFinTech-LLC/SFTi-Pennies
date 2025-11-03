@@ -1,0 +1,39 @@
+Filename,Class/Function/Task Name,Type,Brief Description,Line Number Range
+index.html,SFTi-Pennies Trading Journal Homepage,page,Main landing page with trading statistics and performance charts,1-484
+index.html,Hero Section,section,Welcome banner displaying key performance metrics (portfolio value and returns),59-105
+index.html,Statistics Cards Grid,component,Six stat cards showing Portfolio Value Total Return Total Trades Win Rate Trade P&L and Average P&L,68-104
+index.html,Recent Trades Section,section,Grid displaying latest trading activity (dynamically populated),110-118
+index.html,Performance Charts Section,section,Interactive charts showing equity curve and trade distribution,123-176
+index.html,Mentors Section,section,Resource cards linking to trading mentors (Timothy Sykes and Tim Bohen),181-211
+index.html,Portfolio Value Modal,modal,Detailed portfolio tracking with timeframe charts and account management,217-282
+index.html,Total Return Modal,modal,Percentage-based return tracking with deposit management controls,287-343
+index.html,Withdrawal Modal,modal,Form for recording capital withdrawn from trading account,348-392
+index.html,Deposit Modal,modal,Form for recording capital added to trading account,397-441
+index.html,JavaScript Dependencies,section,Loading and initialization of Chart.js and application scripts,451-482
+manifest.json,PWA Manifest Configuration,configuration,Progressive Web App configuration for installable mobile experience,1-102
+manifest.json,App Metadata,config,Name, description, and display settings for the PWA,2-10
+manifest.json,Icons Array,config,App icons for different sizes (192x192 and 512x512),12-23
+manifest.json,Categories Array,config,App store categorization (finance, productivity, and business),25-29
+manifest.json,Features Array,config,List of key app features like account tracking and analytics,33-41
+manifest.json,Shortcuts Array,config,Quick actions for add trade, analytics, and import CSV,43-84
+package.json,NPM Package Configuration,configuration,Node.js project dependencies and build scripts,1-22
+package.json,Dependencies Object,config,Frontend libraries (esbuild, marked.js, pdfjs-dist, and highlight.js),13-21
+package.json,Scripts Object,config,Build command pointing to .github/scripts/build.mjs,6-8
+_config.yml,Jekyll Site Configuration,configuration,GitHub Pages build settings and content processing rules,1-96
+_config.yml,Site Metadata,config,Title, description, and URL for SEO and site identification,8-11
+_config.yml,Build Settings,config,Markdown processor (kramdown) and syntax highlighter (rouge),17-18
+_config.yml,File Exclusions,config,Directories and files to exclude from Jekyll processing,24-47
+_config.yml,Plugins Array,config,Jekyll plugins for relative links, and SEO tags,55-57
+_config.yml,Content Defaults,config,Default frontmatter values for trade journal content,63-67
+README.md,Repository Documentation,documentation,Comprehensive overview of the SFTi-Pennies trading journal system,1-375
+README.md,Overview Section,documentation,Project description and key features,15-30
+README.md,Repository Architecture Section,documentation,Detailed breakdown of all directories and their purposes,62-200
+README.md,Quick Start Guide Section,documentation,Step-by-step instructions for different user types,152-188
+README.md,Technology Stack Section,documentation,Frontend and automation technologies used,222-242
+LICENSE.md,MIT License,legal,Software license terms and conditions,1-83
+.gitignore,Git Ignore Rules,configuration,Files and directories to exclude from version control,1-22
+fix-verification.png,Verification Screenshot,image,PNG image documenting fix verification,N/A
+docs/DATE_MANAGEMENT.md,Date Management Guide,documentation,Technical documentation for date handling in the application,N/A
+docs/EVENT_BUS_GUIDE.md,Event Bus Architecture,documentation,Guide to the reactive event system for UI updates,N/A
+docs/IMPLEMENTATION_DATE_MANAGEMENT.md,Date Implementation Details,documentation,Detailed implementation notes for date management features,N/A
+docs/IMPLEMENTATION_SUMMARY.md,Implementation Summary,documentation,Overview of key implementation decisions and architecture,N/A
