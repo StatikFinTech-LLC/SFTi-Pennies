@@ -1,7 +1,7 @@
 blank_issues_enabled: false
 contact_links:
   - name: 📚 Documentation
-    url: https://github.com/statikfintechllc/SFTi-Pennies/tree/main/.github/docs
+    url: https://github.com/statikfintechllc/SFTi-Pennies/tree/master/.github/docs
     about: Check comprehensive documentation including README-DEV.md, QUICKSTART.md, and more
   - name: 💬 Discussions
     url: https://github.com/statikfintechllc/SFTi-Pennies/discussions
