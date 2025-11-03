@@ -1,5 +1,5 @@
 {
-  "starting_balance": 170,
+  "starting_balance": 0,
   "deposits": [],
   "account_opening_date": null,
   "notes": "Starting balance is your initial capital. Add deposits separately to track additional investments. Account opening date is automatically set to your first trade date if not specified.",
