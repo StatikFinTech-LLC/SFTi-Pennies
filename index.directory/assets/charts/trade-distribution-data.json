@@ -1,10 +1,20 @@
 {
-  "labels": [],
+  "labels": [
+    "Trade #1"
+  ],
   "datasets": [
     {
-      "label": "P&L",
-      "data": [],
-      "backgroundColor": []
+      "label": "P&L ($)",
+      "data": [
+        6.19
+      ],
+      "backgroundColor": [
+        "#00ff88"
+      ],
+      "borderColor": [
+        "#00ff88"
+      ],
+      "borderWidth": 2
     }
   ]
 }
