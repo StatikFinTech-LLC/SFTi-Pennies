@@ -15,7 +15,7 @@ manifest.json,App Metadata,config,Name, description, and display settings for th
 manifest.json,Icons Array,config,App icons for different sizes (192x192 and 512x512),12-23
 manifest.json,Categories Array,config,App store categorization (finance, productivity, and business),25-29
 manifest.json,Features Array,config,List of key app features like account tracking and analytics,33-41
-manifest.json,Shortcuts Array,config,Quick actions for add trade and analytics and import CSV,43-84
+manifest.json,Shortcuts Array,config,Quick actions for add trade, analytics, and import CSV,43-84
 package.json,NPM Package Configuration,configuration,Node.js project dependencies and build scripts,1-22
 package.json,Dependencies Object,config,Frontend libraries (esbuild and marked.js and pdfjs-dist and highlight.js),13-21
 package.json,Scripts Object,config,Build command pointing to .github/scripts/build.mjs,6-8
