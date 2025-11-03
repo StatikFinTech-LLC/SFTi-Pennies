@@ -5,8 +5,13 @@ Updates the index.html with the 3 most recent trades
 Injects trade data into the homepage HTML
 """
 
+import sys
+import os
 from datetime import datetime
-from .github.scripts.utils import load_trades_index
+
+# Add the scripts directory to the path for imports
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from utils import load_trades_index
 
 
 def main():
