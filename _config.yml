@@ -9,16 +9,16 @@
 # Site Metadata
 # ----------------------------------------------------------------------------
 # These values are used for SEO, RSS feeds, and site identification
-title: "SFTi-Pennies Trading Journal"
-description: "Professional penny stock trading journal with automated tracking and analysis"
+title: "SFTi-Pennies Trading Journal"                          # Site title
+description: "Professional penny stock trading journal with automated tracking and analysis"  # Site description
 baseurl: ""  # No subdirectory path needed for root deployment
-url: "https://statikfintechllc.github.io/SFTi-Pennies"
+url: "https://statikfintechllc.github.io/SFTi-Pennies"         # Full site URL
 
 # ----------------------------------------------------------------------------
 # Build Settings
 # ----------------------------------------------------------------------------
 # Configure the static site generator's processing behavior
-markdown: kramdown    # GitHub-flavored markdown processor
+markdown: kramdown    # Markdown processor with GitHub Pages compatibility
 highlighter: rouge    # Syntax highlighting engine
 
 # ----------------------------------------------------------------------------
