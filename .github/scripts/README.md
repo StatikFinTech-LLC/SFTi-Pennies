@@ -214,6 +214,52 @@ npm run build
 node .github/scripts/test_path_resolution.js
 ```
 
+#### 18. `test_imports.py`
+**Purpose:** Validate that all Python files are properly wired with global awareness and accessibility
+
+**What it does:**
+- Tests import accessibility for all Python modules
+- Verifies that functions are callable and classes are instantiable
+- Checks for silent failures in imports
+- Validates cross-module imports
+- Tests utils.py functions (load_trades_index, load_account_config)
+- Tests importers package (registry, get_importer, list_brokers)
+- Tests BaseImporter class and all broker importers
+- Provides comprehensive test report
+
+**Input:** All Python files in .github/scripts directory  
+**Output:** Test report with pass/fail status for each module  
+**Dependencies:** Standard library only (importlib, sys, os, pathlib)
+
+**Example usage:**
+```bash
+# Run comprehensive import tests
+python .github/scripts/test_imports.py
+
+# Run from any directory
+cd /path/to/repo
+python .github/scripts/test_imports.py
+```
+
+**Test Coverage:**
+- 22 Python files tested
+- Import validation
+- Function accessibility
+- Class instantiation
+- Cross-module imports
+- Broker registry validation
+
+**Exit Codes:**
+- 0: All tests passed
+- 1: One or more tests failed
+
+**When to run:**
+- After making changes to Python files
+- Before committing import-related changes
+- When adding new Python modules
+- As part of CI/CD pipeline
+- When troubleshooting import issues
+
 ## Dependencies
 
 ### Python Dependencies
@@ -373,8 +419,8 @@ cat output.log
 
 ---
 
-**Last Updated:** October 2025  
-**Script Count:** 17 (10 core + 7 new)  
+**Last Updated:** November 2025  
+**Script Count:** 18 (10 core + 8 new)  
 **Purpose:** Automated data processing and content generation
 
 ## New Scripts (Phase 2)
@@ -638,5 +684,6 @@ All are part of Python standard library - no additional pip installs required be
 **Phase 1:** October 13, 2025 (10 scripts)  
 **Phase 2:** October 18, 2025 (+7 scripts)  
 **Phase 3:** October 19, 2025 (+1 script - week summaries, all-weeks.html page)  
-**Total Scripts:** 18  
-**Status:** ✅ Core functional, ✅ Week summaries added
+**Phase 4:** November 3, 2025 (+1 script - test_imports.py for validation)  
+**Total Scripts:** 19  
+**Status:** ✅ Core functional, ✅ Week summaries added, ✅ Import testing added
