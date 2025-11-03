@@ -12,9 +12,6 @@ let tradeDistributionChart = null;
 let performanceByDayChart = null;
 let tickerPerformanceChart = null;
 
-// Chart selector
-const chartSelector = document.getElementById('chart-selector');
-
 // Chart options are now imported from chartConfig.js
 
 /**
@@ -165,9 +162,55 @@ function initCharts() {
   // Load equity curve by default
   loadEquityCurveChart();
 
-  // Set up chart selector event listener
-  if (chartSelector) {
-    chartSelector.addEventListener('change', (e) => {
+  // Set up desktop custom dropdown
+  const desktopButton = document.getElementById('chart-selector-button');
+  const desktopMenu = document.getElementById('chart-selector-menu');
+  const desktopText = document.getElementById('chart-selector-text');
+  
+  if (desktopButton && desktopMenu) {
+    // Toggle dropdown
+    desktopButton.addEventListener('click', () => {
+      const isExpanded = desktopButton.getAttribute('aria-expanded') === 'true';
+      desktopButton.setAttribute('aria-expanded', !isExpanded);
+      desktopMenu.classList.toggle('show');
+    });
+    
+    // Handle option selection
+    desktopMenu.querySelectorAll('.chart-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        const value = option.getAttribute('data-value');
+        const text = option.textContent;
+        
+        // Update button text
+        desktopText.textContent = text;
+        
+        // Mark as active
+        desktopMenu.querySelectorAll('.chart-option').forEach(opt => opt.classList.remove('active'));
+        option.classList.add('active');
+        
+        // Close dropdown
+        desktopButton.setAttribute('aria-expanded', 'false');
+        desktopMenu.classList.remove('show');
+        
+        // Switch chart
+        switchChart(value);
+      });
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!desktopButton.contains(e.target) && !desktopMenu.contains(e.target)) {
+        desktopButton.setAttribute('aria-expanded', 'false');
+        desktopMenu.classList.remove('show');
+      }
+    });
+  }
+  
+  // Set up mobile native select
+  const mobileSelect = document.getElementById('chart-selector-mobile');
+  if (mobileSelect) {
+    mobileSelect.addEventListener('change', (e) => {
       switchChart(e.target.value);
     });
   }

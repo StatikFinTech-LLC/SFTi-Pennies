@@ -712,6 +712,140 @@ code {
   }
 }
 
+/* Chart selector - Desktop: custom dropdown, Mobile: native select */
+/* Desktop: Show custom dropdown, hide native select */
+@media (min-width: 768px) {
+  #chart-selector-desktop {
+    display: block;
+  }
+  
+  #chart-selector-mobile {
+    display: none;
+  }
+  
+  .chart-selector-dropdown {
+    position: relative;
+  }
+  
+  .chart-selector-btn {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background: linear-gradient(135deg,
+      rgba(15, 20, 41, 0.65) 0%,
+      rgba(10, 14, 39, 0.75) 100%) !important;
+    backdrop-filter: blur(45px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(45px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.22), 0 8px 32px rgba(0, 0, 0, 0.16) !important;
+    color: var(--accent-green) !important;
+    font-family: var(--font-mono) !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 2.5rem 0.5rem 1rem !important;
+    min-width: 200px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.5rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  .chart-selector-btn:hover {
+    background: linear-gradient(135deg,
+      rgba(0, 255, 136, 0.12) 0%,
+      rgba(0, 255, 136, 0.08) 100%) !important;
+    border-color: rgba(0, 255, 136, 0.4) !important;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.28), 0 8px 32px rgba(0, 255, 136, 0.16) !important;
+    transform: none !important;
+  }
+  
+  .chart-selector-arrow {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+  
+  .chart-selector-btn[aria-expanded="true"] .chart-selector-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .chart-selector-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 200px;
+    background: linear-gradient(135deg,
+      rgba(15, 20, 41, 0.95) 0%,
+      rgba(10, 14, 39, 0.98) 100%);
+    backdrop-filter: blur(45px) saturate(180%);
+    -webkit-backdrop-filter: blur(45px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.32), 0 8px 32px rgba(0, 0, 0, 0.24);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+  
+  .chart-selector-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .chart-selector-menu li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .chart-option {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+  }
+  
+  .chart-option:hover,
+  .chart-option.active {
+    background: rgba(0, 255, 136, 0.12);
+    color: var(--accent-green);
+  }
+}
+
+/* Mobile: Show native select, hide custom dropdown */
+@media (max-width: 767px) {
+  #chart-selector-desktop {
+    display: none;
+  }
+  
+  #chart-selector-mobile {
+    display: block;
+  }
+  
+  .chart-selector-select {
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    min-width: 200px !important;
+    padding: 0.5rem 1rem !important;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+  }
+}
+
 /* Forms */
 .form-group {
   margin-bottom: var(--spacing-lg);

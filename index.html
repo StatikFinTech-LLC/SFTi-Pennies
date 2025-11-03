@@ -123,8 +123,24 @@
     <section class="trades-section">
       <div class="section-header">
         <h2>Performance</h2>
-        <!-- Chart Type Selector -->
-        <select id="chart-selector" class="btn btn-secondary">
+        <!-- Chart Type Selector - Desktop: Custom dropdown, Mobile: Native select -->
+        <!-- Desktop custom dropdown (hidden on mobile) -->
+        <div id="chart-selector-desktop" class="chart-selector-dropdown">
+          <button id="chart-selector-button" class="btn btn-secondary chart-selector-btn" aria-haspopup="true" aria-expanded="false">
+            <span id="chart-selector-text">Equity Curve</span>
+            <svg class="chart-selector-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <ul id="chart-selector-menu" class="chart-selector-menu" role="menu">
+            <li><a href="#" class="chart-option" data-value="equity-curve">Equity Curve</a></li>
+            <li><a href="#" class="chart-option" data-value="trade-distribution">Trade Distribution</a></li>
+            <li><a href="#" class="chart-option" data-value="performance-by-day">Performance By Day</a></li>
+            <li><a href="#" class="chart-option" data-value="ticker-performance">Ticker Performance</a></li>
+          </ul>
+        </div>
+        <!-- Mobile native select (hidden on desktop) -->
+        <select id="chart-selector-mobile" class="chart-selector-select">
           <option value="equity-curve">Equity Curve</option>
           <option value="trade-distribution">Trade Distribution</option>
           <option value="performance-by-day">Performance By Day</option>
