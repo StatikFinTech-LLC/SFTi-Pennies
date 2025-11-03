@@ -422,67 +422,6 @@ code {
   margin-bottom: var(--spacing-lg);
 }
 
-/* Chart selector styling - glassmorphic on desktop, native on mobile */
-/* Desktop: custom glassmorphic styling to match navbar dropdowns */
-@media (min-width: 769px) {
-  #chart-selector.btn-secondary {
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background: linear-gradient(135deg,
-      rgba(15, 20, 41, 0.65) 0%,
-      rgba(10, 14, 39, 0.75) 100%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat, no-repeat !important;
-    background-position: center, right 0.75rem center !important;
-    background-size: auto, 16px 16px !important;
-    backdrop-filter: blur(45px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(45px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.22) !important;
-    border-radius: 28px !important;
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.22), 0 8px 32px rgba(0, 0, 0, 0.16) !important;
-    color: var(--accent-green) !important;
-    font-family: var(--font-mono) !important;
-    font-weight: 600 !important;
-    padding: 0.5rem 2.5rem 0.5rem 1rem !important;
-    min-width: 200px !important;
-    cursor: pointer !important;
-    position: relative !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  }
-  
-  #chart-selector.btn-secondary:hover {
-    background: linear-gradient(135deg,
-      rgba(0, 255, 136, 0.12) 0%,
-      rgba(0, 255, 136, 0.08) 100%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat, no-repeat !important;
-    background-position: center, right 0.75rem center !important;
-    background-size: auto, 16px 16px !important;
-    border-color: rgba(0, 255, 136, 0.4) !important;
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.28), 0 8px 32px rgba(0, 255, 136, 0.16) !important;
-    transform: none !important;
-  }
-  
-  #chart-selector.btn-secondary:focus {
-    outline: none !important;
-    border-color: rgba(0, 255, 136, 0.6) !important;
-    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1) !important;
-  }
-}
-
-/* Mobile: keep native system style with proper sizing */
-@media (max-width: 768px) {
-  #chart-selector {
-    /* Let browser use native select styling */
-    appearance: auto !important;
-    -webkit-appearance: menulist !important;
-    -moz-appearance: menulist !important;
-    min-width: 200px !important;
-    padding: 0.5rem 1rem !important;
-  }
-}
-
 .trades-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -710,6 +649,67 @@ code {
     0 8px 24px rgba(0, 255, 136, 0.45),
     0 12px 36px rgba(0, 0, 0, 0.28);
   text-decoration: none;
+}
+
+/* Chart selector styling - MUST come after .btn-secondary to override */
+/* Desktop: custom glassmorphic styling to match navbar dropdowns */
+@media (min-width: 768px) {
+  #chart-selector.btn-secondary {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background: linear-gradient(135deg,
+      rgba(15, 20, 41, 0.65) 0%,
+      rgba(10, 14, 39, 0.75) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat, no-repeat !important;
+    background-position: center, right 0.75rem center !important;
+    background-size: auto, 16px 16px !important;
+    backdrop-filter: blur(45px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(45px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.22) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.22), 0 8px 32px rgba(0, 0, 0, 0.16) !important;
+    color: var(--accent-green) !important;
+    font-family: var(--font-mono) !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 2.5rem 0.5rem 1rem !important;
+    min-width: 200px !important;
+    cursor: pointer !important;
+    position: relative !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+  
+  #chart-selector.btn-secondary:hover {
+    background: linear-gradient(135deg,
+      rgba(0, 255, 136, 0.12) 0%,
+      rgba(0, 255, 136, 0.08) 100%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2300ff88' viewBox='0 0 24 24'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat, no-repeat !important;
+    background-position: center, right 0.75rem center !important;
+    background-size: auto, 16px 16px !important;
+    border-color: rgba(0, 255, 136, 0.4) !important;
+    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.28), 0 8px 32px rgba(0, 255, 136, 0.16) !important;
+    transform: none !important;
+  }
+  
+  #chart-selector.btn-secondary:focus {
+    outline: none !important;
+    border-color: rgba(0, 255, 136, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1) !important;
+  }
+}
+
+/* Mobile: keep native system style with proper sizing */
+@media (max-width: 767px) {
+  #chart-selector {
+    /* Let browser use native select styling */
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    min-width: 200px !important;
+    padding: 0.5rem 1rem !important;
+  }
 }
 
 /* Forms */
