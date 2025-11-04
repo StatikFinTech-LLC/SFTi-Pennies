@@ -21,6 +21,9 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from utils import load_trades_index, load_account_config
 
+# Constants
+MAX_PROFIT_FACTOR = 999.99  # Used when profit factor would be infinity (all wins, no losses)
+
 
 def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict]) -> Dict:
     """
@@ -180,9 +183,9 @@ def calculate_profit_factor(trades: List[Dict]) -> float:
     gross_loss = abs(gross_loss)
     
     if gross_loss == 0:
-        # Return 0 if no profit, otherwise return a large finite number instead of infinity
+        # Return 0 if no profit, otherwise return MAX_PROFIT_FACTOR instead of infinity
         # to ensure JSON serialization works properly
-        return 0.0 if gross_profit == 0 else 999.99
+        return 0.0 if gross_profit == 0 else MAX_PROFIT_FACTOR
 
     return round(gross_profit / gross_loss, 2)
 
@@ -329,7 +332,7 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
         
         # Handle array/list tags - convert to string or take first element
         if isinstance(tag_value, list):
-            tag_value = tag_value[0] if tag_value else "Unclassified"
+            tag_value = str(tag_value[0]) if tag_value else "Unclassified"
         
         if not tag_value or tag_value == "":
             tag_value = "Unclassified"
