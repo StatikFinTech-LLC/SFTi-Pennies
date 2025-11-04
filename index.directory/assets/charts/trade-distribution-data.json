@@ -1,18 +1,22 @@
 {
   "labels": [
-    "Trade #1"
+    "Trade #1",
+    "Trade #2"
   ],
   "datasets": [
     {
       "label": "P&L ($)",
       "data": [
-        6.19
+        6.19,
+        -25.08
       ],
       "backgroundColor": [
-        "#00ff88"
+        "#00ff88",
+        "#ff4757"
       ],
       "borderColor": [
-        "#00ff88"
+        "#00ff88",
+        "#ff4757"
       ],
       "borderWidth": 2
     }

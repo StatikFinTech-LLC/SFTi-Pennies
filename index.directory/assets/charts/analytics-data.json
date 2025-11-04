@@ -1,11 +1,11 @@
 {
-  "expectancy": 6.19,
-  "profit_factor": 999.99,
+  "expectancy": -9.44,
+  "profit_factor": 0.25,
   "max_win_streak": 1,
-  "max_loss_streak": 0,
-  "max_drawdown": 0.0,
-  "max_drawdown_percent": 0.0,
-  "kelly_criterion": 0.0,
+  "max_loss_streak": 1,
+  "max_drawdown": -25.08,
+  "max_drawdown_percent": -15.2,
+  "kelly_criterion": -152.6,
   "by_strategy": {
     "VWAP Hold": {
       "total_trades": 1,
@@ -15,49 +15,60 @@
       "total_pnl": 6.19,
       "avg_pnl": 6.19,
       "expectancy": 6.19
+    },
+    "Breakout": {
+      "total_trades": 1,
+      "winning_trades": 0,
+      "losing_trades": 1,
+      "win_rate": 0.0,
+      "total_pnl": -25.08,
+      "avg_pnl": -25.08,
+      "expectancy": -25.08
     }
   },
   "by_setup": {
     "Unclassified": {
-      "total_trades": 1,
+      "total_trades": 2,
       "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 6.19,
-      "avg_pnl": 6.19,
-      "expectancy": 6.19
+      "losing_trades": 1,
+      "win_rate": 50.0,
+      "total_pnl": -18.89,
+      "avg_pnl": -9.44,
+      "expectancy": -9.44
     }
   },
   "by_session": {
     "Unclassified": {
-      "total_trades": 1,
+      "total_trades": 2,
       "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 6.19,
-      "avg_pnl": 6.19,
-      "expectancy": 6.19
+      "losing_trades": 1,
+      "win_rate": 50.0,
+      "total_pnl": -18.89,
+      "avg_pnl": -9.44,
+      "expectancy": -9.44
     }
   },
   "drawdown_series": {
     "labels": [
+      "11/03",
       "11/03"
     ],
     "values": [
-      0.0
+      0.0,
+      -25.08
     ]
   },
   "returns": {
-    "total_return_percent": 3.75,
-    "avg_return_percent": 3.7515,
-    "avg_risk_percent": 0.0,
-    "avg_position_size_percent": 38.92
+    "total_return_percent": -11.45,
+    "avg_return_percent": -5.7242,
+    "avg_risk_percent": 15.2,
+    "avg_position_size_percent": 42.21
   },
   "account": {
     "starting_balance": 165,
     "total_deposits": 0,
-    "total_pnl": 6.19,
-    "portfolio_value": 171.19
+    "total_pnl": -18.89,
+    "portfolio_value": 146.11
   },
-  "generated_at": "2025-11-04T02:52:27.677011"
+  "generated_at": "2025-11-04T22:37:56.836716"
 }

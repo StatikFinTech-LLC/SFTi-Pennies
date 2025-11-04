@@ -38,23 +38,48 @@
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
       ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.2.md",
+      "body": "# Trade #2 - PHIO\n\n## Trade Details\n\n- **Ticker**: PHIO\n- **Direction**: LONG\n- **Entry**: $4.10 on 2025-11-03 at 07:37\n- **Exit**: $2.78 on 2025-11-03 at 11:17\n- **Position Size**: 19 shares\n- **Stra...",
+      "notes": "No additional notes.",
+      "trade_number": 2,
+      "ticker": "PHIO",
+      "entry_date": "2025-11-03",
+      "entry_time": "07:37",
+      "exit_date": "2025-11-03",
+      "exit_time": "677",
+      "entry_price": 4.1,
+      "exit_price": 2.78,
+      "position_size": 19.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 2.85,
+      "target_price": 6.0,
+      "risk_reward_ratio": 1.52,
+      "broker": "IBKR",
+      "pnl_usd": -25.08,
+      "pnl_percent": -32.2,
+      "screenshots": [
+        "None"
+      ]
     }
   ],
   "statistics": {
-    "total_trades": 1,
+    "total_trades": 2,
     "winning_trades": 1,
-    "losing_trades": 0,
-    "win_rate": 100.0,
-    "total_pnl": 6.19,
-    "avg_pnl": 6.19,
+    "losing_trades": 1,
+    "win_rate": 50.0,
+    "total_pnl": -18.89,
+    "avg_pnl": -9.44,
     "avg_winner": 6.19,
-    "avg_loser": 0,
+    "avg_loser": -25.08,
     "largest_win": 6.19,
-    "largest_loss": 6.19,
-    "total_volume": 101,
-    "max_drawdown": 0,
-    "profit_factor": 0
+    "largest_loss": -25.08,
+    "total_volume": 120,
+    "max_drawdown": -25.08,
+    "profit_factor": 0.25
   },
-  "generated_at": "2025-11-04T02:52:25.311237",
+  "generated_at": "2025-11-04T22:37:55.371259",
   "version": "1.0"
 }
