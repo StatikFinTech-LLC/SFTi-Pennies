@@ -459,6 +459,10 @@ def format_date_label(date, timeframe):
         str: Formatted date label
     """
     if timeframe == "day":
+        # For day timeframe, show the date if we don't have specific times
+        # This handles cases where trades span days or lack time data
+        if date.hour == 0 and date.minute == 0:
+            return date.strftime("%m/%d")
         return date.strftime("%H:%M")
     elif timeframe == "week":
         return date.strftime("%a %m/%d")
