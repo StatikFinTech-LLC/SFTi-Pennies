@@ -796,9 +796,9 @@ class TradingJournal {
 trade_number: ${data.trade_number}
 ticker: ${data.ticker}
 entry_date: ${data.entry_date}
-entry_time: ${data.entry_time}
+entry_time: "${data.entry_time}"
 exit_date: ${data.exit_date}
-exit_time: ${data.exit_time}
+exit_time: "${data.exit_time}"
 entry_price: ${data.entry_price}
 exit_price: ${data.exit_price}
 position_size: ${data.position_size}

@@ -124,7 +124,21 @@ def parse_trade_file(filepath):
             trade_data["trade_number"] = int(trade_data["trade_number"])
 
         # Convert date/time fields to strings for JSON serialization
-        date_fields = ["entry_date", "exit_date", "entry_time", "exit_time"]
+        # Handle YAML sexagesimal time parsing bug where "18:55" becomes integer 1135
+        time_fields = ["entry_time", "exit_time"]
+        for field in time_fields:
+            if field in trade_data and trade_data[field] is not None:
+                time_val = trade_data[field]
+                # If time was parsed as int (sexagesimal), convert back to HH:MM format
+                if isinstance(time_val, int):
+                    hours = time_val // 60
+                    minutes = time_val % 60
+                    trade_data[field] = f"{hours:02d}:{minutes:02d}"
+                else:
+                    trade_data[field] = str(time_val)
+        
+        # Convert date fields to strings
+        date_fields = ["entry_date", "exit_date"]
         for field in date_fields:
             if field in trade_data and trade_data[field] is not None:
                 trade_data[field] = str(trade_data[field])
