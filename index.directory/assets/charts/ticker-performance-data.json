@@ -1,20 +1,10 @@
 {
-  "labels": [
-    "MSPR"
-  ],
+  "labels": [],
   "datasets": [
     {
-      "label": "Total P&L ($)",
-      "data": [
-        6.19
-      ],
-      "backgroundColor": [
-        "#00ff88"
-      ],
-      "borderColor": [
-        "#00ff88"
-      ],
-      "borderWidth": 2
+      "label": "Total P&L",
+      "data": [],
+      "backgroundColor": []
     }
   ]
 }
