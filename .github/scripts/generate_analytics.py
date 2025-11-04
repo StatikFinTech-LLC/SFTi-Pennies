@@ -164,7 +164,7 @@ def calculate_profit_factor(trades: List[Dict]) -> float:
         trades: List of trade dictionaries
 
     Returns:
-        float: Profit factor
+        float: Profit factor (returns 0 if no losses to avoid Infinity)
     """
     if not trades:
         return 0.0
@@ -182,6 +182,8 @@ def calculate_profit_factor(trades: List[Dict]) -> float:
 
     gross_loss = abs(gross_loss)
     
+    # Return 0 if no losses (avoids Infinity in JSON)
+    # This indicates perfect win rate, but profit factor is not meaningful
     if gross_loss == 0:
         # Return 0 if no profit, otherwise return MAX_PROFIT_FACTOR instead of infinity
         # to ensure JSON serialization works properly
@@ -316,10 +318,11 @@ def calculate_kelly_criterion(trades: List[Dict]) -> float:
 def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
     """
     Aggregate statistics by a tag field (strategy, setup, etc.)
+    Handles both single-value fields (e.g., 'strategy') and array fields (e.g., 'setup_tags', 'session_tags')
 
     Args:
         trades: List of trade dictionaries
-        tag_field: Field to group by (e.g., 'strategy', 'setup')
+        tag_field: Field to group by (e.g., 'strategy', 'setup', 'session')
 
     Returns:
         Dict: {tag_value: {stats...}, ...}
