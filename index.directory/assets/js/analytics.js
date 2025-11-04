@@ -1,7 +1,7 @@
 /**
  * Analytics Page JavaScript
  * Loads analytics data from analytics-data.json and renders advanced charts and metrics
- * Falls back to mock data if analytics-data.json is not available
+ * Fails gracefully if analytics-data.json is not available
  * 
  * Performance Optimizations:
  * - Reduced duplicate map operations on arrays
