@@ -59,21 +59,23 @@ async function loadAnalyticsData() {
       analyticsData = await response.json();
       console.log('Loaded analytics data from file');
     } else {
-      console.warn('Analytics data not found, using mock data');
-      analyticsData = getMockAnalyticsData();
+      console.error('Analytics data not found');
+      analyticsData = null;
     }
   } catch (fetchError) {
-    console.warn('Error fetching analytics data, using mock data:', fetchError);
-    analyticsData = getMockAnalyticsData();
+    console.error('Error fetching analytics data:', fetchError);
+    analyticsData = null;
   }
   
-  // Update display
-  updateMetrics(analyticsData);
-  renderStrategyChart(analyticsData);
-  renderSetupChart(analyticsData);
-  renderWinRateChart(analyticsData);
-  renderDrawdownChart(analyticsData);
-  renderStrategyTable(analyticsData);
+  // Update display only if we have data
+  if (analyticsData) {
+    updateMetrics(analyticsData);
+    renderStrategyChart(analyticsData);
+    renderSetupChart(analyticsData);
+    renderWinRateChart(analyticsData);
+    renderDrawdownChart(analyticsData);
+    renderStrategyTable(analyticsData);
+  }
 }
 
 /**
@@ -338,76 +340,6 @@ function renderStrategyTable(data) {
   }).join('');
   
   strategyTableBody.innerHTML = rows;
-}
-
-/**
- * Get mock analytics data (fallback when analytics-data.json is not available)
- */
-function getMockAnalyticsData() {
-  return {
-    expectancy: 25.50,
-    profit_factor: 1.85,
-    max_win_streak: 5,
-    max_loss_streak: 3,
-    max_drawdown: -425.00,
-    max_drawdown_percent: -4.25,
-    kelly_criterion: 12.5,
-    returns: {
-      total_return_percent: 11.89,
-      avg_return_percent: 0.34,
-      avg_risk_percent: 2.15,
-      avg_position_size_percent: 15.5
-    },
-    account: {
-      starting_balance: 10000.00,
-      total_deposits: 0,
-      total_pnl: 1189.70,
-      portfolio_value: 11189.70
-    },
-    by_strategy: {
-      'Breakout': {
-        total_trades: 15,
-        win_rate: 66.7,
-        avg_pnl: 45.50,
-        total_pnl: 682.50,
-        expectancy: 45.50
-      },
-      'Reversal': {
-        total_trades: 8,
-        win_rate: 50.0,
-        avg_pnl: 15.25,
-        total_pnl: 122.00,
-        expectancy: 15.25
-      },
-      'VWAP Hold': {
-        total_trades: 12,
-        win_rate: 75.0,
-        avg_pnl: 32.10,
-        total_pnl: 385.20,
-        expectancy: 32.10
-      }
-    },
-    by_setup: {
-      'Morning Gap': {
-        total_trades: 10,
-        win_rate: 70.0,
-        avg_pnl: 38.75,
-        total_pnl: 387.50,
-        expectancy: 38.75
-      },
-      'Afternoon Fade': {
-        total_trades: 8,
-        win_rate: 62.5,
-        avg_pnl: 28.50,
-        total_pnl: 228.00,
-        expectancy: 28.50
-      }
-    },
-    drawdown_series: {
-      labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
-      values: [0, -50, -120, -200, -150, -75, 0]
-    }
-  };
 }
 
 // Initialize on DOM ready
