@@ -943,7 +943,7 @@
               <strong>${strategy}</strong> (${data.count} ${data.count === 1 ? 'trade' : 'trades'})
             </span>
             <span class="trade-pnl ${pnlClass}">
-              ${formatCurrency(data.pnl)}
+              ${window.SFTiUtils.formatCurrency(data.pnl)}
             </span>
           </div>
         `;
