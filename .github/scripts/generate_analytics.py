@@ -331,6 +331,9 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
         tag_value = trade.get(tag_field)
         
         # Handle array/list tags - convert to string or take first element
+        # Note: When tags are stored as arrays (e.g., ["Breakout", "Momentum"]),
+        # we use only the first element to avoid duplicate aggregation. This treats
+        # the primary/first tag as the main classification for statistical purposes.
         if isinstance(tag_value, list):
             tag_value = str(tag_value[0]) if tag_value else "Unclassified"
         
