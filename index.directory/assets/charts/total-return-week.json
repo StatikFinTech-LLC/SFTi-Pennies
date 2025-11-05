@@ -1,12 +1,14 @@
 {
   "labels": [
-    "Mon 11/03"
+    "Mon 11/03",
+    "Tue 11/04"
   ],
   "datasets": [
     {
       "label": "Total Return %",
       "data": [
-        -10.47
+        -10.47,
+        -19.62
       ],
       "borderColor": "#00d4ff",
       "backgroundColor": "rgba(0, 212, 255, 0.1)",
