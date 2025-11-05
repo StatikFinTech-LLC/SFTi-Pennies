@@ -7,6 +7,9 @@
  * - account:deposit-added - When a deposit is added
  * - account:withdrawal-added - When a withdrawal is added
  * - account:config-loaded - When account config is loaded
+ * - account:updated - When account state is updated (deposits, withdrawals, balance changes)
+ * - state:initialized - When state manager completes initialization
+ * - state:refreshed - When state manager refreshes all data
  * - trades:loaded - When trades are loaded
  * - trades:updated - When trades data changes
  * - analytics:updated - When analytics are recalculated
