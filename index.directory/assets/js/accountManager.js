@@ -258,14 +258,23 @@ class AccountManager {
   }
 
   /**
+   * Get total withdrawals
+   */
+  getTotalWithdrawals() {
+    if (!this.config || !this.config.withdrawals) return 0;
+    return this.config.withdrawals.reduce((sum, withdrawal) => sum + parseFloat(withdrawal.amount || 0), 0);
+  }
+
+  /**
    * Calculate current portfolio value
-   * Portfolio = Starting Balance + Deposits + Trade P&L
+   * Portfolio = Starting Balance + Deposits - Withdrawals + Trade P&L
    */
   calculatePortfolioValue(tradePnL) {
     const starting = parseFloat(this.config.starting_balance || 0);
     const deposits = this.getTotalDeposits();
+    const withdrawals = this.getTotalWithdrawals();
     const pnl = parseFloat(tradePnL || 0);
-    return starting + deposits + pnl;
+    return starting + deposits - withdrawals + pnl;
   }
 
   /**

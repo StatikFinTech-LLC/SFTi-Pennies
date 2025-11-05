@@ -25,7 +25,7 @@ from utils import load_trades_index, load_account_config
 MAX_PROFIT_FACTOR = 999.99  # Used when profit factor would be infinity (all wins, no losses)
 
 
-def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict]) -> Dict:
+def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict], withdrawals: List[Dict] = None) -> Dict:
     """
     Calculate percentage-based returns metrics
     
@@ -33,6 +33,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
         trades: List of trade dictionaries
         starting_balance: Initial account balance
         deposits: List of deposit records
+        withdrawals: List of withdrawal records (defaults to None, which becomes an empty list)
         
     Returns:
         Dict: Returns metrics including total return %, avg return %, etc.
@@ -49,11 +50,14 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
     # Calculate total P&L
     total_pnl = sum(t.get("pnl_usd", 0) for t in trades)
     
-    # Calculate total deposits
+    # Calculate total deposits and withdrawals
     total_deposits = sum(d.get("amount", 0) for d in deposits)
+    if withdrawals is None:
+        withdrawals = []
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
     
-    # Initial capital for returns calculation
-    initial_capital = starting_balance + total_deposits
+    # Initial capital for returns calculation (subtract withdrawals)
+    initial_capital = starting_balance + total_deposits - total_withdrawals
     
     # Total return % = (Total P&L / Initial Capital) * 100
     total_return_percent = (total_pnl / initial_capital * 100) if initial_capital > 0 else 0
@@ -405,6 +409,7 @@ def main():
     account_config = load_account_config()
     starting_balance = account_config.get("starting_balance", 1000.00)
     total_deposits = sum(d.get("amount", 0) for d in account_config.get("deposits", []))
+    total_withdrawals = sum(w.get("amount", 0) for w in account_config.get("withdrawals", []))
     
     # Load trades index
     index_data = load_trades_index()
@@ -415,8 +420,8 @@ def main():
     stats = index_data.get("statistics", {})
     total_pnl = stats.get("total_pnl", 0)
     
-    # Calculate portfolio value
-    portfolio_value = starting_balance + total_deposits + total_pnl
+    # Calculate portfolio value (subtract withdrawals)
+    portfolio_value = starting_balance + total_deposits - total_withdrawals + total_pnl
     
     if not trades:
         print("No trades found in index")
@@ -462,7 +467,8 @@ def main():
         returns_metrics = calculate_returns_metrics(
             sorted_trades, 
             starting_balance, 
-            account_config.get("deposits", [])
+            account_config.get("deposits", []),
+            account_config.get("withdrawals", [])
         )
 
         # Aggregate by tags
