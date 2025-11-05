@@ -5,6 +5,7 @@
  * Events:
  * - account:balance-updated - When starting balance changes
  * - account:deposit-added - When a deposit is added
+ * - account:withdrawal-added - When a withdrawal is added
  * - account:config-loaded - When account config is loaded
  * - trades:loaded - When trades are loaded
  * - trades:updated - When trades data changes
@@ -115,7 +116,9 @@ class StateManager {
       account: {
         starting_balance: 1000.00,
         deposits: [],
+        withdrawals: [],
         total_deposits: 0,
+        total_withdrawals: 0,
         portfolio_value: 0,
         account_opening_date: null
       },
@@ -226,14 +229,18 @@ class StateManager {
    */
   updateAccount(config) {
     const deposits = config.deposits || [];
+    const withdrawals = config.withdrawals || [];
     const total_deposits = deposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
+    const total_withdrawals = withdrawals.reduce((sum, w) => sum + parseFloat(w.amount || 0), 0);
     const total_pnl = this.state.trades.total_pnl || 0;
     
     this.state.account = {
       starting_balance: parseFloat(config.starting_balance || 1000),
       deposits: deposits,
+      withdrawals: withdrawals,
       total_deposits: total_deposits,
-      portfolio_value: parseFloat(config.starting_balance || 1000) + total_deposits + total_pnl,
+      total_withdrawals: total_withdrawals,
+      portfolio_value: parseFloat(config.starting_balance || 1000) + total_deposits - total_withdrawals + total_pnl,
       account_opening_date: config.account_opening_date || null
     };
     
@@ -255,9 +262,11 @@ class StateManager {
     };
     
     // Recalculate portfolio value
+    const total_withdrawals = this.state.account.total_withdrawals || 0;
     this.state.account.portfolio_value = 
       this.state.account.starting_balance + 
-      this.state.account.total_deposits + 
+      this.state.account.total_deposits - 
+      total_withdrawals +
       total_pnl;
     
     window.SFTiEventBus.emit('trades:updated', this.state.trades);
