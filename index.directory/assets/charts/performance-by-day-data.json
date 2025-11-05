@@ -1,20 +1,24 @@
 {
   "labels": [
     "Monday",
-    "Tuesday"
+    "Tuesday",
+    "Wednesday"
   ],
   "datasets": [
     {
       "label": "Average P&L ($)",
       "data": [
         -8.64,
-        -15.1
+        -15.1,
+        -6.9
       ],
       "backgroundColor": [
+        "#ff4757",
         "#ff4757",
         "#ff4757"
       ],
       "borderColor": [
+        "#ff4757",
         "#ff4757",
         "#ff4757"
       ],

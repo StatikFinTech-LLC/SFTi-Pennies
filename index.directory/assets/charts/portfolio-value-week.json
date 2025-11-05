@@ -1,14 +1,16 @@
 {
   "labels": [
     "Mon 11/03",
-    "Tue 11/04"
+    "Tue 11/04",
+    "Wed 11/05"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
         143.72,
-        128.62
+        128.62,
+        121.72
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
