@@ -25,7 +25,7 @@ from utils import load_trades_index, load_account_config
 MAX_PROFIT_FACTOR = 999.99  # Used when profit factor would be infinity (all wins, no losses)
 
 
-def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict], withdrawals: List[Dict] = None) -> Dict:
+def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict], withdrawals: List[Dict] = []) -> Dict:
     """
     Calculate percentage-based returns metrics
     
@@ -52,7 +52,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
     
     # Calculate total deposits and withdrawals
     total_deposits = sum(d.get("amount", 0) for d in deposits)
-    total_withdrawals = sum(w.get("amount", 0) for w in (withdrawals or []))
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
     
     # Initial capital for returns calculation (subtract withdrawals)
     initial_capital = starting_balance + total_deposits - total_withdrawals

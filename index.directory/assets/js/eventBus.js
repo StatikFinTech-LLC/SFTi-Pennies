@@ -263,11 +263,8 @@ class StateManager {
     
     // Recalculate portfolio value
     const total_withdrawals = this.state.account.total_withdrawals || 0;
-    this.state.account.portfolio_value = 
-      this.state.account.starting_balance + 
-      this.state.account.total_deposits - 
-      total_withdrawals +
-      total_pnl;
+    this.state.account.portfolio_value = this.state.account.starting_balance + 
+      this.state.account.total_deposits - total_withdrawals + total_pnl;
     
     window.SFTiEventBus.emit('trades:updated', this.state.trades);
     window.SFTiEventBus.emit('account:updated', this.state.account);
