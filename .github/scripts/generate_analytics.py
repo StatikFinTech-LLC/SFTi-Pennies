@@ -33,7 +33,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
         trades: List of trade dictionaries
         starting_balance: Initial account balance
         deposits: List of deposit records
-        withdrawals: List of withdrawal records (optional)
+        withdrawals: List of withdrawal records (defaults to None, which becomes an empty list)
         
     Returns:
         Dict: Returns metrics including total return %, avg return %, etc.

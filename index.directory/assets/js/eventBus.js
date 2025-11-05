@@ -232,7 +232,7 @@ class StateManager {
    */
   updateAccount(config) {
     const deposits = config.deposits || [];
-    const withdrawals = config.withdrawals || []; // Withdrawals reduce portfolio value
+    const withdrawals = config.withdrawals || [];
     const total_deposits = deposits.reduce((sum, d) => sum + parseFloat(d.amount || 0), 0);
     const total_withdrawals = withdrawals.reduce((sum, w) => sum + parseFloat(w.amount || 0), 0);
     const total_pnl = this.state.trades.total_pnl || 0;
