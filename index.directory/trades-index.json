@@ -37,23 +37,61 @@
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
       ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.2.md",
+      "body": "# Trade #2 - PHIO\n\n## Trade Details\n\n- **Ticker**: PHIO\n- **Direction**: LONG\n- **Entry**: $4.10 on 2025-11-03 at 07:37\n- **Exit**: $2.78 on 2025-11-03 at 11:17\n- **Position Size**: 19 shares\n- **Stra...",
+      "notes": "Was hesitant on getting into the trade earlier in the morning, Finally caved, but too late.",
+      "trade_number": 2,
+      "ticker": "PHIO",
+      "entry_date": "2025-11-03",
+      "entry_time": "07:37",
+      "exit_date": "2025-11-03",
+      "exit_time": "11:17",
+      "entry_price": 4.1,
+      "exit_price": 2.78,
+      "position_size": 19.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 2.85,
+      "target_price": 7.0,
+      "risk_reward_ratio": 2.32,
+      "broker": "IBKR",
+      "pnl_usd": -25.08,
+      "pnl_percent": -32.2,
+      "strategy_tags": [
+        "Momentum"
+      ],
+      "setup_tags": [
+        "Dip n Rip"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3193.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3192.jpeg"
+      ]
     }
   ],
   "statistics": {
-    "total_trades": 1,
+    "total_trades": 2,
     "winning_trades": 1,
-    "losing_trades": 0,
-    "win_rate": 100.0,
-    "total_pnl": 7.8,
-    "avg_pnl": 7.8,
+    "losing_trades": 1,
+    "win_rate": 50.0,
+    "total_pnl": -17.28,
+    "avg_pnl": -8.64,
     "avg_winner": 7.8,
-    "avg_loser": 0,
+    "avg_loser": -25.08,
     "largest_win": 7.8,
-    "largest_loss": 7.8,
-    "total_volume": 101,
-    "max_drawdown": 0,
-    "profit_factor": 0
+    "largest_loss": -25.08,
+    "total_volume": 120,
+    "max_drawdown": -25.08,
+    "profit_factor": 0.31
   },
-  "generated_at": "2025-11-05T02:00:17.353709",
+  "generated_at": "2025-11-05T02:05:02.821666",
   "version": "1.0"
 }

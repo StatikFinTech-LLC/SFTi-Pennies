@@ -1,12 +1,14 @@
 {
   "labels": [
+    "2025-11-03",
     "2025-11-03"
   ],
   "datasets": [
     {
       "label": "Equity Curve",
       "data": [
-        7.8
+        7.8,
+        -17.28
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",

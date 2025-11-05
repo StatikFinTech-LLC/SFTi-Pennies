@@ -1,18 +1,22 @@
 {
   "labels": [
-    "MSPR"
+    "MSPR",
+    "PHIO"
   ],
   "datasets": [
     {
       "label": "Total P&L ($)",
       "data": [
-        7.8
+        7.8,
+        -25.08
       ],
       "backgroundColor": [
-        "#00ff88"
+        "#00ff88",
+        "#ff4757"
       ],
       "borderColor": [
-        "#00ff88"
+        "#00ff88",
+        "#ff4757"
       ],
       "borderWidth": 2
     }

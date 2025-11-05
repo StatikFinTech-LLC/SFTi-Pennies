@@ -6,13 +6,13 @@
     {
       "label": "Average P&L ($)",
       "data": [
-        7.8
+        -8.64
       ],
       "backgroundColor": [
-        "#00ff88"
+        "#ff4757"
       ],
       "borderColor": [
-        "#00ff88"
+        "#ff4757"
       ],
       "borderWidth": 2
     }
