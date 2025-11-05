@@ -4,7 +4,7 @@
   "max_win_streak": 1,
   "max_loss_streak": 3,
   "max_drawdown": -47.08,
-  "max_drawdown_percent": -28.53,
+  "max_drawdown_percent": -29.24,
   "kelly_criterion": -125.9,
   "by_strategy": {
     "VWAP Hold": {
@@ -81,16 +81,16 @@
     ]
   },
   "returns": {
-    "total_return_percent": -23.81,
-    "avg_return_percent": -5.9515,
-    "avg_risk_percent": 9.511,
-    "avg_position_size_percent": 58.06
+    "total_return_percent": -24.4,
+    "avg_return_percent": -6.0994,
+    "avg_risk_percent": 9.747,
+    "avg_position_size_percent": 59.64
   },
   "account": {
     "starting_balance": 165,
     "total_deposits": 0,
     "total_pnl": -39.28,
-    "portfolio_value": 125.72
+    "portfolio_value": 121.72
   },
-  "generated_at": "2025-11-05T21:53:25.128924"
+  "generated_at": "2025-11-05T22:43:04.504083"
 }

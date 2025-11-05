@@ -96,6 +96,16 @@ function setupAnalyticsEventListeners() {
     loadAnalyticsData();
   });
   
+  eventBus.on('account:withdrawal-added', () => {
+    console.log('[Analytics] Withdrawal added, reloading analytics');
+    loadAnalyticsData();
+  });
+  
+  eventBus.on('account:updated', () => {
+    console.log('[Analytics] Account updated, reloading analytics');
+    loadAnalyticsData();
+  });
+  
   // Listen for trades updates
   eventBus.on('trades:updated', () => {
     console.log('[Analytics] Trades updated, reloading analytics');

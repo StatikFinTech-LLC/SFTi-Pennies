@@ -82,9 +82,21 @@ class TradingJournal {
       this.refreshStats();
     });
     
+    // Listen for account state updates
+    this.eventBus.on('account:updated', () => {
+      console.log('[TradingJournal] Account state updated, refreshing stats');
+      this.refreshStats();
+    });
+    
     // Listen for deposit additions
     this.eventBus.on('account:deposit-added', () => {
       console.log('[TradingJournal] Deposit added, refreshing stats');
+      this.refreshStats();
+    });
+    
+    // Listen for withdrawal additions
+    this.eventBus.on('account:withdrawal-added', () => {
+      console.log('[TradingJournal] Withdrawal added, refreshing stats');
       this.refreshStats();
     });
     
