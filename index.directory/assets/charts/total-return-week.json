@@ -1,11 +1,13 @@
 {
   "labels": [
-    "Thu 11/06"
+    "04:05",
+    "04:05"
   ],
   "datasets": [
     {
       "label": "Total Return %",
       "data": [
+        0,
         0
       ],
       "borderColor": "#00d4ff",

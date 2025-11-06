@@ -1,11 +1,13 @@
 {
   "labels": [
+    "10/07",
     "11/06"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
+        0,
         0
       ],
       "borderColor": "#00ff88",
