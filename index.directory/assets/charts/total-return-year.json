@@ -1,11 +1,13 @@
 {
   "labels": [
-    "Nov"
+    "W45 11/05",
+    "W44 11/03"
   ],
   "datasets": [
     {
       "label": "Total Return %",
       "data": [
+        0,
         -15.27
       ],
       "borderColor": "#00d4ff",

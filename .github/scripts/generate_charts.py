@@ -7,7 +7,7 @@ and creates a static chart image using matplotlib (if available)
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import defaultdict
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -447,23 +447,36 @@ def generate_ticker_performance_data(trades):
     }
 
 
-def format_date_label(date, timeframe):
+def format_date_label(date, timeframe, interval=None):
     """
-    Format a date object into a label string based on the timeframe
+    Format a date object into a label string based on the timeframe and interval
     
     Args:
         date (datetime): The date to format
         timeframe (str): The timeframe (day, week, month, quarter, year, 5year)
+        interval (str): Optional interval override (30min, daily, weekly, monthly, quarterly, yearly)
     
     Returns:
         str: Formatted date label
     """
-    if timeframe == "day":
-        # For day timeframe, show the date if we don't have specific times
-        # This handles cases where trades span days or lack time data
-        if date.hour == 0 and date.minute == 0:
-            return date.strftime("%m/%d")
+    # Use interval if provided, otherwise use default for timeframe
+    if interval == "30min":
         return date.strftime("%H:%M")
+    elif interval == "daily":
+        return date.strftime("%m/%d")
+    elif interval == "weekly":
+        return date.strftime("W%W %m/%d")
+    elif interval == "monthly":
+        return date.strftime("%b %Y")
+    elif interval == "quarterly":
+        return date.strftime("%Y Q") + str((date.month - 1) // 3 + 1)
+    elif interval == "yearly":
+        return date.strftime("%Y")
+    
+    # Default formatting based on timeframe
+    if timeframe == "day":
+        # For day timeframe, show time in HH:MM format, or date if time is midnight
+        return date.strftime("%H:%M") if (date.hour != 0 or date.minute != 0) else date.strftime("%m/%d")
     elif timeframe == "week":
         return date.strftime("%a %m/%d")
     elif timeframe == "month":
@@ -471,65 +484,238 @@ def format_date_label(date, timeframe):
     elif timeframe == "quarter":
         return date.strftime("%m/%d")
     elif timeframe == "year":
-        return date.strftime("%b")
+        return date.strftime("%b %Y")
     elif timeframe == "5year":
         return date.strftime("%Y Q") + str((date.month - 1) // 3 + 1)
     else:
         return date.strftime("%Y-%m-%d")
 
 
-def aggregate_data_by_timeframe(dates, values, timeframe, start_date, base_value):
+def get_timeframe_range(end_date, timeframe):
     """
-    Helper function to aggregate trade data by timeframe with date-aware labels
+    Calculate the start date for a given timeframe based on the end date
     
     Args:
-        dates (list): List of datetime objects for trades
+        end_date (datetime): The most recent trade date (end of range)
+        timeframe (str): The timeframe (day, week, month, quarter, year, 5year)
+    
+    Returns:
+        datetime: The start date for the timeframe
+    """
+    
+    if timeframe == "day":
+        # Last 24 hours
+        return end_date - timedelta(hours=24)
+    elif timeframe == "week":
+        # Last 7 days
+        return end_date - timedelta(days=7)
+    elif timeframe == "month":
+        # Last 30 days
+        return end_date - timedelta(days=30)
+    elif timeframe == "quarter":
+        # Last 90 days (3 months)
+        return end_date - timedelta(days=90)
+    elif timeframe == "year":
+        # Last 365 days
+        return end_date - timedelta(days=365)
+    elif timeframe == "5year":
+        # Last 1825 days (5 years)
+        return end_date - timedelta(days=1825)
+    else:
+        return end_date - timedelta(days=30)
+
+
+def get_default_interval(timeframe):
+    """
+    Get the default data point interval for a timeframe
+    
+    Args:
+        timeframe (str): The timeframe (day, week, month, quarter, year, 5year)
+    
+    Returns:
+        str: The default interval (30min, daily, weekly, monthly, quarterly, yearly)
+    """
+    if timeframe == "day":
+        return "30min"
+    elif timeframe == "week":
+        return "30min"  # Default, can be toggled to daily
+    elif timeframe == "month":
+        return "daily"  # Default, can be toggled to weekly
+    elif timeframe == "quarter":
+        return "weekly"  # Default, can be toggled to monthly
+    elif timeframe == "year":
+        return "weekly"  # Default, can be toggled to monthly or quarterly
+    elif timeframe == "5year":
+        return "quarterly"  # Default, can be toggled to yearly
+    else:
+        return "daily"
+
+
+def filter_and_aggregate_by_timeframe(dates, values, timeframe, interval, end_date, base_value):
+    """
+    Filter data to timeframe range and aggregate by interval
+    
+    Args:
+        dates (list): List of datetime objects for all trades
         values (list): List of values corresponding to each date
-        timeframe (str): Timeframe for aggregation (day, week, month, quarter, year, 5year)
-        start_date (datetime): Account opening date or first trade date
+        timeframe (str): The timeframe to filter (day, week, month, quarter, year, 5year)
+        interval (str): The data point interval (30min, daily, weekly, monthly, quarterly, yearly)
+        end_date (datetime): The most recent trade date (end of range)
         base_value (float): Starting value (before any trades)
     
     Returns:
-        tuple: (labels, data) where labels are date-aware strings and data are values
+        tuple: (labels, data) filtered and aggregated
     """
-    if not dates:
-        # Return base value at start date if no trades
-        start_label = format_date_label(start_date, timeframe)
-        return ([start_label], [base_value])
+    from datetime import timedelta
     
-    # Aggregate trades by timeframe
+    # Calculate start date for timeframe
+    start_date = get_timeframe_range(end_date, timeframe)
+    
+    # Filter trades within the timeframe range
+    filtered_dates = []
+    filtered_values = []
+    for date, value in zip(dates, values):
+        if start_date <= date <= end_date:
+            filtered_dates.append(date)
+            filtered_values.append(value)
+    
+    if not filtered_dates:
+        # No trades in this timeframe, return just the base value
+        start_label = format_date_label(start_date, timeframe, interval)
+        end_label = format_date_label(end_date, timeframe, interval)
+        return ([start_label, end_label], [base_value, base_value])
+    
+    # Determine aggregation bucket size based on interval
+    def get_bucket_key(date, interval):
+        """
+        Returns a bucket key (datetime object) for the given date, based on the specified interval.
+        
+        Args:
+            date (datetime): The datetime object to bucket.
+            interval (str): The interval type. Supported values:
+                - "30min": Buckets by 30-minute intervals. Rounds down to the nearest 30 minutes.
+                - "daily": Buckets by day. Sets time to midnight.
+                - "weekly": Buckets by week. Sets to the Monday of the week at midnight.
+                - "monthly": Buckets by month. Sets to the first day of the month at midnight.
+                - "quarterly": Buckets by quarter. Sets to the first day of the quarter at midnight.
+                - "yearly": Buckets by year. Sets to January 1st at midnight.
+                - Any other value: Defaults to daily bucketing (midnight).
+        
+        Returns:
+            datetime: The bucket key representing the start of the interval containing the input date.
+        
+        Bucketing logic:
+            - "30min": Rounds down to the nearest 30-minute mark (minute = 0 or 30, seconds and microseconds set to 0).
+            - "daily": Sets hour, minute, second, and microsecond to 0.
+            - "weekly": Sets to the Monday of the week (weekday 0), hour, minute, second, and microsecond to 0.
+            - "monthly": Sets day to 1, hour, minute, second, and microsecond to 0.
+            - "quarterly": Sets month to the first month of the quarter (1, 4, 7, 10), day to 1, hour, minute, second, and microsecond to 0.
+            - "yearly": Sets month to 1, day to 1, hour, minute, second, and microsecond to 0.
+            - Default: Sets hour, minute, second, and microsecond to 0 (same as "daily").
+        """
+        if interval == "30min":
+            # Round down to nearest 30 minutes
+            return date.replace(minute=(date.minute // 30) * 30, second=0, microsecond=0)
+        elif interval == "daily":
+            return date.replace(hour=0, minute=0, second=0, microsecond=0)
+        elif interval == "weekly":
+            # Start of week (Monday)
+            days_since_monday = date.weekday()
+            return (date - timedelta(days=days_since_monday)).replace(hour=0, minute=0, second=0, microsecond=0)
+        elif interval == "monthly":
+            return date.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        elif interval == "quarterly":
+            # Start of quarter
+            quarter_month = ((date.month - 1) // 3) * 3 + 1
+            return date.replace(month=quarter_month, day=1, hour=0, minute=0, second=0, microsecond=0)
+        elif interval == "yearly":
+            return date.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            return date.replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    # Aggregate by bucket
     aggregated = defaultdict(lambda: {"dates": [], "values": []})
     
-    for date, value in zip(dates, values):
-        key = format_date_label(date, timeframe)
-        aggregated[key]["dates"].append(date)
-        aggregated[key]["values"].append(value)
+    for date, value in zip(filtered_dates, filtered_values):
+        bucket = get_bucket_key(date, interval)
+        aggregated[bucket]["dates"].append(date)
+        aggregated[bucket]["values"].append(value)
     
-    # Sort by the first date in each group to maintain chronological order
-    sorted_keys = sorted(aggregated.keys(), key=lambda k: aggregated[k]["dates"][0])
+    # Sort buckets chronologically
+    sorted_buckets = sorted(aggregated.keys())
     
-    # Take the last value for each period (end of period value)
-    labels = sorted_keys
-    data = [aggregated[key]["values"][-1] for key in sorted_keys]
+    # Take the last value for each bucket (end of period value)
+    labels = []
+    data = []
     
-    # Prepend starting point ONLY if it's not already in the labels
-    start_label = format_date_label(start_date, timeframe)
+    # Add starting point if needed
+    first_bucket = sorted_buckets[0] if sorted_buckets else end_date
+    if sorted_buckets and first_bucket > start_date:
+        # Add a point at the start with base value
+        labels.append(format_date_label(start_date, timeframe, interval))
+        data.append(base_value)
     
-    # Only add start point if it's not already in the labels
-    if start_label not in labels:
-        labels.insert(0, start_label)
-        data.insert(0, base_value)
+    # Add aggregated data points
+    for bucket in sorted_buckets:
+        # Use the last value in this bucket
+        last_value = aggregated[bucket]["values"][-1]
+        labels.append(format_date_label(bucket, timeframe, interval))
+        data.append(last_value)
     
     return (labels, data)
 
 
+def parse_trade_datetime(trade):
+    """
+    Parse trade exit datetime from trade dictionary, combining date and time fields
+    
+    Args:
+        trade (dict): Trade dictionary with exit_date, exit_time (or entry_date, entry_time)
+    
+    Returns:
+        datetime: Parsed datetime object, or None if parsing fails
+    """
+    # Try exit date/time first
+    date_str = trade.get("exit_date", trade.get("entry_date", ""))
+    time_str = trade.get("exit_time", trade.get("entry_time", ""))
+    
+    if not date_str:
+        return None
+    
+    try:
+        # Combine date and time if both are available
+        if time_str:
+            # Validate and handle time string format
+            colon_count = time_str.count(':')
+            if colon_count == 1:
+                # HH:MM format - append seconds
+                datetime_str = f"{date_str}T{time_str}:00"
+            elif colon_count == 2:
+                # HH:MM:SS format - use as is
+                datetime_str = f"{date_str}T{time_str}"
+            else:
+                # Invalid format - treat as date only
+                datetime_str = str(date_str)
+        else:
+            datetime_str = str(date_str)
+        
+        return datetime.fromisoformat(datetime_str)
+    except (ValueError, TypeError):
+        return None
+
+
 def generate_portfolio_value_charts(trades, account_config):
     """
-    Generate portfolio value charts for all timeframes with date-aware labels
+    Generate portfolio value charts for all timeframes with proper time range filtering
     Portfolio Value = Starting Balance + Deposits - Withdrawals + Cumulative P&L
     
-    Charts start from account opening date (or first trade) and show actual dates/days
-    instead of generic labels, ensuring accuracy as time passes.
+    Each timeframe shows distinct time ranges:
+    - Day: Last 24 hours, 30-min intervals
+    - Week: Last 7 days, 30-min or daily intervals
+    - Month: Last 30 days, daily or weekly intervals
+    - Quarter: Last 90 days, weekly or monthly intervals
+    - Year: Last 365 days, weekly/monthly/quarterly intervals
+    - 5 Year: Last 1825 days, quarterly or yearly intervals
     
     Args:
         trades (list): List of trade dictionaries
@@ -538,39 +724,18 @@ def generate_portfolio_value_charts(trades, account_config):
     starting_balance = account_config.get("starting_balance", 0)
     deposits = account_config.get("deposits", [])
     withdrawals = account_config.get("withdrawals", [])
-    account_opening_date = account_config.get("account_opening_date", None)
     
     # Calculate total deposits and withdrawals
     total_deposits = sum(d.get("amount", 0) for d in deposits)
     total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
     
-    # Sort trades by date
-    sorted_trades = sorted(
-        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
-    )
+    # Sort trades by date and time, filtering out trades with invalid dates
+    sorted_trades = []
+    for trade in trades:
+        if parse_trade_datetime(trade):
+            sorted_trades.append(trade)
     
-    # Determine start date: use account_opening_date, first trade, or current date
-    start_date = None
-    if account_opening_date:
-        try:
-            start_date = datetime.fromisoformat(str(account_opening_date))
-        except (ValueError, TypeError):
-            # Invalid or missing account_opening_date; will try first trade date next
-            pass
-    
-    if not start_date and sorted_trades:
-        # Use first trade's entry date
-        first_trade_date = sorted_trades[0].get("entry_date", sorted_trades[0].get("exit_date", ""))
-        try:
-            start_date = datetime.fromisoformat(str(first_trade_date))
-        except (ValueError, TypeError):
-            # If parsing the first trade date fails, fall back to using the current date below
-            # Invalid or missing first trade date; will fall back to current date
-            pass
-    
-    if not start_date:
-        # No trades and no opening date - use today
-        start_date = datetime.now()
+    sorted_trades.sort(key=parse_trade_datetime)
     
     # Calculate cumulative P&L at each trade with dates
     trade_dates = []
@@ -583,17 +748,22 @@ def generate_portfolio_value_charts(trades, account_config):
         pnl = trade.get("pnl_usd", 0)
         cumulative_pnl += pnl
         
-        date_str = trade.get("exit_date", trade.get("entry_date", ""))
-        try:
-            date_obj = datetime.fromisoformat(str(date_str))
+        date_obj = parse_trade_datetime(trade)
+        if date_obj:
             trade_dates.append(date_obj)
             portfolio_values.append(base_value + cumulative_pnl)
-        except (ValueError, TypeError):
-            continue
     
-    # Generate data for each timeframe with date-aware labels using helper function
-    def aggregate_by_timeframe(dates, values, timeframe, start_date):
-        labels, data = aggregate_data_by_timeframe(dates, values, timeframe, start_date, base_value)
+    # Determine end date (most recent trade or today)
+    if trade_dates:
+        end_date = max(trade_dates)
+    else:
+        end_date = datetime.now()
+    
+    # Generate data for each timeframe with proper filtering
+    def create_chart_data(dates, values, timeframe, interval, end_date, base_value):
+        labels, data = filter_and_aggregate_by_timeframe(
+            dates, values, timeframe, interval, end_date, base_value
+        )
         
         return {
             "labels": labels,
@@ -612,24 +782,30 @@ def generate_portfolio_value_charts(trades, account_config):
             }]
         }
     
-    # Generate for each timeframe
+    # Generate for each timeframe with default interval
     timeframes = ["day", "week", "month", "quarter", "year", "5year"]
     for timeframe in timeframes:
-        chart_data = aggregate_by_timeframe(trade_dates, portfolio_values, timeframe, start_date)
+        interval = get_default_interval(timeframe)
+        chart_data = create_chart_data(trade_dates, portfolio_values, timeframe, interval, end_date, base_value)
         
         output_path = f"index.directory/assets/charts/portfolio-value-{timeframe}.json"
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(chart_data, f, indent=2)
-        print(f"  ✓ Portfolio value ({timeframe}) data saved")
+        print(f"  ✓ Portfolio value ({timeframe}) with {interval} interval saved")
 
 
 def generate_total_return_charts(trades, account_config):
     """
-    Generate total return percentage charts for all timeframes with date-aware labels
+    Generate total return percentage charts for all timeframes with proper time range filtering
     Total Return % = (Current Value - Starting Investment) / Starting Investment * 100
     
-    Charts start from account opening date (or first trade) and show actual dates
-    instead of generic labels, ensuring accuracy as time passes.
+    Each timeframe shows distinct time ranges:
+    - Day: Last 24 hours, 30-min intervals
+    - Week: Last 7 days, 30-min or daily intervals
+    - Month: Last 30 days, daily or weekly intervals
+    - Quarter: Last 90 days, weekly or monthly intervals
+    - Year: Last 365 days, weekly/monthly/quarterly intervals
+    - 5 Year: Last 1825 days, quarterly or yearly intervals
     
     Args:
         trades (list): List of trade dictionaries
@@ -638,7 +814,6 @@ def generate_total_return_charts(trades, account_config):
     starting_balance = account_config.get("starting_balance", 0)
     deposits = account_config.get("deposits", [])
     withdrawals = account_config.get("withdrawals", [])
-    account_opening_date = account_config.get("account_opening_date", None)
     
     total_deposits = sum(d.get("amount", 0) for d in deposits)
     total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
@@ -648,34 +823,13 @@ def generate_total_return_charts(trades, account_config):
     if starting_investment == 0:
         starting_investment = 1  # Avoid division by zero
     
-    # Sort trades by date
-    sorted_trades = sorted(
-        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
-    )
+    # Sort trades by date and time, filtering out trades with invalid dates
+    sorted_trades = []
+    for trade in trades:
+        if parse_trade_datetime(trade):
+            sorted_trades.append(trade)
     
-    # Determine start date: use account_opening_date, first trade, or current date
-    start_date = None
-    if account_opening_date:
-        try:
-            start_date = datetime.fromisoformat(str(account_opening_date))
-        except (ValueError, TypeError):
-            # If parsing fails, we'll try other options or fall back to today below
-            # Invalid or missing account_opening_date; will try first trade date next
-            pass
-    
-    if not start_date and sorted_trades:
-        # Use first trade's entry date
-        first_trade_date = sorted_trades[0].get("entry_date", sorted_trades[0].get("exit_date", ""))
-        try:
-            start_date = datetime.fromisoformat(str(first_trade_date))
-        except (ValueError, TypeError):
-            # Ignore invalid or missing date; fallback logic will use current date if needed
-            # Invalid or missing first trade date; will fall back to current date
-            pass
-    
-    if not start_date:
-        # No trades and no opening date - use today
-        start_date = datetime.now()
+    sorted_trades.sort(key=parse_trade_datetime)
     
     # Calculate return percentage at each trade
     trade_dates = []
@@ -688,18 +842,22 @@ def generate_total_return_charts(trades, account_config):
         
         return_pct = (cumulative_pnl / starting_investment) * 100
         
-        date_str = trade.get("exit_date", trade.get("entry_date", ""))
-        try:
-            date_obj = datetime.fromisoformat(str(date_str))
+        date_obj = parse_trade_datetime(trade)
+        if date_obj:
             trade_dates.append(date_obj)
             return_percentages.append(return_pct)
-        except (ValueError, TypeError):
-            continue
     
-    # Generate data for each timeframe with date-aware labels using helper function
-    def aggregate_by_timeframe(dates, values, timeframe, start_date):
-        # For total return, starting value is 0%
-        labels, data = aggregate_data_by_timeframe(dates, values, timeframe, start_date, 0)
+    # Determine end date (most recent trade or today)
+    if trade_dates:
+        end_date = max(trade_dates)
+    else:
+        end_date = datetime.now()
+    
+    # Generate data for each timeframe with proper filtering
+    def create_chart_data(dates, values, timeframe, interval, end_date):
+        labels, data = filter_and_aggregate_by_timeframe(
+            dates, values, timeframe, interval, end_date, 0  # Start at 0% return
+        )
         
         # Round return percentages to 2 decimal places
         data = [round(v, 2) for v in data]
@@ -721,15 +879,16 @@ def generate_total_return_charts(trades, account_config):
             }]
         }
     
-    # Generate for each timeframe
+    # Generate for each timeframe with default interval
     timeframes = ["day", "week", "month", "quarter", "year", "5year"]
     for timeframe in timeframes:
-        chart_data = aggregate_by_timeframe(trade_dates, return_percentages, timeframe, start_date)
+        interval = get_default_interval(timeframe)
+        chart_data = create_chart_data(trade_dates, return_percentages, timeframe, interval, end_date)
         
         output_path = f"index.directory/assets/charts/total-return-{timeframe}.json"
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(chart_data, f, indent=2)
-        print(f"  ✓ Total return ({timeframe}) data saved")
+        print(f"  ✓ Total return ({timeframe}) with {interval} interval saved")
 
 
 def main():

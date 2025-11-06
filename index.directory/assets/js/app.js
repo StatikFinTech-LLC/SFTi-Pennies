@@ -217,7 +217,8 @@ class TradingJournal {
   }
   
   /**
-   * Set up authentication UI elements
+   * Set up authentication UI elements (deprecated - now handled by navbar.js)
+   * Keeping for backward compatibility with pages that don't use navbar.js
    */
   setupAuthUI() {
     const authButton = document.getElementById('auth-button');

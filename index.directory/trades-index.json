@@ -1,44 +1,6 @@
 {
   "trades": [
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.1.md",
-      "body": "# Trade #1 - SMX\n\n## Trade Details\n\n- **Ticker**: SMX\n- **Direction**: LONG\n- **Entry**: $2.29 on 2025-11-05 at 05:46\n- **Exit**: $2.06 on 2025-11-05 at 06:03\n- **Position Size**: 30 shares\n- **Strate...",
-      "notes": "Got in with Tim, was skeptical on entering so soon, got bit on stop loss, to watch it run shortly after.",
-      "trade_number": 1,
-      "ticker": "SMX",
-      "entry_date": "2025-11-05",
-      "entry_time": "05:46",
-      "exit_date": "2025-11-05",
-      "exit_time": "06:03",
-      "entry_price": 2.29,
-      "exit_price": 2.06,
-      "position_size": 30.0,
-      "direction": "LONG",
-      "strategy": "VWAP Bounce",
-      "stop_loss": 2.05,
-      "target_price": 2.8,
-      "risk_reward_ratio": 2.12,
-      "broker": "IBKR",
-      "pnl_usd": -6.9,
-      "pnl_percent": -10.04,
-      "strategy_tags": [
-        "Reversal"
-      ],
-      "setup_tags": [
-        "VWAP Bounce"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3238.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3243.jpeg"
-      ]
-    },
-    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
       "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
       "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
@@ -112,6 +74,44 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.1.md",
+      "body": "# Trade #1 - SMX\n\n## Trade Details\n\n- **Ticker**: SMX\n- **Direction**: LONG\n- **Entry**: $2.29 on 2025-11-05 at 05:46\n- **Exit**: $2.06 on 2025-11-05 at 06:03\n- **Position Size**: 30 shares\n- **Strate...",
+      "notes": "Got in with Tim, was skeptical on entering so soon, got bit on stop loss, to watch it run shortly after.",
+      "trade_number": 1,
+      "ticker": "SMX",
+      "entry_date": "2025-11-05",
+      "entry_time": "05:46",
+      "exit_date": "2025-11-05",
+      "exit_time": "06:03",
+      "entry_price": 2.29,
+      "exit_price": 2.06,
+      "position_size": 30.0,
+      "direction": "LONG",
+      "strategy": "VWAP Bounce",
+      "stop_loss": 2.05,
+      "target_price": 2.8,
+      "risk_reward_ratio": 2.12,
+      "broker": "IBKR",
+      "pnl_usd": -6.9,
+      "pnl_percent": -10.04,
+      "strategy_tags": [
+        "Reversal"
+      ],
+      "setup_tags": [
+        "VWAP Bounce"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3238.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3243.jpeg"
       ]
     },
     {
@@ -206,6 +206,6 @@
     "max_drawdown": -39.28,
     "profit_factor": 0.72
   },
-  "generated_at": "2025-11-06T01:09:12.391215",
+  "generated_at": "2025-11-06T03:54:37.360494",
   "version": "1.0"
 }

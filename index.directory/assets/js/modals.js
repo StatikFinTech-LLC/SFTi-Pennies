@@ -152,6 +152,22 @@ function switchReturnTimeframe(timeframe) {
 }
 
 /**
+ * Helper function to log chart data consistently
+ * @param {string} chartType - Type of chart (e.g., 'Portfolio Chart', 'Total Return Chart')
+ * @param {string} timeframe - Timeframe of the data
+ * @param {Object} data - Chart data object
+ */
+function logChartData(chartType, timeframe, data) {
+  const dataset = data.datasets[0];
+  console.log(`[${chartType}] ${timeframe} data:`, {
+    labels: data.labels,
+    dataPoints: dataset.data.length,
+    firstValue: dataset.data[0],
+    lastValue: dataset.data[dataset.data.length - 1]
+  });
+}
+
+/**
  * Load Portfolio Chart
  */
 async function loadPortfolioChart(timeframe) {
@@ -169,6 +185,7 @@ async function loadPortfolioChart(timeframe) {
     
     // Load chart data based on timeframe
     const dataUrl = `${basePath}/index.directory/assets/charts/portfolio-value-${timeframe}.json`;
+    console.log(`[Portfolio Chart] Loading ${timeframe} timeframe from ${dataUrl}`);
     const response = await fetch(dataUrl);
     
     if (!response.ok) {
@@ -176,6 +193,7 @@ async function loadPortfolioChart(timeframe) {
     }
     
     const data = await response.json();
+    logChartData('Portfolio Chart', timeframe, data);
     
     // Create chart
     portfolioChart = new Chart(ctx, {
@@ -208,6 +226,7 @@ async function loadReturnChart(timeframe) {
     
     // Load chart data based on timeframe
     const dataUrl = `${basePath}/index.directory/assets/charts/total-return-${timeframe}.json`;
+    console.log(`[Total Return Chart] Loading ${timeframe} timeframe from ${dataUrl}`);
     const response = await fetch(dataUrl);
     
     if (!response.ok) {
@@ -215,6 +234,7 @@ async function loadReturnChart(timeframe) {
     }
     
     const data = await response.json();
+    logChartData('Total Return Chart', timeframe, data);
     
     // Create chart
     returnChart = new Chart(ctx, {

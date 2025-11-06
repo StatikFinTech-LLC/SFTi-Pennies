@@ -367,6 +367,31 @@ body {
   transform: translateX(4px);
 }
 
+/* Action buttons in dropdown (for Git.Auth, Re-Fresh, etc.) */
+.bubble-dropdown-action {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--text-primary, #ffffff);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.bubble-dropdown-action:hover {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--accent-green, #00ff88);
+  transform: translateX(4px);
+}
+
 /* Native select for mobile bubble dropdowns */
 .bubble-native-select {
   position: absolute;
@@ -423,6 +448,20 @@ body {
 }
 
 .glowing-bubble.bubble-login:hover {
+  background: rgba(147, 51, 234, 0.25);
+  border-color: rgba(147, 51, 234, 0.6);
+  box-shadow: 0 6px 32px rgba(147, 51, 234, 0.4),
+              0 0 60px rgba(147, 51, 234, 0.3);
+}
+
+.glowing-bubble.bubble-account {
+  border-color: rgba(147, 51, 234, 0.3);
+  color: rgba(147, 51, 234, 1);
+  animation: bubbleGlowPurple 3s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.glowing-bubble.bubble-account:hover {
   background: rgba(147, 51, 234, 0.25);
   border-color: rgba(147, 51, 234, 0.6);
   box-shadow: 0 6px 32px rgba(147, 51, 234, 0.4),

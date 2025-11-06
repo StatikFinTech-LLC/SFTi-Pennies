@@ -1,11 +1,13 @@
 {
   "labels": [
-    "Nov"
+    "W45 11/05",
+    "W44 11/03"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
+        161,
         136.42000000000002
       ],
       "borderColor": "#00ff88",
