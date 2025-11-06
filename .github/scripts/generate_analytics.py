@@ -473,8 +473,8 @@ def main():
 
         # Aggregate by tags
         by_strategy = aggregate_by_tag(sorted_trades, "strategy")
-        by_setup = aggregate_by_tag(sorted_trades, "setup")
-        by_session = aggregate_by_tag(sorted_trades, "session")
+        by_setup = aggregate_by_tag(sorted_trades, "setup_tags")
+        by_session = aggregate_by_tag(sorted_trades, "session_tags")
 
         analytics = {
             "expectancy": expectancy,
