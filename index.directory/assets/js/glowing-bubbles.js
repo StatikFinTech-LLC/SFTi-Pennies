@@ -59,13 +59,16 @@
     // Define bubble configurations with new structure
     const bubbles = [
       {
-        type: 'button',
-        class: 'bubble-login',
-        tooltip: 'Login',
-        id: 'bubble-auth-button',
+        type: 'dropdown',
+        class: 'bubble-account',
+        tooltip: 'Account',
         icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-        </svg>`
+        </svg>`,
+        dropdownItems: [
+          { label: 'Git.Auth', action: 'auth' },
+          { label: 'Re-Fresh', action: 'refresh' }
+        ]
       },
       {
         type: 'link',
@@ -174,10 +177,13 @@
           
           bubble.dropdownItems.forEach(item => {
             const option = document.createElement('option');
-            option.value = item.href;
+            option.value = item.href || item.action || '';
             option.textContent = item.label;
             if (item.external) {
               option.setAttribute('data-external', 'true');
+            }
+            if (item.action) {
+              option.setAttribute('data-action', item.action);
             }
             select.appendChild(option);
           });
@@ -186,11 +192,15 @@
           wrapper.appendChild(select);
           container.appendChild(wrapper);
           
-          // Handle select change - navigate to selected URL
+          // Handle select change - navigate to selected URL or perform action
           select.addEventListener('change', (e) => {
             const selectedOption = e.target.options[e.target.selectedIndex];
             if (selectedOption.value) {
-              if (selectedOption.getAttribute('data-external') === 'true') {
+              const action = selectedOption.getAttribute('data-action');
+              if (action) {
+                // Handle action-based items
+                handleBubbleAction(action);
+              } else if (selectedOption.getAttribute('data-external') === 'true') {
                 window.open(selectedOption.value, '_blank', 'noopener,noreferrer');
               } else {
                 window.location.href = selectedOption.value;
@@ -213,14 +223,30 @@
           dropdown.className = 'bubble-dropdown';
           
           bubble.dropdownItems.forEach(item => {
-            const link = document.createElement('a');
-            link.href = item.href;
-            link.textContent = item.label;
-            if (item.external) {
-              link.target = '_blank';
-              link.rel = 'noopener noreferrer';
+            if (item.action) {
+              // Action-based item (button)
+              const button = document.createElement('button');
+              button.textContent = item.label;
+              button.setAttribute('data-action', item.action);
+              button.className = 'bubble-dropdown-action';
+              button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleBubbleAction(item.action);
+                wrapper.classList.remove('active');
+              });
+              dropdown.appendChild(button);
+            } else {
+              // Link-based item
+              const link = document.createElement('a');
+              link.href = item.href;
+              link.textContent = item.label;
+              if (item.external) {
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+              }
+              dropdown.appendChild(link);
             }
-            dropdown.appendChild(link);
           });
           
           wrapper.appendChild(bubbleElement);
@@ -277,37 +303,85 @@
   }
   
   /**
-   * Set up authentication for bubble button
+   * Handle action-based bubble menu items
    */
-  function setupBubbleAuth() {
-    const authButton = document.getElementById('bubble-auth-button');
-    if (!authButton) return;
-    
-    // Check if GitHubAuth is available
-    if (typeof GitHubAuth !== 'undefined') {
-      const auth = new GitHubAuth();
-      
-      if (auth.isAuthenticated()) {
-        authButton.setAttribute('data-tooltip', 'Logout');
-        authButton.addEventListener('click', () => {
+  function handleBubbleAction(action) {
+    if (action === 'auth') {
+      // Handle Git.Auth action (login/logout)
+      if (typeof GitHubAuth !== 'undefined') {
+        const auth = new GitHubAuth();
+        if (auth.isAuthenticated()) {
+          // Logout
           auth.clearAuth();
           window.location.reload();
-        });
-      } else {
-        authButton.setAttribute('data-tooltip', 'Login');
-        authButton.addEventListener('click', () => {
+        } else {
+          // Login
           if (typeof showAuthPrompt !== 'undefined') {
             showAuthPrompt();
           } else {
             alert('Authentication system not available. Please refresh the page.');
           }
-        });
+        }
+      } else {
+        alert('Authentication system not available. Please refresh the page.');
       }
-    } else {
-      // GitHubAuth not available, disable button
-      authButton.setAttribute('data-tooltip', 'Auth Not Available');
-      authButton.style.opacity = '0.5';
-      authButton.style.cursor = 'not-allowed';
+    } else if (action === 'refresh') {
+      // Handle Re-Fresh action (reload PWA)
+      if ('serviceWorker' in navigator) {
+        // Unregister all service workers and reload
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          Promise.all(registrations.map(reg => reg.unregister())).then(() => {
+            // Clear caches
+            if ('caches' in window) {
+              caches.keys().then(cacheNames => {
+                return Promise.all(
+                  cacheNames.map(cacheName => caches.delete(cacheName))
+                );
+              }).then(() => {
+                // Force reload from server
+                window.location.reload(true);
+              });
+            } else {
+              // Just reload if cache API not available
+              window.location.reload(true);
+            }
+          });
+        });
+      } else {
+        // No service worker, just reload
+        window.location.reload(true);
+      }
+    }
+  }
+  
+  /**
+   * Set up authentication for bubble button
+   * @deprecated - Auth is now handled as a dropdown menu item
+   */
+  function setupBubbleAuth() {
+    // Update dropdown label based on auth state
+    if (typeof GitHubAuth !== 'undefined') {
+      const auth = new GitHubAuth();
+      
+      // Find all Git.Auth action buttons/options and update their labels
+      const updateAuthLabel = () => {
+        const isAuthenticated = auth.isAuthenticated();
+        const label = isAuthenticated ? 'Logout' : 'Login';
+        
+        // Update desktop dropdown buttons
+        document.querySelectorAll('[data-action="auth"]').forEach(elem => {
+          if (elem.tagName === 'BUTTON') {
+            elem.textContent = label;
+          }
+        });
+        
+        // Update mobile select options
+        document.querySelectorAll('select.bubble-native-select option[data-action="auth"]').forEach(option => {
+          option.textContent = label;
+        });
+      };
+      
+      updateAuthLabel();
     }
   }
   
@@ -322,3 +396,4 @@
     initGlowingBubbles();
   }
 })();
+

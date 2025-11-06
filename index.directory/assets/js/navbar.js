@@ -72,7 +72,18 @@ class Navbar {
       
       <li class="nav-item nav-buttons-group">
         <a href="${addTradePath}" class="nav-link btn btn-primary">+ Add Trade</a>
-        <button id="auth-button" class="btn btn-secondary">Login</button>
+        <div class="auth-dropdown">
+          <button id="auth-dropdown-button" class="btn btn-secondary" aria-haspopup="true" aria-expanded="false">
+            <span id="auth-dropdown-text">Account</span>
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <ul id="auth-dropdown-menu" class="auth-dropdown-menu" role="menu">
+            <li><button class="auth-dropdown-option" data-action="auth" id="auth-git-action">Git.Auth</button></li>
+            <li><button class="auth-dropdown-option" data-action="refresh">Re-Fresh</button></li>
+          </ul>
+        </div>
       </li>
     </ul>
   </div>
@@ -214,6 +225,120 @@ class Navbar {
         }
       }
     });
+    
+    // Setup auth dropdown
+    this.setupAuthDropdown();
+  }
+  
+  /**
+   * Setup auth dropdown functionality
+   */
+  setupAuthDropdown() {
+    const dropdownButton = document.getElementById('auth-dropdown-button');
+    const dropdownMenu = document.getElementById('auth-dropdown-menu');
+    const dropdownText = document.getElementById('auth-dropdown-text');
+    const gitAuthButton = document.getElementById('auth-git-action');
+    
+    if (!dropdownButton || !dropdownMenu) return;
+    
+    // Initialize auth state
+    if (typeof GitHubAuth !== 'undefined') {
+      const auth = new GitHubAuth();
+      if (auth.isAuthenticated()) {
+        if (gitAuthButton) {
+          gitAuthButton.textContent = 'Logout';
+        }
+      } else {
+        if (gitAuthButton) {
+          gitAuthButton.textContent = 'Login';
+        }
+      }
+    }
+    
+    // Toggle dropdown
+    dropdownButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = dropdownButton.getAttribute('aria-expanded') === 'true';
+      dropdownButton.setAttribute('aria-expanded', !isExpanded);
+      dropdownMenu.classList.toggle('show');
+    });
+    
+    // Handle dropdown options
+    dropdownMenu.querySelectorAll('.auth-dropdown-option').forEach(option => {
+      option.addEventListener('click', (e) => {
+        e.preventDefault();
+        const action = option.getAttribute('data-action');
+        
+        // Close dropdown
+        dropdownButton.setAttribute('aria-expanded', 'false');
+        dropdownMenu.classList.remove('show');
+        
+        // Handle actions
+        if (action === 'auth') {
+          this.handleAuthAction();
+        } else if (action === 'refresh') {
+          this.handleRefreshAction();
+        }
+      });
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+        dropdownButton.setAttribute('aria-expanded', 'false');
+        dropdownMenu.classList.remove('show');
+      }
+    });
+  }
+  
+  /**
+   * Handle Git.Auth action (login/logout)
+   */
+  handleAuthAction() {
+    if (typeof GitHubAuth !== 'undefined') {
+      const auth = new GitHubAuth();
+      if (auth.isAuthenticated()) {
+        // Logout
+        auth.clearAuth();
+        window.location.reload();
+      } else {
+        // Login
+        if (typeof showAuthPrompt !== 'undefined') {
+          showAuthPrompt();
+        }
+      }
+    }
+  }
+  
+  /**
+   * Handle Re-Fresh action (reload PWA)
+   */
+  handleRefreshAction() {
+    // Check if service worker is available
+    if ('serviceWorker' in navigator) {
+      // Unregister all service workers and reload
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        Promise.all(registrations.map(reg => reg.unregister())).then(() => {
+          // Clear caches
+          if ('caches' in window) {
+            caches.keys().then(cacheNames => {
+              return Promise.all(
+                cacheNames.map(cacheName => caches.delete(cacheName))
+              );
+            }).then(() => {
+              // Force reload from server
+              window.location.reload(true);
+            });
+          } else {
+            // Just reload if cache API not available
+            window.location.reload(true);
+          }
+        });
+      });
+    } else {
+      // No service worker, just reload
+      window.location.reload(true);
+    }
   }
 }
 
@@ -221,3 +346,4 @@ class Navbar {
 SFTiUtils.onDOMReady(() => {
   new Navbar();
 });
+

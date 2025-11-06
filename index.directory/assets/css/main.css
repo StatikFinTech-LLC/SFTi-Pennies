@@ -314,6 +314,78 @@ code {
   margin: 0;
 }
 
+/* Auth Dropdown Styles */
+.auth-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.auth-dropdown .btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-right: 2.5rem;
+  position: relative;
+}
+
+.auth-dropdown .dropdown-arrow {
+  position: absolute;
+  right: 0.75rem;
+  transition: transform 0.2s ease;
+}
+
+.auth-dropdown .btn[aria-expanded="true"] .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.auth-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  min-width: 160px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 1000;
+}
+
+.auth-dropdown-menu.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.auth-dropdown-option {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.auth-dropdown-option:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--accent-green);
+}
+
+.auth-dropdown-option:active {
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
 /* Container */
 .container {
   max-width: 1200px;
@@ -1353,3 +1425,4 @@ input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
   height: 100% !important;
   width: 100% !important;
 }
+
