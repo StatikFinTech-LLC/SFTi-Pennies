@@ -169,6 +169,7 @@ async function loadPortfolioChart(timeframe) {
     
     // Load chart data based on timeframe
     const dataUrl = `${basePath}/index.directory/assets/charts/portfolio-value-${timeframe}.json`;
+    console.log(`[Portfolio Chart] Loading ${timeframe} timeframe from ${dataUrl}`);
     const response = await fetch(dataUrl);
     
     if (!response.ok) {
@@ -176,6 +177,12 @@ async function loadPortfolioChart(timeframe) {
     }
     
     const data = await response.json();
+    console.log(`[Portfolio Chart] ${timeframe} data:`, {
+      labels: data.labels,
+      dataPoints: data.datasets[0].data.length,
+      firstValue: data.datasets[0].data[0],
+      lastValue: data.datasets[0].data[data.datasets[0].data.length - 1]
+    });
     
     // Create chart
     portfolioChart = new Chart(ctx, {
@@ -208,6 +215,7 @@ async function loadReturnChart(timeframe) {
     
     // Load chart data based on timeframe
     const dataUrl = `${basePath}/index.directory/assets/charts/total-return-${timeframe}.json`;
+    console.log(`[Total Return Chart] Loading ${timeframe} timeframe from ${dataUrl}`);
     const response = await fetch(dataUrl);
     
     if (!response.ok) {
@@ -215,6 +223,12 @@ async function loadReturnChart(timeframe) {
     }
     
     const data = await response.json();
+    console.log(`[Total Return Chart] ${timeframe} data:`, {
+      labels: data.labels,
+      dataPoints: data.datasets[0].data.length,
+      firstValue: data.datasets[0].data[0],
+      lastValue: data.datasets[0].data[data.datasets[0].data.length - 1]
+    });
     
     // Create chart
     returnChart = new Chart(ctx, {
