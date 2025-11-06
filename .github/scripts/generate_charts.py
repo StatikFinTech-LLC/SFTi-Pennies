@@ -660,7 +660,11 @@ def parse_trade_datetime(trade):
     try:
         # Combine date and time if both are available
         if time_str:
-            datetime_str = f"{date_str}T{time_str}:00"
+            # Check if time already has seconds, otherwise append :00
+            if time_str.count(':') == 1:
+                datetime_str = f"{date_str}T{time_str}:00"
+            else:
+                datetime_str = f"{date_str}T{time_str}"
         else:
             datetime_str = str(date_str)
         
@@ -694,11 +698,13 @@ def generate_portfolio_value_charts(trades, account_config):
     total_deposits = sum(d.get("amount", 0) for d in deposits)
     total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
     
-    # Sort trades by date and time
-    sorted_trades = sorted(
-        trades, 
-        key=lambda t: parse_trade_datetime(t) or datetime.min
-    )
+    # Sort trades by date and time, filtering out trades with invalid dates
+    sorted_trades = []
+    for trade in trades:
+        if parse_trade_datetime(trade):
+            sorted_trades.append(trade)
+    
+    sorted_trades.sort(key=lambda t: parse_trade_datetime(t))
     
     # Calculate cumulative P&L at each trade with dates
     trade_dates = []
@@ -786,11 +792,13 @@ def generate_total_return_charts(trades, account_config):
     if starting_investment == 0:
         starting_investment = 1  # Avoid division by zero
     
-    # Sort trades by date and time
-    sorted_trades = sorted(
-        trades, 
-        key=lambda t: parse_trade_datetime(t) or datetime.min
-    )
+    # Sort trades by date and time, filtering out trades with invalid dates
+    sorted_trades = []
+    for trade in trades:
+        if parse_trade_datetime(trade):
+            sorted_trades.append(trade)
+    
+    sorted_trades.sort(key=lambda t: parse_trade_datetime(t))
     
     # Calculate return percentage at each trade
     trade_dates = []
