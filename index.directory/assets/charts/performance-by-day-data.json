@@ -10,17 +10,17 @@
       "data": [
         -8.64,
         -15.1,
-        -6.9
+        3.9
       ],
       "backgroundColor": [
         "#ff4757",
         "#ff4757",
-        "#ff4757"
+        "#00ff88"
       ],
       "borderColor": [
         "#ff4757",
         "#ff4757",
-        "#ff4757"
+        "#00ff88"
       ],
       "borderWidth": 2
     }

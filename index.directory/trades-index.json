@@ -1,44 +1,6 @@
 {
   "trades": [
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.1.md",
-      "body": "# Trade #1 - SMX\n\n## Trade Details\n\n- **Ticker**: SMX\n- **Direction**: LONG\n- **Entry**: $2.29 on 2025-11-05 at 05:46\n- **Exit**: $2.06 on 2025-11-05 at 06:03\n- **Position Size**: 30 shares\n- **Strate...",
-      "notes": "Got in with Tim, was skeptical on entering so soon, got bit on stop loss, to watch it run shortly after.",
-      "trade_number": 1,
-      "ticker": "SMX",
-      "entry_date": "2025-11-05",
-      "entry_time": "05:46",
-      "exit_date": "2025-11-05",
-      "exit_time": "06:03",
-      "entry_price": 2.29,
-      "exit_price": 2.06,
-      "position_size": 30.0,
-      "direction": "LONG",
-      "strategy": "VWAP Bounce",
-      "stop_loss": 2.05,
-      "target_price": 2.8,
-      "risk_reward_ratio": 2.12,
-      "broker": "IBKR",
-      "pnl_usd": -6.9,
-      "pnl_percent": -10.04,
-      "strategy_tags": [
-        "Reversal"
-      ],
-      "setup_tags": [
-        "VWAP Bounce"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3238.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3243.jpeg"
-      ]
-    },
-    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
       "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
       "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
@@ -115,6 +77,44 @@
       ]
     },
     {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.1.md",
+      "body": "# Trade #1 - SMX\n\n## Trade Details\n\n- **Ticker**: SMX\n- **Direction**: LONG\n- **Entry**: $2.29 on 2025-11-05 at 05:46\n- **Exit**: $2.06 on 2025-11-05 at 06:03\n- **Position Size**: 30 shares\n- **Strate...",
+      "notes": "Got in with Tim, was skeptical on entering so soon, got bit on stop loss, to watch it run shortly after.",
+      "trade_number": 1,
+      "ticker": "SMX",
+      "entry_date": "2025-11-05",
+      "entry_time": "05:46",
+      "exit_date": "2025-11-05",
+      "exit_time": "06:03",
+      "entry_price": 2.29,
+      "exit_price": 2.06,
+      "position_size": 30.0,
+      "direction": "LONG",
+      "strategy": "VWAP Bounce",
+      "stop_loss": 2.05,
+      "target_price": 2.8,
+      "risk_reward_ratio": 2.12,
+      "broker": "IBKR",
+      "pnl_usd": -6.9,
+      "pnl_percent": -10.04,
+      "strategy_tags": [
+        "Reversal"
+      ],
+      "setup_tags": [
+        "VWAP Bounce"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3238.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3243.jpeg"
+      ]
+    },
+    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.2.md",
       "body": "# Trade #2 - PHIO\n\n## Trade Details\n\n- **Ticker**: PHIO\n- **Direction**: LONG\n- **Entry**: $4.10 on 2025-11-03 at 07:37\n- **Exit**: $2.78 on 2025-11-03 at 11:17\n- **Position Size**: 19 shares\n- **Stra...",
       "notes": "Was hesitant on getting into the trade earlier in the morning, Finally caved, but too late.",
@@ -151,23 +151,61 @@
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3193.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3192.jpeg"
       ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.2.md",
+      "body": "# Trade #2 - CHR\n\n## Trade Details\n\n- **Ticker**: CHR\n- **Direction**: LONG\n- **Entry**: $0.1714 on 2025-11-05 at 07:03\n- **Exit**: $0.2204 on 2025-11-05 at 07:09\n- **Position Size**: 300 shares\n- **S...",
+      "notes": "Entered on first candle after 7am, a new strategy I am trying out. Rode to first red, could have held longer, will be watching closer next time.",
+      "trade_number": 2,
+      "ticker": "CHR",
+      "entry_date": "2025-11-05",
+      "entry_time": "07:03",
+      "exit_date": "2025-11-05",
+      "exit_time": "07:09",
+      "entry_price": 0.1714,
+      "exit_price": 0.2204,
+      "position_size": 300.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.165,
+      "target_price": 0.25,
+      "risk_reward_ratio": 12.28,
+      "broker": "IBKR",
+      "pnl_usd": 14.7,
+      "pnl_percent": 28.59,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "Bull Flag"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volume"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3239.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3241.jpeg"
+      ]
     }
   ],
   "statistics": {
-    "total_trades": 4,
-    "winning_trades": 1,
+    "total_trades": 5,
+    "winning_trades": 2,
     "losing_trades": 3,
-    "win_rate": 25.0,
-    "total_pnl": -39.28,
-    "avg_pnl": -9.82,
-    "avg_winner": 7.8,
+    "win_rate": 40.0,
+    "total_pnl": -24.58,
+    "avg_pnl": -4.92,
+    "avg_winner": 11.25,
     "avg_loser": -15.69,
-    "largest_win": 7.8,
+    "largest_win": 14.7,
     "largest_loss": -25.08,
-    "total_volume": 309,
-    "max_drawdown": -40.18,
-    "profit_factor": 0.5
+    "total_volume": 609,
+    "max_drawdown": -47.08,
+    "profit_factor": 0.72
   },
-  "generated_at": "2025-11-05T22:57:37.377767",
+  "generated_at": "2025-11-06T00:03:59.087771",
   "version": "1.0"
 }

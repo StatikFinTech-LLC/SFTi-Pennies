@@ -1,5 +1,6 @@
 {
   "labels": [
+    "CHR",
     "MSPR",
     "SMX",
     "SCNX",
@@ -9,6 +10,7 @@
     {
       "label": "Total P&L ($)",
       "data": [
+        14.7,
         7.8,
         -6.9,
         -15.1,
@@ -16,11 +18,13 @@
       ],
       "backgroundColor": [
         "#00ff88",
+        "#00ff88",
         "#ff4757",
         "#ff4757",
         "#ff4757"
       ],
       "borderColor": [
+        "#00ff88",
         "#00ff88",
         "#ff4757",
         "#ff4757",

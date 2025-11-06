@@ -2,24 +2,24 @@
 
 ## Overview
 
-This week's trading session included **2 trades** with a total P&L of **$-22.00**.
+This week's trading session included **3 trades** with a total P&L of **$-7.30**.
 
 ## Performance Metrics
 
 | Metric | Value |
 |--------|-------|
-| Total Trades | 2 |
-| Total P&L | $-22.00 |
-| Win Rate | 0.0% |
-| Wins | 0 |
+| Total Trades | 3 |
+| Total P&L | $-7.30 |
+| Win Rate | 33.3% |
+| Wins | 1 |
 | Losses | 2 |
 | Breakeven | 0 |
-| Average Win | $0.00 |
+| Average Win | $14.70 |
 | Average Loss | $-11.00 |
-| Largest Win | $0.00 |
+| Largest Win | $14.70 |
 | Largest Loss | $-15.10 |
-| Profit Factor | 0.00 |
-| Gross Profit | $0.00 |
+| Profit Factor | 0.67 |
+| Gross Profit | $14.70 |
 | Gross Loss | $22.00 |
 
 ## Trade List
@@ -43,6 +43,15 @@ This week's trading session included **2 trades** with a total P&L of **$-22.00*
 - **Strategy**: Reversal
 - **Setup**: VWAP Bounce
 
+### 3. CHR - 2025-11-05
+
+- **Direction**: LONG
+- **Entry**: $0.17
+- **Exit**: $0.22
+- **P&L**: $14.70
+- **Strategy**: Breakout
+- **Setup**: Bull Flag
+
 
 ## Weekly Reflection
 
@@ -50,4 +59,4 @@ _Add your weekly reflection, lessons learned, and improvements for next week..._
 
 ---
 
-*Generated on 2025-11-05 22:57:40*
+*Generated on 2025-11-06 00:04:02*
