@@ -1,44 +1,6 @@
 {
   "trades": [
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
-      "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
-      "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
-      "trade_number": 1,
-      "ticker": "MSPR",
-      "entry_date": "2025-11-03",
-      "entry_time": "06:55",
-      "exit_date": "2025-11-03",
-      "exit_time": "08:33",
-      "entry_price": 0.62,
-      "exit_price": 0.6972,
-      "position_size": 101.0,
-      "direction": "LONG",
-      "strategy": "VWAP Hold",
-      "stop_loss": 0.5,
-      "target_price": 0.75,
-      "risk_reward_ratio": 1.08,
-      "broker": "IBKR",
-      "pnl_usd": 7.8,
-      "pnl_percent": 12.45,
-      "strategy_tags": [
-        "VWAP Hold"
-      ],
-      "setup_tags": [
-        "VWAP Reclaim"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
-      ]
-    },
-    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
       "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
       "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
@@ -153,41 +115,41 @@
       ]
     },
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.2.md",
-      "body": "# Trade #2 - CHR\n\n## Trade Details\n\n- **Ticker**: CHR\n- **Direction**: LONG\n- **Entry**: $0.1714 on 2025-11-05 at 07:03\n- **Exit**: $0.2204 on 2025-11-05 at 07:09\n- **Position Size**: 300 shares\n- **S...",
-      "notes": "Entered on first candle after 7am, a new strategy I am trying out. Rode to first red, could have held longer, will be watching closer next time.",
-      "trade_number": 2,
-      "ticker": "CHR",
-      "entry_date": "2025-11-05",
-      "entry_time": "07:03",
-      "exit_date": "2025-11-05",
-      "exit_time": "07:09",
-      "entry_price": 0.1714,
-      "exit_price": 0.2204,
-      "position_size": 300.0,
+      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
+      "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
+      "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
+      "trade_number": 1,
+      "ticker": "MSPR",
+      "entry_date": "2025-11-03",
+      "entry_time": "06:55",
+      "exit_date": "2025-11-03",
+      "exit_time": "08:33",
+      "entry_price": 0.62,
+      "exit_price": 0.6972,
+      "position_size": 101.0,
       "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.165,
-      "target_price": 0.25,
-      "risk_reward_ratio": 12.28,
+      "strategy": "VWAP Hold",
+      "stop_loss": 0.5,
+      "target_price": 0.75,
+      "risk_reward_ratio": 1.08,
       "broker": "IBKR",
-      "pnl_usd": 14.7,
-      "pnl_percent": 28.59,
+      "pnl_usd": 7.8,
+      "pnl_percent": 12.45,
       "strategy_tags": [
-        "Breakout"
+        "VWAP Hold"
       ],
       "setup_tags": [
-        "Bull Flag"
+        "VWAP Reclaim"
       ],
       "session_tags": [
         "Pre-Market"
       ],
       "market_condition_tags": [
-        "High Volume"
+        "High Volatility"
       ],
       "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3239.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3241.jpeg"
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
       ]
     },
     {
@@ -226,6 +188,44 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3266.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3264.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.2.md",
+      "body": "# Trade #2 - CHR\n\n## Trade Details\n\n- **Ticker**: CHR\n- **Direction**: LONG\n- **Entry**: $0.1714 on 2025-11-05 at 07:03\n- **Exit**: $0.2204 on 2025-11-05 at 07:09\n- **Position Size**: 300 shares\n- **S...",
+      "notes": "Entered on first candle after 7am, a new strategy I am trying out. Rode to first red, could have held longer, will be watching closer next time.",
+      "trade_number": 2,
+      "ticker": "CHR",
+      "entry_date": "2025-11-05",
+      "entry_time": "07:03",
+      "exit_date": "2025-11-05",
+      "exit_time": "07:09",
+      "entry_price": 0.1714,
+      "exit_price": 0.2204,
+      "position_size": 300.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.165,
+      "target_price": 0.25,
+      "risk_reward_ratio": 12.28,
+      "broker": "IBKR",
+      "pnl_usd": 14.7,
+      "pnl_percent": 28.59,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "Bull Flag"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volume"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3239.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3241.jpeg"
       ]
     },
     {
@@ -279,9 +279,9 @@
     "largest_win": 14.7,
     "largest_loss": -25.08,
     "total_volume": 805,
-    "max_drawdown": -47.94,
+    "max_drawdown": -40.14,
     "profit_factor": 0.9
   },
-  "generated_at": "2025-11-07T01:34:07.781573",
+  "generated_at": "2025-11-07T23:04:37.925454",
   "version": "1.0"
 }
