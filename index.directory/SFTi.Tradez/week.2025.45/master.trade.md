@@ -2,24 +2,24 @@
 
 ## Overview
 
-This week's trading session included **5 trades** with a total P&L of **$-22.86**.
+This week's trading session included **6 trades** with a total P&L of **$-10.39**.
 
 ## Performance Metrics
 
 | Metric | Value |
 |--------|-------|
-| Total Trades | 5 |
-| Total P&L | $-22.86 |
-| Win Rate | 20.0% |
-| Wins | 1 |
+| Total Trades | 6 |
+| Total P&L | $-10.39 |
+| Win Rate | 33.3% |
+| Wins | 2 |
 | Losses | 4 |
 | Breakeven | 0 |
-| Average Win | $14.70 |
+| Average Win | $13.59 |
 | Average Loss | $-9.39 |
 | Largest Win | $14.70 |
 | Largest Loss | $-15.10 |
-| Profit Factor | 0.39 |
-| Gross Profit | $14.70 |
+| Profit Factor | 0.72 |
+| Gross Profit | $27.17 |
 | Gross Loss | $37.56 |
 
 ## Trade List
@@ -70,6 +70,15 @@ This week's trading session included **5 trades** with a total P&L of **$-22.86*
 - **Strategy**: Breakout
 - **Setup**: 7 O'clock Spike
 
+### 6. BNAI - 2025-11-10
+
+- **Direction**: LONG
+- **Entry**: $0.65
+- **Exit**: $0.75
+- **P&L**: $12.47
+- **Strategy**: Breakout
+- **Setup**: H.O.D Breakout
+
 
 ## Weekly Reflection
 
@@ -77,4 +86,4 @@ _Add your weekly reflection, lessons learned, and improvements for next week..._
 
 ---
 
-*Generated on 2025-11-07 23:04:40*
+*Generated on 2025-11-10 15:50:30*

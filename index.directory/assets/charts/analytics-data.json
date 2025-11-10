@@ -1,20 +1,20 @@
 {
-  "expectancy": -5.73,
-  "profit_factor": 0.36,
+  "expectancy": -3.46,
+  "profit_factor": 0.56,
   "max_win_streak": 1,
   "max_loss_streak": 3,
   "max_drawdown": -47.94,
   "max_drawdown_percent": -40.29,
-  "kelly_criterion": -51.0,
+  "kelly_criterion": -29.7,
   "by_strategy": {
     "VWAP Hold": {
-      "total_trades": 1,
-      "winning_trades": 1,
+      "total_trades": 2,
+      "winning_trades": 2,
       "losing_trades": 0,
       "win_rate": 100.0,
-      "total_pnl": 7.8,
-      "avg_pnl": 7.8,
-      "expectancy": 7.8
+      "total_pnl": 20.27,
+      "avg_pnl": 10.13,
+      "expectancy": 10.13
     },
     "Breakout": {
       "total_trades": 5,
@@ -80,6 +80,15 @@
       "total_pnl": 14.7,
       "avg_pnl": 14.7,
       "expectancy": 14.7
+    },
+    "H.O.D Breakout": {
+      "total_trades": 1,
+      "winning_trades": 1,
+      "losing_trades": 0,
+      "win_rate": 100.0,
+      "total_pnl": 12.47,
+      "avg_pnl": 12.47,
+      "expectancy": 12.47
     }
   },
   "by_session": {
@@ -91,6 +100,15 @@
       "total_pnl": -40.14,
       "avg_pnl": -5.73,
       "expectancy": -5.73
+    },
+    "Morning": {
+      "total_trades": 1,
+      "winning_trades": 1,
+      "losing_trades": 0,
+      "win_rate": 100.0,
+      "total_pnl": 12.47,
+      "avg_pnl": 12.47,
+      "expectancy": 12.47
     }
   },
   "drawdown_series": {
@@ -101,7 +119,8 @@
       "11/05",
       "11/05",
       "11/06",
-      "11/06"
+      "11/06",
+      "11/10"
     ],
     "values": [
       0.0,
@@ -110,20 +129,21 @@
       -47.08,
       -32.38,
       -38.22,
-      -47.94
+      -47.94,
+      -35.47
     ]
   },
   "returns": {
-    "total_return_percent": -33.73,
-    "avg_return_percent": -4.8187,
+    "total_return_percent": -23.25,
+    "avg_return_percent": -2.9065,
     "avg_risk_percent": 10.528,
-    "avg_position_size_percent": 77.89
+    "avg_position_size_percent": 80.47
   },
   "account": {
     "starting_balance": 165,
     "total_deposits": 0,
-    "total_pnl": -40.14,
-    "portfolio_value": 78.86
+    "total_pnl": -27.67,
+    "portfolio_value": 91.33
   },
-  "generated_at": "2025-11-07T23:04:39.952480"
+  "generated_at": "2025-11-10T15:50:30.243016"
 }

@@ -1,44 +1,6 @@
 {
   "trades": [
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
-      "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
-      "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
-      "trade_number": 1,
-      "ticker": "SCNX",
-      "entry_date": "2025-11-04",
-      "entry_time": "06:57",
-      "exit_date": "2025-11-04",
-      "exit_time": "16:26",
-      "entry_price": 0.905,
-      "exit_price": 0.81,
-      "position_size": 159.0,
-      "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.8,
-      "target_price": 1.3,
-      "risk_reward_ratio": 3.76,
-      "broker": "IBKR",
-      "pnl_usd": -15.1,
-      "pnl_percent": -10.5,
-      "strategy_tags": [
-        "Breakout"
-      ],
-      "setup_tags": [
-        "7 O'clock Spike"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "Choppy"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3228.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3229.jpeg"
-      ]
-    },
-    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:05:2025.1.md",
       "body": "# Trade #1 - SMX\n\n## Trade Details\n\n- **Ticker**: SMX\n- **Direction**: LONG\n- **Entry**: $2.29 on 2025-11-05 at 05:46\n- **Exit**: $2.06 on 2025-11-05 at 06:03\n- **Position Size**: 30 shares\n- **Strate...",
       "notes": "Got in with Tim, was skeptical on entering so soon, got bit on stop loss, to watch it run shortly after.",
@@ -74,44 +36,6 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3238.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.1/IMG_3243.jpeg"
-      ]
-    },
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.1.md",
-      "body": "# Trade #1 - PSTV\n\n## Trade Details\n\n- **Ticker**: PSTV\n- **Direction**: LONG\n- **Entry**: $0.6189 on 2025-11-06 at 07:46\n- **Exit**: $0.5605 on 2025-11-06 at 08:04\n- **Position Size**: 100 shares\n- *...",
-      "notes": "Properly Got in to a 10% runner, failed to sale in time, ended up holding the bag.",
-      "trade_number": 1,
-      "ticker": "PSTV",
-      "entry_date": "2025-11-06",
-      "entry_time": "07:46",
-      "exit_date": "2025-11-06",
-      "exit_time": "08:04",
-      "entry_price": 0.6189,
-      "exit_price": 0.5605,
-      "position_size": 100.0,
-      "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.5,
-      "target_price": 1.0,
-      "risk_reward_ratio": 3.21,
-      "broker": "IBKR",
-      "pnl_usd": -5.84,
-      "pnl_percent": -9.44,
-      "strategy_tags": [
-        "Breakout"
-      ],
-      "setup_tags": [
-        "7 O'clock Spike"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.1/IMG_3265.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.1/IMG_3262.jpeg"
       ]
     },
     {
@@ -153,26 +77,26 @@
       ]
     },
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.2.md",
-      "body": "# Trade #2 - OSRH\n\n## Trade Details\n\n- **Ticker**: OSRH\n- **Direction**: LONG\n- **Entry**: $0.7413 on 2025-11-06 at 07:40\n- **Exit**: $.64 on 2025-11-06 at 18:04\n- **Position Size**: 96 shares\n- **Str...",
-      "notes": "Again, Got into a good 15% runner, held to long and held the bag. Working on timing.",
-      "trade_number": 2,
-      "ticker": "OSRH",
-      "entry_date": "2025-11-06",
-      "entry_time": "07:40",
-      "exit_date": "2025-11-06",
-      "exit_time": "18:04",
-      "entry_price": 0.7413,
-      "exit_price": 0.64,
-      "position_size": 96.0,
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
+      "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
+      "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
+      "trade_number": 1,
+      "ticker": "SCNX",
+      "entry_date": "2025-11-04",
+      "entry_time": "06:57",
+      "exit_date": "2025-11-04",
+      "exit_time": "16:26",
+      "entry_price": 0.905,
+      "exit_price": 0.81,
+      "position_size": 159.0,
       "direction": "LONG",
       "strategy": "Breakout",
-      "stop_loss": 0.64,
-      "target_price": 0.9,
-      "risk_reward_ratio": 1.57,
+      "stop_loss": 0.8,
+      "target_price": 1.3,
+      "risk_reward_ratio": 3.76,
       "broker": "IBKR",
-      "pnl_usd": -9.72,
-      "pnl_percent": -13.67,
+      "pnl_usd": -15.1,
+      "pnl_percent": -10.5,
       "strategy_tags": [
         "Breakout"
       ],
@@ -186,8 +110,85 @@
         "Choppy"
       ],
       "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3266.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3264.jpeg"
+        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3228.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3229.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:10:2025.1.md",
+      "body": "# Trade #1 - BNAI\n\n## Trade Details\n\n- **Ticker**: BNAI\n- **Direction**: LONG\n- **Entry**: $0.6475 on 2025-11-10 at 08:35\n- **Exit**: $0.7514 on 2025-11-10 at 09:05\n- **Position Size**: 120 shares\n- *...",
+      "notes": "It was on the morning scanner with a decent bit of short-able shares, spiked twice pre-market, and was climbing back to H.O.D with shorts still trying to push down, and so I entered in anticipation of a short term spike from the volatility and sold at ~100% on the day(I took ~13% after fees). Waiting for the setups to come to me.",
+      "trade_number": 1,
+      "ticker": "BNAI",
+      "entry_date": "2025-11-10",
+      "entry_time": "08:35",
+      "exit_date": "2025-11-10",
+      "exit_time": "09:05",
+      "entry_price": 0.6475,
+      "exit_price": 0.7514,
+      "position_size": 120.0,
+      "direction": "LONG",
+      "strategy": "VWAP Hold",
+      "stop_loss": 0.6,
+      "target_price": 0.75,
+      "risk_reward_ratio": 2.16,
+      "broker": "IBKR",
+      "pnl_usd": 12.47,
+      "pnl_percent": 16.05,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "H.O.D Breakout"
+      ],
+      "session_tags": [
+        "Morning"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3282.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3284.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3283.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.1.md",
+      "body": "# Trade #1 - PSTV\n\n## Trade Details\n\n- **Ticker**: PSTV\n- **Direction**: LONG\n- **Entry**: $0.6189 on 2025-11-06 at 07:46\n- **Exit**: $0.5605 on 2025-11-06 at 08:04\n- **Position Size**: 100 shares\n- *...",
+      "notes": "Properly Got in to a 10% runner, failed to sale in time, ended up holding the bag.",
+      "trade_number": 1,
+      "ticker": "PSTV",
+      "entry_date": "2025-11-06",
+      "entry_time": "07:46",
+      "exit_date": "2025-11-06",
+      "exit_time": "08:04",
+      "entry_price": 0.6189,
+      "exit_price": 0.5605,
+      "position_size": 100.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.5,
+      "target_price": 1.0,
+      "risk_reward_ratio": 3.21,
+      "broker": "IBKR",
+      "pnl_usd": -5.84,
+      "pnl_percent": -9.44,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "7 O'clock Spike"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.1/IMG_3265.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.1/IMG_3262.jpeg"
       ]
     },
     {
@@ -265,23 +266,61 @@
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3193.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3192.jpeg"
       ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.2.md",
+      "body": "# Trade #2 - OSRH\n\n## Trade Details\n\n- **Ticker**: OSRH\n- **Direction**: LONG\n- **Entry**: $0.7413 on 2025-11-06 at 07:40\n- **Exit**: $.64 on 2025-11-06 at 18:04\n- **Position Size**: 96 shares\n- **Str...",
+      "notes": "Again, Got into a good 15% runner, held to long and held the bag. Working on timing.",
+      "trade_number": 2,
+      "ticker": "OSRH",
+      "entry_date": "2025-11-06",
+      "entry_time": "07:40",
+      "exit_date": "2025-11-06",
+      "exit_time": "18:04",
+      "entry_price": 0.7413,
+      "exit_price": 0.64,
+      "position_size": 96.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.64,
+      "target_price": 0.9,
+      "risk_reward_ratio": 1.57,
+      "broker": "IBKR",
+      "pnl_usd": -9.72,
+      "pnl_percent": -13.67,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "7 O'clock Spike"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "Choppy"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3266.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3264.jpeg"
+      ]
     }
   ],
   "statistics": {
-    "total_trades": 7,
-    "winning_trades": 2,
+    "total_trades": 8,
+    "winning_trades": 3,
     "losing_trades": 5,
-    "win_rate": 28.57,
-    "total_pnl": -40.14,
-    "avg_pnl": -5.73,
-    "avg_winner": 11.25,
+    "win_rate": 37.5,
+    "total_pnl": -27.67,
+    "avg_pnl": -3.46,
+    "avg_winner": 11.66,
     "avg_loser": -12.53,
     "largest_win": 14.7,
     "largest_loss": -25.08,
-    "total_volume": 805,
-    "max_drawdown": -40.14,
-    "profit_factor": 0.9
+    "total_volume": 925,
+    "max_drawdown": -34.8,
+    "profit_factor": 0.93
   },
-  "generated_at": "2025-11-07T23:04:37.925454",
+  "generated_at": "2025-11-10T15:50:27.063455",
   "version": "1.0"
 }
