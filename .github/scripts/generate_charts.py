@@ -709,8 +709,12 @@ def generate_portfolio_value_charts(trades, account_config):
     Generate portfolio value charts for all timeframes with proper time range filtering
     Portfolio Value = Starting Balance + Deposits - Withdrawals + Cumulative P&L
     
+    For 'day' timeframe: Shows portfolio value progression for trades in the last 24 hours only,
+                         starting from actual portfolio value at the beginning of that period
+    For other timeframes: Shows cumulative portfolio value progression from all trades
+    
     Each timeframe shows distinct time ranges:
-    - Day: Last 24 hours, 30-min intervals
+    - Day: Last 24 hours, 30-min intervals - INTRADAY VALUES ONLY
     - Week: Last 7 days, 30-min or daily intervals
     - Month: Last 30 days, daily or weekly intervals
     - Quarter: Last 90 days, weekly or monthly intervals
@@ -782,25 +786,115 @@ def generate_portfolio_value_charts(trades, account_config):
             }]
         }
     
+    # Special handling for 'day' timeframe - show only today's portfolio progression
+    def create_day_chart_data(sorted_trades, end_date, base_value):
+        """
+        For day timeframe, show portfolio value progression during the last 24 hours,
+        starting from actual portfolio value at the beginning of that period.
+        """
+        start_date = end_date - timedelta(hours=24)
+        
+        # Filter trades within the day range
+        day_trades = [t for t in sorted_trades if parse_trade_datetime(t) and start_date <= parse_trade_datetime(t) <= end_date]
+        
+        # Calculate portfolio value at start of day
+        cumulative_pnl_before_day = 0
+        for trade in sorted_trades:
+            trade_date = parse_trade_datetime(trade)
+            if trade_date and trade_date < start_date:
+                cumulative_pnl_before_day += trade.get("pnl_usd", 0)
+        
+        portfolio_value_at_day_start = base_value + cumulative_pnl_before_day
+        
+        if not day_trades:
+            # No trades today, return flat line at current portfolio value
+            interval = get_default_interval("day")
+            start_label = format_date_label(start_date, "day", interval)
+            end_label = format_date_label(end_date, "day", interval)
+            return {
+                "labels": [start_label, end_label],
+                "datasets": [{
+                    "label": "Portfolio Value",
+                    "data": [portfolio_value_at_day_start, portfolio_value_at_day_start],
+                    "borderColor": "#00ff88",
+                    "backgroundColor": "rgba(0, 255, 136, 0.1)",
+                    "fill": True,
+                    "tension": 0.4,
+                    "pointRadius": 4,
+                    "pointHoverRadius": 7,
+                    "pointBackgroundColor": "#00ff88",
+                    "pointBorderColor": "#0a0e27",
+                    "pointBorderWidth": 2,
+                }]
+            }
+        
+        # Calculate portfolio value at each trade during the day
+        day_trade_dates = []
+        day_portfolio_values = []
+        day_cumulative_pnl = 0
+        
+        for trade in day_trades:
+            pnl = trade.get("pnl_usd", 0)
+            day_cumulative_pnl += pnl
+            
+            # Portfolio value = start of day value + cumulative P&L during day
+            portfolio_value = portfolio_value_at_day_start + day_cumulative_pnl
+            
+            trade_date = parse_trade_datetime(trade)
+            if trade_date:
+                day_trade_dates.append(trade_date)
+                day_portfolio_values.append(portfolio_value)
+        
+        # Aggregate by 30-minute intervals
+        interval = get_default_interval("day")
+        labels, data = filter_and_aggregate_by_timeframe(
+            day_trade_dates, day_portfolio_values, "day", interval, end_date, portfolio_value_at_day_start
+        )
+        
+        return {
+            "labels": labels,
+            "datasets": [{
+                "label": "Portfolio Value",
+                "data": data,
+                "borderColor": "#00ff88",
+                "backgroundColor": "rgba(0, 255, 136, 0.1)",
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "pointBackgroundColor": "#00ff88",
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }]
+        }
+    
     # Generate for each timeframe with default interval
     timeframes = ["day", "week", "month", "quarter", "year", "5year"]
     for timeframe in timeframes:
-        interval = get_default_interval(timeframe)
-        chart_data = create_chart_data(trade_dates, portfolio_values, timeframe, interval, end_date, base_value)
+        if timeframe == "day":
+            # Special handling for day timeframe
+            chart_data = create_day_chart_data(sorted_trades, end_date, base_value)
+        else:
+            # Normal cumulative portfolio value for other timeframes
+            interval = get_default_interval(timeframe)
+            chart_data = create_chart_data(trade_dates, portfolio_values, timeframe, interval, end_date, base_value)
         
         output_path = f"index.directory/assets/charts/portfolio-value-{timeframe}.json"
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(chart_data, f, indent=2)
-        print(f"  ✓ Portfolio value ({timeframe}) with {interval} interval saved")
+        print(f"  ✓ Portfolio value ({timeframe}) with {get_default_interval(timeframe)} interval saved")
 
 
 def generate_total_return_charts(trades, account_config):
     """
     Generate total return percentage charts for all timeframes with proper time range filtering
-    Total Return % = (Current Value - Starting Investment) / Starting Investment * 100
+    
+    For 'day' timeframe: Shows return for trades executed in the last 24 hours only,
+                         calculated as % of portfolio value at start of that period
+    For other timeframes: Shows cumulative return from ALL trades as % of starting investment
     
     Each timeframe shows distinct time ranges:
-    - Day: Last 24 hours, 30-min intervals
+    - Day: Last 24 hours, 30-min intervals - INTRADAY RETURN ONLY
     - Week: Last 7 days, 30-min or daily intervals
     - Month: Last 30 days, daily or weekly intervals
     - Quarter: Last 90 days, weekly or monthly intervals
@@ -853,7 +947,7 @@ def generate_total_return_charts(trades, account_config):
     else:
         end_date = datetime.now()
     
-    # Generate data for each timeframe with proper filtering
+    # Generate data for each timeframe with default interval
     def create_chart_data(dates, values, timeframe, interval, end_date):
         labels, data = filter_and_aggregate_by_timeframe(
             dates, values, timeframe, interval, end_date, 0  # Start at 0% return
@@ -879,16 +973,111 @@ def generate_total_return_charts(trades, account_config):
             }]
         }
     
+    # Special handling for 'day' timeframe - show only today's trading return
+    def create_day_chart_data(sorted_trades, end_date, starting_investment):
+        """
+        For day timeframe, calculate return based on portfolio value at start of day,
+        showing only the performance from trades executed during that day.
+        """
+        start_date = end_date - timedelta(hours=24)
+        
+        # Filter trades within the day range
+        day_trades = [t for t in sorted_trades if parse_trade_datetime(t) and start_date <= parse_trade_datetime(t) <= end_date]
+        
+        if not day_trades:
+            # No trades today, return flat line at 0%
+            interval = get_default_interval("day")
+            start_label = format_date_label(start_date, "day", interval)
+            end_label = format_date_label(end_date, "day", interval)
+            return {
+                "labels": [start_label, end_label],
+                "datasets": [{
+                    "label": "Total Return %",
+                    "data": [0, 0],
+                    "borderColor": "#00d4ff",
+                    "backgroundColor": "rgba(0, 212, 255, 0.1)",
+                    "fill": True,
+                    "tension": 0.4,
+                    "pointRadius": 4,
+                    "pointHoverRadius": 7,
+                    "pointBackgroundColor": "#00d4ff",
+                    "pointBorderColor": "#0a0e27",
+                    "pointBorderWidth": 2,
+                }]
+            }
+        
+        # Calculate portfolio value at start of day (before day's trades)
+        # This is starting investment + cumulative P&L from all trades before this day
+        cumulative_pnl_before_day = 0
+        for trade in sorted_trades:
+            trade_date = parse_trade_datetime(trade)
+            if trade_date and trade_date < start_date:
+                cumulative_pnl_before_day += trade.get("pnl_usd", 0)
+        
+        portfolio_value_at_day_start = starting_investment + cumulative_pnl_before_day
+        
+        # Avoid division by zero
+        if portfolio_value_at_day_start == 0:
+            portfolio_value_at_day_start = starting_investment if starting_investment > 0 else 1
+        
+        # Calculate return % for each trade during the day relative to day's starting portfolio value
+        day_trade_dates = []
+        day_return_percentages = []
+        day_cumulative_pnl = 0
+        
+        for trade in day_trades:
+            pnl = trade.get("pnl_usd", 0)
+            day_cumulative_pnl += pnl
+            
+            # Calculate return as % of portfolio value at start of day
+            day_return_pct = (day_cumulative_pnl / portfolio_value_at_day_start) * 100
+            
+            trade_date = parse_trade_datetime(trade)
+            if trade_date:
+                day_trade_dates.append(trade_date)
+                day_return_percentages.append(day_return_pct)
+        
+        # Aggregate by 30-minute intervals
+        interval = get_default_interval("day")
+        labels, data = filter_and_aggregate_by_timeframe(
+            day_trade_dates, day_return_percentages, "day", interval, end_date, 0
+        )
+        
+        # Round to 2 decimal places
+        data = [round(v, 2) for v in data]
+        
+        return {
+            "labels": labels,
+            "datasets": [{
+                "label": "Total Return %",
+                "data": data,
+                "borderColor": "#00d4ff",
+                "backgroundColor": "rgba(0, 212, 255, 0.1)",
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "pointBackgroundColor": "#00d4ff",
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }]
+        }
+    
     # Generate for each timeframe with default interval
     timeframes = ["day", "week", "month", "quarter", "year", "5year"]
     for timeframe in timeframes:
-        interval = get_default_interval(timeframe)
-        chart_data = create_chart_data(trade_dates, return_percentages, timeframe, interval, end_date)
+        if timeframe == "day":
+            # Special handling for day timeframe
+            chart_data = create_day_chart_data(sorted_trades, end_date, starting_investment)
+        else:
+            # Normal cumulative return for other timeframes
+            interval = get_default_interval(timeframe)
+            chart_data = create_chart_data(trade_dates, return_percentages, timeframe, interval, end_date)
         
         output_path = f"index.directory/assets/charts/total-return-{timeframe}.json"
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(chart_data, f, indent=2)
-        print(f"  ✓ Total return ({timeframe}) with {interval} interval saved")
+        print(f"  ✓ Total return ({timeframe}) with {get_default_interval(timeframe)} interval saved")
 
 
 def main():

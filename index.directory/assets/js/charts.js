@@ -107,11 +107,25 @@ async function loadTickerPerformanceChart() {
       tickerPerformanceChart.destroy();
     }
 
+    const options = SFTiChartConfig.getBarChartOptions();
+    
+    // Override scales for horizontal bar chart - Y axis shows ticker labels, X axis shows dollar values
+    options.scales.y.ticks.callback = function(value, index, values) {
+      // For horizontal bar charts, y-axis shows the labels (ticker names), not values
+      // Return the value as-is (it's already the ticker label from data.labels)
+      return this.getLabelForValue(value);
+    };
+    
+    // X axis should show dollar amounts for horizontal bar chart
+    options.scales.x.ticks.callback = function(value) {
+      return '$' + value.toFixed(0);
+    };
+    
     tickerPerformanceChart = new Chart(ctx, {
       type: 'bar',
       data: data,
       options: {
-        ...SFTiChartConfig.getBarChartOptions(),
+        ...options,
         indexAxis: 'y'  // Horizontal bar chart for better ticker label display
       }
     });
