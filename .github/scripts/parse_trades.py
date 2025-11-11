@@ -18,6 +18,7 @@ import glob
 import re
 from pathlib import Path
 from datetime import datetime
+from globals_utils import save_json_file
 
 
 def parse_frontmatter(content):
@@ -320,8 +321,7 @@ def main():
 
     # Write JSON index
     output_file = "index.directory/trades-index.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    save_json_file(output_file, output)
 
     print(f"Trade index written to {output_file}")
     print(f"Total trades: {output['statistics']['total_trades']}")

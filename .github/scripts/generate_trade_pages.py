@@ -22,6 +22,10 @@ import os
 from pathlib import Path
 from datetime import datetime
 from navbar_template import get_navbar_html
+from globals_utils import setup_imports, calculate_time_in_trade
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index
 
 
@@ -67,20 +71,8 @@ def generate_trade_html(trade):
     if not images and screenshots:
         images = screenshots if isinstance(screenshots, list) else []
 
-    # Calculate additional metrics
-    time_in_trade = ""
-    if entry_date and exit_date and entry_time and exit_time:
-        try:
-            entry_dt = datetime.strptime(f"{entry_date} {entry_time}", "%Y-%m-%d %H:%M")
-            exit_dt = datetime.strptime(f"{exit_date} {exit_time}", "%Y-%m-%d %H:%M")
-            duration = exit_dt - entry_dt
-            hours = duration.total_seconds() / 3600
-            if hours < 1:
-                time_in_trade = f"{int(duration.total_seconds() / 60)} minutes"
-            else:
-                time_in_trade = f"{hours:.1f} hours"
-        except:
-            time_in_trade = "Unknown"
+    # Calculate additional metrics using utility function
+    time_in_trade = calculate_time_in_trade(entry_date, entry_time, exit_date, exit_time)
 
     # Generate tag badges HTML
     def render_tags(tags, color):

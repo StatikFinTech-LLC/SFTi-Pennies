@@ -9,8 +9,10 @@ import json
 import os
 from datetime import datetime, timedelta
 from collections import defaultdict
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from globals_utils import setup_imports, ensure_directory, save_json_file
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index, load_account_config
 
 # Try to import matplotlib, but don't fail if it's not available
@@ -196,7 +198,7 @@ def generate_static_chart(
     plt.tight_layout()
 
     # Ensure output directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    ensure_directory(os.path.dirname(output_path))
 
     # Save the chart
     plt.savefig(output_path, dpi=150, facecolor="#0a0e27", edgecolor="none")
@@ -274,7 +276,7 @@ def generate_trade_distribution_chart(
     plt.tight_layout()
 
     # Ensure output directory exists
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    ensure_directory(os.path.dirname(output_path))
 
     # Save the chart
     plt.savefig(output_path, dpi=150, facecolor="#0a0e27", edgecolor="none")
@@ -1202,57 +1204,34 @@ def main():
     print(f"Processing {len(trades)} trades...")
 
     # Ensure output directory exists
-    os.makedirs("index.directory/assets/charts", exist_ok=True)
+    ensure_directory("index.directory/assets/charts")
 
     # Generate all Chart.js data files
     print("Generating Chart.js data files...")
 
     # 1. Equity Curve
     equity_data = generate_equity_curve_data(trades)
-    with open(
-        "index.directory/assets/charts/equity-curve-data.json", "w", encoding="utf-8"
-    ) as f:
-        json.dump(equity_data, f, indent=2)
+    save_json_file("index.directory/assets/charts/equity-curve-data.json", equity_data)
     print("  ✓ Equity curve data saved")
 
     # 2. Win/Loss Ratio by Strategy
     win_loss_ratio_data = generate_win_loss_ratio_by_strategy_data(trades)
-    with open(
-        "index.directory/assets/charts/win-loss-ratio-by-strategy-data.json",
-        "w",
-        encoding="utf-8",
-    ) as f:
-        json.dump(win_loss_ratio_data, f, indent=2)
+    save_json_file("index.directory/assets/charts/win-loss-ratio-by-strategy-data.json", win_loss_ratio_data)
     print("  ✓ Win/Loss ratio by strategy data saved")
 
     # 3. Performance by Day
     day_data = generate_performance_by_day_data(trades)
-    with open(
-        "index.directory/assets/charts/performance-by-day-data.json",
-        "w",
-        encoding="utf-8",
-    ) as f:
-        json.dump(day_data, f, indent=2)
+    save_json_file("index.directory/assets/charts/performance-by-day-data.json", day_data)
     print("  ✓ Performance by day data saved")
 
     # 4. Ticker Performance
     ticker_data = generate_ticker_performance_data(trades)
-    with open(
-        "index.directory/assets/charts/ticker-performance-data.json",
-        "w",
-        encoding="utf-8",
-    ) as f:
-        json.dump(ticker_data, f, indent=2)
+    save_json_file("index.directory/assets/charts/ticker-performance-data.json", ticker_data)
     print("  ✓ Ticker performance data saved")
     
     # 5. Time of Day Performance
     time_of_day_data = generate_time_of_day_performance_data(trades)
-    with open(
-        "index.directory/assets/charts/time-of-day-performance-data.json",
-        "w",
-        encoding="utf-8",
-    ) as f:
-        json.dump(time_of_day_data, f, indent=2)
+    save_json_file("index.directory/assets/charts/time-of-day-performance-data.json", time_of_day_data)
     print("  ✓ Time of day performance data saved")
     
     # 6. Portfolio Value Charts (all timeframes)

@@ -6,9 +6,9 @@ of all PDF files with metadata
 """
 
 import os
-import json
 from pathlib import Path
 from datetime import datetime
+from globals_utils import save_json_file
 
 
 def extract_book_title(filename):
@@ -94,8 +94,7 @@ def main():
 
     # Write JSON index
     output_file = "index.directory/books-index.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    save_json_file(output_file, output)
 
     print(f"Books index written to {output_file}")
     print(f"Total books: {output['total_count']}")

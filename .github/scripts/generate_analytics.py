@@ -17,8 +17,10 @@ import json
 import os
 from datetime import datetime
 from typing import Dict, List, Tuple
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from globals_utils import setup_imports, save_json_file, ensure_directory
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index, load_account_config
 
 # Constants
@@ -667,11 +669,10 @@ def main():
         }
 
     # Save analytics data
-    os.makedirs("index.directory/assets/charts", exist_ok=True)
+    ensure_directory("index.directory/assets/charts")
     output_file = "index.directory/assets/charts/analytics-data.json"
 
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(analytics, f, indent=2)
+    save_json_file(output_file, analytics)
 
     print(f"Analytics written to {output_file}")
     print(f"Expectancy: ${analytics['expectancy']}")
