@@ -354,7 +354,7 @@ This journal follows key principles:
 
 ## 📄 License & Attribution
 
-**License:** MIT - See [LICENSE](./LICENSE)
+**License:** SFTi-Custom - See [LICENSE](./LICENSE)
 
 **Author:** StatikFintech LLC  
 **Repository:** [statikfintechllc/SFTi-Pennies](https://github.com/statikfintechllc/SFTi-Pennies)  
