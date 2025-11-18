@@ -32,6 +32,24 @@ let strategyChart = null;
 let setupChart = null;
 let winrateChart = null;
 let drawdownChart = null;
+let equityCurveChart = null;
+let winLossRatioByStrategyChart = null;
+let performanceByDayChart = null;
+let tickerPerformanceChart = null;
+let timeOfDayChart = null;
+let rMultipleChart = null;
+let portfolioValueDayChart = null;
+let portfolioValueWeekChart = null;
+let portfolioValueMonthChart = null;
+let portfolioValueQuarterChart = null;
+let portfolioValueYearChart = null;
+let portfolioValue5YearChart = null;
+let totalReturnDayChart = null;
+let totalReturnWeekChart = null;
+let totalReturnMonthChart = null;
+let totalReturnQuarterChart = null;
+let totalReturnYearChart = null;
+let totalReturn5YearChart = null;
 
 /**
  * Initialize analytics page
@@ -75,6 +93,29 @@ async function loadAnalyticsData() {
     renderWinRateChart(analyticsData);
     renderDrawdownChart(analyticsData);
     renderStrategyTable(analyticsData);
+    
+    // Load index.html charts
+    loadEquityCurveChart();
+    loadWinLossRatioByStrategyChart();
+    loadPerformanceByDayChart();
+    loadTickerPerformanceChart();
+    loadTimeOfDayChart();
+    
+    // Load Portfolio Value charts (all timeframes)
+    loadPortfolioValueDayChart();
+    loadPortfolioValueWeekChart();
+    loadPortfolioValueMonthChart();
+    loadPortfolioValueQuarterChart();
+    loadPortfolioValueYearChart();
+    loadPortfolioValue5YearChart();
+    
+    // Load Total Return charts (all timeframes)
+    loadTotalReturnDayChart();
+    loadTotalReturnWeekChart();
+    loadTotalReturnMonthChart();
+    loadTotalReturnQuarterChart();
+    loadTotalReturnYearChart();
+    loadTotalReturn5YearChart();
   }
 }
 
@@ -185,6 +226,27 @@ function updateMetrics(data) {
   
   if (metricLossStreak) {
     metricLossStreak.textContent = data.max_loss_streak || '0';
+  }
+  
+  // Advanced metrics
+  const sharpeRatioEl = document.getElementById('metric-sharpe-ratio');
+  if (sharpeRatioEl) {
+    sharpeRatioEl.textContent = (data.sharpe_ratio || 0).toFixed(2);
+  }
+  
+  const avgRMultipleEl = document.getElementById('metric-avg-r-multiple');
+  if (avgRMultipleEl && data.r_multiple_distribution) {
+    avgRMultipleEl.textContent = `${(data.r_multiple_distribution.avg_r_multiple || 0).toFixed(2)}R`;
+  }
+  
+  const medianRMultipleEl = document.getElementById('metric-median-r-multiple');
+  if (medianRMultipleEl && data.r_multiple_distribution) {
+    medianRMultipleEl.textContent = `${(data.r_multiple_distribution.median_r_multiple || 0).toFixed(2)}R`;
+  }
+  
+  // Render R-Multiple chart
+  if (data.r_multiple_distribution) {
+    renderRMultipleChart(data.r_multiple_distribution);
   }
 }
 
@@ -350,6 +412,506 @@ function renderStrategyTable(data) {
   }).join('');
   
   strategyTableBody.innerHTML = rows;
+}
+
+// ======================================================================
+// Charts from index.html
+// ======================================================================
+
+/**
+ * Load and render equity curve chart
+ */
+async function loadEquityCurveChart() {
+  const ctx = document.getElementById('equity-curve-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/equity-curve-data.json`);
+    const data = await response.json();
+    
+    if (equityCurveChart) {
+      equityCurveChart.destroy();
+    }
+
+    equityCurveChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Equity curve data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No equity curve data available yet. Add trades to see your equity curve.');
+  }
+}
+
+/**
+ * Load and render win/loss ratio by strategy chart
+ */
+async function loadWinLossRatioByStrategyChart() {
+  const ctx = document.getElementById('win-loss-ratio-by-strategy-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/win-loss-ratio-by-strategy-data.json`);
+    const data = await response.json();
+    
+    if (winLossRatioByStrategyChart) {
+      winLossRatioByStrategyChart.destroy();
+    }
+
+    winLossRatioByStrategyChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        ...SFTiChartConfig.getBarChartOptions(),
+        plugins: {
+          ...SFTiChartConfig.getBarChartOptions().plugins,
+          legend: {
+            display: true,
+            position: 'top',
+            labels: {
+              color: '#e4e4e7',
+              font: {
+                family: 'Inter',
+                size: 12
+              },
+              usePointStyle: true,
+              padding: 15
+            }
+          }
+        },
+        scales: {
+          ...SFTiChartConfig.getBarChartOptions().scales,
+          x: {
+            ...SFTiChartConfig.getBarChartOptions().scales.x,
+            stacked: true
+          },
+          y: {
+            ...SFTiChartConfig.getBarChartOptions().scales.y,
+            stacked: true,
+            ticks: {
+              ...SFTiChartConfig.getBarChartOptions().scales.y.ticks,
+              callback: function(value) {
+                return value; // Just show the count
+              }
+            }
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.log('Win/loss ratio by strategy data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No win/loss ratio data available yet. Add trades to see your strategy performance.');
+  }
+}
+
+/**
+ * Load and render performance by day chart
+ */
+async function loadPerformanceByDayChart() {
+  const ctx = document.getElementById('performance-by-day-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/performance-by-day-data.json`);
+    const data = await response.json();
+    
+    if (performanceByDayChart) {
+      performanceByDayChart.destroy();
+    }
+
+    performanceByDayChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: SFTiChartConfig.getBarChartOptions()
+    });
+  } catch (error) {
+    console.log('Performance by day data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No performance by day data available yet. Add trades to see daily performance.');
+  }
+}
+
+/**
+ * Load and render ticker performance chart
+ */
+async function loadTickerPerformanceChart() {
+  const ctx = document.getElementById('ticker-performance-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/ticker-performance-data.json`);
+    const data = await response.json();
+    
+    if (tickerPerformanceChart) {
+      tickerPerformanceChart.destroy();
+    }
+
+    const options = SFTiChartConfig.getBarChartOptions();
+    
+    // Override scales for horizontal bar chart
+    options.scales.y.ticks.callback = function(value, index, values) {
+      return this.getLabelForValue(value);
+    };
+    
+    options.scales.x.ticks.callback = function(value) {
+      return '$' + value.toFixed(0);
+    };
+    
+    tickerPerformanceChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: {
+        ...options,
+        indexAxis: 'y'
+      }
+    });
+  } catch (error) {
+    console.log('Ticker performance data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No ticker performance data available yet. Add trades to see performance by ticker.');
+  }
+}
+
+/**
+ * Load and render time of day performance chart
+ */
+async function loadTimeOfDayChart() {
+  const ctx = document.getElementById('time-of-day-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/time-of-day-performance-data.json`);
+    const data = await response.json();
+    
+    if (timeOfDayChart) {
+      timeOfDayChart.destroy();
+    }
+
+    timeOfDayChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: SFTiChartConfig.getBarChartOptions()
+    });
+  } catch (error) {
+    console.log('Time of day performance data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No time of day performance data available yet. Add trades with session tags to see performance by time of day.');
+  }
+}
+
+/**
+ * Render R-Multiple Distribution chart
+ */
+function renderRMultipleChart(rMultipleData) {
+  const ctx = document.getElementById('r-multiple-chart');
+  if (!ctx || !rMultipleData) return;
+  
+  if (rMultipleChart) {
+    rMultipleChart.destroy();
+  }
+  
+  // Prepare colors based on R-multiple ranges
+  const colors = rMultipleData.labels.map(label => {
+    if (label.includes('<') || label.includes('-2R to -1R') || label.includes('-1R to 0R')) {
+      return '#ff4757';
+    } else if (label.includes('0R to 1R')) {
+      return '#ffa502';
+    } else {
+      return '#00ff88';
+    }
+  });
+  
+  const chartData = {
+    labels: rMultipleData.labels,
+    datasets: [{
+      label: 'Number of Trades',
+      data: rMultipleData.data,
+      backgroundColor: colors,
+      borderColor: colors,
+      borderWidth: 2
+    }]
+  };
+  
+  rMultipleChart = new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: SFTiChartConfig.getBarChartOptions()
+  });
+}
+
+// ======================================================================
+// Portfolio Value Chart Loading Functions
+// ======================================================================
+
+async function loadPortfolioValueDayChart() {
+  const ctx = document.getElementById('portfolio-value-day-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-day.json`);
+    const data = await response.json();
+    
+    if (portfolioValueDayChart) portfolioValueDayChart.destroy();
+    
+    portfolioValueDayChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value day data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+async function loadPortfolioValueWeekChart() {
+  const ctx = document.getElementById('portfolio-value-week-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-week.json`);
+    const data = await response.json();
+    
+    if (portfolioValueWeekChart) portfolioValueWeekChart.destroy();
+    
+    portfolioValueWeekChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value week data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+async function loadPortfolioValueMonthChart() {
+  const ctx = document.getElementById('portfolio-value-month-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-month.json`);
+    const data = await response.json();
+    
+    if (portfolioValueMonthChart) portfolioValueMonthChart.destroy();
+    
+    portfolioValueMonthChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value month data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+async function loadPortfolioValueQuarterChart() {
+  const ctx = document.getElementById('portfolio-value-quarter-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-quarter.json`);
+    const data = await response.json();
+    
+    if (portfolioValueQuarterChart) portfolioValueQuarterChart.destroy();
+    
+    portfolioValueQuarterChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value quarter data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+async function loadPortfolioValueYearChart() {
+  const ctx = document.getElementById('portfolio-value-year-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-year.json`);
+    const data = await response.json();
+    
+    if (portfolioValueYearChart) portfolioValueYearChart.destroy();
+    
+    portfolioValueYearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value year data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+async function loadPortfolioValue5YearChart() {
+  const ctx = document.getElementById('portfolio-value-5year-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/portfolio-value-5year.json`);
+    const data = await response.json();
+    
+    if (portfolioValue5YearChart) portfolioValue5YearChart.destroy();
+    
+    portfolioValue5YearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Portfolio value 5year data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No portfolio value data available yet.');
+  }
+}
+
+// ======================================================================
+// Total Return Chart Loading Functions
+// ======================================================================
+
+async function loadTotalReturnDayChart() {
+  const ctx = document.getElementById('total-return-day-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-day.json`);
+    const data = await response.json();
+    
+    if (totalReturnDayChart) totalReturnDayChart.destroy();
+    
+    totalReturnDayChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return day data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
+}
+
+async function loadTotalReturnWeekChart() {
+  const ctx = document.getElementById('total-return-week-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-week.json`);
+    const data = await response.json();
+    
+    if (totalReturnWeekChart) totalReturnWeekChart.destroy();
+    
+    totalReturnWeekChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return week data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
+}
+
+async function loadTotalReturnMonthChart() {
+  const ctx = document.getElementById('total-return-month-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-month.json`);
+    const data = await response.json();
+    
+    if (totalReturnMonthChart) totalReturnMonthChart.destroy();
+    
+    totalReturnMonthChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return month data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
+}
+
+async function loadTotalReturnQuarterChart() {
+  const ctx = document.getElementById('total-return-quarter-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-quarter.json`);
+    const data = await response.json();
+    
+    if (totalReturnQuarterChart) totalReturnQuarterChart.destroy();
+    
+    totalReturnQuarterChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return quarter data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
+}
+
+async function loadTotalReturnYearChart() {
+  const ctx = document.getElementById('total-return-year-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-year.json`);
+    const data = await response.json();
+    
+    if (totalReturnYearChart) totalReturnYearChart.destroy();
+    
+    totalReturnYearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return year data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
+}
+
+async function loadTotalReturn5YearChart() {
+  const ctx = document.getElementById('total-return-5year-chart');
+  if (!ctx) return;
+  
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/total-return-5year.json`);
+    const data = await response.json();
+    
+    if (totalReturn5YearChart) totalReturn5YearChart.destroy();
+    
+    totalReturn5YearChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Total return 5year data not available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No total return data available yet.');
+  }
 }
 
 // Initialize on DOM ready

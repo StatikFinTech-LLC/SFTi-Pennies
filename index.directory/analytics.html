@@ -102,6 +102,76 @@
         </div>
       </div>
       
+      <!-- Advanced Analytics Section -->
+      <div class="glass-stat" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Advanced Risk Metrics</h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Sharpe Ratio</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);" id="metric-sharpe-ratio">0.00</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Risk-adjusted returns</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Avg R-Multiple</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-yellow);" id="metric-avg-r-multiple">0.00R</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Returns in risk units</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.25rem;">Median R-Multiple</div>
+            <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--accent-yellow);" id="metric-median-r-multiple">0.00R</div>
+            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">Typical risk outcome</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Strategy Table -->
+      <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Strategy Breakdown</h3>
+        
+        <div style="overflow-x: auto;">
+          <table id="strategy-table" style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.875rem;">
+            <thead>
+              <tr style="background-color: var(--bg-tertiary); border-bottom: 2px solid var(--border-color);">
+                <th style="text-align: left; padding: 0.75rem; color: var(--text-secondary);">Strategy</th>
+                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Trades</th>
+                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Win Rate</th>
+                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Avg P&L</th>
+                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Total P&L</th>
+                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Expectancy</th>
+              </tr>
+            </thead>
+            <tbody id="strategy-table-body">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Win/Loss Ratio by Strategy (from index.html) -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Win/Loss Ratio by Strategy</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Win/Loss ratio by strategy shows your performance breakdown by trading strategy
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="win-loss-ratio-by-strategy-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- R-Multiple Distribution Chart -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">R-Multiple Distribution</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Distribution of returns in risk units - shows how many times your initial risk you made or lost per trade
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="r-multiple-chart"></canvas>
+        </div>
+      </div>
+
       <!-- Performance by Strategy -->
       <div class="glass-chart" style="margin-bottom: 1.5rem;">
         <h3 style="margin-bottom: 1rem;">Performance by Strategy</h3>
@@ -134,29 +204,198 @@
         </div>
       </div>
       
-      <!-- Strategy Table -->
-      <div class="glass-card" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-        <h3 style="margin-bottom: 1rem;">Strategy Breakdown</h3>
-        
-        <div style="overflow-x: auto;">
-          <table id="strategy-table" style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.875rem;">
-            <thead>
-              <tr style="background-color: var(--bg-tertiary); border-bottom: 2px solid var(--border-color);">
-                <th style="text-align: left; padding: 0.75rem; color: var(--text-secondary);">Strategy</th>
-                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Trades</th>
-                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Win Rate</th>
-                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Avg P&L</th>
-                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Total P&L</th>
-                <th style="text-align: right; padding: 0.75rem; color: var(--text-secondary);">Expectancy</th>
-              </tr>
-            </thead>
-            <tbody id="strategy-table-body">
-              <!-- Populated by JavaScript -->
-            </tbody>
-          </table>
+      <!-- Performance By Day (from index.html) -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Performance by Day of Week</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Performance by day of the week shows which days you trade best
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="performance-by-day-chart"></canvas>
         </div>
       </div>
       
+      <!-- Ticker Performance (from index.html) -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Performance by Ticker</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Ticker performance shows your P&L by stock symbol
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="ticker-performance-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Time of Day Performance -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Time of Day Performance</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Performance by trading session showing when you perform best (Pre-Market, Morning, Afternoon, etc.)
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="time-of-day-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- Equity Curve (from index.html) -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Equity Curve</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Equity curve shows your cumulative profit/loss over time
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="equity-curve-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Portfolio Value Charts -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - Day</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last day with 30-minute intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-day-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - Week</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last week with 30-minute intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-week-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - Month</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last month with daily intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-month-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - Quarter</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last quarter with weekly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-quarter-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - Year</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last year with weekly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-year-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Portfolio Value - 5 Year</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Portfolio value over the last 5 years with quarterly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="portfolio-value-5year-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Total Return Charts -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - Day</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last day with 30-minute intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-day-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - Week</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last week with 30-minute intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-week-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - Month</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last month with daily intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-month-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - Quarter</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last quarter with weekly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-quarter-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - Year</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last year with weekly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-year-chart"></canvas>
+        </div>
+      </div>
+      
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Total Return - 5 Year</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Total return percentage over the last 5 years with quarterly intervals
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="total-return-5year-chart"></canvas>
+        </div>
+      </div>
+
+      <!-- MAE/MFE Analysis Placeholder -->
+      <div style="background: var(--bg-tertiary); border: 2px solid var(--accent-yellow); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; color: var(--accent-yellow); display: flex; align-items: center; gap: 0.5rem;">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width: 24px; height: 24px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          MAE/MFE Analysis
+        </h3>
+        
+        <div style="color: var(--text-secondary);">
+          <p style="margin-bottom: 0.75rem;">
+            <strong>Mean Adverse Excursion (MAE)</strong> and <strong>Mean Favorable Excursion (MFE)</strong> analysis requires intraday price data collection.
+          </p>
+          <p style="margin-bottom: 0.75rem;">
+            To enable this professional metric, add the following fields to your trade entries:
+          </p>
+          <ul style="margin: 0 0 0.75rem 1.5rem; padding: 0;">
+            <li><code style="background: var(--bg-primary); padding: 0.2rem 0.4rem; border-radius: 4px;">intraday_high</code> - Highest price reached during the trade</li>
+            <li><code style="background: var(--bg-primary); padding: 0.2rem 0.4rem; border-radius: 4px;">intraday_low</code> - Lowest price reached during the trade</li>
+          </ul>
+          <p style="margin-bottom: 0;">
+            This analysis helps identify if you're exiting trades too early or holding losers too long by comparing unrealized vs. realized P&L.
+          </p>
+        </div>
+      </div>
+
       <!-- Implementation Status -->
       <div style="background: var(--bg-tertiary); border: 2px solid var(--accent-green); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
         <h3 style="margin-bottom: 1rem; color: var(--accent-green); display: flex; align-items: center; gap: 0.5rem;">

@@ -1,0 +1,15 @@
+{
+  "labels": [],
+  "datasets": [
+    {
+      "label": "Wins",
+      "data": [],
+      "backgroundColor": "#00ff88"
+    },
+    {
+      "label": "Losses",
+      "data": [],
+      "backgroundColor": "#ff4757"
+    }
+  ]
+}

@@ -460,6 +460,17 @@ code {
   border-color: rgba(0, 255, 136, 0.4);
 }
 
+/* Clickable stat cards with enhanced hover effects */
+.stat-card.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card.clickable-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2);
+}
+
 .stat-label {
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -1425,4 +1436,3 @@ input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
   height: 100% !important;
   width: 100% !important;
 }
-

@@ -716,7 +716,270 @@ document.addEventListener('DOMContentLoaded', () => {
       closeTotalReturnModal();
       closeWithdrawalModal();
       closeDepositModal();
+      closeTradePnLModal();
+      closeAvgPnLModal();
     }
   });
+  
+  // Add click event listeners for clickable stat cards
+  const tradePnLCard = document.getElementById('trade-pnl-card');
+  if (tradePnLCard) {
+    tradePnLCard.addEventListener('click', openTradePnLModal);
+  }
+  
+  const avgPnLCard = document.getElementById('avg-pnl-card');
+  if (avgPnLCard) {
+    avgPnLCard.addEventListener('click', openAvgPnLModal);
+  }
 });
 
+// ======================================================================
+// Trade P&L Modal Functions (Monthly Returns Heatmap)
+// ======================================================================
+
+/**
+ * Open Trade P&L Modal with Monthly Returns Heatmap
+ */
+function openTradePnLModal() {
+  const modal = document.getElementById('trade-pnl-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'flex';
+  
+  // Generate and display the heatmap
+  generateMonthlyReturnsHeatmap();
+}
+
+/**
+ * Close Trade P&L Modal
+ */
+function closeTradePnLModal() {
+  const modal = document.getElementById('trade-pnl-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'none';
+}
+
+/**
+ * Generate Monthly Returns Heatmap
+ */
+async function generateMonthlyReturnsHeatmap() {
+  const container = document.getElementById('monthly-returns-heatmap');
+  if (!container) return;
+  
+  try {
+    // Load trades data
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/trades-index.json`);
+    
+    if (!response.ok) {
+      throw new Error('Trades data not available');
+    }
+    
+    const data = await response.json();
+    const trades = data.trades || [];
+    
+    if (trades.length === 0) {
+      container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 2rem;">No trades available yet. Add trades to see your monthly returns.</p>';
+      return;
+    }
+    
+    // Calculate monthly returns
+    const monthlyReturns = {};
+    
+    trades.forEach(trade => {
+      const exitDate = trade.exit_date || trade.entry_date;
+      if (!exitDate) return;
+      
+      try {
+        const date = new Date(exitDate);
+        const year = date.getFullYear();
+        const month = date.getMonth(); // 0-11
+        
+        const key = `${year}-${month}`;
+        
+        if (!monthlyReturns[key]) {
+          monthlyReturns[key] = {
+            year: year,
+            month: month,
+            pnl: 0,
+            trades: 0
+          };
+        }
+        
+        monthlyReturns[key].pnl += trade.pnl_usd || 0;
+        monthlyReturns[key].trades += 1;
+      } catch (e) {
+        console.warn('Failed to parse trade date:', exitDate);
+      }
+    });
+    
+    // Convert to array and get account starting balance for percentage calculation
+    const accountConfig = await loadAccountConfig();
+    const startingBalance = accountConfig.starting_balance || 1000;
+    
+    // Convert to percentages and organize by year and month
+    const returnsArray = Object.values(monthlyReturns).map(item => ({
+      ...item,
+      returnPct: (item.pnl / startingBalance) * 100
+    }));
+    
+    // Get unique years
+    const years = [...new Set(returnsArray.map(item => item.year))].sort();
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    // Generate heatmap HTML
+    let html = '<table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.875rem;">';
+    html += '<thead><tr style="background-color: var(--bg-tertiary);">';
+    html += '<th style="padding: 0.75rem; text-align: left; color: var(--text-secondary);">Year</th>';
+    months.forEach(month => {
+      html += `<th style="padding: 0.75rem; text-align: center; color: var(--text-secondary);">${month}</th>`;
+    });
+    html += '<th style="padding: 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700;">YTD</th>';
+    html += '</tr></thead><tbody>';
+    
+    // Calculate stats
+    let bestMonth = { value: -Infinity, label: '' };
+    let worstMonth = { value: Infinity, label: '' };
+    let totalReturn = 0;
+    let monthCount = 0;
+    let positiveMonthCount = 0;
+    
+    years.forEach(year => {
+      html += '<tr>';
+      html += `<td style="padding: 0.75rem; font-weight: 700; color: var(--text-primary);">${year}</td>`;
+      
+      let ytd = 0;
+      
+      months.forEach((monthName, monthIndex) => {
+        const key = `${year}-${monthIndex}`;
+        const monthData = monthlyReturns[key];
+        
+        if (monthData) {
+          const returnPct = (monthData.pnl / startingBalance) * 100;
+          ytd += returnPct;
+          totalReturn += returnPct;
+          monthCount++;
+          
+          if (returnPct > 0) positiveMonthCount++;
+          
+          if (returnPct > bestMonth.value) {
+            bestMonth = { value: returnPct, label: `${monthName} ${year}` };
+          }
+          if (returnPct < worstMonth.value) {
+            worstMonth = { value: returnPct, label: `${monthName} ${year}` };
+          }
+          
+          const color = returnPct >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+          const bgOpacity = Math.min(Math.abs(returnPct) / 10, 0.5);
+          const bgColor = returnPct >= 0 ? `rgba(0, 255, 136, ${bgOpacity})` : `rgba(255, 71, 87, ${bgOpacity})`;
+          
+          html += `<td style="padding: 0.75rem; text-align: center; background: ${bgColor}; color: ${color}; font-weight: 600;" title="${monthData.trades} trades">${returnPct.toFixed(1)}%</td>`;
+        } else {
+          html += '<td style="padding: 0.75rem; text-align: center; color: var(--text-secondary);">-</td>';
+        }
+      });
+      
+      const ytdColor = ytd >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
+      html += `<td style="padding: 0.75rem; text-align: center; font-weight: 700; color: ${ytdColor};">${ytd.toFixed(1)}%</td>`;
+      html += '</tr>';
+    });
+    
+    html += '</tbody></table>';
+    
+    container.innerHTML = html;
+    
+    // Update summary stats
+    document.getElementById('best-month').textContent = bestMonth.value === -Infinity ? 'N/A' : `+${bestMonth.value.toFixed(1)}% (${bestMonth.label})`;
+    document.getElementById('worst-month').textContent = worstMonth.value === Infinity ? 'N/A' : `${worstMonth.value.toFixed(1)}% (${worstMonth.label})`;
+    document.getElementById('avg-monthly-return').textContent = monthCount > 0 ? `${(totalReturn / monthCount).toFixed(1)}%` : '0%';
+    document.getElementById('positive-months').textContent = `${positiveMonthCount}/${monthCount}`;
+    
+  } catch (error) {
+    console.error('Error generating monthly returns heatmap:', error);
+    container.innerHTML = '<p style="text-align: center; color: var(--accent-red); padding: 2rem;">Error loading monthly returns data.</p>';
+  }
+}
+
+/**
+ * Helper to load account config
+ */
+async function loadAccountConfig() {
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/account-config.json`);
+    
+    if (!response.ok) {
+      return { starting_balance: 1000 };
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.warn('Could not load account config:', error);
+    return { starting_balance: 1000 };
+  }
+}
+
+// ======================================================================
+// Average P&L Modal Functions (Avg Win $ / Avg Loss $)
+// ======================================================================
+
+/**
+ * Open Average P&L Modal
+ */
+function openAvgPnLModal() {
+  const modal = document.getElementById('avg-pnl-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'flex';
+  
+  // Load and display the data
+  loadAvgWinLossData();
+}
+
+/**
+ * Close Average P&L Modal
+ */
+function closeAvgPnLModal() {
+  const modal = document.getElementById('avg-pnl-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'none';
+}
+
+/**
+ * Load Average Win/Loss Data
+ */
+async function loadAvgWinLossData() {
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/trades-index.json`);
+    
+    if (!response.ok) {
+      throw new Error('Trades data not available');
+    }
+    
+    const data = await response.json();
+    const stats = data.statistics || {};
+    
+    // Get win/loss averages
+    const avgWin = stats.avg_winner || 0;
+    const avgLoss = Math.abs(stats.avg_loser || 0);
+    const winCount = stats.winning_trades || 0;
+    const lossCount = stats.losing_trades || 0;
+    
+    // Calculate win/loss ratio
+    const winLossRatio = avgLoss > 0 ? (avgWin / avgLoss) : 0;
+    
+    // Update modal displays
+    document.getElementById('modal-avg-win').textContent = `$${avgWin.toFixed(2)}`;
+    document.getElementById('modal-avg-loss').textContent = `$${avgLoss.toFixed(2)}`;
+    document.getElementById('modal-win-count').textContent = winCount;
+    document.getElementById('modal-loss-count').textContent = lossCount;
+    document.getElementById('modal-win-loss-ratio').textContent = winLossRatio.toFixed(2);
+    document.getElementById('modal-win-loss-ratio-text').textContent = `${winLossRatio.toFixed(2)}x`;
+    
+  } catch (error) {
+    console.error('Error loading avg win/loss data:', error);
+  }
+}

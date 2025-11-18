@@ -11,10 +11,13 @@ Features:
 - Dry-run mode for safe testing
 """
 
-import json
 import os
 import argparse
 from datetime import datetime
+from globals_utils import setup_imports, save_json_file
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index
 
 
@@ -225,8 +228,7 @@ def main():
             )
         else:
             # Save migrated data
-            with open("index.directory/trades-index.json", "w", encoding="utf-8") as f:
-                json.dump(migrated_data, f, indent=2)
+            save_json_file("index.directory/trades-index.json", migrated_data)
 
             print(
                 f"\n✓ Migrated {len(trades)} trade(s) to schema {args.target_version}"

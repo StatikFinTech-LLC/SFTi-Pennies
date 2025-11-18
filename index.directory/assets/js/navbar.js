@@ -346,4 +346,3 @@ class Navbar {
 SFTiUtils.onDOMReady(() => {
   new Navbar();
 });
-

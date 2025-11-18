@@ -13,8 +13,10 @@ import csv
 import argparse
 from datetime import datetime
 import os
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from globals_utils import setup_imports
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index
 
 

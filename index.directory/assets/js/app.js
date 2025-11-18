@@ -903,4 +903,3 @@ ${this.uploadedImages.length > 0 ? this.uploadedImages.map(img =>
 document.addEventListener('DOMContentLoaded', () => {
   window.tradingJournal = new TradingJournal();
 });
-

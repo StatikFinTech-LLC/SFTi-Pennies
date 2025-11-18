@@ -6,10 +6,10 @@ of all markdown files with metadata and excerpts
 """
 
 import os
-import json
 import yaml
 from pathlib import Path
 from datetime import datetime
+from globals_utils import save_json_file
 
 
 def extract_frontmatter(content):
@@ -247,8 +247,7 @@ def main():
 
     # Write JSON index
     output_file = "index.directory/notes-index.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+    save_json_file(output_file, output)
 
     print(f"Notes index written to {output_file}")
     print(f"Total notes: {output['total_count']}")

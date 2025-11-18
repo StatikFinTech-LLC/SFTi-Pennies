@@ -18,6 +18,10 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict
+from globals_utils import setup_imports, ensure_directory, save_json_file, load_json_file, get_week_folder, parse_date
+
+# Setup imports
+setup_imports(__file__)
 
 
 def detect_broker(csv_content: str) -> str:
@@ -137,23 +141,21 @@ def create_trade_markdown(trade: Dict, output_dir: str) -> str:
     """
     # Determine week folder and filename from entry date
     entry_date = trade.get("entry_date", datetime.now().isoformat())
-    try:
-        date_obj = datetime.fromisoformat(entry_date.split("T")[0])
-        year = date_obj.year
-        week = date_obj.isocalendar()[1]
-        week_folder = f"week.{year}.{week:02d}"
-
+    date_obj = parse_date(entry_date)
+    
+    if date_obj:
+        week_folder = get_week_folder(date_obj)
         # Format: MM:DD:YYYY.N.md (N is the trade sequence for that day)
         date_str = date_obj.strftime("%m:%d:%Y")
         trade_num = trade.get("trade_number", 1)
         filename = f"{date_str}.{trade_num}.md"
-    except:
+    else:
         week_folder = "week.000"
         filename = f"trade-{trade.get('trade_number', 0):03d}.md"
 
     # Create week directory if needed
     week_path = os.path.join(output_dir, week_folder)
-    os.makedirs(week_path, exist_ok=True)
+    ensure_directory(week_path)
 
     filepath = os.path.join(week_path, filename)
 
@@ -291,12 +293,8 @@ def update_trades_index(new_trades: List[Dict]):
     index_path = "index.directory/trades-index.json"
 
     # Load existing index
-    try:
-        with open(index_path, "r", encoding="utf-8") as f:
-            index_data = json.load(f)
-    except FileNotFoundError:
-        index_data = {"trades": [], "statistics": {}, "version": "1.0"}
-
+    index_data = load_json_file(index_path, {"trades": [], "statistics": {}, "version": "1.0"})
+    
     existing_trades = index_data.get("trades", [])
 
     # Create a set of existing trade identifiers (date + ticker)
@@ -322,12 +320,10 @@ def update_trades_index(new_trades: List[Dict]):
     index_data["trades"] = existing_trades
 
     # Save updated index
-    try:
-        with open(index_path, "w", encoding="utf-8") as f:
-            json.dump(index_data, f, indent=2)
+    if save_json_file(index_path, index_data):
         print(f"Updated trades index with {added_count} new trade(s)")
-    except Exception as e:
-        print(f"Error saving trades index: {e}")
+    else:
+        print(f"Error saving trades index")
 
 
 def main():

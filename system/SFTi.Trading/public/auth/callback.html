@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBKR Authentication Callback</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+        }
+        p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 IBKR Authentication</h1>
+        <div class="spinner"></div>
+        <p>Processing authentication...</p>
+    </div>
+
+    <script>
+        // Extract authorization code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+
+        if (error) {
+            document.querySelector('p').textContent = `Authentication failed: ${error}`;
+            document.querySelector('.spinner').style.display = 'none';
+        } else if (code) {
+            // Send the code to the parent window
+            if (window.opener) {
+                window.opener.postMessage({
+                    type: 'IBKR_AUTH_SUCCESS',
+                    code: code
+                }, window.location.origin);
+                
+                document.querySelector('p').textContent = 'Authentication successful! Closing window...';
+                setTimeout(() => window.close(), 2000);
+            } else {
+                document.querySelector('p').textContent = 'Authentication successful! You can close this window.';
+                document.querySelector('.spinner').style.display = 'none';
+            }
+        } else {
+            document.querySelector('p').textContent = 'No authorization code received.';
+            document.querySelector('.spinner').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

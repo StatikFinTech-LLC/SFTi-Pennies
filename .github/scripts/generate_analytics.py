@@ -17,8 +17,10 @@ import json
 import os
 from datetime import datetime
 from typing import Dict, List, Tuple
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from globals_utils import setup_imports, save_json_file, ensure_directory
+
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index, load_account_config
 
 # Constants
@@ -319,6 +321,161 @@ def calculate_kelly_criterion(trades: List[Dict]) -> float:
     return round(kelly * 100, 1)
 
 
+def calculate_sharpe_ratio(trades: List[Dict], risk_free_rate: float = 0.0) -> float:
+    """
+    Calculate Sharpe Ratio - risk-adjusted returns
+    
+    Sharpe Ratio = (Average Return - Risk Free Rate) / Standard Deviation of Returns
+    
+    Args:
+        trades: List of trade dictionaries
+        risk_free_rate: Risk-free rate (default 0% for simplicity)
+    
+    Returns:
+        float: Sharpe ratio
+    """
+    if not trades or len(trades) < 2:
+        return 0.0
+    
+    # Get returns as percentages
+    returns = [t.get("pnl_percent", 0) for t in trades]
+    
+    # Calculate average return
+    avg_return = sum(returns) / len(returns)
+    
+    # Calculate standard deviation
+    variance = sum((r - avg_return) ** 2 for r in returns) / len(returns)
+    std_dev = variance ** 0.5
+    
+    if std_dev == 0:
+        return 0.0
+    
+    sharpe = (avg_return - risk_free_rate) / std_dev
+    
+    return round(sharpe, 2)
+
+
+def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
+    """
+    Calculate R-Multiple distribution - returns in risk units
+    
+    R-Multiple = (Exit Price - Entry Price) / (Entry Price - Stop Loss)
+    This shows how many times your initial risk you made or lost
+    
+    Args:
+        trades: List of trade dictionaries
+    
+    Returns:
+        Dict: R-multiple distribution data
+    """
+    if not trades:
+        return {
+            "labels": [],
+            "data": [],
+            "avg_r_multiple": 0,
+            "median_r_multiple": 0
+        }
+    
+    r_multiples = []
+    
+    for trade in trades:
+        entry_price = trade.get("entry_price", 0)
+        exit_price = trade.get("exit_price", 0)
+        stop_loss = trade.get("stop_loss", 0)
+        direction = trade.get("direction", "LONG")
+        
+        if entry_price == 0 or stop_loss == 0:
+            continue
+        
+        # Calculate risk (distance from entry to stop)
+        if direction == "LONG":
+            risk = entry_price - stop_loss
+            gain = exit_price - entry_price
+        else:  # SHORT
+            risk = stop_loss - entry_price
+            gain = entry_price - exit_price
+        
+        if risk <= 0:
+            continue
+        
+        # R-multiple is gain divided by risk
+        r_multiple = gain / risk
+        r_multiples.append(r_multiple)
+    
+    if not r_multiples:
+        return {
+            "labels": [],
+            "data": [],
+            "avg_r_multiple": 0,
+            "median_r_multiple": 0
+        }
+    
+    # Create histogram buckets
+    buckets = {
+        "< -2R": 0,
+        "-2R to -1R": 0,
+        "-1R to 0R": 0,
+        "0R to 1R": 0,
+        "1R to 2R": 0,
+        "2R to 3R": 0,
+        "> 3R": 0
+    }
+    
+    for r in r_multiples:
+        if r < -2:
+            buckets["< -2R"] += 1
+        elif r < -1:
+            buckets["-2R to -1R"] += 1
+        elif r < 0:
+            buckets["-1R to 0R"] += 1
+        elif r < 1:
+            buckets["0R to 1R"] += 1
+        elif r < 2:
+            buckets["1R to 2R"] += 1
+        elif r < 3:
+            buckets["2R to 3R"] += 1
+        else:
+            buckets["> 3R"] += 1
+    
+    # Calculate statistics
+    avg_r = sum(r_multiples) / len(r_multiples)
+    sorted_r = sorted(r_multiples)
+    median_r = (
+        sorted_r[len(sorted_r) // 2]
+        if len(sorted_r) % 2 == 1
+        else (sorted_r[len(sorted_r) // 2 - 1] + sorted_r[len(sorted_r) // 2]) / 2
+    )
+    
+    return {
+        "labels": list(buckets.keys()),
+        "data": list(buckets.values()),
+        "avg_r_multiple": round(avg_r, 2),
+        "median_r_multiple": round(median_r, 2)
+    }
+
+
+def calculate_mae_mfe_analysis(trades: List[Dict]) -> Dict:
+    """
+    Calculate MAE (Mean Adverse Excursion) and MFE (Mean Favorable Excursion)
+    
+    Note: This requires intraday data collection which is not currently available.
+    For now, we'll return a placeholder indicating this feature requires additional data.
+    
+    Args:
+        trades: List of trade dictionaries
+    
+    Returns:
+        Dict: MAE/MFE analysis placeholder
+    """
+    return {
+        "available": False,
+        "message": "MAE/MFE analysis requires intraday price data collection. This feature will be available once intraday high/low prices are tracked for each trade.",
+        "mae_avg": 0,
+        "mfe_avg": 0,
+        "note": "To enable this metric, add 'intraday_high' and 'intraday_low' fields to trade entries."
+    }
+
+
 def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
     """
     Aggregate statistics by a tag field (strategy, setup, etc.)
@@ -463,6 +620,11 @@ def main():
         )
         kelly = calculate_kelly_criterion(sorted_trades)
         
+        # Calculate advanced analytics
+        sharpe_ratio = calculate_sharpe_ratio(sorted_trades)
+        r_multiple_dist = calculate_r_multiple_distribution(sorted_trades)
+        mae_mfe = calculate_mae_mfe_analysis(sorted_trades)
+        
         # Calculate percentage-based returns metrics
         returns_metrics = calculate_returns_metrics(
             sorted_trades, 
@@ -484,6 +646,9 @@ def main():
             "max_drawdown": max_drawdown,
             "max_drawdown_percent": returns_metrics["max_drawdown_percent"],
             "kelly_criterion": kelly,
+            "sharpe_ratio": sharpe_ratio,
+            "r_multiple_distribution": r_multiple_dist,
+            "mae_mfe_analysis": mae_mfe,
             "by_strategy": by_strategy,
             "by_setup": by_setup,
             "by_session": by_session,
@@ -504,11 +669,10 @@ def main():
         }
 
     # Save analytics data
-    os.makedirs("index.directory/assets/charts", exist_ok=True)
+    ensure_directory("index.directory/assets/charts")
     output_file = "index.directory/assets/charts/analytics-data.json"
 
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(analytics, f, indent=2)
+    save_json_file(output_file, analytics)
 
     print(f"Analytics written to {output_file}")
     print(f"Expectancy: ${analytics['expectancy']}")

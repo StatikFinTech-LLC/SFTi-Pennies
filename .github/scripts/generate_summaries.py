@@ -16,9 +16,11 @@ import os
 import re
 from datetime import datetime, timedelta
 from collections import defaultdict
-import sys
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from utils import load_trades_index
+from globals_utils import setup_imports
+
+# Setup imports
+setup_imports(__file__)
+from utils import load_trades_index, calculate_period_stats
 
 # Regex patterns for file matching
 WEEKLY_PATTERN = r"weekly-\d{4}-W(\d{2})\.md"
@@ -129,86 +131,6 @@ def group_trades_by_period(trades, period="week"):
             continue
 
     return dict(grouped)
-
-
-def calculate_period_stats(trades):
-    """
-    Calculate statistics for a group of trades
-
-    Args:
-        trades (list): List of trade dictionaries
-
-    Returns:
-        dict: Period statistics
-    """
-    if not trades:
-        return {}
-
-    total_trades = len(trades)
-    
-    # Single pass to calculate all metrics
-    win_count = 0
-    loss_count = 0
-    total_pnl = 0.0
-    total_volume = 0
-    best_trade = None
-    worst_trade = None
-    best_pnl = float('-inf')
-    worst_pnl = float('inf')
-    
-    # Strategy breakdown using defaultdict for efficiency
-    strategies = defaultdict(lambda: {"count": 0, "pnl": 0.0})
-    
-    for trade in trades:
-        pnl = trade.get("pnl_usd", 0)
-        total_pnl += pnl
-        total_volume += trade.get("position_size", 0)
-        
-        # Track wins/losses
-        if pnl > 0:
-            win_count += 1
-        elif pnl < 0:
-            loss_count += 1
-        
-        # Track best/worst trades
-        if pnl > best_pnl:
-            best_pnl = pnl
-            best_trade = trade
-        if pnl < worst_pnl:
-            worst_pnl = pnl
-            worst_trade = trade
-        
-        # Update strategy breakdown
-        strategy = trade.get("strategy", "Unknown")
-        strategies[strategy]["count"] += 1
-        strategies[strategy]["pnl"] += pnl
-
-    # Use first trade as fallback if no best/worst found (shouldn't happen with valid data)
-    if best_trade is None:
-        best_trade = trades[0]
-    if worst_trade is None:
-        worst_trade = trades[0]
-
-    return {
-        "total_trades": total_trades,
-        "winning_trades": win_count,
-        "losing_trades": loss_count,
-        "win_rate": round(win_count / total_trades * 100, 2) if total_trades > 0 else 0,
-        "total_pnl": round(total_pnl, 2),
-        "avg_pnl": round(total_pnl / total_trades, 2) if total_trades > 0 else 0,
-        "best_trade": {
-            "ticker": best_trade.get("ticker"),
-            "pnl": round(best_trade.get("pnl_usd", 0), 2),
-            "trade_number": best_trade.get("trade_number"),
-        },
-        "worst_trade": {
-            "ticker": worst_trade.get("ticker"),
-            "pnl": round(worst_trade.get("pnl_usd", 0), 2),
-            "trade_number": worst_trade.get("trade_number"),
-        },
-        "total_volume": total_volume,
-        "strategies": dict(strategies),
-    }
 
 
 def generate_summary_markdown(

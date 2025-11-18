@@ -8,9 +8,10 @@ Injects trade data into the homepage HTML
 import sys
 import os
 from datetime import datetime
+from globals_utils import setup_imports
 
-# Add the scripts directory to the path for imports
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# Setup imports
+setup_imports(__file__)
 from utils import load_trades_index
 
 
