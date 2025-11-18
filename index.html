@@ -31,11 +31,11 @@
   <link rel="stylesheet" href="index.directory/assets/css/glowing-bubbles.css">
   
   <!-- Progressive Web App Configuration -->
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/SFTi-Pennies/manifest.json">
   
   <!-- App Icons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="index.directory/assets/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="index.directory/assets/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/SFTi-Pennies/index.directory/assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/SFTi-Pennies/index.directory/assets/icons/icon-192.png">
 </head>
 <body>
   <!-- Duplicate icon links removed - already in head -->
@@ -635,6 +635,19 @@
     const lightbox = GLightbox({
       selector: '.glightbox'
     });
+
+    // Register Service Worker for PWA functionality
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/SFTi-Pennies/sw.js')
+          .then(registration => {
+            console.log('Service Worker registered successfully:', registration.scope);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      });
+    }
   </script>
 </body>
 </html>
