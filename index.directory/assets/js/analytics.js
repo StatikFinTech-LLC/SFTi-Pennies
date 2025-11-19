@@ -101,6 +101,10 @@ async function loadAnalyticsData() {
     loadTickerPerformanceChart();
     loadTimeOfDayChart();
     
+    // Load new Drawdown charts
+    loadDrawdownOverTimeChart();
+    loadInceptionDrawdownChart();
+    
     // Load Portfolio Value charts (all timeframes)
     loadPortfolioValueDayChart();
     loadPortfolioValueWeekChart();
@@ -212,7 +216,9 @@ function updateMetrics(data) {
   // Drawdown with both dollar and percentage
   if (metricMaxDrawdown) {
     const ddDollars = Math.abs(data.max_drawdown || 0);
-    const ddPercent = Math.abs(data.max_drawdown_percent || 0);
+    // Use new drawdowns structure if available, fallback to old structure
+    const drawdowns = data.drawdowns || {};
+    const ddPercent = Math.abs(drawdowns.classic_percent || data.max_drawdown_percent || 0);
     metricMaxDrawdown.textContent = `$${ddDollars.toFixed(2)} (${ddPercent.toFixed(2)}%)`;
   }
   
@@ -640,6 +646,64 @@ function renderRMultipleChart(rMultipleData) {
     data: chartData,
     options: SFTiChartConfig.getBarChartOptions()
   });
+}
+
+// ======================================================================
+// Drawdown Chart Loading Functions
+// ======================================================================
+
+/**
+ * Load and render drawdown over time chart (classic drawdown % from peak)
+ */
+async function loadDrawdownOverTimeChart() {
+  const ctx = document.getElementById('drawdown-over-time-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/drawdown-over-time-data.json`);
+    const data = await response.json();
+    
+    if (window.drawdownOverTimeChart) {
+      window.drawdownOverTimeChart.destroy();
+    }
+
+    window.drawdownOverTimeChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getLineChartOptions('#ff4757')
+    });
+  } catch (error) {
+    console.log('Drawdown over time data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No drawdown data available yet. Add trades to see drawdown over time.');
+  }
+}
+
+/**
+ * Load and render return from initial capital chart (return % from initial capital)
+ */
+async function loadInceptionDrawdownChart() {
+  const ctx = document.getElementById('inception-drawdown-chart');
+  if (!ctx) return;
+
+  try {
+    const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+    const response = await fetch(`${basePath}/index.directory/assets/charts/inception-drawdown-data.json`);
+    const data = await response.json();
+    
+    if (window.inceptionDrawdownChart) {
+      window.inceptionDrawdownChart.destroy();
+    }
+
+    window.inceptionDrawdownChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Return from initial data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No return from initial data available yet. Add trades to see return from initial capital.');
+  }
 }
 
 // ======================================================================

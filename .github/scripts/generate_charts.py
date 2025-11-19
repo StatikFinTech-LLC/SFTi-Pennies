@@ -39,16 +39,29 @@ TRADING_SESSION_ORDER = [
 ]
 
 
-def generate_equity_curve_data(trades):
+def generate_equity_curve_data(trades, account_config):
     """
     Generate equity curve data from trades
+    
+    Shows true equity (initial_capital + cumulative P&L) instead of just cumulative P&L
+    Color is green if final equity > initial, red otherwise
 
     Args:
         trades (list): List of trade dictionaries sorted by date
+        account_config (dict): Account configuration with starting balance, deposits, withdrawals
 
     Returns:
         dict: Chart.js compatible data structure
     """
+    # Get initial capital
+    starting_balance = account_config.get("starting_balance", 0)
+    deposits = account_config.get("deposits", [])
+    withdrawals = account_config.get("withdrawals", [])
+    
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
+    initial_capital = starting_balance + total_deposits - total_withdrawals
+    
     if not trades:
         return {
             "labels": [],
@@ -68,14 +81,14 @@ def generate_equity_curve_data(trades):
         trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
     )
 
-    # Calculate cumulative P&L
+    # Calculate cumulative equity (initial_capital + cumulative P&L)
     labels = []
-    cumulative_pnl = []
-    running_total = 0
+    equity_values = []
+    running_pnl = 0
 
     for trade in sorted_trades:
         pnl = trade.get("pnl_usd", 0)
-        running_total += pnl
+        running_pnl += pnl
 
         # Use exit date for the equity point
         date_str = trade.get("exit_date", trade.get("entry_date", ""))
@@ -85,7 +98,20 @@ def generate_equity_curve_data(trades):
         except (ValueError, TypeError):
             labels.append(date_str)
 
-        cumulative_pnl.append(round(running_total, 2))
+        # True equity = initial capital + cumulative P&L
+        equity = initial_capital + running_pnl
+        equity_values.append(round(equity, 2))
+    
+    # Determine color based on final vs initial
+    final_equity = equity_values[-1] if equity_values else initial_capital
+    if final_equity >= initial_capital:
+        border_color = "#00ff88"  # Green
+        background_color = "rgba(0, 255, 136, 0.1)"
+        point_color = "#00ff88"
+    else:
+        border_color = "#ff4757"  # Red
+        background_color = "rgba(255, 71, 87, 0.1)"
+        point_color = "#ff4757"
 
     # Chart.js format
     chartjs_data = {
@@ -93,14 +119,211 @@ def generate_equity_curve_data(trades):
         "datasets": [
             {
                 "label": "Equity Curve",
-                "data": cumulative_pnl,
-                "borderColor": "#00ff88",
-                "backgroundColor": "rgba(0, 255, 136, 0.1)",
+                "data": equity_values,
+                "borderColor": border_color,
+                "backgroundColor": background_color,
                 "fill": True,
                 "tension": 0.4,
                 "pointRadius": 4,
                 "pointHoverRadius": 6,
-                "pointBackgroundColor": "#00ff88",
+                "pointBackgroundColor": point_color,
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }
+        ],
+    }
+
+    return chartjs_data
+
+
+def generate_drawdown_over_time_data(trades, account_config):
+    """
+    Generate classic drawdown over time data as percentage from peak
+    
+    Converts the drawdown series from dollars to percentage of peak equity
+    Red border/fill below 0 to indicate drawdowns
+
+    Args:
+        trades (list): List of trade dictionaries sorted by date
+        account_config (dict): Account configuration with starting balance, deposits, withdrawals
+
+    Returns:
+        dict: Chart.js compatible data structure with drawdown % series
+    """
+    # Get initial capital
+    starting_balance = account_config.get("starting_balance", 0)
+    deposits = account_config.get("deposits", [])
+    withdrawals = account_config.get("withdrawals", [])
+    
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
+    initial_capital = starting_balance + total_deposits - total_withdrawals
+    
+    if not trades:
+        return {
+            "labels": [],
+            "datasets": [
+                {
+                    "label": "Drawdown %",
+                    "data": [],
+                    "borderColor": "#ff4757",
+                    "backgroundColor": "rgba(255, 71, 87, 0.2)",
+                    "fill": True,
+                    "tension": 0.4,
+                }
+            ],
+        }
+
+    # Sort trades by exit date
+    sorted_trades = sorted(
+        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
+    )
+
+    # Calculate drawdown % from peak
+    labels = []
+    drawdown_percentages = []
+    running_pnl = 0
+    peak = 0
+    peak_equity = initial_capital
+
+    for trade in sorted_trades:
+        pnl = trade.get("pnl_usd", 0)
+        running_pnl += pnl
+
+        # Update peak
+        if running_pnl > peak:
+            peak = running_pnl
+            peak_equity = initial_capital + peak
+
+        # Calculate drawdown from peak
+        drawdown_dollars = running_pnl - peak
+        drawdown_percent = (drawdown_dollars / peak_equity * 100) if peak_equity > 0 else 0
+
+        # Date label
+        date_str = trade.get("exit_date", trade.get("entry_date", ""))
+        try:
+            date_obj = datetime.fromisoformat(str(date_str).split("T")[0])
+            labels.append(date_obj.strftime("%m/%d"))
+        except (ValueError, TypeError):
+            labels.append(date_str)
+
+        drawdown_percentages.append(round(drawdown_percent, 2))
+
+    # Chart.js format
+    chartjs_data = {
+        "labels": labels,
+        "datasets": [
+            {
+                "label": "Drawdown %",
+                "data": drawdown_percentages,
+                "borderColor": "#ff4757",
+                "backgroundColor": "rgba(255, 71, 87, 0.2)",
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 3,
+                "pointHoverRadius": 5,
+                "pointBackgroundColor": "#ff4757",
+                "pointBorderColor": "#0a0e27",
+                "pointBorderWidth": 2,
+            }
+        ],
+    }
+
+    return chartjs_data
+
+
+def generate_inception_drawdown_data(trades, account_config):
+    """
+    Generate return from initial capital data as percentage from initial capital
+    
+    Shows cumulative return relative to the initial investment (including deposits and withdrawals).
+    Negative values indicate the account is below the initial capital; positive values indicate profit.
+    Color scheme is dynamic: green for positive returns, red for negative.
+
+    Args:
+        trades (list): List of trade dictionaries sorted by date
+        account_config (dict): Account configuration with starting balance, deposits, withdrawals
+
+    Returns:
+        dict: Chart.js compatible data structure with return from initial % series
+    """
+    # Get initial capital
+    starting_balance = account_config.get("starting_balance", 0)
+    deposits = account_config.get("deposits", [])
+    withdrawals = account_config.get("withdrawals", [])
+    
+    total_deposits = sum(d.get("amount", 0) for d in deposits)
+    total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
+    initial_capital = starting_balance + total_deposits - total_withdrawals
+    
+    if not trades:
+        return {
+            "labels": [],
+            "datasets": [
+                {
+                    "label": "Return from Initial %",
+                    "data": [],
+                    "borderColor": "#00ff88",
+                    "backgroundColor": "rgba(0, 255, 136, 0.2)",
+                    "fill": True,
+                    "tension": 0.4,
+                }
+            ],
+        }
+
+    # Sort trades by exit date
+    sorted_trades = sorted(
+        trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
+    )
+
+    # Calculate return from initial %
+    labels = []
+    inception_drawdown_percentages = []
+    running_pnl = 0
+
+    for trade in sorted_trades:
+        pnl = trade.get("pnl_usd", 0)
+        running_pnl += pnl
+
+        # Calculate equity and return from initial
+        equity_t = initial_capital + running_pnl
+        dd_percent = ((equity_t - initial_capital) / initial_capital * 100) if initial_capital > 0 else 0
+
+        # Date label
+        date_str = trade.get("exit_date", trade.get("entry_date", ""))
+        try:
+            date_obj = datetime.fromisoformat(str(date_str).split("T")[0])
+            labels.append(date_obj.strftime("%m/%d"))
+        except (ValueError, TypeError):
+            labels.append(date_str)
+
+        inception_drawdown_percentages.append(round(dd_percent, 2))
+    
+    # Determine color based on final return
+    final_return = inception_drawdown_percentages[-1] if inception_drawdown_percentages else 0
+    if final_return >= 0:
+        border_color = "#00ff88"  # Green for profit
+        background_color = "rgba(0, 255, 136, 0.2)"
+        point_color = "#00ff88"
+    else:
+        border_color = "#ff4757"  # Red for loss
+        background_color = "rgba(255, 71, 87, 0.2)"
+        point_color = "#ff4757"
+
+    # Chart.js format
+    chartjs_data = {
+        "labels": labels,
+        "datasets": [
+            {
+                "label": "Return from Initial %",
+                "data": inception_drawdown_percentages,
+                "borderColor": border_color,
+                "backgroundColor": background_color,
+                "fill": True,
+                "tension": 0.4,
+                "pointRadius": 3,
+                "pointHoverRadius": 5,
+                "pointBackgroundColor": point_color,
                 "pointBorderColor": "#0a0e27",
                 "pointBorderWidth": 2,
             }
@@ -1210,7 +1433,7 @@ def main():
     print("Generating Chart.js data files...")
 
     # 1. Equity Curve
-    equity_data = generate_equity_curve_data(trades)
+    equity_data = generate_equity_curve_data(trades, account_config)
     save_json_file("index.directory/assets/charts/equity-curve-data.json", equity_data)
     print("  ✓ Equity curve data saved")
 
@@ -1234,11 +1457,21 @@ def main():
     save_json_file("index.directory/assets/charts/time-of-day-performance-data.json", time_of_day_data)
     print("  ✓ Time of day performance data saved")
     
-    # 6. Portfolio Value Charts (all timeframes)
+    # 6. Drawdown Over Time
+    drawdown_data = generate_drawdown_over_time_data(trades, account_config)
+    save_json_file("index.directory/assets/charts/drawdown-over-time-data.json", drawdown_data)
+    print("  ✓ Drawdown over time data saved")
+    
+    # 7. Inception Drawdown
+    inception_dd_data = generate_inception_drawdown_data(trades, account_config)
+    save_json_file("index.directory/assets/charts/inception-drawdown-data.json", inception_dd_data)
+    print("  ✓ Inception drawdown data saved")
+    
+    # 8. Portfolio Value Charts (all timeframes)
     print("\nGenerating Portfolio Value charts...")
     generate_portfolio_value_charts(trades, account_config)
     
-    # 7. Total Return Charts (all timeframes)
+    # 9. Total Return Charts (all timeframes)
     print("\nGenerating Total Return charts...")
     generate_total_return_charts(trades, account_config)
 

@@ -198,9 +198,34 @@
       
       <!-- Drawdown Chart -->
       <div class="glass-chart" style="margin-bottom: 1.5rem;">
-        <h3 style="margin-bottom: 1rem;">Drawdown Over Time</h3>
+        <h3 style="margin-bottom: 1rem;">Drawdown Over Time (Classic - $)</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Classic drawdown measured in dollars from peak equity
+        </p>
         <div style="position: relative; height: 400px; width: 100%;">
           <canvas id="drawdown-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Drawdown Over Time Chart (% from peak) -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Max Drawdown (from Peak %)</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Shows percentage drawdown from peak equity over time
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="drawdown-over-time-chart"></canvas>
+        </div>
+      </div>
+      
+      <!-- Return from Initial Capital Chart -->
+      <div class="glass-chart" style="margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem;">Return from Initial Capital (%)</h3>
+        <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
+          Shows cumulative percentage return from initial capital over time (includes gains and losses)
+        </p>
+        <div style="position: relative; height: 400px; width: 100%;">
+          <canvas id="inception-drawdown-chart"></canvas>
         </div>
       </div>
       

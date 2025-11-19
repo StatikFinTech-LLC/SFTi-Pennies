@@ -45,6 +45,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
             "total_return_percent": 0.0,
             "avg_return_percent": 0.0,
             "max_drawdown_percent": 0.0,
+            "inception_max_dd_percent": 0.0,
             "avg_risk_percent": 0.0,
             "avg_position_size_percent": 0.0
         }
@@ -76,15 +77,26 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
     
     peak = 0
     max_drawdown_dollars = 0
+    max_drawdown_percent = 0
+    peak_equity = initial_capital  # Track peak equity for proper % calculation
+    
     for value in cumulative_pnl:
         if value > peak:
             peak = value
+            peak_equity = initial_capital + peak  # Update peak equity
         drawdown = value - peak
         if drawdown < max_drawdown_dollars:
             max_drawdown_dollars = drawdown
+            # Calculate percentage at the time of this drawdown
+            max_drawdown_percent = (drawdown / peak_equity * 100) if peak_equity > 0 else 0
     
-    # Max drawdown % = (Max DD in $) / (Starting Balance + Deposits) * 100
-    max_drawdown_percent = (max_drawdown_dollars / initial_capital * 100) if initial_capital > 0 else 0
+    # Minimum return % from initial capital (can be positive if never below initial)
+    # This measures the worst performance relative to initial capital
+    inception_max_dd_percent = 0
+    for value in cumulative_pnl:
+        equity_t = initial_capital + value
+        dd_percent = ((equity_t - initial_capital) / initial_capital * 100) if initial_capital > 0 else 0
+        inception_max_dd_percent = min(inception_max_dd_percent, dd_percent)
     
     # Average risk per trade (as % of account at time of trade)
     # This requires tracking account balance at each trade
@@ -116,6 +128,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
         "total_return_percent": round(total_return_percent, 2),
         "avg_return_percent": round(avg_return_percent, 4),
         "max_drawdown_percent": round(max_drawdown_percent, 2),
+        "inception_max_dd_percent": round(inception_max_dd_percent, 2),
         "avg_risk_percent": round(avg_risk_percent, 3),
         "avg_position_size_percent": round(avg_position_size_percent, 2)
     }
@@ -594,6 +607,10 @@ def main():
             "by_setup": {},
             "by_session": {},
             "drawdown_series": {"labels": [], "values": []},
+            "drawdowns": {
+                "classic_percent": 0,
+                "inception_percent": 0
+            },
             "account": {
                 "starting_balance": starting_balance,
                 "total_deposits": total_deposits,
@@ -644,7 +661,6 @@ def main():
             "max_win_streak": max_win_streak,
             "max_loss_streak": max_loss_streak,
             "max_drawdown": max_drawdown,
-            "max_drawdown_percent": returns_metrics["max_drawdown_percent"],
             "kelly_criterion": kelly,
             "sharpe_ratio": sharpe_ratio,
             "r_multiple_distribution": r_multiple_dist,
@@ -653,6 +669,10 @@ def main():
             "by_setup": by_setup,
             "by_session": by_session,
             "drawdown_series": drawdown_series,
+            "drawdowns": {
+                "classic_percent": returns_metrics["max_drawdown_percent"],
+                "inception_percent": returns_metrics["inception_max_dd_percent"]
+            },
             "returns": {
                 "total_return_percent": returns_metrics["total_return_percent"],
                 "avg_return_percent": returns_metrics["avg_return_percent"],
