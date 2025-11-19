@@ -680,7 +680,7 @@ async function loadDrawdownOverTimeChart() {
 }
 
 /**
- * Load and render inception drawdown chart (drawdown % from initial capital)
+ * Load and render return from initial capital chart (return % from initial capital)
  */
 async function loadInceptionDrawdownChart() {
   const ctx = document.getElementById('inception-drawdown-chart');
@@ -698,11 +698,11 @@ async function loadInceptionDrawdownChart() {
     window.inceptionDrawdownChart = new Chart(ctx, {
       type: 'line',
       data: data,
-      options: SFTiChartConfig.getLineChartOptions('#ff4757')
+      options: SFTiChartConfig.getCommonChartOptions()
     });
   } catch (error) {
-    console.log('Inception drawdown data not yet available:', error);
-    SFTiChartConfig.renderEmptyChart(ctx, 'No inception drawdown data available yet. Add trades to see inception drawdown.');
+    console.log('Return from initial data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No return from initial data available yet. Add trades to see return from initial capital.');
   }
 }
 

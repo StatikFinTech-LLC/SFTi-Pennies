@@ -204,7 +204,7 @@ def generate_drawdown_over_time_data(trades, account_config):
         try:
             date_obj = datetime.fromisoformat(str(date_str).split("T")[0])
             labels.append(date_obj.strftime("%m/%d"))
-        except:
+        except (ValueError, TypeError):
             labels.append(date_str)
 
         drawdown_percentages.append(round(drawdown_percent, 2))
@@ -234,17 +234,18 @@ def generate_drawdown_over_time_data(trades, account_config):
 
 def generate_inception_drawdown_data(trades, account_config):
     """
-    Generate inception drawdown data as percentage from initial capital
+    Generate return from initial capital data as percentage from initial capital
     
-    Shows drawdown from initial investment rather than from peak
-    Red border/fill below 0 to indicate drawdowns
+    Shows cumulative return relative to the initial investment (including deposits and withdrawals).
+    Negative values indicate the account is below the initial capital; positive values indicate profit.
+    Color scheme is dynamic: green for positive returns, red for negative.
 
     Args:
         trades (list): List of trade dictionaries sorted by date
         account_config (dict): Account configuration with starting balance, deposits, withdrawals
 
     Returns:
-        dict: Chart.js compatible data structure with inception drawdown % series
+        dict: Chart.js compatible data structure with return from initial % series
     """
     # Get initial capital
     starting_balance = account_config.get("starting_balance", 0)
@@ -260,10 +261,10 @@ def generate_inception_drawdown_data(trades, account_config):
             "labels": [],
             "datasets": [
                 {
-                    "label": "Inception Drawdown %",
+                    "label": "Return from Initial %",
                     "data": [],
-                    "borderColor": "#ff4757",
-                    "backgroundColor": "rgba(255, 71, 87, 0.2)",
+                    "borderColor": "#00ff88",
+                    "backgroundColor": "rgba(0, 255, 136, 0.2)",
                     "fill": True,
                     "tension": 0.4,
                 }
@@ -275,7 +276,7 @@ def generate_inception_drawdown_data(trades, account_config):
         trades, key=lambda t: t.get("exit_date", t.get("entry_date", ""))
     )
 
-    # Calculate inception drawdown %
+    # Calculate return from initial %
     labels = []
     inception_drawdown_percentages = []
     running_pnl = 0
@@ -284,7 +285,7 @@ def generate_inception_drawdown_data(trades, account_config):
         pnl = trade.get("pnl_usd", 0)
         running_pnl += pnl
 
-        # Calculate equity and drawdown from initial
+        # Calculate equity and return from initial
         equity_t = initial_capital + running_pnl
         dd_percent = ((equity_t - initial_capital) / initial_capital * 100) if initial_capital > 0 else 0
 
@@ -293,25 +294,36 @@ def generate_inception_drawdown_data(trades, account_config):
         try:
             date_obj = datetime.fromisoformat(str(date_str).split("T")[0])
             labels.append(date_obj.strftime("%m/%d"))
-        except:
+        except (ValueError, TypeError):
             labels.append(date_str)
 
         inception_drawdown_percentages.append(round(dd_percent, 2))
+    
+    # Determine color based on final return
+    final_return = inception_drawdown_percentages[-1] if inception_drawdown_percentages else 0
+    if final_return >= 0:
+        border_color = "#00ff88"  # Green for profit
+        background_color = "rgba(0, 255, 136, 0.2)"
+        point_color = "#00ff88"
+    else:
+        border_color = "#ff4757"  # Red for loss
+        background_color = "rgba(255, 71, 87, 0.2)"
+        point_color = "#ff4757"
 
     # Chart.js format
     chartjs_data = {
         "labels": labels,
         "datasets": [
             {
-                "label": "Inception Drawdown %",
+                "label": "Return from Initial %",
                 "data": inception_drawdown_percentages,
-                "borderColor": "#ff4757",
-                "backgroundColor": "rgba(255, 71, 87, 0.2)",
+                "borderColor": border_color,
+                "backgroundColor": background_color,
                 "fill": True,
                 "tension": 0.4,
                 "pointRadius": 3,
                 "pointHoverRadius": 5,
-                "pointBackgroundColor": "#ff4757",
+                "pointBackgroundColor": point_color,
                 "pointBorderColor": "#0a0e27",
                 "pointBorderWidth": 2,
             }
@@ -1459,7 +1471,7 @@ def main():
     print("\nGenerating Portfolio Value charts...")
     generate_portfolio_value_charts(trades, account_config)
     
-    # 7. Total Return Charts (all timeframes)
+    # 9. Total Return Charts (all timeframes)
     print("\nGenerating Total Return charts...")
     generate_total_return_charts(trades, account_config)
 

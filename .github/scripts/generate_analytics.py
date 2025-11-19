@@ -77,6 +77,7 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
     
     peak = 0
     max_drawdown_dollars = 0
+    max_drawdown_percent = 0
     peak_equity = initial_capital  # Track peak equity for proper % calculation
     
     for value in cumulative_pnl:
@@ -86,13 +87,11 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
         drawdown = value - peak
         if drawdown < max_drawdown_dollars:
             max_drawdown_dollars = drawdown
+            # Calculate percentage at the time of this drawdown
+            max_drawdown_percent = (drawdown / peak_equity * 100) if peak_equity > 0 else 0
     
-    # Max drawdown % = (Max DD in $) / (Peak Equity) * 100
-    # Using peak equity as denominator (classic drawdown definition)
-    max_drawdown_percent = (max_drawdown_dollars / peak_equity * 100) if peak_equity > 0 else 0
-    
-    # Inception drawdown % = min(0, min((equity_t - initial) / initial)) * 100
-    # This measures drawdown from initial capital
+    # Minimum return % from initial capital (can be positive if never below initial)
+    # This measures the worst performance relative to initial capital
     inception_max_dd_percent = 0
     for value in cumulative_pnl:
         equity_t = initial_capital + value

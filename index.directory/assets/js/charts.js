@@ -336,40 +336,54 @@ async function loadWinRateChart() {
 }
 
 /**
- * Load and render drawdown chart
+ * Load and render drawdown chart (% from peak)
  */
 async function loadDrawdownChart() {
   const ctx = document.getElementById('drawdown-chart');
   if (!ctx) return;
 
   try {
-    const response = await fetch(`${basePath}/index.directory/assets/charts/analytics-data.json`);
+    const response = await fetch(`${basePath}/index.directory/assets/charts/drawdown-over-time-data.json`);
     const data = await response.json();
     
     if (drawdownChart) {
       drawdownChart.destroy();
     }
 
-    const ddData = data.drawdown_series || { labels: [], values: [] };
-
     drawdownChart = new Chart(ctx, {
       type: 'line',
-      data: {
-        labels: ddData.labels,
-        datasets: [{
-          label: 'Drawdown ($)',
-          data: ddData.values,
-          borderColor: '#ff4757',
-          backgroundColor: 'rgba(255, 71, 87, 0.1)',
-          fill: true,
-          tension: 0.4
-        }]
-      },
-      options: SFTiChartConfig.getCommonChartOptions()
+      data: data,
+      options: SFTiChartConfig.getLineChartOptions('#ff4757')
     });
   } catch (error) {
     console.log('Drawdown data not yet available:', error);
     SFTiChartConfig.renderEmptyChart(ctx, 'No drawdown data available yet.');
+  }
+}
+
+/**
+ * Load and render return from initial capital chart
+ */
+async function loadReturnFromInitialChart() {
+  const ctx = document.getElementById('return-from-initial-chart');
+  if (!ctx) return;
+
+  try {
+    const response = await fetch(`${basePath}/index.directory/assets/charts/inception-drawdown-data.json`);
+    const data = await response.json();
+    
+    if (window.returnFromInitialChart) {
+      window.returnFromInitialChart.destroy();
+    }
+
+    window.returnFromInitialChart = new Chart(ctx, {
+      type: 'line',
+      data: data,
+      options: SFTiChartConfig.getCommonChartOptions()
+    });
+  } catch (error) {
+    console.log('Return from initial data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No return from initial data available yet.');
   }
 }
 
@@ -464,6 +478,9 @@ function switchChart(chartType) {
       break;
     case 'drawdown':
       if (!drawdownChart) loadDrawdownChart();
+      break;
+    case 'return-from-initial':
+      if (!window.returnFromInitialChart) loadReturnFromInitialChart();
       break;
     case 'r-multiple':
       if (!rMultipleChart) loadRMultipleChart();
