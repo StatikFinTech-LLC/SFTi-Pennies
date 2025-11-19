@@ -4,7 +4,6 @@
   "max_win_streak": 3,
   "max_loss_streak": 3,
   "max_drawdown": -47.94,
-  "max_drawdown_percent": -40.29,
   "kelly_criterion": -17.4,
   "sharpe_ratio": 0.1,
   "r_multiple_distribution": {
@@ -185,6 +184,10 @@
       -23.98
     ]
   },
+  "drawdowns": {
+    "classic_percent": -37.81,
+    "inception_percent": -33.73
+  },
   "returns": {
     "total_return_percent": -13.6,
     "avg_return_percent": -1.3597,
@@ -197,5 +200,5 @@
     "total_pnl": -16.18,
     "portfolio_value": 102.82
   },
-  "generated_at": "2025-11-12T17:11:34.944377"
+  "generated_at": "2025-11-19T01:25:50.205632"
 }
