@@ -1,0 +1,13 @@
+{
+  "labels": [],
+  "datasets": [
+    {
+      "label": "Drawdown %",
+      "data": [],
+      "borderColor": "#ff4757",
+      "backgroundColor": "rgba(255, 71, 87, 0.2)",
+      "fill": true,
+      "tension": 0.4
+    }
+  ]
+}
