@@ -137,7 +137,7 @@ def parse_trade_file(filepath):
                     trade_data[field] = f"{hours:02d}:{minutes:02d}"
                 else:
                     trade_data[field] = str(time_val)
-        
+
         # Convert date fields to strings
         date_fields = ["entry_date", "exit_date"]
         for field in date_fields:
@@ -183,10 +183,10 @@ def calculate_statistics(trades):
     total_pnl = 0.0
     total_winner_pnl = 0.0
     total_loser_pnl = 0.0
-    largest_win = float('-inf')
-    largest_loss = float('inf')
+    largest_win = float("-inf")
+    largest_loss = float("inf")
     total_volume = 0
-    
+
     # For drawdown calculation
     cumulative_pnl = []
     running_total = 0.0
@@ -195,17 +195,17 @@ def calculate_statistics(trades):
         pnl = t.get("pnl_usd", 0)
         total_pnl += pnl
         total_volume += t.get("position_size", 0)
-        
+
         # Track cumulative for drawdown
         running_total += pnl
         cumulative_pnl.append(running_total)
-        
+
         # Update extremes
         if pnl > largest_win:
             largest_win = pnl
         if pnl < largest_loss:
             largest_loss = pnl
-        
+
         # Categorize winners/losers
         if pnl > 0:
             winning_trades += 1
@@ -232,9 +232,9 @@ def calculate_statistics(trades):
                 max_drawdown = drawdown
 
     # Handle edge cases for extremes
-    if largest_win == float('-inf'):
+    if largest_win == float("-inf"):
         largest_win = 0
-    if largest_loss == float('inf'):
+    if largest_loss == float("inf"):
         largest_loss = 0
 
     return {

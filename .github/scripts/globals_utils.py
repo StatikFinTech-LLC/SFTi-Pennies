@@ -16,10 +16,10 @@ def setup_imports(script_path: str = __file__) -> None:
     """
     Add the scripts directory to Python path for module imports.
     This eliminates the need for repeated sys.path.insert() calls in every script.
-    
+
     Args:
         script_path: Path to the calling script (defaults to __file__)
-    
+
     Example:
         from globals_utils import setup_imports
         setup_imports(__file__)
@@ -32,13 +32,13 @@ def setup_imports(script_path: str = __file__) -> None:
 def ensure_directory(directory_path: str) -> str:
     """
     Create a directory if it doesn't exist.
-    
+
     Args:
         directory_path: Path to directory to create
-        
+
     Returns:
         str: The directory path
-        
+
     Example:
         ensure_directory("index.directory/assets/charts")
     """
@@ -49,14 +49,14 @@ def ensure_directory(directory_path: str) -> str:
 def load_json_file(filepath: str, default: Any = None) -> Any:
     """
     Load a JSON file with error handling.
-    
+
     Args:
         filepath: Path to JSON file
         default: Default value to return if file not found or invalid
-        
+
     Returns:
         Parsed JSON data or default value
-        
+
     Example:
         data = load_json_file("index.directory/trades-index.json", {})
     """
@@ -77,15 +77,15 @@ def load_json_file(filepath: str, default: Any = None) -> Any:
 def save_json_file(filepath: str, data: Any, indent: int = 2) -> bool:
     """
     Save data to a JSON file with error handling.
-    
+
     Args:
         filepath: Path to save JSON file
         data: Data to serialize to JSON
         indent: Number of spaces for indentation (default: 2)
-        
+
     Returns:
         bool: True if successful, False otherwise
-        
+
     Example:
         save_json_file("output.json", {"key": "value"})
     """
@@ -94,7 +94,7 @@ def save_json_file(filepath: str, data: Any, indent: int = 2) -> bool:
         directory = os.path.dirname(filepath)
         if directory:
             ensure_directory(directory)
-        
+
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=indent, ensure_ascii=False)
         return True
@@ -107,21 +107,21 @@ def parse_date(date_str: str, default: Optional[datetime] = None) -> Optional[da
     """
     Parse a date string into a datetime object with error handling.
     Supports ISO format dates (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS).
-    
+
     Args:
         date_str: Date string to parse
         default: Default value to return if parsing fails
-        
+
     Returns:
         datetime object or default value
-        
+
     Example:
         date = parse_date("2025-10-15")
         date_with_time = parse_date("2025-10-15T14:30:00")
     """
     if not date_str:
         return default
-    
+
     try:
         # Handle ISO format with time
         if "T" in str(date_str):
@@ -135,17 +135,17 @@ def parse_date(date_str: str, default: Optional[datetime] = None) -> Optional[da
 def format_currency(amount: float, symbol: str = "$", decimals: int = 2) -> str:
     """
     Format a number as currency with proper sign handling.
-    
+
     NOTE: Reserved for future use. Not currently used in any scripts.
-    
+
     Args:
         amount: Amount to format
         symbol: Currency symbol (default: "$")
         decimals: Number of decimal places (default: 2)
-        
+
     Returns:
         Formatted currency string
-        
+
     Example:
         format_currency(1234.56)  # Returns "$1,234.56"
         format_currency(-42.5)     # Returns "-$42.50"
@@ -159,17 +159,17 @@ def format_currency(amount: float, symbol: str = "$", decimals: int = 2) -> str:
 def safe_divide(numerator: float, denominator: float, default: float = 0.0) -> float:
     """
     Safely divide two numbers, returning default if denominator is zero.
-    
+
     NOTE: Reserved for future use. Not currently used in any scripts.
-    
+
     Args:
         numerator: Numerator value
         denominator: Denominator value
         default: Value to return if denominator is zero (default: 0.0)
-        
+
     Returns:
         Result of division or default value
-        
+
     Example:
         result = safe_divide(10, 2)      # Returns 5.0
         result = safe_divide(10, 0, -1)  # Returns -1
@@ -183,13 +183,13 @@ def get_week_folder(date_obj: datetime) -> str:
     """
     Generate a week folder name from a date object.
     Format: week.YYYY.WW (e.g., week.2025.42)
-    
+
     Args:
         date_obj: datetime object
-        
+
     Returns:
         Week folder name string
-        
+
     Example:
         folder = get_week_folder(datetime(2025, 10, 15))  # Returns "week.2025.42"
     """
@@ -198,32 +198,33 @@ def get_week_folder(date_obj: datetime) -> str:
     return f"week.{year}.{week:02d}"
 
 
-def calculate_time_in_trade(entry_date: str, entry_time: str, 
-                            exit_date: str, exit_time: str) -> str:
+def calculate_time_in_trade(
+    entry_date: str, entry_time: str, exit_date: str, exit_time: str
+) -> str:
     """
     Calculate time duration between entry and exit.
-    
+
     Args:
         entry_date: Entry date string (YYYY-MM-DD)
         entry_time: Entry time string (HH:MM)
         exit_date: Exit date string (YYYY-MM-DD)
         exit_time: Exit time string (HH:MM)
-        
+
     Returns:
         Human-readable duration string
-        
+
     Example:
         duration = calculate_time_in_trade("2025-10-15", "09:30", "2025-10-15", "11:45")
         # Returns "2.25 hours" or "135 minutes"
     """
     if not all([entry_date, entry_time, exit_date, exit_time]):
         return "Unknown"
-    
+
     try:
         entry_dt = datetime.strptime(f"{entry_date} {entry_time}", "%Y-%m-%d %H:%M")
         exit_dt = datetime.strptime(f"{exit_date} {exit_time}", "%Y-%m-%d %H:%M")
         duration = exit_dt - entry_dt
-        
+
         hours = duration.total_seconds() / 3600
         if hours < 1:
             minutes = int(duration.total_seconds() / 60)
@@ -237,16 +238,16 @@ def calculate_time_in_trade(entry_date: str, entry_time: str,
 def validate_required_fields(data: Dict, required_fields: list) -> Tuple[bool, list]:
     """
     Validate that a dictionary contains all required fields.
-    
+
     NOTE: Reserved for future use. Not currently used in any scripts.
-    
+
     Args:
         data: Dictionary to validate
         required_fields: List of required field names
-        
+
     Returns:
         Tuple of (is_valid: bool, missing_fields: list)
-        
+
     Example:
         is_valid, missing = validate_required_fields(
             {"name": "John", "age": 30},
@@ -261,14 +262,14 @@ def validate_required_fields(data: Dict, required_fields: list) -> Tuple[bool, l
 def round_decimals(value: float, decimals: int = 2) -> float:
     """
     Round a float to specified decimal places.
-    
+
     Args:
         value: Value to round
         decimals: Number of decimal places (default: 2)
-        
+
     Returns:
         Rounded value
-        
+
     Example:
         round_decimals(3.14159, 2)  # Returns 3.14
     """

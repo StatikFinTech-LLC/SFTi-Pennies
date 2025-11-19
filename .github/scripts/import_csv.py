@@ -18,7 +18,14 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 from typing import List, Dict
-from globals_utils import setup_imports, ensure_directory, save_json_file, load_json_file, get_week_folder, parse_date
+from globals_utils import (
+    setup_imports,
+    ensure_directory,
+    save_json_file,
+    load_json_file,
+    get_week_folder,
+    parse_date,
+)
 
 # Setup imports
 setup_imports(__file__)
@@ -142,7 +149,7 @@ def create_trade_markdown(trade: Dict, output_dir: str) -> str:
     # Determine week folder and filename from entry date
     entry_date = trade.get("entry_date", datetime.now().isoformat())
     date_obj = parse_date(entry_date)
-    
+
     if date_obj:
         week_folder = get_week_folder(date_obj)
         # Format: MM:DD:YYYY.N.md (N is the trade sequence for that day)
@@ -293,8 +300,10 @@ def update_trades_index(new_trades: List[Dict]):
     index_path = "index.directory/trades-index.json"
 
     # Load existing index
-    index_data = load_json_file(index_path, {"trades": [], "statistics": {}, "version": "1.0"})
-    
+    index_data = load_json_file(
+        index_path, {"trades": [], "statistics": {}, "version": "1.0"}
+    )
+
     existing_trades = index_data.get("trades", [])
 
     # Create a set of existing trade identifiers (date + ticker)

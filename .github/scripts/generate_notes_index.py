@@ -204,9 +204,11 @@ def scan_notes_directory(directory="index.directory/SFTi.Notez"):
                 "thumbnail": thumbnail,
                 "size": file_stat.st_size,
                 "modified": datetime.fromtimestamp(file_stat.st_mtime).isoformat(),
-                "tags": frontmatter.get("tags", [])
-                if isinstance(frontmatter.get("tags"), list)
-                else [],
+                "tags": (
+                    frontmatter.get("tags", [])
+                    if isinstance(frontmatter.get("tags"), list)
+                    else []
+                ),
             }
 
             notes.append(note)

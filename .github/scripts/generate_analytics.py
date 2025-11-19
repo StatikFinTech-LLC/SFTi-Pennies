@@ -24,19 +24,26 @@ setup_imports(__file__)
 from utils import load_trades_index, load_account_config
 
 # Constants
-MAX_PROFIT_FACTOR = 999.99  # Used when profit factor would be infinity (all wins, no losses)
+MAX_PROFIT_FACTOR = (
+    999.99  # Used when profit factor would be infinity (all wins, no losses)
+)
 
 
-def calculate_returns_metrics(trades: List[Dict], starting_balance: float, deposits: List[Dict], withdrawals: List[Dict] = None) -> Dict:
+def calculate_returns_metrics(
+    trades: List[Dict],
+    starting_balance: float,
+    deposits: List[Dict],
+    withdrawals: List[Dict] = None,
+) -> Dict:
     """
     Calculate percentage-based returns metrics
-    
+
     Args:
         trades: List of trade dictionaries
         starting_balance: Initial account balance
         deposits: List of deposit records
         withdrawals: List of withdrawal records (defaults to None, which becomes an empty list)
-        
+
     Returns:
         Dict: Returns metrics including total return %, avg return %, etc.
     """
@@ -47,39 +54,45 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
             "max_drawdown_percent": 0.0,
             "inception_max_dd_percent": 0.0,
             "avg_risk_percent": 0.0,
-            "avg_position_size_percent": 0.0
+            "avg_position_size_percent": 0.0,
         }
-    
+
     # Calculate total P&L
     total_pnl = sum(t.get("pnl_usd", 0) for t in trades)
-    
+
     # Calculate total deposits and withdrawals
     total_deposits = sum(d.get("amount", 0) for d in deposits)
     if withdrawals is None:
         withdrawals = []
     total_withdrawals = sum(w.get("amount", 0) for w in withdrawals)
-    
+
     # Initial capital for returns calculation (subtract withdrawals)
     initial_capital = starting_balance + total_deposits - total_withdrawals
-    
+
     # Total return % = (Total P&L / Initial Capital) * 100
-    total_return_percent = (total_pnl / initial_capital * 100) if initial_capital > 0 else 0
-    
+    total_return_percent = (
+        (total_pnl / initial_capital * 100) if initial_capital > 0 else 0
+    )
+
     # Average return per trade as % of account
-    avg_return_percent = (total_pnl / len(trades) / initial_capital * 100) if initial_capital > 0 and len(trades) > 0 else 0
-    
+    avg_return_percent = (
+        (total_pnl / len(trades) / initial_capital * 100)
+        if initial_capital > 0 and len(trades) > 0
+        else 0
+    )
+
     # Calculate max drawdown as percentage
     cumulative_pnl = []
     running_total = 0
     for trade in trades:
         running_total += trade.get("pnl_usd", 0)
         cumulative_pnl.append(running_total)
-    
+
     peak = 0
     max_drawdown_dollars = 0
     max_drawdown_percent = 0
     peak_equity = initial_capital  # Track peak equity for proper % calculation
-    
+
     for value in cumulative_pnl:
         if value > peak:
             peak = value
@@ -88,49 +101,61 @@ def calculate_returns_metrics(trades: List[Dict], starting_balance: float, depos
         if drawdown < max_drawdown_dollars:
             max_drawdown_dollars = drawdown
             # Calculate percentage at the time of this drawdown
-            max_drawdown_percent = (drawdown / peak_equity * 100) if peak_equity > 0 else 0
-    
+            max_drawdown_percent = (
+                (drawdown / peak_equity * 100) if peak_equity > 0 else 0
+            )
+
     # Minimum return % from initial capital (can be positive if never below initial)
     # This measures the worst performance relative to initial capital
     inception_max_dd_percent = 0
     for value in cumulative_pnl:
         equity_t = initial_capital + value
-        dd_percent = ((equity_t - initial_capital) / initial_capital * 100) if initial_capital > 0 else 0
+        dd_percent = (
+            ((equity_t - initial_capital) / initial_capital * 100)
+            if initial_capital > 0
+            else 0
+        )
         inception_max_dd_percent = min(inception_max_dd_percent, dd_percent)
-    
+
     # Average risk per trade (as % of account at time of trade)
     # This requires tracking account balance at each trade
     avg_risk_percent = 0.0
     total_risk_percent = 0.0
     account_balance = initial_capital
-    
+
     for trade in trades:
         pnl = trade.get("pnl_usd", 0)
-        position_value = abs(trade.get("entry_price", 0) * trade.get("position_size", 0))
-        
+        position_value = abs(
+            trade.get("entry_price", 0) * trade.get("position_size", 0)
+        )
+
         if account_balance > 0:
             # Position size as % of account
             if position_value > 0:
-                total_risk_percent += (position_value / account_balance * 100)
-        
+                total_risk_percent += position_value / account_balance * 100
+
         # Update account balance for next trade
         account_balance += pnl
-    
-    avg_position_size_percent = total_risk_percent / len(trades) if len(trades) > 0 else 0
-    
+
+    avg_position_size_percent = (
+        total_risk_percent / len(trades) if len(trades) > 0 else 0
+    )
+
     # Calculate average risk based on actual losses
     losses = [t for t in trades if t.get("pnl_usd", 0) < 0]
     if losses:
         avg_loss = abs(sum(t.get("pnl_usd", 0) for t in losses) / len(losses))
-        avg_risk_percent = (avg_loss / initial_capital * 100) if initial_capital > 0 else 0
-    
+        avg_risk_percent = (
+            (avg_loss / initial_capital * 100) if initial_capital > 0 else 0
+        )
+
     return {
         "total_return_percent": round(total_return_percent, 2),
         "avg_return_percent": round(avg_return_percent, 4),
         "max_drawdown_percent": round(max_drawdown_percent, 2),
         "inception_max_dd_percent": round(inception_max_dd_percent, 2),
         "avg_risk_percent": round(avg_risk_percent, 3),
-        "avg_position_size_percent": round(avg_position_size_percent, 2)
+        "avg_position_size_percent": round(avg_position_size_percent, 2),
     }
 
 
@@ -155,7 +180,7 @@ def calculate_expectancy(trades: List[Dict]) -> float:
     loss_count = 0
     total_wins = 0.0
     total_losses = 0.0
-    
+
     for t in trades:
         pnl = t.get("pnl_usd", 0)
         if pnl > 0:
@@ -191,7 +216,7 @@ def calculate_profit_factor(trades: List[Dict]) -> float:
     # Single pass calculation
     gross_profit = 0.0
     gross_loss = 0.0
-    
+
     for t in trades:
         pnl = t.get("pnl_usd", 0)
         if pnl > 0:
@@ -200,7 +225,7 @@ def calculate_profit_factor(trades: List[Dict]) -> float:
             gross_loss += pnl
 
     gross_loss = abs(gross_loss)
-    
+
     # Return 0 if no losses (avoids Infinity in JSON)
     # This indicates perfect win rate, but profit factor is not meaningful
     if gross_loss == 0:
@@ -308,7 +333,7 @@ def calculate_kelly_criterion(trades: List[Dict]) -> float:
     loss_count = 0
     total_wins = 0.0
     total_losses = 0.0
-    
+
     for t in trades:
         pnl = t.get("pnl_usd", 0)
         if pnl > 0:
@@ -337,69 +362,64 @@ def calculate_kelly_criterion(trades: List[Dict]) -> float:
 def calculate_sharpe_ratio(trades: List[Dict], risk_free_rate: float = 0.0) -> float:
     """
     Calculate Sharpe Ratio - risk-adjusted returns
-    
+
     Sharpe Ratio = (Average Return - Risk Free Rate) / Standard Deviation of Returns
-    
+
     Args:
         trades: List of trade dictionaries
         risk_free_rate: Risk-free rate (default 0% for simplicity)
-    
+
     Returns:
         float: Sharpe ratio
     """
     if not trades or len(trades) < 2:
         return 0.0
-    
+
     # Get returns as percentages
     returns = [t.get("pnl_percent", 0) for t in trades]
-    
+
     # Calculate average return
     avg_return = sum(returns) / len(returns)
-    
+
     # Calculate standard deviation
     variance = sum((r - avg_return) ** 2 for r in returns) / len(returns)
-    std_dev = variance ** 0.5
-    
+    std_dev = variance**0.5
+
     if std_dev == 0:
         return 0.0
-    
+
     sharpe = (avg_return - risk_free_rate) / std_dev
-    
+
     return round(sharpe, 2)
 
 
 def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
     """
     Calculate R-Multiple distribution - returns in risk units
-    
+
     R-Multiple = (Exit Price - Entry Price) / (Entry Price - Stop Loss)
     This shows how many times your initial risk you made or lost
-    
+
     Args:
         trades: List of trade dictionaries
-    
+
     Returns:
         Dict: R-multiple distribution data
     """
     if not trades:
-        return {
-            "labels": [],
-            "data": [],
-            "avg_r_multiple": 0,
-            "median_r_multiple": 0
-        }
-    
+        return {"labels": [], "data": [], "avg_r_multiple": 0, "median_r_multiple": 0}
+
     r_multiples = []
-    
+
     for trade in trades:
         entry_price = trade.get("entry_price", 0)
         exit_price = trade.get("exit_price", 0)
         stop_loss = trade.get("stop_loss", 0)
         direction = trade.get("direction", "LONG")
-        
+
         if entry_price == 0 or stop_loss == 0:
             continue
-        
+
         # Calculate risk (distance from entry to stop)
         if direction == "LONG":
             risk = entry_price - stop_loss
@@ -407,22 +427,17 @@ def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
         else:  # SHORT
             risk = stop_loss - entry_price
             gain = entry_price - exit_price
-        
+
         if risk <= 0:
             continue
-        
+
         # R-multiple is gain divided by risk
         r_multiple = gain / risk
         r_multiples.append(r_multiple)
-    
+
     if not r_multiples:
-        return {
-            "labels": [],
-            "data": [],
-            "avg_r_multiple": 0,
-            "median_r_multiple": 0
-        }
-    
+        return {"labels": [], "data": [], "avg_r_multiple": 0, "median_r_multiple": 0}
+
     # Create histogram buckets
     buckets = {
         "< -2R": 0,
@@ -431,9 +446,9 @@ def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
         "0R to 1R": 0,
         "1R to 2R": 0,
         "2R to 3R": 0,
-        "> 3R": 0
+        "> 3R": 0,
     }
-    
+
     for r in r_multiples:
         if r < -2:
             buckets["< -2R"] += 1
@@ -449,7 +464,7 @@ def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
             buckets["2R to 3R"] += 1
         else:
             buckets["> 3R"] += 1
-    
+
     # Calculate statistics
     avg_r = sum(r_multiples) / len(r_multiples)
     sorted_r = sorted(r_multiples)
@@ -458,25 +473,25 @@ def calculate_r_multiple_distribution(trades: List[Dict]) -> Dict:
         if len(sorted_r) % 2 == 1
         else (sorted_r[len(sorted_r) // 2 - 1] + sorted_r[len(sorted_r) // 2]) / 2
     )
-    
+
     return {
         "labels": list(buckets.keys()),
         "data": list(buckets.values()),
         "avg_r_multiple": round(avg_r, 2),
-        "median_r_multiple": round(median_r, 2)
+        "median_r_multiple": round(median_r, 2),
     }
 
 
 def calculate_mae_mfe_analysis(trades: List[Dict]) -> Dict:
     """
     Calculate MAE (Mean Adverse Excursion) and MFE (Mean Favorable Excursion)
-    
+
     Note: This requires intraday data collection which is not currently available.
     For now, we'll return a placeholder indicating this feature requires additional data.
-    
+
     Args:
         trades: List of trade dictionaries
-    
+
     Returns:
         Dict: MAE/MFE analysis placeholder
     """
@@ -485,7 +500,7 @@ def calculate_mae_mfe_analysis(trades: List[Dict]) -> Dict:
         "message": "MAE/MFE analysis requires intraday price data collection. This feature will be available once intraday high/low prices are tracked for each trade.",
         "mae_avg": 0,
         "mfe_avg": 0,
-        "note": "To enable this metric, add 'intraday_high' and 'intraday_low' fields to trade entries."
+        "note": "To enable this metric, add 'intraday_high' and 'intraday_low' fields to trade entries.",
     }
 
 
@@ -506,7 +521,7 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
     # Group trades by tag and calculate stats in single pass
     for trade in trades:
         tag_value = trade.get(tag_field)
-        
+
         # Handle array/list tags - convert to string or take first element
         # Note: When tags are stored as arrays (e.g., ["Breakout", "Momentum"]),
         # we use only the first element to avoid duplicate aggregation. This treats
@@ -516,7 +531,7 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
         # which may cause those tags to appear unused or underrepresented in the results.
         if isinstance(tag_value, list):
             tag_value = str(tag_value[0]) if tag_value else "Unclassified"
-        
+
         if not tag_value or tag_value == "":
             tag_value = "Unclassified"
 
@@ -538,12 +553,12 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
     for tag_value, data in aggregates.items():
         tag_trades = data["trades"]
         data["total_trades"] = len(tag_trades)
-        
+
         # Calculate all metrics in single pass
         win_count = 0
         loss_count = 0
         total_pnl = 0.0
-        
+
         for t in tag_trades:
             pnl = t.get("pnl_usd", 0)
             total_pnl += pnl
@@ -551,7 +566,7 @@ def aggregate_by_tag(trades: List[Dict], tag_field: str) -> Dict:
                 win_count += 1
             elif pnl < 0:
                 loss_count += 1
-        
+
         data["winning_trades"] = win_count
         data["losing_trades"] = loss_count
         data["win_rate"] = round(
@@ -579,8 +594,10 @@ def main():
     account_config = load_account_config()
     starting_balance = account_config.get("starting_balance", 1000.00)
     total_deposits = sum(d.get("amount", 0) for d in account_config.get("deposits", []))
-    total_withdrawals = sum(w.get("amount", 0) for w in account_config.get("withdrawals", []))
-    
+    total_withdrawals = sum(
+        w.get("amount", 0) for w in account_config.get("withdrawals", [])
+    )
+
     # Load trades index
     index_data = load_trades_index()
     if not index_data:
@@ -589,10 +606,10 @@ def main():
     trades = index_data.get("trades", [])
     stats = index_data.get("statistics", {})
     total_pnl = stats.get("total_pnl", 0)
-    
+
     # Calculate portfolio value (subtract withdrawals)
     portfolio_value = starting_balance + total_deposits - total_withdrawals + total_pnl
-    
+
     if not trades:
         print("No trades found in index")
         # Create empty analytics
@@ -607,15 +624,12 @@ def main():
             "by_setup": {},
             "by_session": {},
             "drawdown_series": {"labels": [], "values": []},
-            "drawdowns": {
-                "classic_percent": 0,
-                "inception_percent": 0
-            },
+            "drawdowns": {"classic_percent": 0, "inception_percent": 0},
             "account": {
                 "starting_balance": starting_balance,
                 "total_deposits": total_deposits,
                 "total_pnl": total_pnl,
-                "portfolio_value": portfolio_value
+                "portfolio_value": portfolio_value,
             },
             "generated_at": datetime.now().isoformat(),
         }
@@ -636,18 +650,18 @@ def main():
             min(drawdown_series["values"]) if drawdown_series["values"] else 0
         )
         kelly = calculate_kelly_criterion(sorted_trades)
-        
+
         # Calculate advanced analytics
         sharpe_ratio = calculate_sharpe_ratio(sorted_trades)
         r_multiple_dist = calculate_r_multiple_distribution(sorted_trades)
         mae_mfe = calculate_mae_mfe_analysis(sorted_trades)
-        
+
         # Calculate percentage-based returns metrics
         returns_metrics = calculate_returns_metrics(
-            sorted_trades, 
-            starting_balance, 
+            sorted_trades,
+            starting_balance,
             account_config.get("deposits", []),
-            account_config.get("withdrawals", [])
+            account_config.get("withdrawals", []),
         )
 
         # Aggregate by tags
@@ -671,19 +685,21 @@ def main():
             "drawdown_series": drawdown_series,
             "drawdowns": {
                 "classic_percent": returns_metrics["max_drawdown_percent"],
-                "inception_percent": returns_metrics["inception_max_dd_percent"]
+                "inception_percent": returns_metrics["inception_max_dd_percent"],
             },
             "returns": {
                 "total_return_percent": returns_metrics["total_return_percent"],
                 "avg_return_percent": returns_metrics["avg_return_percent"],
                 "avg_risk_percent": returns_metrics["avg_risk_percent"],
-                "avg_position_size_percent": returns_metrics["avg_position_size_percent"]
+                "avg_position_size_percent": returns_metrics[
+                    "avg_position_size_percent"
+                ],
             },
             "account": {
                 "starting_balance": starting_balance,
                 "total_deposits": total_deposits,
                 "total_pnl": total_pnl,
-                "portfolio_value": portfolio_value
+                "portfolio_value": portfolio_value,
             },
             "generated_at": datetime.now().isoformat(),
         }

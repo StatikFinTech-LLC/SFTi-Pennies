@@ -49,11 +49,13 @@ def create_trade_list_html(trades):
     """
     # Generate table rows
     rows = []
-    
+
     if trades:
         # Sort by trade number
-        sorted_trades = sorted(trades, key=lambda t: t.get("trade_number", 0), reverse=True)
-        
+        sorted_trades = sorted(
+            trades, key=lambda t: t.get("trade_number", 0), reverse=True
+        )
+
         for trade in sorted_trades:
             pnl = trade.get("pnl_usd", 0)
             pnl_class = "positive" if pnl >= 0 else "negative"

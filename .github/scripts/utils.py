@@ -11,7 +11,7 @@ from collections import defaultdict
 def load_trades_index():
     """
     Load the trades index JSON file
-    
+
     Returns:
         dict: The trades index data, or None if file not found
     """
@@ -26,10 +26,10 @@ def load_trades_index():
 def load_account_config():
     """
     Load account configuration with starting balance, deposits, and withdrawals
-    
+
     Returns:
         dict: Account configuration data with defaults if file not found
-        
+
     Note:
         Default starting_balance is 0 to match the repository's account-config.json
     """
@@ -42,7 +42,7 @@ def load_account_config():
             "starting_balance": 0,
             "deposits": [],
             "withdrawals": [],
-            "version": "1.0"
+            "version": "1.0",
         }
 
 
@@ -50,10 +50,10 @@ def calculate_period_stats(trades):
     """
     Calculate statistics for a group of trades.
     Shared function used by generate_summaries.py and other scripts.
-    
+
     Args:
         trades (list): List of trade dictionaries
-    
+
     Returns:
         dict: Period statistics including wins, losses, P&L, best/worst trades
     """
@@ -61,7 +61,7 @@ def calculate_period_stats(trades):
         return {}
 
     total_trades = len(trades)
-    
+
     # Single pass to calculate all metrics
     win_count = 0
     loss_count = 0
@@ -69,23 +69,23 @@ def calculate_period_stats(trades):
     total_volume = 0
     best_trade = None
     worst_trade = None
-    best_pnl = float('-inf')
-    worst_pnl = float('inf')
-    
+    best_pnl = float("-inf")
+    worst_pnl = float("inf")
+
     # Strategy breakdown using defaultdict for efficiency
     strategies = defaultdict(lambda: {"count": 0, "pnl": 0.0})
-    
+
     for trade in trades:
         pnl = trade.get("pnl_usd", 0)
         total_pnl += pnl
         total_volume += trade.get("position_size", 0)
-        
+
         # Track wins/losses
         if pnl > 0:
             win_count += 1
         elif pnl < 0:
             loss_count += 1
-        
+
         # Track best/worst trades
         if pnl > best_pnl:
             best_pnl = pnl
@@ -93,7 +93,7 @@ def calculate_period_stats(trades):
         if pnl < worst_pnl:
             worst_pnl = pnl
             worst_trade = trade
-        
+
         # Update strategy breakdown
         strategy = trade.get("strategy", "Unknown")
         strategies[strategy]["count"] += 1

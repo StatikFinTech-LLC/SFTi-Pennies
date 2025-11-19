@@ -72,17 +72,21 @@ def generate_trade_html(trade):
         images = screenshots if isinstance(screenshots, list) else []
 
     # Calculate additional metrics using utility function
-    time_in_trade = calculate_time_in_trade(entry_date, entry_time, exit_date, exit_time)
+    time_in_trade = calculate_time_in_trade(
+        entry_date, entry_time, exit_date, exit_time
+    )
 
     # Generate tag badges HTML
     def render_tags(tags, color):
         if not tags:
             return '<span style="color: var(--text-secondary); font-style: italic;">None</span>'
         # Use list comprehension and join for better performance
-        return "".join([
-            f'<span style="display: inline-block; padding: 0.25rem 0.75rem; background: {color}; color: white; border-radius: 4px; font-size: 0.875rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">{tag}</span>'
-            for tag in tags
-        ])
+        return "".join(
+            [
+                f'<span style="display: inline-block; padding: 0.25rem 0.75rem; background: {color}; color: white; border-radius: 4px; font-size: 0.875rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">{tag}</span>'
+                for tag in tags
+            ]
+        )
 
     # Generate image gallery HTML
     gallery_html = ""
@@ -92,11 +96,13 @@ def generate_trade_html(trade):
         for idx, img in enumerate(images):
             if img and img != "None" and img.strip():
                 img_path = img.replace("../../assets/", "../assets/")
-                gallery_items.append(f"""
+                gallery_items.append(
+                    f"""
                 <a href="{img_path}" class="glightbox" data-gallery="trade-{trade_number}">
                     <img src="{img_path}" alt="Trade screenshot {idx+1}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--border-color); transition: all 0.3s;">
                 </a>
-                """)
+                """
+                )
 
         if gallery_items:
             gallery_html = f"""
