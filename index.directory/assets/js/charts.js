@@ -526,6 +526,9 @@ function switchChart(chartType) {
     case 'drawdown-dollars':
       if (!drawdownDollarsChart) loadDrawdownDollarsChart();
       break;
+    case 'return-from-initial':
+      if (!window.returnFromInitialChart) loadReturnFromInitialChart();
+      break;
     case 'r-multiple':
       if (!rMultipleChart) loadRMultipleChart();
       break;
