@@ -141,8 +141,8 @@
             <li><a href="#" class="chart-option" data-value="strategy">By Strategy</a></li>
             <li><a href="#" class="chart-option" data-value="setup">By Setup</a></li>
             <li><a href="#" class="chart-option" data-value="winrate">Win Rate</a></li>
-            <li><a href="#" class="chart-option" data-value="drawdown">Drawdown</a></li>
-            <li><a href="#" class="chart-option" data-value="return-from-initial">Return from Initial</a></li>
+            <li><a href="#" class="chart-option" data-value="drawdown-percentage">Draw Down.P</a></li>
+            <li><a href="#" class="chart-option" data-value="drawdown-dollars">Draw Down.O</a></li>
             <li><a href="#" class="chart-option" data-value="r-multiple">R-Multiple</a></li>
           </ul>
         </div>
@@ -156,8 +156,8 @@
           <option value="strategy">By Strategy</option>
           <option value="setup">By Setup</option>
           <option value="winrate">Win Rate</option>
-          <option value="drawdown">Drawdown</option>
-          <option value="return-from-initial">Return from Initial</option>
+          <option value="drawdown-percentage">Draw Down.P</option>
+          <option value="drawdown-dollars">Draw Down.O</option>
           <option value="r-multiple">R-Multiple</option>
         </select>
       </div>
@@ -243,23 +243,23 @@
           </div>
         </div>
         
-        <!-- Drawdown Chart -->
-        <div id="drawdown-container" class="chart-container" style="display: none;">
+        <!-- Drawdown Chart (Percentage) -->
+        <div id="drawdown-percentage-container" class="chart-container" style="display: none;">
           <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
             Max drawdown from peak equity (%)
           </p>
           <div style="position: relative; height: 400px; width: 100%;">
-            <canvas id="drawdown-chart"></canvas>
+            <canvas id="drawdown-percentage-chart"></canvas>
           </div>
         </div>
         
-        <!-- Return from Initial Chart -->
-        <div id="return-from-initial-container" class="chart-container" style="display: none;">
+        <!-- Drawdown Chart (Dollars) -->
+        <div id="drawdown-dollars-container" class="chart-container" style="display: none;">
           <p style="color: var(--text-secondary); text-align: center; margin-bottom: 1rem;">
-            Cumulative return from initial capital (%)
+            Classic drawdown measured in dollars from peak equity
           </p>
           <div style="position: relative; height: 400px; width: 100%;">
-            <canvas id="return-from-initial-chart"></canvas>
+            <canvas id="drawdown-dollars-chart"></canvas>
           </div>
         </div>
         

@@ -15,7 +15,8 @@ let timeOfDayChart = null;
 let strategyChart = null;
 let setupChart = null;
 let winrateChart = null;
-let drawdownChart = null;
+let drawdownPercentageChart = null;
+let drawdownDollarsChart = null;
 let rMultipleChart = null;
 
 // Chart options are now imported from chartConfig.js
@@ -338,25 +339,68 @@ async function loadWinRateChart() {
 /**
  * Load and render drawdown chart (% from peak)
  */
-async function loadDrawdownChart() {
-  const ctx = document.getElementById('drawdown-chart');
+async function loadDrawdownPercentageChart() {
+  const ctx = document.getElementById('drawdown-percentage-chart');
   if (!ctx) return;
 
   try {
     const response = await fetch(`${basePath}/index.directory/assets/charts/drawdown-over-time-data.json`);
     const data = await response.json();
     
-    if (drawdownChart) {
-      drawdownChart.destroy();
+    if (drawdownPercentageChart) {
+      drawdownPercentageChart.destroy();
     }
 
-    drawdownChart = new Chart(ctx, {
+    drawdownPercentageChart = new Chart(ctx, {
       type: 'line',
       data: data,
       options: SFTiChartConfig.getLineChartOptions('#ff4757')
     });
   } catch (error) {
-    console.log('Drawdown data not yet available:', error);
+    console.log('Drawdown percentage data not yet available:', error);
+    SFTiChartConfig.renderEmptyChart(ctx, 'No drawdown data available yet.');
+  }
+}
+
+/**
+ * Load and render drawdown chart (dollars from peak)
+ */
+async function loadDrawdownDollarsChart() {
+  const ctx = document.getElementById('drawdown-dollars-chart');
+  if (!ctx) return;
+
+  try {
+    const response = await fetch(`${basePath}/index.directory/assets/charts/analytics-data.json`);
+    const data = await response.json();
+    
+    if (drawdownDollarsChart) {
+      drawdownDollarsChart.destroy();
+    }
+
+    // Extract drawdown series from analytics data
+    const drawdownData = data.drawdown_series || { labels: [], values: [] };
+
+    drawdownDollarsChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: drawdownData.labels,
+        datasets: [{
+          label: 'Drawdown ($)',
+          data: drawdownData.values,
+          borderColor: '#ff4757',
+          backgroundColor: 'rgba(255, 71, 87, 0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#ff4757',
+          pointBorderColor: '#0a0e27',
+          pointBorderWidth: 2
+        }]
+      },
+      options: SFTiChartConfig.getLineChartOptions('#ff4757')
+    });
+  } catch (error) {
+    console.log('Drawdown dollars data not yet available:', error);
     SFTiChartConfig.renderEmptyChart(ctx, 'No drawdown data available yet.');
   }
 }
@@ -476,11 +520,11 @@ function switchChart(chartType) {
     case 'winrate':
       if (!winrateChart) loadWinRateChart();
       break;
-    case 'drawdown':
-      if (!drawdownChart) loadDrawdownChart();
+    case 'drawdown-percentage':
+      if (!drawdownPercentageChart) loadDrawdownPercentageChart();
       break;
-    case 'return-from-initial':
-      if (!window.returnFromInitialChart) loadReturnFromInitialChart();
+    case 'drawdown-dollars':
+      if (!drawdownDollarsChart) loadDrawdownDollarsChart();
       break;
     case 'r-multiple':
       if (!rMultipleChart) loadRMultipleChart();
