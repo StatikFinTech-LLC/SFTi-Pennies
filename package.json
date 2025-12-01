@@ -23,6 +23,6 @@
     "marked": "^17.0.1",
     "marked-gfm-heading-id": "^4.1.2",
     "marked-highlight": "^2.2.3",
-    "pdfjs-dist": "^5.4.394"
+    "pdfjs-dist": "^5.4.449"
   }
 }
