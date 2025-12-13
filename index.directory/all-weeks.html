@@ -586,59 +586,51 @@
       }
     }
     
-    // Fallback method: scan for known summaries
+    // Fallback method: scan for known summaries using parallel requests
     async function loadSummariesFallback() {
-      const summaryFiles = [];
       const currentYear = new Date().getFullYear();
       const currentWeek = Math.ceil((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 604800000);
       const currentMonth = new Date().getMonth() + 1;
       
-      // Try to find all weekly summaries (check current year and previous year only)
+      // Build list of potential summary files
+      const potentialFiles = [];
+      
+      // Weekly summaries (check current year and previous year only)
       for (let year = currentYear - 1; year <= currentYear; year++) {
         const maxWeek = year === currentYear ? currentWeek + 2 : 53;
         for (let week = 1; week <= maxWeek; week++) {
           const weekStr = week.toString().padStart(2, '0');
-          const filename = `weekly-${year}-W${weekStr}.md`;
-          try {
-            const response = await fetch(`./summaries/${filename}`, { method: 'HEAD' });
-            if (response.ok) {
-              summaryFiles.push(filename);
-            }
-          } catch (e) {
-            // File doesn't exist, continue
-          }
+          potentialFiles.push(`weekly-${year}-W${weekStr}.md`);
         }
       }
       
-      // Try to find all monthly summaries (check current year and previous year only)
+      // Monthly summaries (check current year and previous year only)
       for (let year = currentYear - 1; year <= currentYear; year++) {
         const maxMonth = year === currentYear ? currentMonth : 12;
         for (let month = 1; month <= maxMonth; month++) {
           const monthStr = month.toString().padStart(2, '0');
-          const filename = `monthly-${year}-${monthStr}.md`;
-          try {
-            const response = await fetch(`./summaries/${filename}`, { method: 'HEAD' });
-            if (response.ok) {
-              summaryFiles.push(filename);
-            }
-          } catch (e) {
-            // File doesn't exist, continue
-          }
+          potentialFiles.push(`monthly-${year}-${monthStr}.md`);
         }
       }
       
-      // Try to find all yearly summaries (check current year and previous 2 years)
+      // Yearly summaries (check current year and previous 2 years)
       for (let year = currentYear - 2; year <= currentYear; year++) {
-        const filename = `yearly-${year}.md`;
-        try {
-          const response = await fetch(`./summaries/${filename}`, { method: 'HEAD' });
-          if (response.ok) {
-            summaryFiles.push(filename);
-          }
-        } catch (e) {
-          // File doesn't exist, continue
-        }
+        potentialFiles.push(`yearly-${year}.md`);
       }
+      
+      // Check all files in parallel using Promise.all
+      const checkPromises = potentialFiles.map(filename =>
+        fetch(`./summaries/${filename}`, { method: 'HEAD' })
+          .then(response => ({ filename, exists: response.ok }))
+          .catch(() => ({ filename, exists: false }))
+      );
+      
+      const results = await Promise.all(checkPromises);
+      
+      // Extract filenames that exist
+      const summaryFiles = results
+        .filter(result => result.exists)
+        .map(result => result.filename);
       
       if (summaryFiles.length === 0) {
         console.log('No summaries found');
