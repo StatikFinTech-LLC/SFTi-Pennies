@@ -47,34 +47,32 @@
       
       <!-- Search and Navigation Section -->
       <div class="glass-stat" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-          <div style="flex: 1; min-width: 180px;">
-            <label for="analytics-search" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
-              Jump to Analytics Section
-            </label>
-            <div style="position: relative; display: flex; align-items: center;">
-              <input 
-                type="text" 
-                id="analytics-search" 
-                placeholder="Search Analytics"
-                aria-label="Search analytics sections"
-                style="width: 100%; padding: 0.75rem 52px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
-                onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
-                onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
-              />
-              <button 
-                id="search-button"
-                aria-label="Search"
-                style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 36px; width: 36px; min-height: 36px; height: 36px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
-                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.35-4.35"></path>
-                </svg>
-              </button>
-            </div>
+        <label for="analytics-search" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+          Jump to Analytics Section
+        </label>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+          <div style="flex: 1; min-width: 180px; position: relative; display: flex; align-items: center;">
+            <input 
+              type="text" 
+              id="analytics-search" 
+              placeholder="Search Analytics"
+              aria-label="Search analytics sections"
+              style="width: 100%; padding: 0.75rem 52px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+              onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
+              onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
+            />
+            <button 
+              id="search-button"
+              aria-label="Search"
+              style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 36px; width: 36px; min-height: 36px; height: 36px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
+              onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
+              onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+            </button>
           </div>
           <div style="flex: 0; display: flex; gap: 0.75rem; align-items: center;">
             <button 
