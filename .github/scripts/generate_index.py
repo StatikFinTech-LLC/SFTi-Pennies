@@ -5,6 +5,7 @@ Consolidates all parsed trade data and generates the master trades index
 This is essentially a wrapper that ensures parse_trades.py output is in the right place
 """
 
+import html
 import json
 import os
 import shutil
@@ -51,9 +52,9 @@ def create_trade_list_html(trades):
     rows = []
 
     if trades:
-        # Sort by trade number
+        # Sort by date (most recent first), then by trade number (descending)
         sorted_trades = sorted(
-            trades, key=lambda t: t.get("trade_number", 0), reverse=True
+            trades, key=lambda t: (t.get("entry_date", ""), t.get("trade_number", 0)), reverse=True
         )
 
         for trade in sorted_trades:
@@ -66,9 +67,23 @@ def create_trade_list_html(trades):
             ticker = trade.get("ticker", "UNKNOWN")
             trade_link = f"trades/trade-{trade_number:03d}-{ticker}.html"
 
+            # Collect all tags for search
+            strategy_tags = ",".join(trade.get("strategy_tags", []))
+            setup_tags = ",".join(trade.get("setup_tags", []))
+            session_tags = ",".join(trade.get("session_tags", []))
+            market_tags = ",".join(trade.get("market_condition_tags", []))
+
             rows.append(
                 f"""
-        <tr style="cursor: pointer;" onclick="window.location.href='{trade_link}'">
+        <tr style="cursor: pointer;" onclick="window.location.href='{trade_link}'" 
+            data-ticker="{html.escape(trade.get('ticker', 'N/A'), quote=True)}"
+            data-strategy="{html.escape(trade.get('strategy', 'N/A'), quote=True)}"
+            data-strategy-tags="{html.escape(strategy_tags, quote=True)}"
+            data-setup-tags="{html.escape(setup_tags, quote=True)}"
+            data-session-tags="{html.escape(session_tags, quote=True)}"
+            data-market-tags="{html.escape(market_tags, quote=True)}"
+            data-direction="{html.escape(trade.get('direction', 'N/A'), quote=True)}"
+            data-date="{html.escape(trade.get('entry_date', 'N/A'), quote=True)}">
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;">#{trade.get('trade_number', 'N/A')}</a></td>
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;"><strong>{trade.get('ticker', 'N/A')}</strong></a></td>
             <td>{trade.get('direction', 'N/A')}</td>
@@ -175,8 +190,54 @@ def create_trade_list_html(trades):
             Complete list of all recorded trades
         </p>
         
+        <!-- Search and Filter Section -->
+        <div class="glass-stat" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+                <div style="flex: 1; min-width: 250px;">
+                    <label for="search-input" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                        Search by Ticker, Strategy, or Tags
+                    </label>
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
+                        style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 0.875rem;"
+                    />
+                </div>
+                <div style="min-width: 180px;">
+                    <label for="filter-type" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
+                        Filter by Type
+                    </label>
+                    <select 
+                        id="filter-type"
+                        style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 0.875rem;"
+                    >
+                        <option value="all">All Fields</option>
+                        <option value="ticker">Ticker</option>
+                        <option value="strategy">Strategy</option>
+                        <option value="strategy-tags">Strategy Tags</option>
+                        <option value="setup-tags">Setup Tags</option>
+                        <option value="session-tags">Session Tags</option>
+                        <option value="market-tags">Market Condition Tags</option>
+                        <option value="direction">Direction</option>
+                    </select>
+                </div>
+                <button 
+                    id="clear-search"
+                    style="padding: 0.75rem 1.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: all 0.2s;"
+                    onmouseover="this.style.borderColor='var(--accent-green)'; this.style.color='var(--accent-green)';"
+                    onmouseout="this.style.borderColor='var(--border-color)'; this.style.color='var(--text-primary)';"
+                >
+                    Clear
+                </button>
+            </div>
+            <div id="filter-stats" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+                Showing <span id="visible-count">0</span> of <span id="total-count">0</span> trades
+            </div>
+        </div>
+        
         <div style="overflow-x: auto;">
-            <table>
+            <table id="trades-table">
                 <thead>
                     <tr>
                         <th>Trade #</th>
@@ -210,6 +271,98 @@ def create_trade_list_html(trades):
     <script src="assets/js/auth.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/glowing-bubbles.js"></script>
+    
+    <!-- Trade Search and Filter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {{
+            const searchInput = document.getElementById('search-input');
+            const filterType = document.getElementById('filter-type');
+            const clearButton = document.getElementById('clear-search');
+            const tradesTable = document.getElementById('trades-table');
+            const tbody = tradesTable.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const visibleCount = document.getElementById('visible-count');
+            const totalCount = document.getElementById('total-count');
+            
+            // Set initial count
+            totalCount.textContent = rows.length;
+            visibleCount.textContent = rows.length;
+            
+            function filterTrades() {{
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const filterBy = filterType.value;
+                let visible = 0;
+                
+                rows.forEach(row => {{
+                    let shouldShow = true;
+                    
+                    if (searchTerm) {{
+                        const ticker = (row.dataset.ticker || '').toLowerCase();
+                        const strategy = (row.dataset.strategy || '').toLowerCase();
+                        const strategyTags = (row.dataset.strategyTags || '').toLowerCase();
+                        const setupTags = (row.dataset.setupTags || '').toLowerCase();
+                        const sessionTags = (row.dataset.sessionTags || '').toLowerCase();
+                        const marketTags = (row.dataset.marketTags || '').toLowerCase();
+                        const direction = (row.dataset.direction || '').toLowerCase();
+                        
+                        switch (filterBy) {{
+                            case 'ticker':
+                                shouldShow = ticker.includes(searchTerm);
+                                break;
+                            case 'strategy':
+                                shouldShow = strategy.includes(searchTerm);
+                                break;
+                            case 'strategy-tags':
+                                shouldShow = strategyTags.includes(searchTerm);
+                                break;
+                            case 'setup-tags':
+                                shouldShow = setupTags.includes(searchTerm);
+                                break;
+                            case 'session-tags':
+                                shouldShow = sessionTags.includes(searchTerm);
+                                break;
+                            case 'market-tags':
+                                shouldShow = marketTags.includes(searchTerm);
+                                break;
+                            case 'direction':
+                                shouldShow = direction.includes(searchTerm);
+                                break;
+                            case 'all':
+                            default:
+                                shouldShow = ticker.includes(searchTerm) || 
+                                           strategy.includes(searchTerm) ||
+                                           strategyTags.includes(searchTerm) ||
+                                           setupTags.includes(searchTerm) ||
+                                           sessionTags.includes(searchTerm) ||
+                                           marketTags.includes(searchTerm) ||
+                                           direction.includes(searchTerm);
+                                break;
+                        }}
+                    }}
+                    
+                    if (shouldShow) {{
+                        row.style.display = '';
+                        visible++;
+                    }} else {{
+                        row.style.display = 'none';
+                    }}
+                }});
+                
+                visibleCount.textContent = visible;
+            }}
+            
+            function clearSearch() {{
+                searchInput.value = '';
+                filterType.value = 'all';
+                filterTrades();
+            }}
+            
+            // Event listeners
+            searchInput.addEventListener('input', filterTrades);
+            filterType.addEventListener('change', filterTrades);
+            clearButton.addEventListener('click', clearSearch);
+        }});
+    </script>
 </body>
 </html>
 """
