@@ -52,25 +52,66 @@
             <label for="analytics-search" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
               Jump to Analytics Section
             </label>
-            <input 
-              type="text" 
-              id="analytics-search" 
-              placeholder="Search analytics sections..."
-              aria-label="Search analytics sections"
-              style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-size: 0.875rem;"
-            />
+            <div style="display: flex; gap: 0.75rem; align-items: center;">
+              <input 
+                type="text" 
+                id="analytics-search" 
+                placeholder="Search analytics sections..."
+                aria-label="Search analytics sections"
+                style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+                onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
+                onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
+              />
+              <button 
+                id="search-button"
+                aria-label="Search"
+                style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
+                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </button>
+              <button 
+                id="toggle-quick-nav"
+                aria-label="Quick Navigation"
+                style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, rgba(80, 200, 180, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(100, 255, 218, 0.2); padding: 0;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(100, 255, 218, 0.6)'; this.style.boxShadow='0 6px 32px rgba(100, 255, 218, 0.4)';"
+                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(100, 255, 218, 0.3)'; this.style.boxShadow='0 4px 24px rgba(100, 255, 218, 0.2)';"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100, 255, 218, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              </button>
+              <button 
+                id="toggle-recent-searches"
+                aria-label="Recent Searches"
+                style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(124, 58, 237, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(168, 85, 247, 0.2); padding: 0;"
+                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(168, 85, 247, 0.6)'; this.style.boxShadow='0 6px 32px rgba(168, 85, 247, 0.4)';"
+                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(168, 85, 247, 0.3)'; this.style.boxShadow='0 4px 24px rgba(168, 85, 247, 0.2)';"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(168, 85, 247, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </button>
+            </div>
           </div>
-          <button 
-            id="toggle-quick-nav"
-            style="padding: 0.75rem 1.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: all 0.2s;"
-          >
-            Quick Nav ▼
-          </button>
         </div>
         
         <!-- Quick Navigation Dropdown -->
-        <div id="quick-nav-menu" style="display: none; margin-top: 1rem; max-height: 400px; overflow-y: auto; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 6px; padding: 0.5rem;">
+        <div id="quick-nav-menu" style="display: none; margin-top: 1rem; max-height: 400px; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 20, 41, 0.65) 0%, rgba(10, 14, 39, 0.75) 100%); backdrop-filter: blur(var(--glass-blur-medium)); border: 1px solid var(--glass-border-medium); border-radius: var(--glass-radius-md); padding: 0.5rem; box-shadow: var(--glass-shadow-lg);">
           <div id="nav-items-container"></div>
+        </div>
+        
+        <!-- Recent Searches Dropdown -->
+        <div id="recent-searches-menu" style="display: none; margin-top: 1rem; max-height: 300px; overflow-y: auto; background: linear-gradient(135deg, rgba(15, 20, 41, 0.65) 0%, rgba(10, 14, 39, 0.75) 100%); backdrop-filter: blur(var(--glass-blur-medium)); border: 1px solid var(--glass-border-medium); border-radius: var(--glass-radius-md); padding: 0.5rem; box-shadow: var(--glass-shadow-lg);">
+          <div style="padding: 0.75rem 1rem; font-size: 0.875rem; font-weight: 600; color: var(--accent-purple); border-bottom: 1px solid var(--glass-border-subtle);">Recent Searches</div>
+          <div id="recent-searches-container"></div>
         </div>
       </div>
       
@@ -536,22 +577,19 @@
     document.addEventListener('DOMContentLoaded', function() {
       // Constants
       const HEADER_OFFSET = 100; // Offset for fixed header when scrolling to sections
+      const MAX_RECENT_SEARCHES = 5; // Maximum number of recent searches to store
       
       const searchInput = document.getElementById('analytics-search');
+      const searchButton = document.getElementById('search-button');
       const toggleNavButton = document.getElementById('toggle-quick-nav');
+      const toggleRecentButton = document.getElementById('toggle-recent-searches');
       const quickNavMenu = document.getElementById('quick-nav-menu');
+      const recentSearchesMenu = document.getElementById('recent-searches-menu');
       const navItemsContainer = document.getElementById('nav-items-container');
+      const recentSearchesContainer = document.getElementById('recent-searches-container');
       
-      // Add hover effects to Quick Nav button
-      toggleNavButton.addEventListener('mouseenter', function() {
-        this.style.borderColor = 'var(--accent-green)';
-        this.style.color = 'var(--accent-green)';
-      });
-      
-      toggleNavButton.addEventListener('mouseleave', function() {
-        this.style.borderColor = 'var(--border-color)';
-        this.style.color = 'var(--text-primary)';
-      });
+      // Load recent searches from localStorage
+      let recentSearches = JSON.parse(localStorage.getItem('analyticsRecentSearches') || '[]');
       
       // Collect all analytics sections
       const sections = [];
@@ -575,11 +613,14 @@
         
         filteredSections.forEach(section => {
           const navItem = document.createElement('div');
-          navItem.style.cssText = 'padding: 0.75rem 1rem; cursor: pointer; border-radius: 4px; transition: background 0.2s; color: var(--text-primary);';
+          navItem.style.cssText = 'padding: 0.75rem 1rem; cursor: pointer; border-radius: var(--glass-radius-sm); transition: all 0.3s ease; color: var(--text-primary);';
           navItem.textContent = section.title;
-          navItem.addEventListener('click', () => scrollToSection(section.id));
+          navItem.addEventListener('click', () => {
+            scrollToSection(section.id);
+            addToRecentSearches(section.title);
+          });
           navItem.addEventListener('mouseenter', function() {
-            this.style.background = 'var(--bg-primary)';
+            this.style.background = 'rgba(0, 255, 136, 0.1)';
             this.style.color = 'var(--accent-green)';
           });
           navItem.addEventListener('mouseleave', function() {
@@ -588,6 +629,79 @@
           });
           navItemsContainer.appendChild(navItem);
         });
+      }
+      
+      // Create recent searches items
+      function createRecentSearchesItems() {
+        recentSearchesContainer.innerHTML = '';
+        
+        if (recentSearches.length === 0) {
+          recentSearchesContainer.innerHTML = '<div style="padding: 1rem; text-align: center; color: var(--text-secondary);">No recent searches</div>';
+          return;
+        }
+        
+        recentSearches.forEach((searchTerm, index) => {
+          const searchItem = document.createElement('div');
+          searchItem.style.cssText = 'padding: 0.75rem 1rem; cursor: pointer; border-radius: var(--glass-radius-sm); transition: all 0.3s ease; color: var(--text-primary); display: flex; justify-content: space-between; align-items: center;';
+          
+          const textSpan = document.createElement('span');
+          textSpan.textContent = searchTerm;
+          searchItem.appendChild(textSpan);
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.innerHTML = '×';
+          removeBtn.style.cssText = 'background: none; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; transition: color 0.2s;';
+          removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeFromRecentSearches(index);
+          });
+          removeBtn.addEventListener('mouseenter', function() {
+            this.style.color = 'var(--accent-red)';
+          });
+          removeBtn.addEventListener('mouseleave', function() {
+            this.style.color = 'var(--text-secondary)';
+          });
+          searchItem.appendChild(removeBtn);
+          
+          searchItem.addEventListener('click', () => {
+            searchInput.value = searchTerm;
+            performSearch(searchTerm);
+          });
+          searchItem.addEventListener('mouseenter', function() {
+            this.style.background = 'rgba(168, 85, 247, 0.1)';
+            this.style.color = 'var(--accent-purple)';
+          });
+          searchItem.addEventListener('mouseleave', function() {
+            this.style.background = 'transparent';
+            this.style.color = 'var(--text-primary)';
+          });
+          recentSearchesContainer.appendChild(searchItem);
+        });
+      }
+      
+      // Add to recent searches
+      function addToRecentSearches(searchTerm) {
+        if (!searchTerm || searchTerm.trim() === '') return;
+        
+        // Remove if already exists and add to beginning
+        recentSearches = recentSearches.filter(item => item !== searchTerm);
+        recentSearches.unshift(searchTerm);
+        
+        // Keep only MAX_RECENT_SEARCHES items
+        if (recentSearches.length > MAX_RECENT_SEARCHES) {
+          recentSearches.pop();
+        }
+        
+        // Save to localStorage
+        localStorage.setItem('analyticsRecentSearches', JSON.stringify(recentSearches));
+        createRecentSearchesItems();
+      }
+      
+      // Remove from recent searches
+      function removeFromRecentSearches(index) {
+        recentSearches.splice(index, 1);
+        localStorage.setItem('analyticsRecentSearches', JSON.stringify(recentSearches));
+        createRecentSearchesItems();
       }
       
       // Scroll to section with smooth animation
@@ -610,37 +724,22 @@
           }, 1000);
         }
         
-        // Close menu if on mobile
-        if (window.innerWidth < 768) {
-          quickNavMenu.style.display = 'none';
-          toggleNavButton.textContent = 'Quick Nav ▼';
-        }
+        // Close menus
+        quickNavMenu.style.display = 'none';
+        recentSearchesMenu.style.display = 'none';
       }
       
-      // Toggle quick nav menu
-      toggleNavButton.addEventListener('click', function() {
-        if (quickNavMenu.style.display === 'none' || !quickNavMenu.style.display) {
-          quickNavMenu.style.display = 'block';
-          this.textContent = 'Quick Nav ▲';
-          createNavItems();
-        } else {
-          quickNavMenu.style.display = 'none';
-          this.textContent = 'Quick Nav ▼';
-        }
-      });
-      
-      // Search functionality
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
+      // Perform search
+      function performSearch(searchTerm = null) {
+        const term = searchTerm || searchInput.value.toLowerCase().trim();
         
-        if (searchTerm) {
+        if (term) {
           const filtered = sections.filter(section => 
-            section.title.toLowerCase().includes(searchTerm)
+            section.title.toLowerCase().includes(term)
           );
           
           if (quickNavMenu.style.display !== 'block') {
             quickNavMenu.style.display = 'block';
-            toggleNavButton.textContent = 'Quick Nav ▲';
           }
           
           createNavItems(filtered);
@@ -648,10 +747,50 @@
           // Auto-jump to first match if only one result
           if (filtered.length === 1) {
             scrollToSection(filtered[0].id);
+            addToRecentSearches(term);
+          } else if (filtered.length > 1) {
+            addToRecentSearches(term);
           }
+          
+          // Close recent searches menu
+          recentSearchesMenu.style.display = 'none';
         } else {
           createNavItems(sections);
         }
+      }
+      
+      // Toggle quick nav menu
+      toggleNavButton.addEventListener('click', function() {
+        if (quickNavMenu.style.display === 'none' || !quickNavMenu.style.display) {
+          quickNavMenu.style.display = 'block';
+          createNavItems();
+        } else {
+          quickNavMenu.style.display = 'none';
+        }
+        // Close recent searches
+        recentSearchesMenu.style.display = 'none';
+      });
+      
+      // Toggle recent searches menu
+      toggleRecentButton.addEventListener('click', function() {
+        if (recentSearchesMenu.style.display === 'none' || !recentSearchesMenu.style.display) {
+          recentSearchesMenu.style.display = 'block';
+          createRecentSearchesItems();
+        } else {
+          recentSearchesMenu.style.display = 'none';
+        }
+        // Close quick nav
+        quickNavMenu.style.display = 'none';
+      });
+      
+      // Search button click
+      searchButton.addEventListener('click', function() {
+        performSearch();
+      });
+      
+      // Search functionality
+      searchInput.addEventListener('input', function() {
+        performSearch();
       });
       
       // Handle Enter key to jump to first match
@@ -664,10 +803,14 @@
             );
             if (filtered.length > 0) {
               scrollToSection(filtered[0].id);
+              addToRecentSearches(searchTerm);
             }
           }
         }
       });
+      
+      // Initialize recent searches
+      createRecentSearchesItems();
     });
   </script>
 </body>
