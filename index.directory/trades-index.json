@@ -78,6 +78,44 @@
       ]
     },
     {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
+      "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
+      "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
+      "trade_number": 1,
+      "ticker": "SCNX",
+      "entry_date": "2025-11-04",
+      "entry_time": "06:57",
+      "exit_date": "2025-11-04",
+      "exit_time": "16:26",
+      "entry_price": 0.905,
+      "exit_price": 0.81,
+      "position_size": 159.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.8,
+      "target_price": 1.3,
+      "risk_reward_ratio": 3.76,
+      "broker": "IBKR",
+      "pnl_usd": -15.1,
+      "pnl_percent": -10.5,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "7 O'clock Spike"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "Choppy"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3228.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3229.jpeg"
+      ]
+    },
+    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
       "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
       "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
@@ -113,44 +151,6 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
-      ]
-    },
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.1.md",
-      "body": "# Trade #1 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.6164 on 2025-11-12 at 08:26\n- **Exit**: $0.7546 on 2025-11-12 at 08:48\n- **Position Size**: 60 shares\n- **...",
-      "notes": "Saw this morning runner eat all of its short-able shares and not drop, so I got in and rode my ~10-20% and got out. Great play, could have held longer.",
-      "trade_number": 1,
-      "ticker": "LPTX",
-      "entry_date": "2025-11-12",
-      "entry_time": "08:26",
-      "exit_date": "2025-11-12",
-      "exit_time": "08:48",
-      "entry_price": 0.6164,
-      "exit_price": 0.7546,
-      "position_size": 60.0,
-      "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.55,
-      "target_price": 0.75,
-      "risk_reward_ratio": 2.01,
-      "broker": "IBKR",
-      "pnl_usd": 8.29,
-      "pnl_percent": 22.42,
-      "strategy_tags": [
-        "Breakout"
-      ],
-      "setup_tags": [
-        "H.O.D Breakout"
-      ],
-      "session_tags": [
-        "Morning"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3317.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3318.jpeg"
       ]
     },
     {
@@ -192,41 +192,41 @@
       ]
     },
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:04:2025.1.md",
-      "body": "# Trade #1 - SCNX\n\n## Trade Details\n\n- **Ticker**: SCNX\n- **Direction**: LONG\n- **Entry**: $0.9050 on 2025-11-04 at 06:57\n- **Exit**: $0.81 on 2025-11-04 at 16:26\n- **Position Size**: 159 shares\n- **S...",
-      "notes": "Should have sold was sooner, held in Hope of bigger return. It bite back.",
+      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.1.md",
+      "body": "# Trade #1 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.6164 on 2025-11-12 at 08:26\n- **Exit**: $0.7546 on 2025-11-12 at 08:48\n- **Position Size**: 60 shares\n- **...",
+      "notes": "Saw this morning runner eat all of its short-able shares and not drop, so I got in and rode my ~10-20% and got out. Great play, could have held longer.",
       "trade_number": 1,
-      "ticker": "SCNX",
-      "entry_date": "2025-11-04",
-      "entry_time": "06:57",
-      "exit_date": "2025-11-04",
-      "exit_time": "16:26",
-      "entry_price": 0.905,
-      "exit_price": 0.81,
-      "position_size": 159.0,
+      "ticker": "LPTX",
+      "entry_date": "2025-11-12",
+      "entry_time": "08:26",
+      "exit_date": "2025-11-12",
+      "exit_time": "08:48",
+      "entry_price": 0.6164,
+      "exit_price": 0.7546,
+      "position_size": 60.0,
       "direction": "LONG",
       "strategy": "Breakout",
-      "stop_loss": 0.8,
-      "target_price": 1.3,
-      "risk_reward_ratio": 3.76,
+      "stop_loss": 0.55,
+      "target_price": 0.75,
+      "risk_reward_ratio": 2.01,
       "broker": "IBKR",
-      "pnl_usd": -15.1,
-      "pnl_percent": -10.5,
+      "pnl_usd": 8.29,
+      "pnl_percent": 22.42,
       "strategy_tags": [
         "Breakout"
       ],
       "setup_tags": [
-        "7 O'clock Spike"
+        "H.O.D Breakout"
       ],
       "session_tags": [
-        "Pre-Market"
+        "Morning"
       ],
       "market_condition_tags": [
-        "Choppy"
+        "High Volatility"
       ],
       "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3228.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3229.jpeg"
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3317.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3318.jpeg"
       ]
     },
     {
@@ -268,44 +268,6 @@
       ]
     },
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.2.md",
-      "body": "# Trade #2 - PHIO\n\n## Trade Details\n\n- **Ticker**: PHIO\n- **Direction**: LONG\n- **Entry**: $4.10 on 2025-11-03 at 07:37\n- **Exit**: $2.78 on 2025-11-03 at 11:17\n- **Position Size**: 19 shares\n- **Stra...",
-      "notes": "Was hesitant on getting into the trade earlier in the morning, Finally caved, but too late.",
-      "trade_number": 2,
-      "ticker": "PHIO",
-      "entry_date": "2025-11-03",
-      "entry_time": "07:37",
-      "exit_date": "2025-11-03",
-      "exit_time": "11:17",
-      "entry_price": 4.1,
-      "exit_price": 2.78,
-      "position_size": 19.0,
-      "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 2.85,
-      "target_price": 7.0,
-      "risk_reward_ratio": 2.32,
-      "broker": "IBKR",
-      "pnl_usd": -25.08,
-      "pnl_percent": -32.2,
-      "strategy_tags": [
-        "Momentum"
-      ],
-      "setup_tags": [
-        "Dip n Rip"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3193.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3192.jpeg"
-      ]
-    },
-    {
       "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.2.md",
       "body": "# Trade #2 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.9845 on 2025-11-12 at 09:22\n- **Exit**: $1.13 on 2025-11-12 at 10:47\n- **Position Size**: 22 shares\n- **St...",
       "notes": "Got into this winner from the morning session, Got out in a rough patch, was a test trade for a strategy idea, turned out good.",
@@ -341,6 +303,44 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3319.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3320.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.2.md",
+      "body": "# Trade #2 - PHIO\n\n## Trade Details\n\n- **Ticker**: PHIO\n- **Direction**: LONG\n- **Entry**: $4.10 on 2025-11-03 at 07:37\n- **Exit**: $2.78 on 2025-11-03 at 11:17\n- **Position Size**: 19 shares\n- **Stra...",
+      "notes": "Was hesitant on getting into the trade earlier in the morning, Finally caved, but too late.",
+      "trade_number": 2,
+      "ticker": "PHIO",
+      "entry_date": "2025-11-03",
+      "entry_time": "07:37",
+      "exit_date": "2025-11-03",
+      "exit_time": "11:17",
+      "entry_price": 4.1,
+      "exit_price": 2.78,
+      "position_size": 19.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 2.85,
+      "target_price": 7.0,
+      "risk_reward_ratio": 2.32,
+      "broker": "IBKR",
+      "pnl_usd": -25.08,
+      "pnl_percent": -32.2,
+      "strategy_tags": [
+        "Momentum"
+      ],
+      "setup_tags": [
+        "Dip n Rip"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3193.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.2/IMG_3192.jpeg"
       ]
     },
     {
@@ -394,9 +394,9 @@
     "largest_win": 14.7,
     "largest_loss": -25.08,
     "total_volume": 1007,
-    "max_drawdown": -38.9,
+    "max_drawdown": -34.8,
     "profit_factor": 0.74
   },
-  "generated_at": "2025-12-13T16:27:28.910252",
+  "generated_at": "2025-12-13T20:53:48.668686",
   "version": "1.0"
 }
