@@ -87,26 +87,32 @@
                     <label for="search-input" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                         Search by Ticker, Strategy, or Tags
                     </label>
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
-                        style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
-                        onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
-                        onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
-                    />
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
+                            style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+                            onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
+                            onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
+                        />
+                        <button 
+                            id="send-search"
+                            aria-label="Send Search"
+                            style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
+                            onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
+                            onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
                 <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 0.75rem;">
-                    <label for="filter-type" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2);"
-                        onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
-                        onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </label>
                     <select 
                         id="filter-type"
                         style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;"
@@ -122,12 +128,10 @@
                         <option value="market-tags">Market Condition Tags</option>
                         <option value="direction">Direction</option>
                     </select>
-                </div>
-                <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 0.75rem;">
                     <button 
                         id="clear-search"
                         aria-label="Clear Filters"
-                        style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0;"
+                        style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0; flex-shrink: 0;"
                         onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(245, 158, 11, 0.6)'; this.style.boxShadow='0 6px 32px rgba(245, 158, 11, 0.4)';"
                         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(245, 158, 11, 0.3)'; this.style.boxShadow='0 4px 24px rgba(245, 158, 11, 0.2)';"
                     >
@@ -137,9 +141,6 @@
                             <line x1="9" y1="9" x2="15" y2="15"></line>
                         </svg>
                     </button>
-                    <div style="flex: 1; padding: 0.75rem; background: transparent; border: 1px solid transparent; border-radius: var(--glass-radius-sm); color: var(--text-secondary); font-size: 0.875rem; display: flex; align-items: center;">
-                        Clear all filters
-                    </div>
                 </div>
             </div>
             <div id="filter-stats" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
@@ -151,6 +152,7 @@
             <table id="trades-table">
                 <thead>
                     <tr>
+                        <th>Date</th>
                         <th>Trade #</th>
                         <th>Ticker</th>
                         <th>Direction</th>
@@ -158,7 +160,6 @@
                         <th>Exit</th>
                         <th>Size</th>
                         <th>P&L</th>
-                        <th>Date</th>
                         <th>Strategy</th>
                     </tr>
                 </thead>
@@ -173,6 +174,7 @@
             data-market-tags="Trending"
             data-direction="LONG"
             data-date="2025-11-12">
+            <td>2025-11-12</td>
             <td><a href="trades/trade-002-LPTX.html" style="color: inherit; text-decoration: none;">#2</a></td>
             <td><a href="trades/trade-002-LPTX.html" style="color: inherit; text-decoration: none;"><strong>LPTX</strong></a></td>
             <td>LONG</td>
@@ -180,7 +182,6 @@
             <td>$1.1300</td>
             <td>22.0</td>
             <td class="positive">+$3.20</td>
-            <td>2025-11-12</td>
             <td>Continuation</td>
         </tr>
         
@@ -193,6 +194,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-12">
+            <td>2025-11-12</td>
             <td><a href="trades/trade-001-LPTX.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-LPTX.html" style="color: inherit; text-decoration: none;"><strong>LPTX</strong></a></td>
             <td>LONG</td>
@@ -200,7 +202,6 @@
             <td>$0.7546</td>
             <td>60.0</td>
             <td class="positive">+$8.29</td>
-            <td>2025-11-12</td>
             <td>Breakout</td>
         </tr>
         
@@ -213,6 +214,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-10">
+            <td>2025-11-10</td>
             <td><a href="trades/trade-001-BNAI.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-BNAI.html" style="color: inherit; text-decoration: none;"><strong>BNAI</strong></a></td>
             <td>LONG</td>
@@ -220,7 +222,6 @@
             <td>$0.7514</td>
             <td>120.0</td>
             <td class="positive">+$12.47</td>
-            <td>2025-11-10</td>
             <td>VWAP Hold</td>
         </tr>
         
@@ -233,6 +234,7 @@
             data-market-tags="Choppy"
             data-direction="LONG"
             data-date="2025-11-06">
+            <td>2025-11-06</td>
             <td><a href="trades/trade-002-OSRH.html" style="color: inherit; text-decoration: none;">#2</a></td>
             <td><a href="trades/trade-002-OSRH.html" style="color: inherit; text-decoration: none;"><strong>OSRH</strong></a></td>
             <td>LONG</td>
@@ -240,7 +242,6 @@
             <td>$0.6400</td>
             <td>96.0</td>
             <td class="negative">$9.72</td>
-            <td>2025-11-06</td>
             <td>Breakout</td>
         </tr>
         
@@ -253,6 +254,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-06">
+            <td>2025-11-06</td>
             <td><a href="trades/trade-001-PSTV.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-PSTV.html" style="color: inherit; text-decoration: none;"><strong>PSTV</strong></a></td>
             <td>LONG</td>
@@ -260,7 +262,6 @@
             <td>$0.5605</td>
             <td>100.0</td>
             <td class="negative">$5.84</td>
-            <td>2025-11-06</td>
             <td>Breakout</td>
         </tr>
         
@@ -273,6 +274,7 @@
             data-market-tags="High Volume"
             data-direction="LONG"
             data-date="2025-11-05">
+            <td>2025-11-05</td>
             <td><a href="trades/trade-002-CHR.html" style="color: inherit; text-decoration: none;">#2</a></td>
             <td><a href="trades/trade-002-CHR.html" style="color: inherit; text-decoration: none;"><strong>CHR</strong></a></td>
             <td>LONG</td>
@@ -280,7 +282,6 @@
             <td>$0.2204</td>
             <td>300.0</td>
             <td class="positive">+$14.70</td>
-            <td>2025-11-05</td>
             <td>Breakout</td>
         </tr>
         
@@ -293,6 +294,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-05">
+            <td>2025-11-05</td>
             <td><a href="trades/trade-001-SMX.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-SMX.html" style="color: inherit; text-decoration: none;"><strong>SMX</strong></a></td>
             <td>LONG</td>
@@ -300,7 +302,6 @@
             <td>$2.0600</td>
             <td>30.0</td>
             <td class="negative">$6.90</td>
-            <td>2025-11-05</td>
             <td>VWAP Bounce</td>
         </tr>
         
@@ -313,6 +314,7 @@
             data-market-tags="Choppy"
             data-direction="LONG"
             data-date="2025-11-04">
+            <td>2025-11-04</td>
             <td><a href="trades/trade-001-SCNX.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-SCNX.html" style="color: inherit; text-decoration: none;"><strong>SCNX</strong></a></td>
             <td>LONG</td>
@@ -320,7 +322,6 @@
             <td>$0.8100</td>
             <td>159.0</td>
             <td class="negative">$15.10</td>
-            <td>2025-11-04</td>
             <td>Breakout</td>
         </tr>
         
@@ -333,6 +334,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-03">
+            <td>2025-11-03</td>
             <td><a href="trades/trade-002-PHIO.html" style="color: inherit; text-decoration: none;">#2</a></td>
             <td><a href="trades/trade-002-PHIO.html" style="color: inherit; text-decoration: none;"><strong>PHIO</strong></a></td>
             <td>LONG</td>
@@ -340,7 +342,6 @@
             <td>$2.7800</td>
             <td>19.0</td>
             <td class="negative">$25.08</td>
-            <td>2025-11-03</td>
             <td>Breakout</td>
         </tr>
         
@@ -353,6 +354,7 @@
             data-market-tags="High Volatility"
             data-direction="LONG"
             data-date="2025-11-03">
+            <td>2025-11-03</td>
             <td><a href="trades/trade-001-MSPR.html" style="color: inherit; text-decoration: none;">#1</a></td>
             <td><a href="trades/trade-001-MSPR.html" style="color: inherit; text-decoration: none;"><strong>MSPR</strong></a></td>
             <td>LONG</td>
@@ -360,7 +362,6 @@
             <td>$0.6972</td>
             <td>101.0</td>
             <td class="positive">+$7.80</td>
-            <td>2025-11-03</td>
             <td>VWAP Hold</td>
         </tr>
         

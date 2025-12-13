@@ -53,6 +53,7 @@ def create_trade_list_html(trades):
 
     if trades:
         # Sort by date (most recent first), then by trade number (descending)
+        # Sort by entry_date descending (most recent first), then by trade_number descending (highest number first for same date)
         sorted_trades = sorted(
             trades, key=lambda t: (t.get("entry_date", ""), t.get("trade_number", 0)), reverse=True
         )
@@ -84,6 +85,7 @@ def create_trade_list_html(trades):
             data-market-tags="{html.escape(market_tags, quote=True)}"
             data-direction="{html.escape(trade.get('direction', 'N/A'), quote=True)}"
             data-date="{html.escape(trade.get('entry_date', 'N/A'), quote=True)}">
+            <td>{trade.get('entry_date', 'N/A')}</td>
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;">#{trade.get('trade_number', 'N/A')}</a></td>
             <td><a href="{trade_link}" style="color: inherit; text-decoration: none;"><strong>{trade.get('ticker', 'N/A')}</strong></a></td>
             <td>{trade.get('direction', 'N/A')}</td>
@@ -91,7 +93,6 @@ def create_trade_list_html(trades):
             <td>${trade.get('exit_price', 0):.4f}</td>
             <td>{trade.get('position_size', 0):,}</td>
             <td class="{pnl_class}">{pnl_sign}${abs(pnl):.2f}</td>
-            <td>{trade.get('entry_date', 'N/A')}</td>
             <td>{trade.get('strategy', 'N/A')}</td>
         </tr>
         """
@@ -197,26 +198,32 @@ def create_trade_list_html(trades):
                     <label for="search-input" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                         Search by Ticker, Strategy, or Tags
                     </label>
-                    <input 
-                        type="text" 
-                        id="search-input" 
-                        placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
-                        style="width: 100%; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
-                        onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
-                        onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
-                    />
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
+                            style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+                            onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
+                            onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
+                        />
+                        <button 
+                            id="send-search"
+                            aria-label="Send Search"
+                            style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
+                            onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
+                            onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
                 <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 0.75rem;">
-                    <label for="filter-type" style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2);"
-                        onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
-                        onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </label>
                     <select 
                         id="filter-type"
                         style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;"
@@ -232,12 +239,10 @@ def create_trade_list_html(trades):
                         <option value="market-tags">Market Condition Tags</option>
                         <option value="direction">Direction</option>
                     </select>
-                </div>
-                <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 0.75rem;">
                     <button 
                         id="clear-search"
                         aria-label="Clear Filters"
-                        style="display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0;"
+                        style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0; flex-shrink: 0;"
                         onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(245, 158, 11, 0.6)'; this.style.boxShadow='0 6px 32px rgba(245, 158, 11, 0.4)';"
                         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(245, 158, 11, 0.3)'; this.style.boxShadow='0 4px 24px rgba(245, 158, 11, 0.2)';"
                     >
@@ -247,9 +252,6 @@ def create_trade_list_html(trades):
                             <line x1="9" y1="9" x2="15" y2="15"></line>
                         </svg>
                     </button>
-                    <div style="flex: 1; padding: 0.75rem; background: transparent; border: 1px solid transparent; border-radius: var(--glass-radius-sm); color: var(--text-secondary); font-size: 0.875rem; display: flex; align-items: center;">
-                        Clear all filters
-                    </div>
                 </div>
             </div>
             <div id="filter-stats" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
@@ -261,6 +263,7 @@ def create_trade_list_html(trades):
             <table id="trades-table">
                 <thead>
                     <tr>
+                        <th>Date</th>
                         <th>Trade #</th>
                         <th>Ticker</th>
                         <th>Direction</th>
@@ -268,7 +271,6 @@ def create_trade_list_html(trades):
                         <th>Exit</th>
                         <th>Size</th>
                         <th>P&L</th>
-                        <th>Date</th>
                         <th>Strategy</th>
                     </tr>
                 </thead>
