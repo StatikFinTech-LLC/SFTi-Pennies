@@ -198,19 +198,19 @@ def create_trade_list_html(trades):
                     <label for="search-input" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                         Search by Ticker, Strategy, or Tags
                     </label>
-                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div style="position: relative; display: flex; align-items: center;">
                         <input 
                             type="text" 
                             id="search-input" 
                             placeholder="e.g., BNAI, Breakout, Morning, High Volatility..."
-                            style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+                            style="width: 100%; padding: 0.75rem 60px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
                             onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
                             onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
                         />
                         <button 
                             id="send-search"
                             aria-label="Send Search"
-                            style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
+                            style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
                             onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
                             onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
                         >
@@ -223,10 +223,10 @@ def create_trade_list_html(trades):
                 </div>
             </div>
             <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 0.75rem;">
+                <div style="flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;">
                     <select 
                         id="filter-type"
-                        style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;"
+                        style="width: 100%; padding: 0.75rem 60px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;"
                         onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
                         onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
                     >
@@ -242,7 +242,7 @@ def create_trade_list_html(trades):
                     <button 
                         id="clear-search"
                         aria-label="Clear Filters"
-                        style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0; flex-shrink: 0;"
+                        style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0; flex-shrink: 0;"
                         onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(245, 158, 11, 0.6)'; this.style.boxShadow='0 6px 32px rgba(245, 158, 11, 0.4)';"
                         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(245, 158, 11, 0.3)'; this.style.boxShadow='0 4px 24px rgba(245, 158, 11, 0.2)';"
                     >

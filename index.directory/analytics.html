@@ -52,20 +52,20 @@
             <label for="analytics-search" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
               Jump to Analytics Section
             </label>
-            <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <div style="position: relative; display: flex; align-items: center;">
               <input 
                 type="text" 
                 id="analytics-search" 
                 placeholder="Search analytics sections..."
                 aria-label="Search analytics sections"
-                style="flex: 1; padding: 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
+                style="width: 100%; padding: 0.75rem 60px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-sm); color: var(--text-primary); font-size: 0.875rem; transition: all 0.3s ease;"
                 onfocus="this.style.borderColor='var(--glass-border-bright)'; this.style.boxShadow='0 0 0 3px rgba(0, 255, 136, 0.1)';"
                 onblur="this.style.borderColor='var(--border-color)'; this.style.boxShadow='none';"
               />
               <button 
                 id="search-button"
                 aria-label="Search"
-                style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
+                style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
                 onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
                 onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
               >
@@ -74,32 +74,34 @@
                   <path d="m21 21-4.35-4.35"></path>
                 </svg>
               </button>
-              <button 
-                id="toggle-quick-nav"
-                aria-label="Quick Navigation"
-                style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, rgba(80, 200, 180, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(100, 255, 218, 0.2); padding: 0; flex-shrink: 0;"
-                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(100, 255, 218, 0.6)'; this.style.boxShadow='0 6px 32px rgba(100, 255, 218, 0.4)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(100, 255, 218, 0.3)'; this.style.boxShadow='0 4px 24px rgba(100, 255, 218, 0.2)';"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100, 255, 218, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-              </button>
-              <button 
-                id="toggle-recent-searches"
-                aria-label="Recent Searches"
-                style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(124, 58, 237, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(168, 85, 247, 0.2); padding: 0; flex-shrink: 0;"
-                onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(168, 85, 247, 0.6)'; this.style.boxShadow='0 6px 32px rgba(168, 85, 247, 0.4)';"
-                onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(168, 85, 247, 0.3)'; this.style.boxShadow='0 4px 24px rgba(168, 85, 247, 0.2)';"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(168, 85, 247, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              </button>
             </div>
+          </div>
+          <div style="flex: 0; display: flex; gap: 0.75rem; align-items: center;">
+            <button 
+              id="toggle-quick-nav"
+              aria-label="Quick Navigation"
+              style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(100, 255, 218, 0.15) 0%, rgba(80, 200, 180, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(100, 255, 218, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(100, 255, 218, 0.2); padding: 0; flex-shrink: 0;"
+              onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(100, 255, 218, 0.6)'; this.style.boxShadow='0 6px 32px rgba(100, 255, 218, 0.4)';"
+              onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(100, 255, 218, 0.3)'; this.style.boxShadow='0 4px 24px rgba(100, 255, 218, 0.2)';"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(100, 255, 218, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+            <button 
+              id="toggle-recent-searches"
+              aria-label="Recent Searches"
+              style="display: flex; align-items: center; justify-content: center; min-width: 44px; width: 44px; min-height: 44px; height: 44px; background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(124, 58, 237, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(168, 85, 247, 0.2); padding: 0; flex-shrink: 0;"
+              onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(168, 85, 247, 0.6)'; this.style.boxShadow='0 6px 32px rgba(168, 85, 247, 0.4)';"
+              onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(168, 85, 247, 0.3)'; this.style.boxShadow='0 4px 24px rgba(168, 85, 247, 0.2)';"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(168, 85, 247, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </button>
           </div>
         </div>
         
