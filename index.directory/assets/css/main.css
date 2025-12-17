@@ -975,16 +975,22 @@ code {
 }
 
 /* Normalize date and time inputs to match other form inputs */
+input[type="date"],
+input[type="time"],
 input[type="date"].form-input,
 input[type="time"].form-input {
   height: auto;
-  line-height: normal;
+  line-height: 1.5;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  box-sizing: border-box;
+  min-height: 2.5rem;
 }
 
 /* Ensure date and time input internal elements don't overflow */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
 input[type="date"].form-input::-webkit-calendar-picker-indicator,
 input[type="time"].form-input::-webkit-calendar-picker-indicator {
   margin-left: 0;
@@ -992,11 +998,16 @@ input[type="time"].form-input::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+input[type="date"]::-webkit-datetime-edit,
+input[type="time"]::-webkit-datetime-edit,
 input[type="date"].form-input::-webkit-datetime-edit,
 input[type="time"].form-input::-webkit-datetime-edit {
   padding: 0;
+  line-height: 1.5;
 }
 
+input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+input[type="time"]::-webkit-datetime-edit-fields-wrapper,
 input[type="date"].form-input::-webkit-datetime-edit-fields-wrapper,
 input[type="time"].form-input::-webkit-datetime-edit-fields-wrapper {
   padding: 0;
