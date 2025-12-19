@@ -19,6 +19,10 @@ class AccountManager {
     await this.loadConfig();
     this.updateDisplay();
     this.setupEventListeners();
+    
+    // Apply customizations from config
+    this._applyCSSCustomProperties();
+    
     this.initialized = true;
     
     // Emit initial account loaded event
@@ -42,6 +46,7 @@ class AccountManager {
     this.eventBus.on('state:refreshed', () => {
       this.loadConfig();
       this.updateDisplay();
+      this._applyCSSCustomProperties();
     });
   }
 
@@ -57,6 +62,10 @@ class AccountManager {
         if (!this.config.withdrawals) {
           this.config.withdrawals = [];
         }
+        // Ensure customization exists
+        if (!this.config.customization) {
+          this.config.customization = this._getDefaultCustomization();
+        }
       } else {
         // Create default config
         this.config = {
@@ -66,7 +75,8 @@ class AccountManager {
           account_opening_date: null,
           notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
           version: "1.0",
-          last_updated: new Date().toISOString()
+          last_updated: new Date().toISOString(),
+          customization: this._getDefaultCustomization()
         };
       }
       
@@ -83,7 +93,8 @@ class AccountManager {
         account_opening_date: null,
         notes: "Starting balance is your initial capital. Add deposits separately to track internal investments.",
         version: "1.0",
-        last_updated: new Date().toISOString()
+        last_updated: new Date().toISOString(),
+        customization: this._getDefaultCustomization()
       };
     }
   }
@@ -322,6 +333,306 @@ class AccountManager {
         date: date,
         total_deposits: this.getTotalDeposits()
       });
+    }
+  }
+
+  /**
+   * Get customization settings
+   * @param {string} key - Optional key to get specific customization value (e.g., 'theme.primaryColor')
+   * @returns {any} The customization value or entire customization object if no key provided
+   */
+  getCustomization(key = null) {
+    // Ensure customization object exists
+    if (!this.config.customization) {
+      this.config.customization = this._getDefaultCustomization();
+    }
+    
+    // If no key specified, return entire customization object
+    if (!key) {
+      return this.config.customization;
+    }
+    
+    // Support dot notation for nested keys (e.g., 'theme.primaryColor')
+    const keys = key.split('.');
+    let value = this.config.customization;
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return undefined;
+      }
+    }
+    
+    return value;
+  }
+  
+  /**
+   * Set customization settings
+   * @param {string|object} keyOrObject - Key path (e.g., 'theme.primaryColor') or entire customization object
+   * @param {any} value - Value to set (only used if first param is a key)
+   * @returns {boolean} True if validation passed and value was set
+   */
+  setCustomization(keyOrObject, value = undefined) {
+    // Ensure customization object exists
+    if (!this.config.customization) {
+      this.config.customization = this._getDefaultCustomization();
+    }
+    
+    let customizationToSet;
+    
+    // If first argument is an object, replace entire customization
+    // Note: null check is important since typeof null === 'object' in JavaScript
+    if (typeof keyOrObject === 'object' && keyOrObject !== null && value === undefined) {
+      customizationToSet = keyOrObject;
+      
+      // Validate entire customization object
+      const validation = this._validateCustomization(customizationToSet);
+      if (!validation.valid) {
+        console.error('Customization validation failed:', validation.errors);
+        return false;
+      }
+      
+      // Replace entire customization structure (no merging - this is intentional)
+      // If partial updates are needed, use dot notation instead
+      this.config.customization = customizationToSet;
+    } else {
+      // Set specific key using dot notation
+      const keys = keyOrObject.split('.');
+      
+      // Validate the specific value
+      const validation = this._validateCustomizationValue(keyOrObject, value);
+      if (!validation.valid) {
+        console.error(`Validation failed for ${keyOrObject}:`, validation.errors);
+        return false;
+      }
+      
+      // Navigate to the parent object
+      let current = this.config.customization;
+      for (let i = 0; i < keys.length - 1; i++) {
+        const key = keys[i];
+        if (!(key in current) || current[key] === null || typeof current[key] !== 'object' || Array.isArray(current[key])) {
+          current[key] = {};
+        }
+        current = current[key];
+      }
+      
+      // Set the final value
+      current[keys[keys.length - 1]] = value;
+    }
+    
+    // Save configuration
+    this.saveConfig(false);
+    
+    // Emit customization updated event
+    if (this.eventBus) {
+      this.eventBus.emit('customization:updated', this.config.customization);
+    }
+    
+    // Apply CSS custom properties if theme was updated
+    this._applyCSSCustomProperties();
+    
+    return true;
+  }
+  
+  /**
+   * Validate customization object
+   * @private
+   */
+  _validateCustomization(customization) {
+    const errors = [];
+    
+    if (!customization || typeof customization !== 'object') {
+      errors.push('Customization must be an object');
+      return { valid: false, errors };
+    }
+    
+    // Validate theme if present
+    if (customization.theme) {
+      if (typeof customization.theme !== 'object') {
+        errors.push('theme must be an object');
+      } else {
+        // Validate color values
+        const colorFields = ['primaryColor', 'secondaryColor', 'accentColor', 'backgroundColor'];
+        for (const field of colorFields) {
+          if (customization.theme[field]) {
+            if (!this._isValidColor(customization.theme[field])) {
+              errors.push(`theme.${field} must be a valid color (hex, rgb, or named color)`);
+            }
+          }
+        }
+      }
+    }
+    
+    // Validate preferences if present
+    if (customization.preferences) {
+      if (typeof customization.preferences !== 'object') {
+        errors.push('preferences must be an object');
+      } else {
+        // Validate date format
+        if (customization.preferences.dateFormat) {
+          const validFormats = ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'];
+          if (!validFormats.includes(customization.preferences.dateFormat)) {
+            errors.push(`preferences.dateFormat must be one of: ${validFormats.join(', ')}`);
+          }
+        }
+        
+        // Validate currency symbol
+        if (customization.preferences.currencySymbol) {
+          if (typeof customization.preferences.currencySymbol !== 'string' || 
+              customization.preferences.currencySymbol.length < 1 ||
+              customization.preferences.currencySymbol.length > 3) {
+            errors.push('preferences.currencySymbol must be a string with 1-3 characters');
+          }
+        }
+        
+        // Validate timezone
+        if (customization.preferences.timezone) {
+          if (typeof customization.preferences.timezone !== 'string') {
+            errors.push('preferences.timezone must be a string');
+          }
+        }
+      }
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+  
+  /**
+   * Validate a specific customization value
+   * @private
+   */
+  _validateCustomizationValue(key, value) {
+    const errors = [];
+    
+    // Reject null and undefined values explicitly
+    if (value === null || value === undefined) {
+      errors.push(`${key} cannot be null or undefined`);
+      return { valid: false, errors };
+    }
+    
+    // Color validation for theme colors
+    if (key.startsWith('theme.') && key.includes('Color')) {
+      if (!this._isValidColor(value)) {
+        errors.push(`${key} must be a valid color (hex, rgb, or named color)`);
+      }
+    }
+    
+    // Date format validation
+    if (key === 'preferences.dateFormat') {
+      const validFormats = ['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD'];
+      if (!validFormats.includes(value)) {
+        errors.push(`dateFormat must be one of: ${validFormats.join(', ')}`);
+      }
+    }
+    
+    // Currency symbol validation
+    if (key === 'preferences.currencySymbol') {
+      if (typeof value !== 'string' || value.length < 1 || value.length > 3) {
+        errors.push('currencySymbol must be a string with 1-3 characters');
+      }
+    }
+    
+    // Timezone validation
+    if (key === 'preferences.timezone') {
+      if (typeof value !== 'string') {
+        errors.push('timezone must be a string');
+      }
+    }
+    
+    return {
+      valid: errors.length === 0,
+      errors
+    };
+  }
+  
+  /**
+   * Check if a string is a valid CSS color
+   * @private
+   */
+  _isValidColor(color) {
+    if (typeof color !== 'string') return false;
+    
+    // Check hex color (3, 4, 6, or 8 digits for alpha channel support)
+    if (/^#([0-9A-F]{3}|[0-9A-F]{4}|[0-9A-F]{6}|[0-9A-F]{8})$/i.test(color)) return true;
+    
+    // Check rgb/rgba with value range validation (allow optional spaces before commas)
+    const rgbMatch = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*([\d.]+)\s*)?\)$/i);
+    if (rgbMatch) {
+      const r = parseInt(rgbMatch[1]);
+      const g = parseInt(rgbMatch[2]);
+      const b = parseInt(rgbMatch[3]);
+      const a = rgbMatch[5] ? parseFloat(rgbMatch[5]) : 1;
+      return r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255 && a >= 0 && a <= 1;
+    }
+    
+    // Check hsl/hsla with value range validation (allow optional spaces before commas)
+    const hslMatch = color.match(/^hsla?\(\s*(\d+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*(,\s*([\d.]+)\s*)?\)$/i);
+    if (hslMatch) {
+      const h = parseInt(hslMatch[1]);
+      const s = parseFloat(hslMatch[2]);
+      const l = parseFloat(hslMatch[3]);
+      const a = hslMatch[5] ? parseFloat(hslMatch[5]) : 1;
+      return h >= 0 && h <= 360 && s >= 0 && s <= 100 && l >= 0 && l <= 100 && a >= 0 && a <= 1;
+    }
+    
+    // Check named colors (basic set)
+    const namedColors = [
+      'black', 'white', 'red', 'green', 'blue', 'yellow', 'cyan', 'magenta',
+      'gray', 'grey', 'orange', 'purple', 'pink', 'brown', 'transparent'
+    ];
+    if (namedColors.includes(color.toLowerCase())) return true;
+    
+    return false;
+  }
+  
+  /**
+   * Get default customization object
+   * @private
+   */
+  _getDefaultCustomization() {
+    return {
+      theme: {
+        primaryColor: '#00ff88',
+        secondaryColor: '#0a0e27',  // Intentionally same as backgroundColor - matches design system
+        accentColor: '#ffd93d',
+        backgroundColor: '#0a0e27'  // Intentionally same as secondaryColor - matches design system
+      },
+      preferences: {
+        dateFormat: 'MM/DD/YYYY',
+        currencySymbol: '$',
+        timezone: 'America/New_York'
+      }
+    };
+  }
+  
+  /**
+   * Apply CSS custom properties from customization
+   * @private
+   */
+  _applyCSSCustomProperties() {
+    if (!this.config.customization || !this.config.customization.theme) {
+      return;
+    }
+    
+    const theme = this.config.customization.theme;
+    const root = document.documentElement;
+    
+    // Map customization colors to CSS custom properties
+    if (theme.primaryColor) {
+      root.style.setProperty('--accent-green', theme.primaryColor);
+    }
+    if (theme.secondaryColor) {
+      root.style.setProperty('--bg-primary', theme.secondaryColor);
+    }
+    if (theme.accentColor) {
+      root.style.setProperty('--accent-yellow', theme.accentColor);
+    }
+    if (theme.backgroundColor) {
+      root.style.setProperty('--bg-secondary', theme.backgroundColor);
     }
   }
 

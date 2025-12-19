@@ -24,5 +24,18 @@
       "note": "",
       "timestamp": "2025-11-07T23:03:43.590Z"
     }
-  ]
+  ],
+  "customization": {
+    "theme": {
+      "primaryColor": "#00ff88",
+      "secondaryColor": "#0a0e27",
+      "accentColor": "#ffd93d",
+      "backgroundColor": "#0a0e27"
+    },
+    "preferences": {
+      "dateFormat": "MM/DD/YYYY",
+      "currencySymbol": "$",
+      "timezone": "America/New_York"
+    }
+  }
 }
