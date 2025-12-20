@@ -67,7 +67,8 @@
         </svg>`,
         dropdownItems: [
           { label: 'Git.Auth', action: 'auth' },
-          { label: 'Re-Fresh', action: 'refresh' }
+          { label: 'Re-Fresh', action: 'refresh' },
+          { label: 'Customize', action: 'customize' }
         ]
       },
       {
@@ -350,6 +351,18 @@
       } else {
         // No service worker, just reload
         window.location.reload(true);
+      }
+    } else if (action === 'customize') {
+      // Handle Customize action (open customization modal)
+      if (typeof openCustomizeModal !== 'undefined') {
+        openCustomizeModal();
+      } else {
+        // Log error and fall back gracefully
+        console.error('Customization modal not available. Please refresh the page.');
+        // If showNotification is available, show user-friendly message
+        if (typeof showNotification !== 'undefined') {
+          showNotification('Feature Unavailable', 'Customization modal is not available. Please refresh the page.', 'error');
+        }
       }
     }
   }

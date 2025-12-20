@@ -692,7 +692,7 @@ function showNotification(title, message, type = 'info') {
 
 // Close modals on background click
 document.addEventListener('DOMContentLoaded', () => {
-  const modals = ['portfolio-modal', 'total-return-modal', 'withdrawal-modal', 'deposit-modal'];
+  const modals = ['portfolio-modal', 'total-return-modal', 'withdrawal-modal', 'deposit-modal', 'customize-modal'];
   
   modals.forEach(modalId => {
     const modal = document.getElementById(modalId);
@@ -704,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
           else if (modalId === 'total-return-modal') closeTotalReturnModal();
           else if (modalId === 'withdrawal-modal') closeWithdrawalModal();
           else if (modalId === 'deposit-modal') closeDepositModal();
+          else if (modalId === 'customize-modal') closeCustomizeModal();
         }
       });
     }
@@ -716,6 +717,7 @@ document.addEventListener('DOMContentLoaded', () => {
       closeTotalReturnModal();
       closeWithdrawalModal();
       closeDepositModal();
+      closeCustomizeModal();
       closeTradePnLModal();
       closeAvgPnLModal();
     }
@@ -731,6 +733,31 @@ document.addEventListener('DOMContentLoaded', () => {
   if (avgPnLCard) {
     avgPnLCard.addEventListener('click', openAvgPnLModal);
   }
+  
+  // Add event listeners for customization category cards
+  const handleCategorySelection = (category) => {
+    if (category === 'colors') showColorCustomization();
+    else if (category === 'themes') showThemeCustomization();
+    else if (category === 'preferences') showPreferencesCustomization();
+  };
+  
+  const setupCategoryCard = (card) => {
+    const category = card.dataset.category;
+    
+    // Click handler
+    card.addEventListener('click', () => handleCategorySelection(category));
+    
+    // Keyboard handler for accessibility
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCategorySelection(category);
+      }
+    });
+  };
+  
+  // Setup all category cards
+  document.querySelectorAll('.customize-category-card').forEach(setupCategoryCard);
 });
 
 // ======================================================================
@@ -981,5 +1008,320 @@ async function loadAvgWinLossData() {
     
   } catch (error) {
     console.error('Error loading avg win/loss data:', error);
+  }
+}
+
+// ======================================================================
+// Customize Modal Functions
+// ======================================================================
+
+/**
+ * Open Customize Modal
+ */
+function openCustomizeModal() {
+  const modal = document.getElementById('customize-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'flex';
+  
+  // Reset to category selection view
+  hideCustomizationContent();
+}
+
+/**
+ * Close Customize Modal
+ */
+function closeCustomizeModal() {
+  const modal = document.getElementById('customize-modal');
+  if (!modal) return;
+  
+  modal.style.display = 'none';
+  
+  // Reset content area
+  hideCustomizationContent();
+}
+
+/**
+ * Hide customization content area and show category cards
+ */
+function hideCustomizationContent() {
+  const contentArea = document.getElementById('customize-content');
+  const actionsArea = document.getElementById('customize-actions');
+  
+  if (contentArea) contentArea.style.display = 'none';
+  if (actionsArea) actionsArea.style.display = 'none';
+}
+
+/**
+ * Show customization content area
+ */
+function showCustomizationContent() {
+  const contentArea = document.getElementById('customize-content');
+  const actionsArea = document.getElementById('customize-actions');
+  
+  if (contentArea) contentArea.style.display = 'block';
+  if (actionsArea) actionsArea.style.display = 'flex';
+}
+
+/**
+ * Show Color Customization
+ */
+function showColorCustomization() {
+  const contentArea = document.getElementById('customize-content');
+  if (!contentArea || !window.accountManager) return;
+  
+  const customization = window.accountManager.getCustomization('theme') || {};
+  
+  contentArea.innerHTML = `
+    <h4 style="margin: 0 0 1rem 0; color: var(--accent-green);">Color Customization</h4>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">
+      Customize the primary accent colors used throughout your journal.
+    </p>
+    
+    <div style="display: grid; gap: 1rem;">
+      <div>
+        <label for="custom-primary-color" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+          Primary Color (Accent Green)
+        </label>
+        <input type="color" id="custom-primary-color" value="${customization.primaryColor || '#00ff88'}" 
+               aria-label="Primary color (Accent Green) picker"
+               style="width: 100%; height: 50px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; background: var(--bg-secondary);">
+      </div>
+      
+      <div>
+        <label for="custom-accent-color" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+          Accent Color (Yellow)
+        </label>
+        <input type="color" id="custom-accent-color" value="${customization.accentColor || '#ffd93d'}" 
+               aria-label="Accent color (Yellow) picker"
+               style="width: 100%; height: 50px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; background: var(--bg-secondary);">
+      </div>
+    </div>
+  `;
+  
+  showCustomizationContent();
+}
+
+/**
+ * Show Theme Customization
+ */
+function showThemeCustomization() {
+  const contentArea = document.getElementById('customize-content');
+  if (!contentArea) return;
+  
+  contentArea.innerHTML = `
+    <h4 style="margin: 0 0 1rem 0; color: var(--accent-green);">Theme Customization</h4>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">
+      Theme options coming soon. Stay tuned for light/dark mode toggles and glass effect controls.
+    </p>
+  `;
+  
+  showCustomizationContent();
+}
+
+/**
+ * Show Preferences Customization
+ */
+function showPreferencesCustomization() {
+  const contentArea = document.getElementById('customize-content');
+  if (!contentArea || !window.accountManager) return;
+  
+  const preferences = window.accountManager.getCustomization('preferences') || {};
+  
+  contentArea.innerHTML = `
+    <h4 style="margin: 0 0 1rem 0; color: var(--accent-green);">Preferences</h4>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.875rem;">
+      Customize date format, currency symbol, and timezone settings.
+    </p>
+    
+    <div style="display: grid; gap: 1rem;">
+      <div>
+        <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+          Date Format
+        </label>
+        <select id="custom-date-format" style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono);">
+          <option value="MM/DD/YYYY" ${preferences.dateFormat === 'MM/DD/YYYY' ? 'selected' : ''}>MM/DD/YYYY (US)</option>
+          <option value="DD/MM/YYYY" ${preferences.dateFormat === 'DD/MM/YYYY' ? 'selected' : ''}>DD/MM/YYYY (European)</option>
+          <option value="YYYY-MM-DD" ${preferences.dateFormat === 'YYYY-MM-DD' ? 'selected' : ''}>YYYY-MM-DD (ISO)</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="custom-currency-symbol" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+          Currency Symbol
+        </label>
+        <input type="text" id="custom-currency-symbol" maxlength="3" value="${preferences.currencySymbol || '$'}" 
+               pattern="^([A-Z]{3}|[€£¥₹$¢])$" 
+               title="Enter a 3-letter currency code (e.g., USD, EUR, GBP) or a symbol like $, €, £, ¥, ₹, ¢"
+               style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono);" 
+               placeholder="$"
+               oninput="if(/^[A-Za-z]+$/.test(this.value)) this.value = this.value.toUpperCase().slice(0, 3)">
+      </div>
+      
+      <div>
+        <label for="custom-timezone" style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+          Timezone
+        </label>
+        <select id="custom-timezone"
+                style="width: 100%; padding: 0.75rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-primary); font-family: var(--font-mono);">
+          <option value="America/New_York" ${(!preferences.timezone || preferences.timezone === 'America/New_York') ? 'selected' : ''}>America/New_York (Eastern)</option>
+          <option value="America/Chicago" ${preferences.timezone === 'America/Chicago' ? 'selected' : ''}>America/Chicago (Central)</option>
+          <option value="America/Denver" ${preferences.timezone === 'America/Denver' ? 'selected' : ''}>America/Denver (Mountain)</option>
+          <option value="America/Los_Angeles" ${preferences.timezone === 'America/Los_Angeles' ? 'selected' : ''}>America/Los_Angeles (Pacific)</option>
+          <option value="Europe/London" ${preferences.timezone === 'Europe/London' ? 'selected' : ''}>Europe/London</option>
+          <option value="Europe/Berlin" ${preferences.timezone === 'Europe/Berlin' ? 'selected' : ''}>Europe/Berlin</option>
+          <option value="Europe/Paris" ${preferences.timezone === 'Europe/Paris' ? 'selected' : ''}>Europe/Paris</option>
+          <option value="Asia/Tokyo" ${preferences.timezone === 'Asia/Tokyo' ? 'selected' : ''}>Asia/Tokyo</option>
+          <option value="Asia/Shanghai" ${preferences.timezone === 'Asia/Shanghai' ? 'selected' : ''}>Asia/Shanghai</option>
+          <option value="Asia/Hong_Kong" ${preferences.timezone === 'Asia/Hong_Kong' ? 'selected' : ''}>Asia/Hong_Kong</option>
+          <option value="Asia/Singapore" ${preferences.timezone === 'Asia/Singapore' ? 'selected' : ''}>Asia/Singapore</option>
+          <option value="Asia/Kolkata" ${preferences.timezone === 'Asia/Kolkata' ? 'selected' : ''}>Asia/Kolkata</option>
+          <option value="Australia/Sydney" ${preferences.timezone === 'Australia/Sydney' ? 'selected' : ''}>Australia/Sydney</option>
+          <option value="UTC" ${preferences.timezone === 'UTC' ? 'selected' : ''}>UTC</option>
+        </select>
+      </div>
+    </div>
+  `;
+  
+  showCustomizationContent();
+}
+
+/**
+ * Apply customization changes for the currently visible customization view.
+ *
+ * This function inspects the presence of specific input elements in the
+ * customization modal to infer which type(s) of customization are active:
+ * - If both `#custom-primary-color` and `#custom-accent-color` are present,
+ *   it treats the view as theme customization and updates
+ *   `theme.primaryColor` and `theme.accentColor`.
+ * - If any of `#custom-date-format`, `#custom-currency-symbol`, or
+ *   `#custom-timezone` are present, it treats the view as preferences
+ *   customization and updates the corresponding `preferences.*` keys.
+ *
+ * All updates are performed through `window.accountManager.setCustomization`.
+ * A cumulative `success` flag tracks whether every attempted update
+ * succeeds. On overall success, a success notification is shown and the
+ * customize modal is closed; on failure, an error notification is shown.
+ * If `window.accountManager` is not available, an error notification is
+ * shown and no changes are attempted.
+ *
+ * @returns {void} This function does not return a value; it performs side
+ *   effects by updating account customizations and showing notifications.
+ */
+function applyCustomization() {
+  if (!window.accountManager) {
+    showNotification('Error', 'Account manager not available', 'error');
+    return;
+  }
+  
+  // Determine which customization is active and apply changes
+  const primaryColorInput = document.getElementById('custom-primary-color');
+  const accentColorInput = document.getElementById('custom-accent-color');
+  const dateFormatInput = document.getElementById('custom-date-format');
+  const currencySymbolInput = document.getElementById('custom-currency-symbol');
+  const timezoneInput = document.getElementById('custom-timezone');
+  
+  let success = true;
+  const invalidFields = [];
+  
+  // Apply color customizations
+  if (primaryColorInput && accentColorInput) {
+    const resultPrimary = window.accountManager.setCustomization('theme.primaryColor', primaryColorInput.value);
+    const resultAccent = window.accountManager.setCustomization('theme.accentColor', accentColorInput.value);
+    
+    if (!resultPrimary) {
+      invalidFields.push('Primary color');
+    }
+    if (!resultAccent) {
+      invalidFields.push('Accent color');
+    }
+    
+    success = resultPrimary && resultAccent && success;
+  }
+  
+  // Apply preference customizations
+  if (dateFormatInput) {
+    const resultDateFormat = window.accountManager.setCustomization('preferences.dateFormat', dateFormatInput.value);
+    if (!resultDateFormat) {
+      invalidFields.push('Date format');
+    }
+    success = resultDateFormat && success;
+  }
+  if (currencySymbolInput) {
+    const resultCurrencySymbol = window.accountManager.setCustomization('preferences.currencySymbol', currencySymbolInput.value);
+    if (!resultCurrencySymbol) {
+      invalidFields.push('Currency symbol');
+    }
+    success = resultCurrencySymbol && success;
+  }
+  if (timezoneInput) {
+    const resultTimezone = window.accountManager.setCustomization('preferences.timezone', timezoneInput.value);
+    if (!resultTimezone) {
+      invalidFields.push('Timezone');
+    }
+    success = resultTimezone && success;
+  }
+  
+  if (success) {
+    showNotification('Customization Applied', 'Your changes have been saved successfully!', 'success');
+    closeCustomizeModal();
+  } else {
+    let message = 'Some customization values are invalid. Please check your inputs.';
+    if (invalidFields.length > 0) {
+      message = 'The following customization fields are invalid: ' + invalidFields.join(', ') + '. Please review these values.';
+    }
+    showNotification('Validation Error', message, 'error');
+  }
+}
+
+/**
+ * Cancel Customization Changes
+ */
+function cancelCustomization() {
+  closeCustomizeModal();
+}
+
+/**
+ * Reset Customization to Defaults
+ */
+function resetCustomization() {
+  if (!window.accountManager) return;
+
+  if (!confirm('Are you sure you want to reset all customizations to default values?')) {
+    return;
+  }
+
+  // Get default customization from accountManager instead of hardcoding
+  const defaultCustomization = window.accountManager._getDefaultCustomization();
+
+  let success = true;
+
+  // Apply theme defaults
+  if (defaultCustomization && defaultCustomization.theme) {
+    if (typeof defaultCustomization.theme.primaryColor !== 'undefined') {
+      success = window.accountManager.setCustomization('theme.primaryColor', defaultCustomization.theme.primaryColor) && success;
+    }
+    if (typeof defaultCustomization.theme.accentColor !== 'undefined') {
+      success = window.accountManager.setCustomization('theme.accentColor', defaultCustomization.theme.accentColor) && success;
+    }
+  }
+
+  // Apply preference defaults
+  if (defaultCustomization && defaultCustomization.preferences) {
+    if (typeof defaultCustomization.preferences.dateFormat !== 'undefined') {
+      success = window.accountManager.setCustomization('preferences.dateFormat', defaultCustomization.preferences.dateFormat) && success;
+    }
+    if (typeof defaultCustomization.preferences.currencySymbol !== 'undefined') {
+      success = window.accountManager.setCustomization('preferences.currencySymbol', defaultCustomization.preferences.currencySymbol) && success;
+    }
+    if (typeof defaultCustomization.preferences.timezone !== 'undefined') {
+      success = window.accountManager.setCustomization('preferences.timezone', defaultCustomization.preferences.timezone) && success;
+    }
+  }
+  if (success) {
+    showNotification('Reset Complete', 'Customizations have been reset to default values.', 'success');
+    closeCustomizeModal();
+  } else {
+    showNotification('Reset Failed', 'Failed to reset customizations.', 'error');
   }
 }

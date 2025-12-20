@@ -82,6 +82,7 @@ class Navbar {
           <ul id="auth-dropdown-menu" class="auth-dropdown-menu" role="menu">
             <li><button class="auth-dropdown-option" data-action="auth" id="auth-git-action">Git.Auth</button></li>
             <li><button class="auth-dropdown-option" data-action="refresh">Re-Fresh</button></li>
+            <li><button class="auth-dropdown-option" data-action="customize">Customize</button></li>
           </ul>
         </div>
       </li>
@@ -278,6 +279,8 @@ class Navbar {
           this.handleAuthAction();
         } else if (action === 'refresh') {
           this.handleRefreshAction();
+        } else if (action === 'customize') {
+          this.handleCustomizeAction();
         }
       });
     });
@@ -338,6 +341,18 @@ class Navbar {
     } else {
       // No service worker, just reload
       window.location.reload(true);
+    }
+  }
+  
+  /**
+   * Handle customize action
+   */
+  handleCustomizeAction() {
+    // Open customization modal
+    if (typeof openCustomizeModal !== 'undefined') {
+      openCustomizeModal();
+    } else {
+      console.error('openCustomizeModal function not available');
     }
   }
 }

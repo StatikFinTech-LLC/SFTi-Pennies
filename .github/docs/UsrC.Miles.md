@@ -1,511 +1,483 @@
-# 🚀 Feature Request: User Customization System
+# 🎨 User Customization System v1.0
 
-## Purpose
+## Overview
 
-Enable users to customize their trading journal interface through an in-app customization system, improving user experience and personalization without requiring code changes.
+Implement a comprehensive, user-facing customization system that empowers traders to personalize their trading journal interface without touching code. This feature transforms the application from a one-size-fits-all tool into a tailored experience that adapts to individual preferences and workflows.
+
+## Why This Matters
+
+- **User Engagement**: Personalized interfaces increase user satisfaction and time spent in the app
+- **Accessibility**: Different users have different visual needs (light/dark themes, contrast levels)
+- **Branding**: Users can make the journal feel like “theirs” with custom colors and messages
+- **Professionalism**: Customization options are expected in modern web applications
+
+## Core Capabilities
+
+### 🎨 Color Schemes & Themes
+
+**What users can customize**:
+
+- Primary accent colors (buttons, links, highlights)
+- Glass effect tint and glow colors
+- Chart color palettes
+- Light/Dark/Auto mode toggle
+- Glass opacity levels (0.05 - 0.30)
+- Animation intensity (None, Low, Medium, High)
+- Font size adjustments (Small, Medium, Large)
+- Border radius preferences (Sharp, Rounded, Fully Rounded)
+
+**Technical approach**:
+
+- CSS custom properties (variables) for dynamic theming
+- Preset color schemes: Ocean Blue, Sunset Orange, Forest Green, Royal Purple, Midnight Dark
+- Real-time preview with live updates as users adjust settings
+- Validation to ensure WCAG AA contrast standards
+
+### 🖼️ Background Selections
+
+**What users can customize**:
+
+- Choose from 15+ professionally curated backgrounds
+- Nebula themes (5 variants)
+- Abstract patterns (5 variants)
+- Gradient collections (5 variants)
+- Solid color backgrounds
+- Blur intensity slider (0-10px)
+- Parallax effect toggle
+- Custom background upload (future: Phase 3)
+
+**Technical approach**:
+
+- Lazy-loading for optimal performance
+- Thumbnail previews (under 50KB each)
+- Full backgrounds optimized to ~300-500KB
+- `assets/themes/` directory with organized structure
+- `themes.json` metadata file for easy expansion
+
+### 💬 Top Page Messages
+
+**What users can customize**:
+
+- Personalized welcome messages for each page
+- Character limit: 100 characters per message
+- Individual page customization for:
+  - index.html (main dashboard)
+  - add-trade.html, add-note.html, add-pdf.html
+  - all-trades.html, all-weeks.html
+  - analytics.html, books.html
+  - notes.html, review.html, import.html
+
+**Examples**:
+
+- Default: “Welcome to Your Trading Journal”
+- Custom: “Let’s crush it today, [Name]!” or “Time to review and improve”
+- Context-aware: Different messages for different times of day (future enhancement)
+
+**Technical approach**:
+
+- Data attributes on HTML elements for easy targeting
+- Inline editing interface with live preview
+- Reset to defaults option per page or all at once
+- Stored in `account-config.json` under `topMessages` object
+
+### ⚙️ UI Preferences
+
+**What users can customize**:
+
+- Default view mode (grid vs list for various pages)
+- Notification preferences
+- Sidebar collapsed/expanded default state (future)
+- Quick action button visibility (future)
+- Keyboard shortcut customization (future)
+
+## Full Specification
+
+📖 **Complete documentation**: [UsrC.Miles.md](https://github.com/statikfintechllc/blob/master/.github/docs/UsrC.Miles.md)
+
+This document includes:
+
+- Detailed technical requirements
+- User flow diagrams
+- File modification checklist
+- Code examples and snippets
+- Testing criteria
+- Future enhancement roadmap
 
 -----
 
-## User Flow
+## 🎯 Phase Breakdown
 
-1. **Entry Point**: User clicks Account Bubble → “Customize” option appears in dropdown
-1. **Category Selection**: Customize button opens Modal with category cards (Color, Theme, Background, Top Messages)
-1. **Customization Interface**: Clicking a category card navigates to `customization.html` with dynamic content for selected category
-1. **Application**: User makes changes → Preview updates live → “Apply” button → Changes persist to `account-config.json` and reflect across all pages immediately
+### ✅ Phase 1: Core Functionality & Persistence (Week 1)
+
+**Goal**: Establish foundation for customization system
+
+**Tasks**:
+
+1. Create `account-config.json` structure with customization schema
+1. Implement persistence layer in `accountManager.js`:
+- `getCustomization(key)` - retrieve settings
+- `setCustomization(key, value)` - save settings
+- `resetCustomization(key)` - restore defaults
+- Validation and error handling
+1. Set up CSS custom properties system in `main.css`
+1. Create basic customization modal UI
+1. Build `customization.html` page skeleton with routing
+1. Implement Top Messages customization (simplest feature to validate system)
+
+**Success Criteria**:
+
+- ✓ Settings persist across browser sessions
+- ✓ Changes apply immediately without page reload
+- ✓ At least one customization category (Top Messages) fully working
+- ✓ No breaking changes to existing functionality
+
+**Estimated Effort**: 15-20 hours
+
+### ✅ Phase 2: Visual Customization (Week 2)
+
+**Goal**: Implement color, theme, and visual preference controls
+
+**Tasks**:
+
+1. Build Color Schemes customization:
+- Color pickers for primary, accent, and glow colors
+- 5 preset color schemes with one-click application
+- Live preview of color changes on mock components
+1. Implement Theme controls:
+- Light/Dark/Auto mode toggle
+- Glass opacity slider with live preview
+- Animation intensity selector
+- Font size and border radius options
+1. Create comprehensive live preview system:
+- Real-time updates as users adjust settings
+- Preview panel showing changes before applying
+- Side-by-side comparison option (current vs new)
+1. Add Apply, Cancel, and Reset to Defaults buttons
+1. Mobile-responsive customization interface
+
+**Success Criteria**:
+
+- ✓ All color/theme changes visible in real-time preview
+- ✓ Preset themes apply correctly with one click
+- ✓ Mobile interface fully functional and touch-friendly
+- ✓ Performance: Preview updates < 50ms
+
+**Estimated Effort**: 20-25 hours
+
+### ✅ Phase 3: Advanced Features (Week 3)
+
+**Goal**: Complete background system and polish experience
+
+**Tasks**:
+
+1. Create `assets/themes/` directory structure:
+- `/backgrounds/` - full-size images
+- `/previews/` - thumbnail images
+- `themes.json` - metadata and configuration
+1. Source and optimize 15+ background images:
+- Generate thumbnails (200x150px, <50KB each)
+- Optimize full images (~300-500KB each)
+- Create organized naming convention
+1. Build background selection UI:
+- Grid view with thumbnail previews
+- Hover zoom effect
+- Category filtering (Nebula, Abstract, Gradient, Solid)
+- Selected state indicator
+1. Implement background effects:
+- Blur intensity slider
+- Parallax scroll toggle
+- Background position/size options
+1. Add preset theme bundles:
+- “Professional” preset (dark theme, minimal animations, solid background)
+- “Creative” preset (bright colors, high animations, abstract background)
+- “Minimal” preset (light theme, no animations, gradient background)
+1. Polish and optimization:
+- Loading states and spinners
+- Error handling and user feedback
+- Accessibility audit (keyboard navigation, screen readers)
+- Performance optimization (lazy loading, caching)
+
+**Success Criteria**:
+
+- ✓ All 15+ backgrounds available and loading efficiently
+- ✓ Background changes apply instantly
+- ✓ Preset theme bundles work end-to-end
+- ✓ Passes accessibility audit (WCAG AA)
+- ✓ No performance degradation on low-end devices
+
+**Estimated Effort**: 25-30 hours
+
+### ✅ Phase 4: Natural Language Customization (Week 4)
+
+**Goal**: Enable non-technical users to customize via natural language prompts
+
+**Tasks**:
+
+1. Create keyword dictionary system:
+- Define 50+ keywords across categories (theme, color, background, intensity)
+- Map synonyms and variations
+- Create preset theme definitions (professional, energetic, zen, cosmic)
+- Add modifier keywords (more, less, very)
+1. Build NLP parser:
+- Tokenize and parse user input
+- Match keywords against dictionary
+- Handle multi-word phrases (“ocean blue”, “space theme”)
+- Implement confidence scoring (0-100%)
+- Return structured customization object
+1. Create NLP UI interface:
+- Add “Quick Customize” section to customization page
+- Text input with example prompts
+- Interpretation display showing detected changes
+- Confidence scores for each change
+- Preview of changes before applying
+1. Add smart suggestions:
+- Suggest alternatives for ambiguous input
+- Show multiple interpretations if confidence is low
+- Allow user to select correct interpretation
+1. Implement prompt history:
+- Store last 5 prompts in localStorage
+- Display as clickable chips for quick re-use
+- Clear history option
+1. Create help system:
+- Help modal with keyword categories
+- Example prompts with “Try It” buttons
+- Tips for best results
+1. Integration and testing:
+- Connect parser to accountManager
+- Apply changes to preview system
+- Persist selections to account-config.json
+- Mobile-responsive design
+
+**Success Criteria**:
+
+- ✓ 80% of prompts correctly interpreted (confidence > 80%)
+- ✓ Non-technical users can customize without documentation
+- ✓ Interpretation display is clear and accurate
+- ✓ Suggestions help resolve ambiguous prompts
+- ✓ Changes persist and apply correctly
+- ✓ Mobile experience is smooth
+- ✓ Parser processes prompts in < 50ms
+- ✓ No external NLP dependencies
+
+**Example Prompts that Should Work**:
+
+- “make it dark with blue accents” → dark theme + blue colors
+- “I want a space background” → nebula background
+- “professional look” → professional preset
+- “more vibrant” → increase animation intensity + color saturation
+- “zen theme with green colors” → light theme + green + calm animations
+
+**Estimated Effort**: 22-27 hours
 
 -----
 
-## Technical Requirements
+## 📦 Deliverables
 
-### Account Bubble Enhancement
+### New Files Created
 
-**Files**: `glowing-bubbles.js`, `glowing-bubbles.css`
+- ✅ `customization.html` - Main customization interface page
+- ✅ `assets/js/customization.js` - Customization page logic (8-10KB)
+- ✅ `assets/css/customization.css` - Customization page styles (5-7KB)
+- ✅ `assets/themes/themes.json` - Background and theme metadata (3-5KB)
+- ✅ `assets/themes/backgrounds/` - 15+ full-size background images (~5MB total)
+- ✅ `assets/themes/previews/` - Thumbnail images (~500KB total)
 
-- Add click handler to existing account bubble component
-- Display “Customize” option in dropdown/menu (new menu item)
-- Trigger customization modal on click
-- Add icon/visual indicator for customization option
+### Modified Files
 
-### New Customization Modal
+**HTML** (add data attributes for customizable elements):
 
-**Files**: `modals.js`, `modals.css`
+- `index.html`
+- `add-note.html`, `add-pdf.html`, `add-trade.html`
+- `all-trades.html`, `all-weeks.html`
+- `analytics.html`, `books.html`
+- `import.html`, `notes.html`, `review.html`
 
-**Modal Features**:
+**JavaScript** (add customization logic):
 
-- Card-based category selection with icons
-- Toggle between grid/list layout views
-- Maintain consistent liquid glass theme styling
-- Smooth transitions and animations
-- Close button and backdrop click-to-close
+- `glowing-bubbles.js` - Add “Customize” option to account bubble
+- `modals.js` - New customization category modal
+- `app.js` - Load and apply customizations on page init
+- `accountManager.js` - Persistence methods for settings
+- `background.js` - Enhanced background switching
 
-**Categories to Display**:
+**CSS** (add custom properties and themes):
 
+- `main.css` - CSS variables for all customizable properties
+- `glowing-bubbles.css` - Support dynamic glow colors
+- `modals.css` - Customization modal styles
+
+**Configuration**:
+
+- `account-config.json` - New `customization` object structure
+
+### Documentation
+
+- ✅ Updated README with customization feature overview
+- ✅ User guide: How to customize your trading journal
+- ✅ Developer docs: Adding new customization options
+- ✅ Troubleshooting guide for common issues
+
+-----
+
+## 🎨 User Experience Flow
+
+### Discovery
+
+1. User logs into trading journal
+1. Clicks on **Account Bubble** (top-right corner)
+1. Sees new **“Customize”** option with ⚙️ icon
+
+### Customization
+
+1. Clicks **“Customize”** → Modal opens showing category cards:
 - 🎨 Color Schemes
 - 🌈 Themes
 - 🖼️ Backgrounds
 - 💬 Top Messages
-- ⚙️ Advanced (future expansion)
+1. Selects a category → Navigates to `customization.html?category=color`
+1. **Sidebar** shows controls, **Preview Panel** shows live changes
+1. Adjusts settings → Sees real-time preview
+1. Clicks **“Apply”** → Changes save and apply across all pages immediately
 
-### Dynamic Customization Page
+### Persistence
 
-**New File**: `customization.html`
-
-**Functionality**:
-
-- Load content dynamically based on selected category (URL param: `?category=color`)
-- Live preview panel showing changes in real-time
-- Category-specific controls and options
-- “Apply”, “Cancel”, and “Reset to Default” buttons
-- Breadcrumb navigation back to category selection
-- Maintain state when switching between options
-
-**Structure**:
-
-```html
-<div class="customization-container">
-  <div class="customization-sidebar">
-    <!-- Category-specific controls -->
-  </div>
-  <div class="customization-preview">
-    <!-- Live preview of changes -->
-  </div>
-  <div class="customization-actions">
-    <!-- Apply, Cancel, Reset buttons -->
-  </div>
-</div>
-```
-
-### Persistence Layer
-
-**Files**: `app.js`, `accountManager.js`, `account-config.json`
-
-**Requirements**:
-
-- Store all user preferences in `account-config.json`
-- Load and apply preferences on every page load
-- Provide API for getting/setting individual preferences
-- Handle migration if config structure changes
-- Validate user input before saving
-
-**Config Structure**:
-
-```json
-{
-  "userId": "user123",
-  "customization": {
-    "colorScheme": {
-      "primary": "#6366f1",
-      "accent": "#8b5cf6",
-      "glowColor": "#a855f7"
-    },
-    "theme": {
-      "mode": "dark",
-      "glassOpacity": 0.15,
-      "animationIntensity": "medium"
-    },
-    "background": {
-      "selected": "nebula-01",
-      "customUrl": null
-    },
-    "topMessages": {
-      "index.html": "Welcome back, Trader!",
-      "all-trades.html": "Your Trading History",
-      "analytics.html": "Performance Analytics"
-    }
-  }
-}
-```
+1. User navigates to different pages → Customizations persist
+1. User closes browser and returns later → Settings still applied
+1. User clicks **“Reset to Defaults”** anytime → Restores original appearance
 
 -----
 
-## Customization Categories (Detailed)
+## 🧪 Testing & Quality Assurance
 
-### 1. Color Schemes
+### Functional Testing
 
-**Customizable Elements**:
+- [ ] All customization categories load correctly
+- [ ] Changes persist after page refresh
+- [ ] Changes persist after browser close/reopen
+- [ ] Reset to defaults works for each category
+- [ ] Apply button saves changes to `account-config.json`
+- [ ] Cancel button discards unsaved changes
+- [ ] Live preview updates in real-time
+- [ ] No console errors during normal operation
+- [ ] Graceful error handling if config file corrupted
 
-- Primary accent color (buttons, links, highlights)
-- Glass effect tint color
-- Glow bubble colors (account, navigation)
-- Chart color palette
-- Success/Error/Warning colors
+### Cross-Browser Testing
 
-**UI Controls**:
+- [ ] Chrome/Edge (latest)
+- [ ] Firefox (latest)
+- [ ] Safari (latest)
+- [ ] Mobile Chrome (iOS & Android)
+- [ ] Mobile Safari (iOS)
 
-- Color pickers for each element
-- Preset color scheme buttons (e.g., “Ocean Blue”, “Sunset Orange”, “Forest Green”)
-- Live preview of color changes on mock components
+### Responsive Testing
 
-### 2. Themes
+- [ ] Desktop (1920x1080, 1366x768)
+- [ ] Laptop (1440x900, 1280x800)
+- [ ] Tablet (iPad: 1024x768, 768x1024)
+- [ ] Mobile (375x667, 414x896, 360x640)
 
-**Options**:
+### Performance Testing
 
-- Light/Dark/Auto mode toggle
-- Glass effect opacity slider (0.05 - 0.30)
-- Animation intensity: None, Low, Medium, High
-- Font size adjustment: Small, Medium, Large
-- Border radius preference: Sharp, Rounded, Fully Rounded
+- [ ] Page load time increase: < 100ms
+- [ ] Customization modal open time: < 200ms
+- [ ] Preview update latency: < 50ms
+- [ ] Background image load time: < 1s (3G connection)
+- [ ] Config file read/write: < 50ms
 
-### 3. Backgrounds
+### Accessibility Testing
 
-**Features**:
-
-- Grid of predefined background themes with thumbnails
-- Each thumbnail shows preview of background
-- Upload custom background option (validate file size/type)
-- Blur intensity slider for backgrounds
-- Parallax effect toggle
-
-**Predefined Backgrounds to Include**:
-
-- `nebula-01.jpg` through `nebula-05.jpg`
-- `abstract-01.jpg` through `abstract-05.jpg`
-- `gradient-01.jpg` through `gradient-05.jpg`
-- Solid color backgrounds
-
-### 4. Top Messages
-
-**Functionality**:
-
-- List of all pages with current top message displayed
-- Click to edit inline or in text field
-- Character limit: 100 characters per message
-- Reset individual message or all messages to defaults
-- Preview how message appears on actual page
-
-**Default Messages**:
-
-```javascript
-{
-  "index.html": "Welcome to Your Trading Journal",
-  "add-trade.html": "Log Your Trade",
-  "all-trades.html": "All Trades",
-  "all-weeks.html": "Weekly Overview",
-  "analytics.html": "Analytics Dashboard",
-  "books.html": "Trading Library",
-  "notes.html": "Trade Notes",
-  "review.html": "Review Your Performance"
-}
-```
+- [ ] All controls keyboard navigable (Tab, Enter, Esc)
+- [ ] Focus indicators visible and clear
+- [ ] Screen reader compatible (NVDA, JAWS)
+- [ ] Color contrast meets WCAG AA (4.5:1 minimum)
+- [ ] No flashing/strobing content (seizure risk)
+- [ ] Alt text for all images
 
 -----
 
-## File Modifications Needed
+## 📊 Success Metrics
 
-### HTML Files
+### User Adoption
 
-**All Pages** (`index.html`, `add-note.html`, `add-pdf.html`, etc.):
+- **Target**: 60% of active users customize at least one setting within first week
+- **Measurement**: Track customization modal opens and apply button clicks
 
-- Add `data-customizable="true"` to elements that can be customized
-- Add `data-custom-type="topMessage"` to top message elements
-- Add `data-custom-key="pageName"` for identifying which customization applies
-- Ensure consistent class names for styled elements
+### Feature Usage
 
-**Example**:
-
-```html
-<h1 class="page-title" data-customizable="true" data-custom-type="topMessage" data-custom-key="index">
-  Welcome to Your Trading Journal
-</h1>
-```
-
-### JavaScript Files
-
-**`glowing-bubbles.js`**:
-
-- Add “Customize” button/option to account bubble dropdown
-- Import and call customization modal trigger
-- Add event listener for customize action
-
-**`modals.js`**:
-
-- Create `showCustomizationModal()` function
-- Render category cards dynamically
-- Handle card click → navigate to `customization.html?category=X`
-- Add grid/list view toggle functionality
-
-**`app.js`**:
-
-- Load customizations on page init (before DOM ready)
-- Apply color scheme CSS variables
-- Apply theme settings
-- Apply background selection
-- Update top messages
-- Export `applyCustomizations()` function
-
-**`accountManager.js`**:
-
-- Add `getCustomization(key)` method
-- Add `setCustomization(key, value)` method
-- Add `resetCustomization(key)` method (restore defaults)
-- Add `saveCustomizations()` method (write to account-config.json)
-- Add validation for customization values
-
-**`background.js`**:
-
-- Extend to support user-selected backgrounds
-- Add `setCustomBackground(backgroundId)` function
-- Handle custom uploaded backgrounds
-- Apply blur/parallax effects based on settings
-
-**New File: `customization.js`**:
-
-- Handle all customization page logic
-- Load category-specific UI based on URL param
-- Implement live preview functionality
-- Handle Apply/Cancel/Reset actions
-- Communicate with accountManager for persistence
-
-### CSS Files
-
-**`modals.css`**:
-
-- Style for customization category modal
-- Card grid and list layouts
-- Hover effects and transitions
-- Responsive breakpoints
-
-**`glowing-effects.css`**:
-
-- Support for CSS custom properties (variables) for colors
-- Dynamic class generation for different glow colors
-- Ensure effects work with user-selected colors
-
-**`main.css`**:
-
-- Add CSS custom properties for all customizable colors:
-
-```css
-:root {
-  --color-primary: #6366f1;
-  --color-accent: #8b5cf6;
-  --color-glow: #a855f7;
-  --glass-opacity: 0.15;
-  --border-radius: 0.75rem;
-  /* etc. */
-}
-```
-
-- Update all color references to use variables
-- Add theme-specific classes (`.theme-light`, `.theme-dark`)
-
-**New File: `customization.css`**:
-
-- Styles for `customization.html`
-- Sidebar and preview panel layouts
-- Control styles (sliders, color pickers, toggles)
-- Preview component styles
-- Action button styles
-
-### New Files to Create
-
-**`customization.html`**:
-
-- Main customization interface
-- Dynamic content loading area
-- Sidebar for controls
-- Preview panel
-- Action buttons
-
-**`assets/js/customization.js`**:
-
-- Core customization logic
-- Category rendering
-- Preview updates
-- State management
-
-**`assets/css/customization.css`**:
-
-- Customization page styles
-
-**`assets/themes/`** (new directory):
-
-- `previews/`: Thumbnail images for each background
-- `backgrounds/`: Full-size background images
-- `themes.json`: Metadata for all themes
-
-**Example `themes.json`**:
-
-```json
-{
-  "backgrounds": [
-    {
-      "id": "nebula-01",
-      "name": "Purple Nebula",
-      "thumbnail": "previews/nebula-01-thumb.jpg",
-      "full": "backgrounds/nebula-01.jpg",
-      "defaultBlur": 2
-    }
-  ]
-}
-```
-
------
-
-## Implementation Priority
-
-### Phase 1 (Core Functionality)
-
-1. Set up `account-config.json` structure
-1. Implement persistence layer in `accountManager.js`
-1. Create basic customization modal in `modals.js`
-1. Build `customization.html` skeleton
-1. Implement “Top Messages” customization (simplest)
-
-### Phase 2 (Visual Customization)
-
-1. Implement CSS custom properties system
-1. Add Color Schemes customization
-1. Add Theme mode and opacity controls
-1. Create live preview functionality
-
-### Phase 3 (Advanced Features)
-
-1. Implement Background selection system
-1. Add preset themes
-1. Create thumbnail generation for backgrounds
-1. Add import/export (future enhancement)
-
------
-
-## Constraints & Requirements
-
-### Must Have
-
-- ✅ Work across all existing HTML pages without breaking current functionality
-- ✅ Changes persist across browser sessions (stored in account-config.json)
-- ✅ Mobile-responsive customization interface
-- ✅ No external dependencies beyond existing stack
-- ✅ Maintain liquid glass aesthetic throughout
-- ✅ Graceful fallback if customization fails to load
+- **Most Popular**: Predict Dark/Light theme toggle (80%+ usage)
+- **Second**: Background selection (50%+ usage)
+- **Third**: Color schemes (30%+ usage)
 
 ### Performance
 
-- Customization load time: < 100ms
-- Preview updates: Real-time (no lag)
-- File size: Background images < 500KB each
-- Config file size: < 50KB
+- **Zero**: Performance regressions on page load times
+- **< 50ms**: Preview update latency
+- **< 1s**: Full customization page load
 
-### Accessibility
+### User Satisfaction
 
-- All controls keyboard navigable
-- Color contrast meets WCAG AA standards
-- Screen reader compatible
-- Focus indicators visible
+- **Target**: 4.5+ stars in user feedback
+- **NPS**: Net Promoter Score improvement of +15 points
+- **Support Tickets**: < 5 customization-related issues per 1000 users
 
 -----
 
-## Testing Checklist
+## 🚀 Future Enhancements (Post-v1.0)
 
-- [ ] Customization modal opens from account bubble
-- [ ] All category cards navigate correctly
-- [ ] Color changes apply across all pages
-- [ ] Theme toggles work (light/dark/auto)
-- [ ] Background changes persist after page reload
-- [ ] Top messages update correctly on all pages
-- [ ] Reset to defaults works for each category
-- [ ] Mobile responsive on all screen sizes
-- [ ] No console errors when applying customizations
-- [ ] Config saves properly to account-config.json
-- [ ] Preview updates in real-time
-- [ ] Works with existing authentication system
+### Phase 4: Advanced Customization (Future Milestone)
 
------
+- Custom CSS injection for power users
+- Font family selection (5-10 professional fonts)
+- Custom background upload with client-side image optimization
+- Layout customization (widget positions, sidebar placement)
 
-## Nice-to-Have (Future Enhancements)
+### Phase 5: Social & Sharing (Future Milestone)
 
-- 🔄 Import/export customization profiles (JSON file)
-- 📦 Preset theme templates from community
-- 🎨 Custom CSS injection for power users
-- 📱 Sync customizations across devices
-- 🌐 Share customization presets with other users
-- 🎭 Seasonal/holiday theme auto-application
-- 📊 A/B testing different color schemes for productivity
-- 🔔 Customization suggestions based on usage patterns
+- Import/export customization profiles (JSON)
+- Share preset themes with community
+- Theme marketplace for user-created themes
+- Seasonal/holiday themes with auto-application
+
+### Phase 6: Intelligence & Automation (Future Milestone)
+
+- Customization suggestions based on usage patterns
+- A/B testing different color schemes for productivity
+- Time-based theme switching (auto dark mode at night)
+- Accessibility auto-adjustments based on user behavior
 
 -----
 
-## Expected Outcomes
+## ⚠️ Risks & Mitigations
 
-After implementation, users should be able to:
-
-1. ✨ Click account bubble → Customize → See category cards
-1. 🎨 Select “Color Schemes” → Choose colors → See live preview → Apply → See changes everywhere
-1. 🌈 Select “Themes” → Toggle dark mode → Adjust glass opacity → Apply
-1. 🖼️ Select “Backgrounds” → Browse thumbnails → Click one → See preview → Apply
-1. 💬 Select “Top Messages” → Edit message for each page → Apply
-1. 🔄 Refresh any page → See all customizations persisted
-1. ↩️ Reset any customization to default at any time
+|Risk                              |Impact                        |Mitigation                                                               |
+|----------------------------------|------------------------------|-------------------------------------------------------------------------|
+|**Config file corruption**        |High - User loses all settings|Implement validation on read/write, keep backup copy, add repair function|
+|**Browser storage limits**        |Medium - Settings may not save|Keep config under 50KB, monitor size, implement compression if needed    |
+|**Performance on low-end devices**|Medium - Slow preview updates |Debounce preview updates, lazy load backgrounds, optimize images         |
+|**Breaking existing styles**      |High - App looks broken       |Extensive testing, CSS specificity management, fallback values           |
+|**Mobile UX complexity**          |Medium - Hard to use on phone |Mobile-first design, touch-friendly controls, simplified mobile UI       |
 
 -----
 
-## Questions for Copilot
+## 📞 Support & Resources
 
-1. Should we use CSS-in-JS or CSS custom properties for dynamic styling?
-1. How should we handle custom uploaded backgrounds (storage, validation)?
-1. Should theme presets override individual settings or work alongside them?
-1. What’s the best way to handle live preview without affecting the actual page?
-1. Should we create a separate customization.js module or integrate into existing app.js?
+**Questions?** Open a discussion in the repo
+**Bug reports?** Use the bug report template
+**Feature requests?** Add to the backlog with `enhancement` label
 
 -----
 
-## Related Files Reference
+## 🏆 Definition of Done
 
-```txt
-index.directory/
-├── customization.html (NEW)
-├── account-config.json (MODIFY)
-├── assets/
-│   ├── css/
-│   │   ├── customization.css (NEW)
-│   │   ├── glowing-bubbles.css (MODIFY)
-│   │   ├── main.css (MODIFY)
-│   │   └── modals.css (MODIFY)
-│   ├── js/
-│   │   ├── customization.js (NEW)
-│   │   ├── accountManager.js (MODIFY)
-│   │   ├── app.js (MODIFY)
-│   │   ├── background.js (MODIFY)
-│   │   ├── glowing-bubbles.js (MODIFY)
-│   │   └── modals.js (MODIFY)
-│   └── themes/ (NEW DIRECTORY)
-│       ├── backgrounds/
-│       ├── previews/
-│       └── themes.json (NEW)
-└── [all existing HTML files] (MODIFY - add data attributes)
-```
+This milestone is **COMPLETE** when:
 
------
+✅ All Phase 1, 2, and 3 tasks are finished
+✅ All test cases pass (functional, cross-browser, responsive, performance, accessibility)
+✅ Code reviewed and approved by at least 1 team member
+✅ Documentation completed and published
+✅ No P0 or P1 bugs remaining
+✅ Deployed to production and verified working
+✅ User feedback collected and incorporated (if time permits)
 
-## Progress Tracking
-
-### Issue 1: Setup Customization Persistence Layer ✅ COMPLETE
-
-**Completed:**
-- ✅ Extended `account-config.json` with customization structure (theme colors and preferences)
-- ✅ Implemented `getCustomization(key)` method in `accountManager.js` (supports dot notation)
-- ✅ Implemented `setCustomization(key, value)` method in `accountManager.js` (with validation)
-- ✅ Created comprehensive validation system for customization data
-  - Color validation (hex, rgb, rgba, hsl, hsla, named colors)
-  - Date format validation (MM/DD/YYYY, DD/MM/YYYY, YYYY-MM-DD)
-  - Currency symbol validation (max 3 characters)
-  - Timezone validation
-- ✅ Added CSS custom properties application (`_applyCSSCustomProperties()`)
-- ✅ Integrated customization loading on init
-- ✅ Added EventBus integration for `customization:updated` events
-- ✅ Build passes successfully
-
-**Key Features:**
-- Dot notation support for nested keys (e.g., `theme.primaryColor`)
-- Validation before setting values
-- Graceful fallback to defaults if customization fails to load
-- Automatic CSS variable application on page load and updates
-- Backward compatibility with existing configs
-
-**Files Modified:**
-- `index.directory/account-config.json` - Added customization section
-- `index.directory/assets/js/accountManager.js` - Added getCustomization/setCustomization methods and validation
-
-**Next Steps:**
-- Issue 2: Create customization modal in `modals.js`
-- Issue 3-10: Build UI components and advanced features
+**Estimated Total Effort**: 82-102 hours (4 weeks at 20-25 hours/week)
+**Target Completion**: [Set your date 4 weeks from start]

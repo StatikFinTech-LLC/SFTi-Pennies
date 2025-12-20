@@ -276,3 +276,29 @@
 :root {
   --accent-blue: #00d4ff;
 }
+
+/* Customize Modal Specific Styles */
+.customize-category-card {
+  padding: 1.5rem;
+  background: rgba(20, 27, 51, 0.5);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.customize-category-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2);
+}
+
+.customize-category-card:focus {
+  transform: translateY(-4px);
+  border-color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.05);
+  box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2), 0 0 0 3px rgba(0, 255, 136, 0.3);
+}
