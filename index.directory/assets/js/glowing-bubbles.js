@@ -353,15 +353,22 @@
         window.location.reload(true);
       }
     } else if (action === 'customize') {
-      // Handle Customize action (open customization modal)
-      if (typeof openCustomizeModal !== 'undefined') {
+      // Check if customize modal exists (injected by customize-modal.js)
+      const modal = document.getElementById('customize-modal');
+      
+      if (modal && typeof openCustomizeModal === 'function') {
+        // Modal exists, use it
         openCustomizeModal();
       } else {
-        // Log error and fall back gracefully
-        console.error('Customization modal not available. Please refresh the page.');
-        // If showNotification is available, show user-friendly message
-        if (typeof showNotification !== 'undefined') {
-          showNotification('Feature Unavailable', 'Customization modal is not available. Please refresh the page.', 'error');
+        // Fallback: navigate to customization.html page
+        const pathParts = window.location.pathname.split('/').filter(part => part !== '');
+        const inIndexDirectory = pathParts.includes('index.directory');
+        
+        if (inIndexDirectory) {
+          window.location.href = 'customization.html?category=colors';
+        } else {
+          const rootPath = basePath ? basePath.replace(/\/$/, '') : '';
+          window.location.href = `${rootPath}/index.directory/customization.html?category=colors`;
         }
       }
     }

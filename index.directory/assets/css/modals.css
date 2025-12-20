@@ -251,6 +251,37 @@
   .control-group {
     padding: 1rem;
   }
+  
+  /* Mobile-friendly buttons */
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  
+  /* Action button container */
+  #customization-actions,
+  #customize-actions {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  /* Stack buttons vertically on very small screens */
+  @media (max-width: 480px) {
+    #customization-actions,
+    #customize-actions {
+      flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger {
+      width: 100%;
+      justify-content: center;
+    }
+  }
 }
 
 /* Custom Scrollbar for Modal */
@@ -301,4 +332,66 @@
   border-color: var(--accent-green);
   background: rgba(0, 255, 136, 0.05);
   box-shadow: 0 8px 24px rgba(0, 255, 136, 0.2), 0 0 0 3px rgba(0, 255, 136, 0.3);
+}
+
+/* Layout Toggle Button */
+.layout-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-left: auto;
+}
+
+.layout-toggle-btn:hover {
+  border-color: var(--accent-green);
+  color: var(--accent-green);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+/* Categories Container - Grid Layout (default) */
+.customize-categories-container[data-layout="grid"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Categories Container - List Layout */
+.customize-categories-container[data-layout="list"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.customize-categories-container[data-layout="list"] .customize-category-card {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  padding: 1rem 1.5rem;
+}
+
+.customize-categories-container[data-layout="list"] .customize-category-card img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 0;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.customize-categories-container[data-layout="list"] .customize-category-card > div:not(:first-child) {
+  flex: 1;
+}
+
+.customize-categories-container[data-layout="list"] .customize-category-card h4 {
+  margin-bottom: 0.25rem;
+}
+
+.customize-categories-container[data-layout="list"] .customize-category-card p {
+  margin: 0;
 }

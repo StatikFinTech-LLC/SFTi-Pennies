@@ -348,11 +348,23 @@ class Navbar {
    * Handle customize action
    */
   handleCustomizeAction() {
-    // Open customization modal
-    if (typeof openCustomizeModal !== 'undefined') {
+    // Check if customize modal exists (injected by customize-modal.js)
+    const modal = document.getElementById('customize-modal');
+    
+    if (modal && typeof openCustomizeModal === 'function') {
+      // Modal exists, use it
       openCustomizeModal();
     } else {
-      console.error('openCustomizeModal function not available');
+      // Fallback: navigate to customization.html page
+      const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
+      const pathParts = window.location.pathname.split('/').filter(part => part !== '');
+      const inIndexDirectory = pathParts.includes('index.directory');
+      
+      if (inIndexDirectory) {
+        window.location.href = 'customization.html?category=colors';
+      } else {
+        window.location.href = `${basePath}/index.directory/customization.html?category=colors`;
+      }
     }
   }
 }
