@@ -591,6 +591,52 @@
   border-bottom: 1px solid var(--border-color, #27272a);
 }
 
+/* ===== Page Selector ===== */
+.page-selector-container {
+  margin-bottom: 1rem;
+  padding: 0 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #27272a);
+}
+
+.page-selector-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim, #71717a);
+  margin-bottom: 0.5rem;
+}
+
+.page-selector-select {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  background: var(--bg-secondary, #0f1429);
+  border: 1px solid var(--border-color, #27272a);
+  border-radius: 6px;
+  color: var(--accent-green, #00ff88);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page-selector-select:hover {
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.page-selector-select:focus {
+  outline: none;
+  border-color: var(--accent-green, #00ff88);
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
+}
+
+.page-selector-select option {
+  background: var(--bg-secondary, #0f1429);
+  color: var(--text-primary, #e4e4e7);
+}
+
 /* ===== Enhanced Preview Components ===== */
 
 /* Preview Row Layout */
@@ -1104,6 +1150,29 @@
 
   .sidebar-subtitle {
     display: none;
+  }
+
+  .page-selector-container {
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem 0.75rem;
+  }
+
+  /* Keep label accessible to screen readers while hiding visually */
+  .page-selector-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .page-selector-select {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.625rem;
   }
 }
 

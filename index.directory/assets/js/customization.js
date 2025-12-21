@@ -36,6 +36,26 @@
     BLUR: 45
   };
 
+  // ===== CSS Variable Mapping =====
+  // Maps theme properties to CSS custom properties for live updates.
+  // Only properties listed here are applied via CSS variables; other theme
+  // settings (e.g., layout/typography options) are handled by different
+  // mechanisms and are intentionally excluded from live CSS var mapping.
+  const CSS_VAR_MAP = {
+    'primaryColor': '--accent-green',
+    'accentColor': '--accent-yellow',
+    'redColor': '--accent-red',
+    'blueColor': '--accent-blue',
+    'backgroundColor': '--bg-primary',
+    'secondaryColor': '--bg-secondary',
+    // Glassmorphism settings for live updates
+    'glassOpacity': '--glass-opacity',
+    'glassBlur': '--glass-blur'
+  };
+
+  // ===== Pages excluded from page selector =====
+  const EXCLUDED_PAGES = ['customization'];
+
   // ===== Comprehensive Category Definitions =====
   // Categories are organized by: Global (all pages) and Page-Specific
   const CATEGORIES = {
@@ -335,6 +355,27 @@
   }
 
   /**
+   * Render page selector dropdown
+   */
+  function renderPageSelector() {
+    const pageOptions = Object.entries(PAGE_NAMES)
+      .filter(([key]) => !EXCLUDED_PAGES.includes(key))
+      .map(([key, name]) => {
+        const selected = key === state.referringPage ? 'selected' : '';
+        return `<option value="${key}" ${selected}>${name}</option>`;
+      }).join('');
+
+    return `
+      <div class="page-selector-container">
+        <label for="page-selector" class="page-selector-label" id="page-selector-label">Preview for Page:</label>
+        <select id="page-selector" class="page-selector-select" aria-labelledby="page-selector-label">
+          ${pageOptions}
+        </select>
+      </div>
+    `;
+  }
+
+  /**
    * Render sidebar navigation with categories grouped by scope
    * Categories are filtered based on the referring page's available components
    */
@@ -387,7 +428,7 @@
     return `
       <aside class="customization-sidebar" role="navigation" aria-label="Customization categories">
         <h3 class="sidebar-title">Customize</h3>
-        <p class="sidebar-subtitle">Page: ${getPageDisplayName(state.referringPage)}</p>
+        ${renderPageSelector()}
         ${renderCategoryGroup(globalCategories, 'Global Styles')}
         ${renderCategoryGroup(componentCategories, 'Components')}
         ${renderCategoryGroup(preferenceCategories, 'Preferences')}
@@ -1269,6 +1310,15 @@
       btn.addEventListener('click', handleCategoryChange);
     });
 
+    // Page selector
+    const pageSelector = document.getElementById('page-selector');
+    if (pageSelector) {
+      pageSelector.addEventListener('change', handlePageChange);
+    }
+
+    // Browser back/forward navigation
+    window.addEventListener('popstate', handlePopState);
+
     // Action buttons
     const btnCancel = document.getElementById('btn-cancel');
     const btnReset = document.getElementById('btn-reset');
@@ -1280,6 +1330,72 @@
 
     // Category-specific listeners
     setupCategoryEventListeners();
+  }
+
+  /**
+   * Handle page selector change
+   */
+  function handlePageChange(e) {
+    const newPage = e.target.value;
+    if (newPage && newPage !== state.referringPage) {
+      // Defensive check: ensure the new page is a known, valid page
+      if (typeof PAGE_NAMES !== 'object' ||
+          !Object.prototype.hasOwnProperty.call(PAGE_NAMES, newPage)) {
+        // Reset the select to the current page if the value is invalid
+        e.target.value = state.referringPage;
+        return;
+      }
+
+      // Check if there are pending changes that would be lost
+      const hasPendingChanges = Object.keys(state.pendingChanges).length > 0;
+      
+      if (hasPendingChanges) {
+        const confirmChange = confirm(
+          'You have unsaved changes. Changing pages will discard these changes.\n\n' +
+          'Do you want to continue?'
+        );
+        if (!confirmChange) {
+          // Reset the select to the current page
+          e.target.value = state.referringPage;
+          return;
+        }
+      }
+      
+      state.referringPage = newPage;
+      state.pendingChanges = {};
+      
+      // Update URL without reload
+      const url = new URL(window.location);
+      url.searchParams.set('page', newPage);
+      window.history.pushState({}, '', url);
+      
+      // Re-render page to update breadcrumb and component filtering
+      renderPage();
+    }
+  }
+
+  /**
+   * Handle browser back/forward navigation
+   * Synchronizes UI state with URL when using browser navigation buttons
+   */
+  function handlePopState() {
+    const params = new URLSearchParams(window.location.search);
+    const pageParam = params.get('page') || CONFIG.DEFAULT_PAGE;
+    const categoryParam = params.get('category') || CONFIG.DEFAULT_CATEGORY;
+    
+    // Only update if state has changed
+    if (pageParam !== state.referringPage || categoryParam !== state.category) {
+      // Validate page parameter
+      if (PAGE_NAMES[pageParam]) {
+        state.referringPage = pageParam;
+      }
+      // Validate category parameter
+      if (CATEGORIES[categoryParam]) {
+        state.category = categoryParam;
+      }
+      state.pendingChanges = {};
+      renderPage();
+    }
   }
 
   /**
@@ -1322,6 +1438,8 @@
       if (statCard) statCard.style.borderColor = value;
       if (positive) positive.style.color = value;
       state.pendingChanges['theme.primaryColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('primaryColor', value);
     });
 
     // Accent color (yellow)
@@ -1329,6 +1447,8 @@
       const btn = document.getElementById('preview-accent-btn');
       if (btn) btn.style.background = value;
       state.pendingChanges['theme.accentColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('accentColor', value);
     });
 
     // Red color
@@ -1338,6 +1458,8 @@
       if (btn) btn.style.background = value;
       if (negative) negative.style.color = value;
       state.pendingChanges['theme.redColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('redColor', value);
     });
 
     // Blue color
@@ -1347,11 +1469,14 @@
       if (btn) btn.style.background = value;
       if (info) info.style.color = value;
       state.pendingChanges['theme.blueColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('blueColor', value);
     });
   }
 
   /**
    * Helper to setup color picker + text input pair
+   * Includes validation for both picker and text input values
    */
   function setupColorPairListeners(pickerId, textId, onUpdate) {
     const picker = document.getElementById(pickerId);
@@ -1359,8 +1484,12 @@
 
     if (picker && text) {
       picker.addEventListener('input', (e) => {
-        text.value = e.target.value;
-        onUpdate(e.target.value);
+        const value = e.target.value;
+        // Validate color picker value before applying
+        if (isValidColor(value)) {
+          text.value = value;
+          onUpdate(value);
+        }
       });
 
       text.addEventListener('input', (e) => {
@@ -1385,12 +1514,16 @@
       const preview = document.getElementById('bg-preview');
       if (preview) preview.style.background = value;
       state.pendingChanges['theme.backgroundColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('backgroundColor', value);
     });
 
     setupColorPairListeners('bg-secondary', 'bg-secondary-text', (value) => {
       const card = document.querySelector('.bg-preview-card');
       if (card) card.style.background = value;
       state.pendingChanges['theme.secondaryColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('secondaryColor', value);
     });
   }
 
@@ -1412,6 +1545,8 @@
           previewCard.style.background = `rgba(10, 14, 39, ${val})`;
         }
         state.pendingChanges['theme.glassOpacity'] = val;
+        // Apply live CSS variable update for immediate visual feedback
+        applyLiveCssVariable('--glass-opacity-light', val);
       });
     }
 
@@ -1424,6 +1559,8 @@
           previewCard.style.webkitBackdropFilter = `blur(${val}px)`;
         }
         state.pendingChanges['theme.glassBlur'] = val;
+        // Apply live CSS variable update for immediate visual feedback
+        applyLiveCssVariable('--glass-blur-medium', `${val}px`);
       });
     }
   }
@@ -1882,6 +2019,35 @@
       return '../index.html';
     }
     return `${pageName}.html`;
+  }
+
+  /**
+   * Apply live CSS variable update for immediate visual feedback
+   * Updates the CSS custom property on the document root
+   * @param {string} cssVar - CSS variable name (e.g., '--accent-green')
+   * @param {string} value - New value to apply
+   */
+  function applyLiveCssVariable(cssVar, value) {
+    if (!cssVar || !value) return;
+
+    // Ensure cssVar is a valid CSS custom property name to prevent CSS injection
+    if (typeof cssVar !== 'string') return;
+    const normalizedVar = cssVar.trim();
+    if (!normalizedVar.startsWith('--')) return;
+
+    document.documentElement.style.setProperty(normalizedVar, value);
+  }
+
+  /**
+   * Apply live theme color update with CSS variable synchronization
+   * @param {string} themeKey - Theme property key (e.g., 'primaryColor')
+   * @param {string} value - Color value to apply
+   */
+  function applyLiveThemeColor(themeKey, value) {
+    const cssVar = CSS_VAR_MAP[themeKey];
+    if (cssVar && value) {
+      applyLiveCssVariable(cssVar, value);
+    }
   }
 
   /**

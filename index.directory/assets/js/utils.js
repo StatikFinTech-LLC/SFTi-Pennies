@@ -176,6 +176,28 @@
     return ((wins / total) * 100).toFixed(1);
   }
 
+  /**
+   * Get current page name for navigation and customization
+   * Extracts the page name from the current URL path
+   * Handles query parameters and hash fragments correctly
+   * @returns {string} Page name (e.g., 'index', 'analytics', 'add-trade')
+   */
+  function getCurrentPageName() {
+    const path = window.location.pathname;
+    let filename = path.split('/').pop();
+    
+    if (!filename || filename === '' || filename === 'index.html') {
+      return 'index';
+    }
+    
+    // Remove query parameters and hash fragments if present
+    // (pathname should not contain these, but handle edge cases)
+    filename = filename.split('?')[0].split('#')[0];
+    
+    // Remove .html extension
+    return filename.replace('.html', '');
+  }
+
   // Expose utilities globally
   window.SFTiUtils = {
     getBasePath,
@@ -187,7 +209,8 @@
     getYearWeekNumber,
     loadTradesByWeek,
     formatCurrency,
-    calculateWinRate
+    calculateWinRate,
+    getCurrentPageName
   };
 })();
 

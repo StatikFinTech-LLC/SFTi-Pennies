@@ -736,10 +736,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Add event listeners for customization category cards
   const handleCategorySelection = (category) => {
-    // Navigate to customization.html with category parameter
+    // Navigate to customization.html with category and page parameters
     const basePath = window.SFTiUtils ? SFTiUtils.getBasePath() : '';
     const encodedCategory = encodeURIComponent(category);
-    window.location.href = `${basePath}/index.directory/customization.html?category=${encodedCategory}`;
+    
+    // Get current page name to pass to customization page
+    const currentPage = window.SFTiUtils ? SFTiUtils.getCurrentPageName() : 'index';
+    const pageParam = `&page=${encodeURIComponent(currentPage)}`;
+    
+    window.location.href = `${basePath}/index.directory/customization.html?category=${encodedCategory}${pageParam}`;
   };
   
   const setupCategoryCard = (card) => {

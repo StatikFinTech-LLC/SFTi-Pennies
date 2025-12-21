@@ -360,10 +360,14 @@ class Navbar {
       const pathParts = window.location.pathname.split('/').filter(part => part !== '');
       const inIndexDirectory = pathParts.includes('index.directory');
       
+      // Get current page name to pass to customization page
+      const currentPage = window.SFTiUtils ? SFTiUtils.getCurrentPageName() : 'index';
+      const pageParam = `&page=${encodeURIComponent(currentPage)}`;
+      
       if (inIndexDirectory) {
-        window.location.href = 'customization.html?category=colors';
+        window.location.href = `customization.html?category=colors${pageParam}`;
       } else {
-        window.location.href = `${basePath}/index.directory/customization.html?category=colors`;
+        window.location.href = `${basePath}/index.directory/customization.html?category=colors${pageParam}`;
       }
     }
   }
