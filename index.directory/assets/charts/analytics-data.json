@@ -185,20 +185,20 @@
     ]
   },
   "drawdowns": {
-    "classic_percent": -37.81,
-    "inception_percent": -33.73
+    "classic_percent": -4.76,
+    "inception_percent": -4.01
   },
   "returns": {
-    "total_return_percent": -13.6,
-    "avg_return_percent": -1.3597,
-    "avg_risk_percent": 10.528,
-    "avg_position_size_percent": 70.6
+    "total_return_percent": -1.62,
+    "avg_return_percent": -0.1618,
+    "avg_risk_percent": 1.253,
+    "avg_position_size_percent": 6.89
   },
   "account": {
-    "starting_balance": 165,
+    "starting_balance": 1000.0,
     "total_deposits": 0,
     "total_pnl": -16.18,
-    "portfolio_value": 102.82
+    "portfolio_value": 983.82
   },
-  "generated_at": "2026-01-01T19:13:40.296235"
+  "generated_at": "2026-01-01T22:43:22.799978"
 }
