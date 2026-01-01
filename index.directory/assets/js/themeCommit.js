@@ -37,7 +37,22 @@
     
     // Glass effects
     'glassOpacity': { file: 'glass', property: 'opacity' },
-    'glassBlur': { file: 'glass', property: 'blur' }
+    'glassBlur': { file: 'glass', property: 'blur' },
+    
+    // Page messages
+    'pageMessages.index': { file: 'messages', property: 'index' },
+    'pageMessages.dashboard': { file: 'messages', property: 'dashboard' },
+    'pageMessages.add_trade': { file: 'messages', property: 'add_trade' },
+    'pageMessages.add_note': { file: 'messages', property: 'add_note' },
+    'pageMessages.add_pdf': { file: 'messages', property: 'add_pdf' },
+    'pageMessages.all_trades': { file: 'messages', property: 'all_trades' },
+    'pageMessages.all_weeks': { file: 'messages', property: 'all_weeks' },
+    'pageMessages.analytics': { file: 'messages', property: 'analytics' },
+    'pageMessages.books': { file: 'messages', property: 'books' },
+    'pageMessages.notes': { file: 'messages', property: 'notes' },
+    'pageMessages.review': { file: 'messages', property: 'review' },
+    'pageMessages.import': { file: 'messages', property: 'import' },
+    'pageMessages.customization': { file: 'messages', property: 'customization' }
   };
 
   // ===== State =====
@@ -117,6 +132,8 @@
    */
   function buildThemeData() {
     const theme = window.accountManager?.getCustomization('theme') || {};
+    const preferences = window.accountManager?.getCustomization('preferences') || {};
+    const pageMessages = preferences.pageMessages || {};
     
     return {
       colors: {
@@ -151,6 +168,21 @@
         notes: { color: 'rgba(147, 51, 234, 1)', glow_intensity: 0.3 },
         trades: { color: theme.accentColor || 'rgba(251, 191, 36, 1)', glow_intensity: 0.3 },
         mentors: { color: 'rgba(236, 72, 153, 1)', glow_intensity: 0.3 }
+      },
+      messages: {
+        index: pageMessages.index || 'Welcome to Your Trading Journal',
+        dashboard: pageMessages.dashboard || 'Welcome to Your Trading Journal',
+        add_trade: pageMessages.add_trade || 'Add New Trade',
+        add_note: pageMessages.add_note || 'Add New Note',
+        add_pdf: pageMessages.add_pdf || 'Upload Trade PDF',
+        all_trades: pageMessages.all_trades || 'All Trades',
+        all_weeks: pageMessages.all_weeks || 'Weekly Performance',
+        analytics: pageMessages.analytics || 'Analytics Dashboard',
+        books: pageMessages.books || 'Trading Books Library',
+        notes: pageMessages.notes || 'Trading Notes',
+        review: pageMessages.review || 'Trade Review',
+        import: pageMessages['import'] || 'Import Trading Data',
+        customization: pageMessages.customization || 'Customize Your Journal'
       }
     };
   }
@@ -216,7 +248,8 @@
     const titles = {
       colors: 'Theme: Global Colors',
       glass: 'Theme: Glass Effects',
-      header: 'Theme: Header/Navbar'
+      header: 'Theme: Header/Navbar',
+      messages: 'Theme: Top Page Messages'
     };
 
     // Validate component against known titles to avoid injecting arbitrary content

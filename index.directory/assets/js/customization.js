@@ -1999,7 +1999,13 @@
 
     inputs.forEach(input => {
       const page = input.dataset.page;
-      currentPrefs.pageMessages[page] = input.value.trim();
+      const message = input.value.trim();
+      currentPrefs.pageMessages[page] = message;
+      
+      // Queue theme change for commit to markdown files
+      if (window.ThemeCommit) {
+        window.ThemeCommit.queueThemeChange(`pageMessages.${page}`, message);
+      }
     });
 
     const result = window.accountManager.setCustomization('preferences', currentPrefs);

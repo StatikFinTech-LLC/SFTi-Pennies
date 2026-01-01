@@ -29,7 +29,7 @@ from globals_utils import setup_imports, calculate_time_in_trade
 # Setup imports
 setup_imports(__file__)
 from utils import load_trades_index
-from theme_parser import load_theme_config, generate_inline_style, get_theme_value
+from theme_parser import load_theme_config, generate_inline_style, get_theme_value, get_page_message
 
 
 def generate_trade_html(trade):

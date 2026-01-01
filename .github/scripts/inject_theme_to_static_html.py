@@ -19,7 +19,8 @@ The script:
 
 import os
 import re
-from theme_parser import load_theme_config, generate_css_variables, get_theme_value
+import html as html_module
+from theme_parser import load_theme_config, generate_css_variables, get_theme_value, get_page_message
 
 
 def inject_theme_into_html(html_content: str, theme: dict) -> str:
@@ -58,6 +59,60 @@ def inject_theme_into_html(html_content: str, theme: dict) -> str:
     else:
         # Insert theme block before </head>
         html_content = html_content.replace('</head>', f'{theme_block}\n</head>')
+    
+    # Update page messages in h1 tags with data-page-message="true"
+    # This finds h1 tags with data-page-message and data-page-key attributes
+    def replace_message(match):
+        """Replace message in h1 tag while preserving attributes and structure"""
+        full_tag = match.group(0)
+        
+        # Extract the page key from data-page-key attribute
+        page_key_match = re.search(r'data-page-key="([^"]+)"', full_tag)
+        if not page_key_match:
+            return full_tag  # No page key, return unchanged
+        
+        page_key = page_key_match.group(1)
+        
+        # Get the message from theme
+        default_message = re.search(r'>(.*?)</h1>', full_tag, re.DOTALL)
+        default_text = default_message.group(1).strip() if default_message else ''
+        
+        # Extract just the text content (not the SVG)
+        # Look for text after any SVG closing tags or at the start if no SVG
+        text_match = re.search(r'(?:</svg>\s*)?([^<]+)\s*</h1>', full_tag, re.DOTALL)
+        if text_match:
+            default_text = text_match.group(1).strip()
+        
+        new_message = get_page_message(theme, page_key, default_text)
+        
+        # HTML escape the message to prevent XSS
+        new_message = html_module.escape(new_message)
+        
+        # Replace the text content while keeping the structure
+        # This preserves SVG icons and other elements
+        if '</svg>' in full_tag:
+            # Has an icon, replace text after the SVG
+            result = re.sub(
+                r'(</svg>\s*)[^<]+(\s*</h1>)',
+                rf'\g<1>{new_message}\g<2>',
+                full_tag,
+                count=1
+            )
+        else:
+            # No icon, just replace the text content
+            result = re.sub(
+                r'>([^<]+)</h1>',
+                f'>{new_message}</h1>',
+                full_tag,
+                count=1
+            )
+        
+        return result
+    
+    # Pattern to match h1 tags with data-page-message="true"
+    # This pattern captures the entire h1 tag including nested elements
+    pattern = r'<h1[^>]*data-page-message="true"[^>]*>.*?</h1>'
+    html_content = re.sub(pattern, replace_message, html_content, flags=re.DOTALL)
     
     return html_content
 

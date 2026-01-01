@@ -15,7 +15,7 @@ import json
 import os
 import shutil
 from navbar_template import get_navbar_html
-from theme_parser import load_theme_config, generate_inline_style, get_theme_value
+from theme_parser import load_theme_config, generate_inline_style, get_theme_value, get_page_message
 
 
 def main():
@@ -200,7 +200,7 @@ def create_trade_list_html(trades):
 {get_navbar_html("directory")}
     
     <main class="container" data-component-type="main-content" data-component-id="main-container">
-        <h1 data-component-type="header" data-component-id="page-title" data-customizable="true">All Trades</h1>
+        <h1 data-component-type="header" data-component-id="page-title" data-customizable="true" data-page-message="true" data-page-key="all_trades">{html.escape(get_page_message(theme, 'all_trades', 'All Trades'))}</h1>
         <p style="color: var(--text-secondary); margin-bottom: 2rem;" data-component-type="content" data-component-id="page-description" data-customizable="true">
             Complete list of all recorded trades
         </p>

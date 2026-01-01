@@ -120,6 +120,7 @@ def load_theme_config(theme_dir: str = "index.directory/theme.c") -> Dict[str, A
         'glass': {},
         'header': {},
         'glowbubbles': {},
+        'messages': {},
         'metadata': {
             'loaded_at': datetime.now().isoformat(),
             'source': str(theme_path)
@@ -178,6 +179,22 @@ def load_theme_config(theme_dir: str = "index.directory/theme.c") -> Dict[str, A
                 'size': data.get('size', 44),
                 'border_width': data.get('border_width', 2),
             }
+        elif component == 'messages':
+            config['messages'] = {
+                'index': data.get('index', 'Welcome to Your Trading Journal'),
+                'dashboard': data.get('dashboard', 'Welcome to Your Trading Journal'),
+                'add_trade': data.get('add_trade', 'Add New Trade'),
+                'add_note': data.get('add_note', 'Add New Note'),
+                'add_pdf': data.get('add_pdf', 'Upload Trade PDF'),
+                'all_trades': data.get('all_trades', 'All Trades'),
+                'all_weeks': data.get('all_weeks', 'Weekly Performance'),
+                'analytics': data.get('analytics', 'Analytics Dashboard'),
+                'books': data.get('books', 'Trading Books Library'),
+                'notes': data.get('notes', 'Trading Notes'),
+                'review': data.get('review', 'Trade Review'),
+                'import': data.get('import', 'Import Trading Data'),
+                'customization': data.get('customization', 'Customize Your Journal'),
+            }
     
     # Fill in defaults for any missing values
     config = merge_with_defaults(config)
@@ -225,6 +242,21 @@ def get_default_theme() -> Dict[str, Any]:
             'notes': {'color': 'rgba(147, 51, 234, 1)', 'glow_intensity': 0.3, 'size': 44, 'border_width': 2},
             'trades': {'color': 'rgba(251, 191, 36, 1)', 'glow_intensity': 0.3, 'size': 44, 'border_width': 2},
             'mentors': {'color': 'rgba(236, 72, 153, 1)', 'glow_intensity': 0.3, 'size': 44, 'border_width': 2},
+        },
+        'messages': {
+            'index': 'Welcome to Your Trading Journal',
+            'dashboard': 'Welcome to Your Trading Journal',
+            'add_trade': 'Add New Trade',
+            'add_note': 'Add New Note',
+            'add_pdf': 'Upload Trade PDF',
+            'all_trades': 'All Trades',
+            'all_weeks': 'Weekly Performance',
+            'analytics': 'Analytics Dashboard',
+            'books': 'Trading Books Library',
+            'notes': 'Trading Notes',
+            'review': 'Trade Review',
+            'import': 'Import Trading Data',
+            'customization': 'Customize Your Journal',
         },
         'metadata': {
             'loaded_at': datetime.now().isoformat(),
@@ -276,6 +308,14 @@ def merge_with_defaults(config: Dict[str, Any]) -> Dict[str, Any]:
         for bubble, values in defaults['glowbubbles'].items():
             if bubble not in config['glowbubbles']:
                 config['glowbubbles'][bubble] = values
+    
+    # Merge messages
+    if 'messages' not in config or not config['messages']:
+        config['messages'] = defaults['messages']
+    else:
+        for key, value in defaults['messages'].items():
+            if key not in config['messages']:
+                config['messages'][key] = value
     
     return config
 
@@ -347,6 +387,24 @@ def get_theme_value(theme: Dict[str, Any], category: str, key: str, default: Any
         >>> color = get_theme_value(theme, 'colors', 'primary_color', '#00ff88')
     """
     return theme.get(category, {}).get(key, default)
+
+
+def get_page_message(theme: Dict[str, Any], page_key: str, default: str = '') -> str:
+    """
+    Get the customizable message for a specific page.
+    
+    Args:
+        theme: Theme configuration dictionary
+        page_key: Page identifier (e.g., 'index', 'add_trade', 'analytics')
+        default: Default message if not found
+        
+    Returns:
+        Page message string
+        
+    Example:
+        >>> msg = get_page_message(theme, 'analytics', 'Analytics Dashboard')
+    """
+    return theme.get('messages', {}).get(page_key, default)
 
 
 # Standalone execution for testing
