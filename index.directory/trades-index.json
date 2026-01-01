@@ -1,26 +1,26 @@
 {
   "trades": [
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:10:2025.1.md",
-      "body": "# Trade #1 - BNAI\n\n## Trade Details\n\n- **Ticker**: BNAI\n- **Direction**: LONG\n- **Entry**: $0.6475 on 2025-11-10 at 08:35\n- **Exit**: $0.7514 on 2025-11-10 at 09:05\n- **Position Size**: 120 shares\n- *...",
-      "notes": "It was on the morning scanner with a decent bit of short-able shares, spiked twice pre-market, and was climbing back to H.O.D with shorts still trying to push down, and so I entered in anticipation of a short term spike from the volatility and sold at ~100% on the day(I took ~13% after fees). Waiting for the setups to come to me.",
+      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.1.md",
+      "body": "# Trade #1 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.6164 on 2025-11-12 at 08:26\n- **Exit**: $0.7546 on 2025-11-12 at 08:48\n- **Position Size**: 60 shares\n- **...",
+      "notes": "Saw this morning runner eat all of its short-able shares and not drop, so I got in and rode my ~10-20% and got out. Great play, could have held longer.",
       "trade_number": 1,
-      "ticker": "BNAI",
-      "entry_date": "2025-11-10",
-      "entry_time": "08:35",
-      "exit_date": "2025-11-10",
-      "exit_time": "09:05",
-      "entry_price": 0.6475,
-      "exit_price": 0.7514,
-      "position_size": 120.0,
+      "ticker": "LPTX",
+      "entry_date": "2025-11-12",
+      "entry_time": "08:26",
+      "exit_date": "2025-11-12",
+      "exit_time": "08:48",
+      "entry_price": 0.6164,
+      "exit_price": 0.7546,
+      "position_size": 60.0,
       "direction": "LONG",
-      "strategy": "VWAP Hold",
-      "stop_loss": 0.6,
+      "strategy": "Breakout",
+      "stop_loss": 0.55,
       "target_price": 0.75,
-      "risk_reward_ratio": 2.16,
+      "risk_reward_ratio": 2.01,
       "broker": "IBKR",
-      "pnl_usd": 12.47,
-      "pnl_percent": 16.05,
+      "pnl_usd": 8.29,
+      "pnl_percent": 22.42,
       "strategy_tags": [
         "Breakout"
       ],
@@ -34,47 +34,8 @@
         "High Volatility"
       ],
       "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3282.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3284.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3283.jpeg"
-      ]
-    },
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
-      "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
-      "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
-      "trade_number": 1,
-      "ticker": "MSPR",
-      "entry_date": "2025-11-03",
-      "entry_time": "06:55",
-      "exit_date": "2025-11-03",
-      "exit_time": "08:33",
-      "entry_price": 0.62,
-      "exit_price": 0.6972,
-      "position_size": 101.0,
-      "direction": "LONG",
-      "strategy": "VWAP Hold",
-      "stop_loss": 0.5,
-      "target_price": 0.75,
-      "risk_reward_ratio": 1.08,
-      "broker": "IBKR",
-      "pnl_usd": 7.8,
-      "pnl_percent": 12.45,
-      "strategy_tags": [
-        "VWAP Hold"
-      ],
-      "setup_tags": [
-        "VWAP Reclaim"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "High Volatility"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3317.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3318.jpeg"
       ]
     },
     {
@@ -154,26 +115,64 @@
       ]
     },
     {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.1.md",
-      "body": "# Trade #1 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.6164 on 2025-11-12 at 08:26\n- **Exit**: $0.7546 on 2025-11-12 at 08:48\n- **Position Size**: 60 shares\n- **...",
-      "notes": "Saw this morning runner eat all of its short-able shares and not drop, so I got in and rode my ~10-20% and got out. Great play, could have held longer.",
+      "file_path": "index.directory/SFTi.Tradez/week.2025.44/11:03:2025.1.md",
+      "body": "# Trade #1 - MSPR\n\n## Trade Details\n\n- **Ticker**: MSPR\n- **Direction**: LONG\n- **Entry**: $0.62 on 2025-11-03 at 06:55\n- **Exit**: $0.6972 on 2025-11-03 at 08:33\n- **Position Size**: 101 shares\n- **S...",
+      "notes": "Got in to the Morning runner as it reclaimed VWAP with momentum, sold to soon, could have taken more.",
       "trade_number": 1,
-      "ticker": "LPTX",
-      "entry_date": "2025-11-12",
-      "entry_time": "08:26",
-      "exit_date": "2025-11-12",
-      "exit_time": "08:48",
-      "entry_price": 0.6164,
-      "exit_price": 0.7546,
-      "position_size": 60.0,
+      "ticker": "MSPR",
+      "entry_date": "2025-11-03",
+      "entry_time": "06:55",
+      "exit_date": "2025-11-03",
+      "exit_time": "08:33",
+      "entry_price": 0.62,
+      "exit_price": 0.6972,
+      "position_size": 101.0,
       "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.55,
+      "strategy": "VWAP Hold",
+      "stop_loss": 0.5,
       "target_price": 0.75,
-      "risk_reward_ratio": 2.01,
+      "risk_reward_ratio": 1.08,
       "broker": "IBKR",
-      "pnl_usd": 8.29,
-      "pnl_percent": 22.42,
+      "pnl_usd": 7.8,
+      "pnl_percent": 12.45,
+      "strategy_tags": [
+        "VWAP Hold"
+      ],
+      "setup_tags": [
+        "VWAP Reclaim"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "High Volatility"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3190.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.44/11:03:2025.1/IMG_3191.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:10:2025.1.md",
+      "body": "# Trade #1 - BNAI\n\n## Trade Details\n\n- **Ticker**: BNAI\n- **Direction**: LONG\n- **Entry**: $0.6475 on 2025-11-10 at 08:35\n- **Exit**: $0.7514 on 2025-11-10 at 09:05\n- **Position Size**: 120 shares\n- *...",
+      "notes": "It was on the morning scanner with a decent bit of short-able shares, spiked twice pre-market, and was climbing back to H.O.D with shorts still trying to push down, and so I entered in anticipation of a short term spike from the volatility and sold at ~100% on the day(I took ~13% after fees). Waiting for the setups to come to me.",
+      "trade_number": 1,
+      "ticker": "BNAI",
+      "entry_date": "2025-11-10",
+      "entry_time": "08:35",
+      "exit_date": "2025-11-10",
+      "exit_time": "09:05",
+      "entry_price": 0.6475,
+      "exit_price": 0.7514,
+      "position_size": 120.0,
+      "direction": "LONG",
+      "strategy": "VWAP Hold",
+      "stop_loss": 0.6,
+      "target_price": 0.75,
+      "risk_reward_ratio": 2.16,
+      "broker": "IBKR",
+      "pnl_usd": 12.47,
+      "pnl_percent": 16.05,
       "strategy_tags": [
         "Breakout"
       ],
@@ -187,8 +186,9 @@
         "High Volatility"
       ],
       "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3317.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.1/IMG_3318.jpeg"
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3282.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3284.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:10:2025.1/IMG_3283.jpeg"
       ]
     },
     {
@@ -227,82 +227,6 @@
       "screenshots": [
         "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3228.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.45/11:04:2025.1/IMG_3229.jpeg"
-      ]
-    },
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.2.md",
-      "body": "# Trade #2 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.9845 on 2025-11-12 at 09:22\n- **Exit**: $1.13 on 2025-11-12 at 10:47\n- **Position Size**: 22 shares\n- **St...",
-      "notes": "Got into this winner from the morning session, Got out in a rough patch, was a test trade for a strategy idea, turned out good.",
-      "trade_number": 2,
-      "ticker": "LPTX",
-      "entry_date": "2025-11-12",
-      "entry_time": "09:22",
-      "exit_date": "2025-11-12",
-      "exit_time": "10:47",
-      "entry_price": 0.9845,
-      "exit_price": 1.13,
-      "position_size": 22.0,
-      "direction": "LONG",
-      "strategy": "Continuation",
-      "stop_loss": 0.95,
-      "target_price": 1.2,
-      "risk_reward_ratio": 6.25,
-      "broker": "IBKR",
-      "pnl_usd": 3.2,
-      "pnl_percent": 14.78,
-      "strategy_tags": [
-        "Breakout Continuation"
-      ],
-      "setup_tags": [
-        "VWAP Bounce"
-      ],
-      "session_tags": [
-        "Intra-Day"
-      ],
-      "market_condition_tags": [
-        "Trending"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3319.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3320.jpeg"
-      ]
-    },
-    {
-      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.2.md",
-      "body": "# Trade #2 - OSRH\n\n## Trade Details\n\n- **Ticker**: OSRH\n- **Direction**: LONG\n- **Entry**: $0.7413 on 2025-11-06 at 07:40\n- **Exit**: $.64 on 2025-11-06 at 18:04\n- **Position Size**: 96 shares\n- **Str...",
-      "notes": "Again, Got into a good 15% runner, held to long and held the bag. Working on timing.",
-      "trade_number": 2,
-      "ticker": "OSRH",
-      "entry_date": "2025-11-06",
-      "entry_time": "07:40",
-      "exit_date": "2025-11-06",
-      "exit_time": "18:04",
-      "entry_price": 0.7413,
-      "exit_price": 0.64,
-      "position_size": 96.0,
-      "direction": "LONG",
-      "strategy": "Breakout",
-      "stop_loss": 0.64,
-      "target_price": 0.9,
-      "risk_reward_ratio": 1.57,
-      "broker": "IBKR",
-      "pnl_usd": -9.72,
-      "pnl_percent": -13.67,
-      "strategy_tags": [
-        "Breakout"
-      ],
-      "setup_tags": [
-        "7 O'clock Spike"
-      ],
-      "session_tags": [
-        "Pre-Market"
-      ],
-      "market_condition_tags": [
-        "Choppy"
-      ],
-      "screenshots": [
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3266.jpeg",
-        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3264.jpeg"
       ]
     },
     {
@@ -380,6 +304,82 @@
         "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3239.jpeg",
         "../../assets/sfti.tradez.assets/week.2025.45/11:05:2025.2/IMG_3241.jpeg"
       ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.46/11:12:2025.2.md",
+      "body": "# Trade #2 - LPTX\n\n## Trade Details\n\n- **Ticker**: LPTX\n- **Direction**: LONG\n- **Entry**: $0.9845 on 2025-11-12 at 09:22\n- **Exit**: $1.13 on 2025-11-12 at 10:47\n- **Position Size**: 22 shares\n- **St...",
+      "notes": "Got into this winner from the morning session, Got out in a rough patch, was a test trade for a strategy idea, turned out good.",
+      "trade_number": 2,
+      "ticker": "LPTX",
+      "entry_date": "2025-11-12",
+      "entry_time": "09:22",
+      "exit_date": "2025-11-12",
+      "exit_time": "10:47",
+      "entry_price": 0.9845,
+      "exit_price": 1.13,
+      "position_size": 22.0,
+      "direction": "LONG",
+      "strategy": "Continuation",
+      "stop_loss": 0.95,
+      "target_price": 1.2,
+      "risk_reward_ratio": 6.25,
+      "broker": "IBKR",
+      "pnl_usd": 3.2,
+      "pnl_percent": 14.78,
+      "strategy_tags": [
+        "Breakout Continuation"
+      ],
+      "setup_tags": [
+        "VWAP Bounce"
+      ],
+      "session_tags": [
+        "Intra-Day"
+      ],
+      "market_condition_tags": [
+        "Trending"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3319.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.46/11:12:2025.2/IMG_3320.jpeg"
+      ]
+    },
+    {
+      "file_path": "index.directory/SFTi.Tradez/week.2025.45/11:06:2025.2.md",
+      "body": "# Trade #2 - OSRH\n\n## Trade Details\n\n- **Ticker**: OSRH\n- **Direction**: LONG\n- **Entry**: $0.7413 on 2025-11-06 at 07:40\n- **Exit**: $.64 on 2025-11-06 at 18:04\n- **Position Size**: 96 shares\n- **Str...",
+      "notes": "Again, Got into a good 15% runner, held to long and held the bag. Working on timing.",
+      "trade_number": 2,
+      "ticker": "OSRH",
+      "entry_date": "2025-11-06",
+      "entry_time": "07:40",
+      "exit_date": "2025-11-06",
+      "exit_time": "18:04",
+      "entry_price": 0.7413,
+      "exit_price": 0.64,
+      "position_size": 96.0,
+      "direction": "LONG",
+      "strategy": "Breakout",
+      "stop_loss": 0.64,
+      "target_price": 0.9,
+      "risk_reward_ratio": 1.57,
+      "broker": "IBKR",
+      "pnl_usd": -9.72,
+      "pnl_percent": -13.67,
+      "strategy_tags": [
+        "Breakout"
+      ],
+      "setup_tags": [
+        "7 O'clock Spike"
+      ],
+      "session_tags": [
+        "Pre-Market"
+      ],
+      "market_condition_tags": [
+        "Choppy"
+      ],
+      "screenshots": [
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3266.jpeg",
+        "../../assets/sfti.tradez.assets/week.2025.45/11:06:2025.2/IMG_3264.jpeg"
+      ]
     }
   ],
   "statistics": {
@@ -394,9 +394,9 @@
     "largest_win": 14.7,
     "largest_loss": -25.08,
     "total_volume": 1007,
-    "max_drawdown": -51.15,
+    "max_drawdown": -40.18,
     "profit_factor": 0.74
   },
-  "generated_at": "2025-12-20T16:47:03.130731",
+  "generated_at": "2026-01-01T17:00:28.801457",
   "version": "1.0"
 }

@@ -1806,6 +1806,15 @@
     }
 
     if (success) {
+      // Commit theme changes to markdown files for Python rebuild
+      if (window.ThemeCommit && window.ThemeCommit.hasPendingChanges()) {
+        window.ThemeCommit.commitThemeChanges().then(() => {
+          console.log('[Customization] Theme changes committed to markdown files');
+        }).catch(err => {
+          console.warn('[Customization] Theme commit warning:', err);
+        });
+      }
+      
       showNotification('Changes Applied', 'Your customization has been saved successfully!', 'success');
       state.pendingChanges = {};
       setTimeout(() => {

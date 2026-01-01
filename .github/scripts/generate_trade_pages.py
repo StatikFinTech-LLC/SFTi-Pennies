@@ -9,6 +9,8 @@ Features:
 - Includes image galleries with GLightbox integration
 - Shows strategy and setup tags
 - Mobile-friendly design with dark theme
+- Theme integration via theme.c markdown files
+- Data attributes for customization system
 
 Performance Optimizations:
 - List comprehensions for gallery and tag rendering
@@ -27,6 +29,7 @@ from globals_utils import setup_imports, calculate_time_in_trade
 # Setup imports
 setup_imports(__file__)
 from utils import load_trades_index
+# TODO: Integrate theme_parser for theme-aware HTML generation in the future.
 
 
 def generate_trade_html(trade):
@@ -98,7 +101,7 @@ def generate_trade_html(trade):
                 img_path = img.replace("../../assets/", "../assets/")
                 gallery_items.append(
                     f"""
-                <a href="{img_path}" class="glightbox" data-gallery="trade-{trade_number}">
+                <a href="{img_path}" class="glightbox" data-gallery="trade-{trade_number}" data-component-type="image" data-component-id="screenshot-{idx+1}" data-customizable="true">
                     <img src="{img_path}" alt="Trade screenshot {idx+1}" style="width: 200px; height: 150px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid var(--border-color); transition: all 0.3s;">
                 </a>
                 """
@@ -106,17 +109,17 @@ def generate_trade_html(trade):
 
         if gallery_items:
             gallery_html = f"""
-            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                <h2 style="margin-bottom: 1rem;">📸 Screenshots</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="screenshots-card" data-customizable="true">
+                <h2 style="margin-bottom: 1rem;" data-component-type="header" data-component-id="screenshots-header" data-customizable="true">📸 Screenshots</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;" data-component-type="card-grid" data-component-id="screenshots-grid" data-customizable="true">
                     {''.join(gallery_items)}
                 </div>
             </div>
             """
         else:
             gallery_html = """
-            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-                <h2 style="margin-bottom: 1rem;">📸 Screenshots</h2>
+            <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="screenshots-card" data-customizable="true">
+                <h2 style="margin-bottom: 1rem;" data-component-type="header" data-component-id="screenshots-header" data-customizable="true">📸 Screenshots</h2>
                 <p style="color: var(--text-secondary); margin: 0;">No screenshots available for this trade.</p>
             </div>
             """
@@ -154,18 +157,18 @@ def generate_trade_html(trade):
   <!-- Icons -->
   <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/icon-192.png">
 </head>
-<body>
-  <canvas id="bg-canvas"></canvas>
+<body data-page="trade-detail">
+  <canvas id="bg-canvas" data-component-type="background" data-component-id="particle-canvas" data-customizable="true"></canvas>
   
 {get_navbar_html("subdirectory")}
   
   <!-- Main Content -->
-  <main class="container">
-    <section>
+  <main class="container" data-component-type="main-content" data-component-id="main-container">
+    <section data-component-type="section" data-component-id="trade-detail-section" data-customizable="true">
       <!-- Header -->
-      <div style="margin-bottom: 2rem;">
+      <div style="margin-bottom: 2rem;" data-component-type="header" data-component-id="trade-header" data-customizable="true">
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;">
-          <h1 style="margin: 0;">Trade #{trade_number}: {ticker}</h1>
+          <h1 style="margin: 0;" data-component-type="header" data-component-id="page-title" data-customizable="true">Trade #{trade_number}: {ticker}</h1>
           <span style="padding: 0.375rem 1rem; background: {'rgba(0,255,136,0.2)' if pnl_usd >= 0 else 'rgba(255,71,87,0.2)'}; color: {'var(--accent-green)' if pnl_usd >= 0 else 'var(--accent-red)'}; border-radius: 6px; font-weight: 700; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em;">
             {'🎯 WIN' if pnl_usd >= 0 else '❌ LOSS'}
           </span>
@@ -178,26 +181,26 @@ def generate_trade_html(trade):
       </div>
       
       <!-- Key Metrics Grid -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px; border: 2px solid {'var(--accent-green)' if pnl_usd >= 0 else 'var(--accent-red)'};">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;" data-component-type="card-grid" data-component-id="metrics-grid" data-customizable="true">
+        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px; border: 2px solid {'var(--accent-green)' if pnl_usd >= 0 else 'var(--accent-red)'};" data-component-type="card" data-component-id="pnl-usd-card" data-customizable="true">
           <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">P&L (USD)</div>
           <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: {'var(--accent-green)' if pnl_usd >= 0 else 'var(--accent-red)'};">
             ${pnl_usd:.2f}
           </div>
         </div>
-        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;">
+        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;" data-component-type="card" data-component-id="pnl-percent-card" data-customizable="true">
           <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">P&L (%)</div>
           <div style="font-family: var(--font-mono); font-size: 2rem; font-weight: 700; color: {'var(--accent-green)' if pnl_percent >= 0 else 'var(--accent-red)'};">
             {'+' if pnl_percent >= 0 else ''}{pnl_percent:.2f}%
           </div>
         </div>
-        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;">
+        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;" data-component-type="card" data-component-id="position-size-card" data-customizable="true">
           <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Position Size</div>
           <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600;">
             {position_size} shares
           </div>
         </div>
-        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;">
+        <div style="background: var(--bg-secondary); padding: 1.25rem; border-radius: 8px;" data-component-type="card" data-component-id="time-in-trade-card" data-customizable="true">
           <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Time in Trade</div>
           <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600;">
             {time_in_trade}
@@ -206,10 +209,10 @@ def generate_trade_html(trade):
       </div>
       
       <!-- Trade Details -->
-      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        <h2 style="margin-bottom: 1.5rem;">📊 Trade Details</h2>
+      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="trade-details-card" data-customizable="true">
+        <h2 style="margin-bottom: 1.5rem;" data-component-type="header" data-component-id="trade-details-header" data-customizable="true">📊 Trade Details</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-          <div>
+          <div data-component-type="card" data-component-id="entry-details" data-customizable="true">
             <h3 style="font-size: 0.875rem; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem;">Entry</h3>
             <div style="display: flex; flex-direction: column; gap: 0.5rem;">
               <div style="display: flex; justify-content: space-between;">
@@ -247,22 +250,22 @@ def generate_trade_html(trade):
       </div>
       
       <!-- Risk Management -->
-      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        <h2 style="margin-bottom: 1.5rem;">🎯 Risk Management</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-          <div>
+      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="risk-management-card" data-customizable="true">
+        <h2 style="margin-bottom: 1.5rem;" data-component-type="header" data-component-id="risk-header" data-customizable="true">🎯 Risk Management</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;" data-component-type="card-grid" data-component-id="risk-grid" data-customizable="true">
+          <div data-component-type="card" data-component-id="stop-loss-card" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Stop Loss</div>
             <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 600; color: var(--accent-red);">
               ${stop_loss:.2f}
             </div>
           </div>
-          <div>
+          <div data-component-type="card" data-component-id="target-price-card" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Target Price</div>
             <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 600; color: var(--accent-green);">
               ${target_price:.2f}
             </div>
           </div>
-          <div>
+          <div data-component-type="card" data-component-id="risk-reward-card" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Risk:Reward Ratio</div>
             <div style="font-family: var(--font-mono); font-size: 1.25rem; font-weight: 600; color: var(--accent-yellow);">
               1:{risk_reward_ratio:.2f}
@@ -272,22 +275,22 @@ def generate_trade_html(trade):
       </div>
       
       <!-- Tags Section -->
-      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        <h2 style="margin-bottom: 1.5rem;">🏷️ Tags & Classification</h2>
-        <div style="display: grid; gap: 1rem;">
-          <div>
+      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="tags-card" data-customizable="true">
+        <h2 style="margin-bottom: 1.5rem;" data-component-type="header" data-component-id="tags-header" data-customizable="true">🏷️ Tags & Classification</h2>
+        <div style="display: grid; gap: 1rem;" data-component-type="card-grid" data-component-id="tags-grid" data-customizable="true">
+          <div data-component-type="tag-group" data-component-id="strategy-tags" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Strategy Tags:</div>
             <div>{render_tags(strategy_tags, 'var(--accent-green)')}</div>
           </div>
-          <div>
+          <div data-component-type="tag-group" data-component-id="setup-tags" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Setup Tags:</div>
             <div>{render_tags(setup_tags, 'var(--accent-blue)')}</div>
           </div>
-          <div>
+          <div data-component-type="tag-group" data-component-id="session-tags" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Session Tags:</div>
             <div>{render_tags(session_tags, 'var(--accent-yellow)')}</div>
           </div>
-          <div>
+          <div data-component-type="tag-group" data-component-id="market-tags" data-customizable="true">
             <div style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Market Condition Tags:</div>
             <div>{render_tags(market_condition_tags, 'var(--accent-red)')}</div>
           </div>
@@ -298,9 +301,9 @@ def generate_trade_html(trade):
       {gallery_html}
       
       <!-- Notes Section -->
-      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
-        <h2 style="margin-bottom: 1rem;">📝 Notes & Journal</h2>
-        <div style="line-height: 1.8; color: var(--text-primary);">
+      <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="notes-card" data-customizable="true">
+        <h2 style="margin-bottom: 1rem;" data-component-type="header" data-component-id="notes-header" data-customizable="true">📝 Notes & Journal</h2>
+        <div style="line-height: 1.8; color: var(--text-primary);" data-component-type="content" data-component-id="notes-content" data-customizable="true">
           {notes.replace(chr(10), '<br>')}
         </div>
       </div>

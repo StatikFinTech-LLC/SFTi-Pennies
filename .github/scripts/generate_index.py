@@ -3,6 +3,11 @@
 Generate Index Script
 Consolidates all parsed trade data and generates the master trades index
 This is essentially a wrapper that ensures parse_trades.py output is in the right place
+
+Features:
+- Generates all-trades.html with complete trade listing
+- Theme integration via theme.c markdown files
+- Data attributes for customization system
 """
 
 import html
@@ -180,21 +185,21 @@ def create_trade_list_html(trades):
         }}
     </style>
 </head>
-<body>
-    <canvas id="bg-canvas"></canvas>
+<body data-page="all-trades">
+    <canvas id="bg-canvas" data-component-type="background" data-component-id="particle-canvas" data-customizable="true"></canvas>
     
 {get_navbar_html("directory")}
     
-    <main class="container">
-        <h1>All Trades</h1>
-        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+    <main class="container" data-component-type="main-content" data-component-id="main-container">
+        <h1 data-component-type="header" data-component-id="page-title" data-customizable="true">All Trades</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;" data-component-type="content" data-component-id="page-description" data-customizable="true">
             Complete list of all recorded trades
         </p>
         
         <!-- Search and Filter Section -->
-        <div class="glass-stat" style="padding: 1.5rem; margin-bottom: 1.5rem;">
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-                <div style="flex: 1; min-width: 250px;">
+        <div class="glass-stat" style="padding: 1.5rem; margin-bottom: 1.5rem;" data-component-type="card" data-component-id="search-filter-card" data-customizable="true">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;" data-component-type="form" data-component-id="search-form" data-customizable="true">
+                <div style="flex: 1; min-width: 250px;" data-component-type="form-field" data-component-id="field-search" data-customizable="true">
                     <label for="search-input" style="display: block; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
                         Search by Ticker, Strategy, or Tags
                     </label>
@@ -213,8 +218,9 @@ def create_trade_list_html(trades):
                             style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 36px; width: 36px; min-height: 36px; height: 36px; background: linear-gradient(135deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 200, 108, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(0, 255, 136, 0.2); padding: 0; flex-shrink: 0;"
                             onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.boxShadow='0 6px 32px rgba(0, 255, 136, 0.4)';"
                             onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.boxShadow='0 4px 24px rgba(0, 255, 136, 0.2)';"
+                            data-component-type="button" data-component-id="btn-search" data-customizable="true"
                         >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-component-type="icon" data-component-id="icon-search" data-customizable="true">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg>
@@ -222,8 +228,8 @@ def create_trade_list_html(trades):
                     </div>
                 </div>
             </div>
-            <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;">
-                <div style="flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;">
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap;" data-component-type="form" data-component-id="filter-form" data-customizable="true">
+                <div style="flex: 1; min-width: 250px; position: relative; display: flex; align-items: center;" data-component-type="form-field" data-component-id="field-filter" data-customizable="true">
                     <select 
                         id="filter-type"
                         style="width: 100%; padding: 0.75rem 60px 0.75rem 0.75rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--glass-radius-md); color: var(--text-primary); font-size: 0.875rem; cursor: pointer; transition: all 0.3s ease;"
@@ -245,8 +251,9 @@ def create_trade_list_html(trades):
                         style="position: absolute; right: 8px; display: flex; align-items: center; justify-content: center; min-width: 36px; width: 36px; min-height: 36px; height: 36px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.08) 100%); backdrop-filter: blur(10px); border: 2px solid rgba(245, 158, 11, 0.3); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 24px rgba(245, 158, 11, 0.2); padding: 0; flex-shrink: 0;"
                         onmouseover="this.style.transform='scale(1.1)'; this.style.borderColor='rgba(245, 158, 11, 0.6)'; this.style.boxShadow='0 6px 32px rgba(245, 158, 11, 0.4)';"
                         onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(245, 158, 11, 0.3)'; this.style.boxShadow='0 4px 24px rgba(245, 158, 11, 0.2)';"
+                        data-component-type="button" data-component-id="btn-clear" data-customizable="true"
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(245, 158, 11, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(245, 158, 11, 1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-component-type="icon" data-component-id="icon-clear" data-customizable="true">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="15" y1="9" x2="9" y2="15"></line>
                             <line x1="9" y1="9" x2="15" y2="15"></line>
@@ -254,13 +261,13 @@ def create_trade_list_html(trades):
                     </button>
                 </div>
             </div>
-            <div id="filter-stats" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);">
+            <div id="filter-stats" style="margin-top: 1rem; font-size: 0.875rem; color: var(--text-secondary);" data-component-type="content" data-component-id="filter-stats" data-customizable="true">
                 Showing <span id="visible-count">0</span> of <span id="total-count">0</span> trades
             </div>
         </div>
         
-        <div style="overflow-x: auto;">
-            <table id="trades-table">
+        <div style="overflow-x: auto;" data-component-type="section" data-component-id="trades-table-section" data-customizable="true">
+            <table id="trades-table" data-component-type="table" data-component-id="trades-table" data-customizable="true">
                 <thead>
                     <tr>
                         <th>Date</th>
