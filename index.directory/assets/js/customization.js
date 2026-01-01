@@ -36,6 +36,123 @@
     BLUR: 45
   };
 
+  // ===== Color Scheme Presets =====
+  // Predefined color scheme presets for one-click application
+  const COLOR_SCHEME_PRESETS = {
+    'default': {
+      name: 'Default',
+      icon: '🎨',
+      description: 'The classic SFTi-Pennies color scheme',
+      colors: {
+        primaryColor: '#00ff88',
+        accentColor: '#ffd93d',
+        redColor: '#ff4757',
+        blueColor: '#00d4ff',
+        backgroundColor: '#0a0e27',
+        secondaryColor: '#0f1429',
+        borderColor: '#27272a'
+      }
+    },
+    'professional': {
+      name: 'Professional',
+      icon: '💼',
+      description: 'Clean, minimal, and business-focused',
+      colors: {
+        primaryColor: '#059669',
+        accentColor: '#f59e0b',
+        redColor: '#ef4444',
+        blueColor: '#3b82f6',
+        backgroundColor: '#0f172a',
+        secondaryColor: '#1e293b',
+        borderColor: '#334155'
+      }
+    },
+    'cosmic': {
+      name: 'Cosmic',
+      icon: '🌌',
+      description: 'Deep space vibes with purple and cyan',
+      colors: {
+        primaryColor: '#a78bfa',
+        accentColor: '#22d3ee',
+        redColor: '#f472b6',
+        blueColor: '#60a5fa',
+        backgroundColor: '#0c0a1f',
+        secondaryColor: '#1a1533',
+        borderColor: '#312e81'
+      }
+    },
+    'energetic': {
+      name: 'Energetic',
+      icon: '⚡',
+      description: 'Bold, vibrant colors for high energy',
+      colors: {
+        primaryColor: '#00ffcc',
+        accentColor: '#ffcc00',
+        redColor: '#ff3366',
+        blueColor: '#00ccff',
+        backgroundColor: '#0d1117',
+        secondaryColor: '#161b22',
+        borderColor: '#30363d'
+      }
+    },
+    'zen': {
+      name: 'Zen',
+      icon: '🧘',
+      description: 'Calm, balanced tones for focus',
+      colors: {
+        primaryColor: '#34d399',
+        accentColor: '#fbbf24',
+        redColor: '#f87171',
+        blueColor: '#60a5fa',
+        backgroundColor: '#111827',
+        secondaryColor: '#1f2937',
+        borderColor: '#374151'
+      }
+    },
+    'ocean': {
+      name: 'Ocean',
+      icon: '🌊',
+      description: 'Deep blue and teal sea-inspired palette',
+      colors: {
+        primaryColor: '#06b6d4',
+        accentColor: '#14b8a6',
+        redColor: '#ef4444',
+        blueColor: '#0ea5e9',
+        backgroundColor: '#0a192f',
+        secondaryColor: '#112240',
+        borderColor: '#233554'
+      }
+    },
+    'sunset': {
+      name: 'Sunset',
+      icon: '🌅',
+      description: 'Warm oranges and purples like dusk',
+      colors: {
+        primaryColor: '#f97316',
+        accentColor: '#fbbf24',
+        redColor: '#dc2626',
+        blueColor: '#8b5cf6',
+        backgroundColor: '#1a0f1f',
+        secondaryColor: '#2d1b3d',
+        borderColor: '#4c2a5c'
+      }
+    },
+    'forest': {
+      name: 'Forest',
+      icon: '🌲',
+      description: 'Natural greens and earth tones',
+      colors: {
+        primaryColor: '#10b981',
+        accentColor: '#84cc16',
+        redColor: '#dc2626',
+        blueColor: '#0ea5e9',
+        backgroundColor: '#0f1f0f',
+        secondaryColor: '#1a2e1a',
+        borderColor: '#2d4a2d'
+      }
+    }
+  };
+
   // ===== CSS Variable Mapping =====
   // Maps theme properties to CSS custom properties for live updates.
   // Only properties listed here are applied via CSS variables; other theme
@@ -48,6 +165,8 @@
     'blueColor': '--accent-blue',
     'backgroundColor': '--bg-primary',
     'secondaryColor': '--bg-secondary',
+    'borderColor': '--border-color',
+    'glowColor': '--glow-color',
     // Glassmorphism settings for live updates
     'glassOpacity': '--glass-opacity',
     'glassBlur': '--glass-blur'
@@ -535,8 +654,29 @@
     const accentColor = theme.accentColor || DEFAULT_COLORS.ACCENT;
     const redColor = theme.redColor || DEFAULT_COLORS.RED;
     const blueColor = theme.blueColor || DEFAULT_COLORS.BLUE;
+    const glowColor = theme.glowColor || primaryColor;
 
     return `
+      <!-- Preset Color Schemes Section -->
+      <div class="customization-form-group">
+        <label class="customization-label">
+          ⚡ Quick Presets - One-Click Color Schemes
+        </label>
+        <p class="customization-help-text" style="margin-bottom: 1rem;">
+          Choose a preset to instantly update all colors, backgrounds, and borders.
+        </p>
+        ${renderColorPresets()}
+      </div>
+      
+      <hr style="border: none; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+      
+      <!-- Individual Color Pickers Section -->
+      <div class="customization-form-group">
+        <label class="customization-label" style="font-size: 1rem; margin-bottom: 1rem;">
+          🎨 Custom Colors - Fine-Tune Individual Colors
+        </label>
+      </div>
+      
       <div class="customization-form-group">
         <label for="primary-color" class="customization-label">
           Primary Color (Accent Green)
@@ -601,14 +741,61 @@
         </p>
       </div>
       
-      ${renderColorPreviewBox(primaryColor, accentColor, redColor, blueColor)}
+      <div class="customization-form-group">
+        <label for="glow-color" class="customization-label">
+          Glow Color (Bubble Effects)
+        </label>
+        <div class="color-input-group">
+          <div class="color-picker-wrapper">
+            <input type="color" id="glow-color" value="${glowColor}" aria-label="Glow color picker">
+          </div>
+          <input type="text" id="glow-color-text" class="color-text-input" value="${glowColor}" 
+                 placeholder="${DEFAULT_COLORS.PRIMARY}" aria-label="Glow color hex value">
+        </div>
+        <p class="customization-help-text">
+          Used for glowing effects on navigation bubbles and hover states.
+        </p>
+      </div>
+      
+      ${renderColorPreviewBox(primaryColor, accentColor, redColor, blueColor, glowColor)}
+    `;
+  }
+
+  /**
+   * Render color scheme preset buttons
+   */
+  function renderColorPresets() {
+    const presets = Object.entries(COLOR_SCHEME_PRESETS).map(([key, preset]) => {
+      return `
+        <button 
+          class="color-preset-btn" 
+          data-preset="${key}"
+          title="${preset.description}"
+          aria-label="Apply ${preset.name} color scheme"
+        >
+          <span class="preset-icon">${preset.icon}</span>
+          <span class="preset-name">${preset.name}</span>
+          <div class="preset-colors">
+            <span class="preset-color-dot" style="background: ${preset.colors.primaryColor};"></span>
+            <span class="preset-color-dot" style="background: ${preset.colors.accentColor};"></span>
+            <span class="preset-color-dot" style="background: ${preset.colors.redColor};"></span>
+            <span class="preset-color-dot" style="background: ${preset.colors.blueColor};"></span>
+          </div>
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <div class="color-presets-grid">
+        ${presets}
+      </div>
     `;
   }
 
   /**
    * Render color preview box with actual UI components
    */
-  function renderColorPreviewBox(primaryColor, accentColor, redColor, blueColor) {
+  function renderColorPreviewBox(primaryColor, accentColor, redColor, blueColor, glowColor) {
     return `
       <div class="preview-box" id="color-preview-box">
         <h4 class="preview-box-title">Live Preview</h4>
@@ -650,6 +837,16 @@
               <span id="preview-info" style="color: ${blueColor};">Information</span>
             </div>
           </div>
+          
+          <!-- Glow Effect Preview -->
+          <div class="preview-row">
+            <span class="preview-label">Glow:</span>
+            <div class="preview-items">
+              <div id="preview-glow-bubble" class="preview-glow-bubble" style="border-color: ${glowColor || primaryColor}; box-shadow: 0 0 20px ${glowColor || primaryColor};">
+                <span style="color: ${glowColor || primaryColor};">✨</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -662,11 +859,27 @@
     const theme = window.accountManager.getCustomization('theme') || {};
     const bgPrimary = theme.backgroundColor || DEFAULT_COLORS.BG_PRIMARY;
     const bgSecondary = theme.secondaryColor || DEFAULT_COLORS.BG_SECONDARY;
+    const backgroundType = theme.backgroundType || 'digital-rain';
     
     return `
+      <!-- Background Type Selection -->
+      <div class="customization-form-group">
+        <label for="background-type" class="customization-label">
+          Background Animation
+        </label>
+        <select id="background-type" class="customization-select">
+          <option value="digital-rain" ${backgroundType === 'digital-rain' ? 'selected' : ''}>Digital Rain (Default)</option>
+          <option value="gradient" ${backgroundType === 'gradient' ? 'selected' : ''}>Gradient</option>
+          <option value="solid" ${backgroundType === 'solid' ? 'selected' : ''}>Solid Color</option>
+        </select>
+        <p class="customization-help-text">
+          Choose the animated background style for your journal. Digital Rain is the default Matrix-style animation.
+        </p>
+      </div>
+      
       <div class="customization-form-group">
         <label for="bg-primary" class="customization-label">
-          Primary Background
+          Primary Background Color
         </label>
         <div class="color-input-group">
           <div class="color-picker-wrapper">
@@ -676,13 +889,13 @@
                  placeholder="${DEFAULT_COLORS.BG_PRIMARY}" aria-label="Primary background hex value">
         </div>
         <p class="customization-help-text">
-          Main page background color behind all content.
+          Main page background color. For Digital Rain, this is the base color behind the animation.
         </p>
       </div>
       
       <div class="customization-form-group">
         <label for="bg-secondary" class="customization-label">
-          Secondary Background
+          Secondary Background Color
         </label>
         <div class="color-input-group">
           <div class="color-picker-wrapper">
@@ -692,13 +905,13 @@
                  placeholder="${DEFAULT_COLORS.BG_SECONDARY}" aria-label="Secondary background hex value">
         </div>
         <p class="customization-help-text">
-          Used for cards, containers, and elevated surfaces.
+          Used for cards, containers, and elevated surfaces. For Gradient backgrounds, this creates the gradient end color.
         </p>
       </div>
       
       <div class="preview-box">
         <h4 class="preview-box-title">Background Preview</h4>
-        <div id="bg-preview" class="bg-preview-container" style="background: ${bgPrimary};">
+        <div id="bg-preview" class="bg-preview-container" data-bg-type="${backgroundType}" style="background: ${bgPrimary};">
           <div class="bg-preview-card" style="background: ${bgSecondary};">
             <p style="color: var(--text-primary);">Sample Card Content</p>
             <p style="color: var(--text-secondary); font-size: 0.875rem;">Secondary text</p>
@@ -706,10 +919,9 @@
         </div>
       </div>
       
-      <div class="customization-coming-soon" style="margin-top: 1.5rem;">
-        <h4>🖼️ Background Images - Coming Soon</h4>
-        <p>Choose from 15+ curated backgrounds including nebulas, gradients, and abstract patterns.</p>
-      </div>
+      <p class="customization-help-tip" style="margin-top: 1rem;">
+        💡 <strong>Tip:</strong> More backgrounds coming in Issue 8! Including nebulas, abstract patterns, and custom images.
+      </p>
     `;
   }
 
@@ -1429,6 +1641,12 @@
    * Setup global color customization listeners with 4-color preview
    */
   function setupGlobalColorListeners() {
+    // Preset buttons
+    const presetButtons = document.querySelectorAll('.color-preset-btn');
+    presetButtons.forEach(btn => {
+      btn.addEventListener('click', handlePresetClick);
+    });
+
     // Primary color
     setupColorPairListeners('primary-color', 'primary-color-text', (value) => {
       const btn = document.getElementById('preview-primary-btn');
@@ -1472,6 +1690,83 @@
       // Apply live CSS variable update for immediate visual feedback
       applyLiveThemeColor('blueColor', value);
     });
+
+    // Glow color
+    setupColorPairListeners('glow-color', 'glow-color-text', (value) => {
+      const glowBubble = document.getElementById('preview-glow-bubble');
+      if (glowBubble) {
+        glowBubble.style.borderColor = value;
+        glowBubble.style.boxShadow = `0 0 20px ${value}`;
+        const span = glowBubble.querySelector('span');
+        if (span) span.style.color = value;
+      }
+      state.pendingChanges['theme.glowColor'] = value;
+      // Apply live CSS variable update for immediate visual feedback
+      applyLiveThemeColor('glowColor', value);
+    });
+  }
+
+  /**
+   * Handle preset color scheme button click
+   */
+  function handlePresetClick(e) {
+    const btn = e.currentTarget;
+    const presetKey = btn.dataset.preset;
+    const preset = COLOR_SCHEME_PRESETS[presetKey];
+    
+    if (!preset) return;
+
+    // Apply all colors from the preset
+    applyColorPreset(preset);
+  }
+
+  /**
+   * Apply a color preset to all inputs and previews
+   */
+  function applyColorPreset(preset) {
+    const colors = preset.colors;
+
+    // Update all color pickers and text inputs
+    const colorMappings = [
+      { picker: 'primary-color', text: 'primary-color-text', value: colors.primaryColor },
+      { picker: 'accent-color', text: 'accent-color-text', value: colors.accentColor },
+      { picker: 'red-color', text: 'red-color-text', value: colors.redColor },
+      { picker: 'blue-color', text: 'blue-color-text', value: colors.blueColor },
+      // Glow color: Use primary color as default since presets don't define separate glow colors
+      // Users can still manually adjust glow color after applying preset
+      { picker: 'glow-color', text: 'glow-color-text', value: colors.primaryColor }
+    ];
+
+    colorMappings.forEach(mapping => {
+      const picker = document.getElementById(mapping.picker);
+      const text = document.getElementById(mapping.text);
+      
+      if (picker) {
+        picker.value = mapping.value;
+        // Trigger input event to update preview
+        picker.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      if (text) {
+        text.value = mapping.value;
+      }
+    });
+
+    // Also update background and border colors if they exist
+    if (colors.backgroundColor) {
+      state.pendingChanges['theme.backgroundColor'] = colors.backgroundColor;
+      applyLiveThemeColor('backgroundColor', colors.backgroundColor);
+    }
+    if (colors.secondaryColor) {
+      state.pendingChanges['theme.secondaryColor'] = colors.secondaryColor;
+      applyLiveThemeColor('secondaryColor', colors.secondaryColor);
+    }
+    if (colors.borderColor) {
+      state.pendingChanges['theme.borderColor'] = colors.borderColor;
+      applyLiveThemeColor('borderColor', colors.borderColor);
+    }
+
+    // Show notification
+    showNotification('Preset Applied', `${preset.name} color scheme has been applied to the preview. Click "Apply Changes" to save.`, 'success');
   }
 
   /**
@@ -1510,9 +1805,22 @@
    * Setup background customization listeners
    */
   function setupBackgroundListeners() {
+    // Background type selector
+    const bgTypeSelect = document.getElementById('background-type');
+    if (bgTypeSelect) {
+      bgTypeSelect.addEventListener('change', (e) => {
+        const value = e.target.value;
+        state.pendingChanges['theme.backgroundType'] = value;
+        updateBackgroundPreview(value);
+      });
+    }
+
     setupColorPairListeners('bg-primary', 'bg-primary-text', (value) => {
       const preview = document.getElementById('bg-preview');
-      if (preview) preview.style.background = value;
+      if (preview) {
+        const bgType = preview.dataset.bgType || 'digital-rain';
+        updateBackgroundPreview(bgType, value);
+      }
       state.pendingChanges['theme.backgroundColor'] = value;
       // Apply live CSS variable update for immediate visual feedback
       applyLiveThemeColor('backgroundColor', value);
@@ -1520,11 +1828,47 @@
 
     setupColorPairListeners('bg-secondary', 'bg-secondary-text', (value) => {
       const card = document.querySelector('.bg-preview-card');
+      const preview = document.getElementById('bg-preview');
       if (card) card.style.background = value;
+      if (preview) {
+        const bgType = preview.dataset.bgType || 'digital-rain';
+        updateBackgroundPreview(bgType, null, value);
+      }
       state.pendingChanges['theme.secondaryColor'] = value;
       // Apply live CSS variable update for immediate visual feedback
       applyLiveThemeColor('secondaryColor', value);
     });
+  }
+
+  /**
+   * Update background preview based on type
+   */
+  function updateBackgroundPreview(bgType, primaryColor, secondaryColor) {
+    const preview = document.getElementById('bg-preview');
+    if (!preview) return;
+
+    preview.dataset.bgType = bgType;
+    
+    const primary = primaryColor || document.getElementById('bg-primary-text')?.value || DEFAULT_COLORS.BG_PRIMARY;
+    const secondary = secondaryColor || document.getElementById('bg-secondary-text')?.value || DEFAULT_COLORS.BG_SECONDARY;
+
+    switch (bgType) {
+      case 'digital-rain':
+        preview.style.background = primary;
+        preview.style.backgroundImage = 'none';
+        break;
+      case 'gradient':
+        preview.style.background = `linear-gradient(135deg, ${primary} 0%, ${secondary} 100%)`;
+        preview.style.backgroundImage = '';
+        break;
+      case 'solid':
+        preview.style.background = primary;
+        preview.style.backgroundImage = 'none';
+        break;
+      default:
+        preview.style.background = primary;
+        preview.style.backgroundImage = 'none';
+    }
   }
 
   /**
@@ -1815,6 +2159,11 @@
         });
       }
       
+      // Trigger background update if background settings changed
+      if (state.category === 'global-backgrounds') {
+        window.dispatchEvent(new CustomEvent('backgroundChanged'));
+      }
+      
       showNotification('Changes Applied', 'Your customization has been saved successfully!', 'success');
       state.pendingChanges = {};
       setTimeout(() => {
@@ -1838,7 +2187,8 @@
       { id: 'primary-color-text', key: 'theme.primaryColor', name: 'Primary color' },
       { id: 'accent-color-text', key: 'theme.accentColor', name: 'Accent color' },
       { id: 'red-color-text', key: 'theme.redColor', name: 'Red color' },
-      { id: 'blue-color-text', key: 'theme.blueColor', name: 'Blue color' }
+      { id: 'blue-color-text', key: 'theme.blueColor', name: 'Blue color' },
+      { id: 'glow-color-text', key: 'theme.glowColor', name: 'Glow color' }
     ];
 
     colorFields.forEach(field => {
@@ -1857,6 +2207,17 @@
       }
     });
 
+    // Also save background and border colors if they were changed via presets
+    if (state.pendingChanges['theme.backgroundColor']) {
+      window.accountManager.setCustomization('theme.backgroundColor', state.pendingChanges['theme.backgroundColor']);
+    }
+    if (state.pendingChanges['theme.secondaryColor']) {
+      window.accountManager.setCustomization('theme.secondaryColor', state.pendingChanges['theme.secondaryColor']);
+    }
+    if (state.pendingChanges['theme.borderColor']) {
+      window.accountManager.setCustomization('theme.borderColor', state.pendingChanges['theme.borderColor']);
+    }
+
     return success;
   }
 
@@ -1865,6 +2226,17 @@
    */
   function applyBackgroundCustomization(invalidFields) {
     let success = true;
+    
+    // Save background type
+    const bgTypeSelect = document.getElementById('background-type');
+    if (bgTypeSelect && bgTypeSelect.value) {
+      const result = window.accountManager.setCustomization('theme.backgroundType', bgTypeSelect.value);
+      if (!result) {
+        invalidFields.push('Background type');
+        success = false;
+      }
+    }
+    
     const bgFields = [
       { id: 'bg-primary-text', key: 'theme.backgroundColor', name: 'Primary background' },
       { id: 'bg-secondary-text', key: 'theme.secondaryColor', name: 'Secondary background' }
