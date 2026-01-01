@@ -5,7 +5,7 @@
  */
 
 :root {
-  /* Color scheme - Dark Terminal Theme */
+  /* Color scheme - Dark Terminal Theme (Default) */
   --bg-primary: #0a0e27;
   --bg-secondary: #0f1429;
   --bg-tertiary: #141b33;
@@ -13,10 +13,14 @@
   --accent-green-dim: #00cc6a;
   --accent-red: #ff4757;
   --accent-yellow: #ffd93d;
+  --accent-blue: #00d4ff;
   --text-primary: #e4e4e7;
   --text-secondary: #a1a1aa;
   --text-dim: #71717a;
   --border-color: #27272a;
+  
+  /* Glow color for effects */
+  --glow-color: var(--accent-green);
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -34,6 +38,42 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.5s ease;
+}
+
+/* Light Theme Override */
+.theme-light {
+  /* Light theme color scheme */
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #fafafa;
+  --accent-green: #059669;
+  --accent-green-dim: #047857;
+  --accent-red: #dc2626;
+  --accent-yellow: #f59e0b;
+  --accent-blue: #2563eb;
+  --text-primary: #1a1a1a;
+  --text-secondary: #525252;
+  --text-dim: #737373;
+  --border-color: #e5e5e5;
+  --glow-color: var(--accent-green);
+}
+
+/* Dark Theme - Explicit (same as default) */
+.theme-dark {
+  /* Dark terminal theme - matches :root defaults */
+  --bg-primary: #0a0e27;
+  --bg-secondary: #0f1429;
+  --bg-tertiary: #141b33;
+  --accent-green: #00ff88;
+  --accent-green-dim: #00cc6a;
+  --accent-red: #ff4757;
+  --accent-yellow: #ffd93d;
+  --accent-blue: #00d4ff;
+  --text-primary: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --text-dim: #71717a;
+  --border-color: #27272a;
+  --glow-color: var(--accent-green);
 }
 
 /* Reset and base styles */

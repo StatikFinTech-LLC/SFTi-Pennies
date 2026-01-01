@@ -1,41 +1,31 @@
 {
-  "starting_balance": 165,
+  "starting_balance": 1000.00,
   "deposits": [],
+  "withdrawals": [],
   "account_opening_date": null,
-  "notes": "Starting balance is your initial capital. Add deposits separately to track additional investments. Account opening date is automatically set to your first trade date if not specified.",
+  "notes": "Starting balance is your initial capital. Add deposits separately to track internal investments.",
   "version": "1.0",
-  "last_updated": "2025-12-20T16:46:20.838Z",
-  "withdrawals": [
-    {
-      "amount": 4,
-      "date": "2025-11-05",
-      "note": "Adjustment for starting Amount",
-      "timestamp": "2025-11-05T21:33:45.310Z"
-    },
-    {
-      "amount": 2,
-      "date": "2025-11-06",
-      "note": "fees",
-      "timestamp": "2025-11-06T04:45:34.769Z"
-    },
-    {
-      "amount": 40,
-      "date": "2025-11-07",
-      "note": "",
-      "timestamp": "2025-11-07T23:03:43.590Z"
-    }
-  ],
+  "last_updated": "2026-01-01T22:00:00.000Z",
   "customization": {
     "theme": {
       "primaryColor": "#00ff88",
       "secondaryColor": "#0a0e27",
       "accentColor": "#ffd93d",
-      "backgroundColor": "#0a0e27"
+      "backgroundColor": "#0a0e27",
+      "redColor": "#ff4757",
+      "blueColor": "#00d4ff",
+      "borderColor": "#27272a",
+      "glowColor": "#00ff88",
+      "mode": "dark",
+      "animationIntensity": 1.0,
+      "glassOpacity": 0.55,
+      "glassBlur": 45,
+      "backgroundType": "digital-rain"
     },
     "preferences": {
       "dateFormat": "MM/DD/YYYY",
       "currencySymbol": "$",
-      "timezone": "America/Chicago"
+      "timezone": "America/New_York"
     }
   }
 }

@@ -36,6 +36,11 @@
     BLUR: 45
   };
 
+  // ===== Default Animation Settings =====
+  const DEFAULT_ANIMATION = {
+    INTENSITY: 1.0
+  };
+
   // ===== Color Scheme Presets =====
   // Predefined color scheme presets for one-click application
   const COLOR_SCHEME_PRESETS = {
@@ -186,6 +191,14 @@
       description: 'Primary accent colors used throughout your journal',
       scope: 'global',
       cssVars: ['--accent-green', '--accent-yellow', '--accent-red', '--accent-blue']
+    },
+    'themes': {
+      id: 'themes',
+      name: 'Theme Mode',
+      icon: 'adjustments',
+      description: 'Light/dark mode, animation intensity, and visual effects',
+      scope: 'global',
+      cssVars: []
     },
     'global-backgrounds': {
       id: 'global-backgrounds',
@@ -606,6 +619,8 @@
       // Global Styles
       case 'global-colors':
         return renderGlobalColorsCustomization();
+      case 'themes':
+        return renderThemeCustomization();
       case 'global-backgrounds':
         return renderBackgroundsCustomization();
       case 'global-glass':
@@ -849,6 +864,92 @@
           </div>
         </div>
       </div>
+    `;
+  }
+
+  /**
+   * Render Theme Mode customization (light/dark, animation intensity)
+   */
+  function renderThemeCustomization() {
+    const theme = window.accountManager.getCustomization('theme') || {};
+    const themeMode = theme.mode || 'dark';
+    const animationIntensity = theme.animationIntensity || DEFAULT_ANIMATION.INTENSITY;
+    
+    return `
+      <!-- Theme Mode Selection -->
+      <div class="customization-form-group">
+        <label class="customization-label">
+          Theme Mode
+        </label>
+        <div class="theme-mode-toggle" role="radiogroup" aria-label="Theme mode selection">
+          <button 
+            class="theme-mode-btn ${themeMode === 'dark' ? 'active' : ''}" 
+            data-mode="dark"
+            role="radio"
+            aria-checked="${themeMode === 'dark'}"
+            aria-label="Dark theme"
+          >
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+            <span>Dark</span>
+          </button>
+          <button 
+            class="theme-mode-btn ${themeMode === 'light' ? 'active' : ''}" 
+            data-mode="light"
+            role="radio"
+            aria-checked="${themeMode === 'light'}"
+            aria-label="Light theme"
+          >
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <span>Light</span>
+          </button>
+        </div>
+        <p class="customization-help-text">
+          Switch between dark and light themes. Dark theme is optimized for low-light trading environments.
+        </p>
+      </div>
+      
+      <!-- Animation Intensity Slider -->
+      <div class="customization-form-group">
+        <label for="animation-intensity" class="customization-label">
+          Animation Intensity: <span id="intensity-value">${(animationIntensity * 100).toFixed(0)}%</span>
+        </label>
+        <input type="range" id="animation-intensity" class="customization-range" 
+               min="0" max="1" step="0.1" value="${animationIntensity}"
+               aria-label="Animation intensity slider">
+        <div class="intensity-labels">
+          <span class="intensity-label-start">Off</span>
+          <span class="intensity-label-mid">Medium</span>
+          <span class="intensity-label-end">Full</span>
+        </div>
+        <p class="customization-help-text">
+          Control the intensity of background animations. Lower values reduce motion and improve performance.
+        </p>
+      </div>
+      
+      <!-- Theme Preview -->
+      <div class="preview-box">
+        <h4 class="preview-box-title">Theme Preview</h4>
+        <div id="theme-preview" class="theme-preview-container" data-theme="${themeMode}">
+          <div class="theme-preview-content">
+            <div class="preview-stat-card">
+              <div class="preview-stat-label">Portfolio Value</div>
+              <div class="preview-stat-value" style="color: var(--accent-green);">$12,345.67</div>
+            </div>
+            <div class="preview-text-samples">
+              <p style="color: var(--text-primary); margin: 0.5rem 0;">Primary text content</p>
+              <p style="color: var(--text-secondary); margin: 0.5rem 0; font-size: 0.875rem;">Secondary text for descriptions</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <p class="customization-help-tip" style="margin-top: 1rem;">
+        💡 <strong>Tip:</strong> Light theme is perfect for daytime trading, while dark theme reduces eye strain during extended sessions.
+      </p>
     `;
   }
 
@@ -1618,6 +1719,9 @@
       case 'global-colors':
         setupGlobalColorListeners();
         break;
+      case 'themes':
+        setupThemeListeners();
+        break;
       case 'global-backgrounds':
         setupBackgroundListeners();
         break;
@@ -1767,6 +1871,69 @@
 
     // Show notification
     showNotification('Preset Applied', `${preset.name} color scheme has been applied to the preview. Click "Apply Changes" to save.`, 'success');
+  }
+
+  /**
+   * Setup theme mode and animation intensity listeners
+   */
+  function setupThemeListeners() {
+    // Theme mode toggle buttons
+    const themeButtons = document.querySelectorAll('.theme-mode-btn');
+    themeButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const mode = btn.dataset.mode;
+        
+        // Update UI state
+        themeButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-checked', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-checked', 'true');
+        
+        // Update preview
+        const preview = document.getElementById('theme-preview');
+        if (preview) {
+          preview.dataset.theme = mode;
+          applyThemePreview(mode);
+        }
+        
+        // Store pending change
+        state.pendingChanges['theme.mode'] = mode;
+      });
+    });
+    
+    // Animation intensity slider
+    const intensitySlider = document.getElementById('animation-intensity');
+    const intensityValue = document.getElementById('intensity-value');
+    
+    if (intensitySlider && intensityValue) {
+      intensitySlider.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        intensityValue.textContent = `${(val * 100).toFixed(0)}%`;
+        state.pendingChanges['theme.animationIntensity'] = val;
+      });
+    }
+  }
+
+  /**
+   * Apply theme mode to preview
+   * Note: Uses hardcoded values that match .theme-light/.theme-dark CSS classes
+   * to show preview before theme is actually applied
+   */
+  function applyThemePreview(mode) {
+    const preview = document.getElementById('theme-preview');
+    if (!preview) return;
+    
+    if (mode === 'light') {
+      // Apply light theme colors to preview (matches .theme-light in main.css)
+      preview.style.background = '#fafafa';
+      preview.style.color = '#1a1a1a';
+    } else {
+      // Apply dark theme colors to preview (matches .theme-dark in main.css)
+      preview.style.background = 'var(--bg-tertiary, #141b33)';
+      preview.style.color = 'var(--text-primary, #e4e4e7)';
+    }
   }
 
   /**
@@ -2071,6 +2238,11 @@
           success = window.accountManager.setCustomization(`theme.${key}`, defaultCustomization.theme[key]) && success;
         }
       });
+    } else if (state.category === 'themes') {
+      // Reset theme mode and animation intensity to defaults
+      success = window.accountManager.setCustomization('theme.mode', 'dark') && success;
+      success = window.accountManager.setCustomization('theme.animationIntensity', DEFAULT_ANIMATION.INTENSITY) && success;
+      applyThemeToDocument('dark');
     } else if (state.category === 'global-backgrounds' && defaultCustomization.theme) {
       if (defaultCustomization.theme.backgroundColor) {
         success = window.accountManager.setCustomization('theme.backgroundColor', defaultCustomization.theme.backgroundColor) && success;
@@ -2121,6 +2293,10 @@
     // Handle global colors
     if (state.category === 'global-colors') {
       success = applyColorCustomization(invalidFields);
+    }
+    // Handle theme mode
+    else if (state.category === 'themes') {
+      success = applyThemeCustomization(invalidFields);
     }
     // Handle backgrounds
     else if (state.category === 'global-backgrounds') {
@@ -2216,6 +2392,45 @@
     }
     if (state.pendingChanges['theme.borderColor']) {
       window.accountManager.setCustomization('theme.borderColor', state.pendingChanges['theme.borderColor']);
+    }
+
+    return success;
+  }
+
+  /**
+   * Apply theme customization (mode and animation intensity)
+   */
+  function applyThemeCustomization(invalidFields) {
+    let success = true;
+
+    // Get theme mode from the active button
+    const activeThemeBtn = document.querySelector('.theme-mode-btn.active');
+    if (activeThemeBtn) {
+      const mode = activeThemeBtn.dataset.mode;
+      const result = window.accountManager.setCustomization('theme.mode', mode);
+      if (!result) {
+        invalidFields.push('Theme mode');
+        success = false;
+      } else {
+        // Apply theme to document
+        applyThemeToDocument(mode);
+      }
+    }
+
+    // Get animation intensity from slider
+    const intensitySlider = document.getElementById('animation-intensity');
+    if (intensitySlider) {
+      const intensity = parseFloat(intensitySlider.value);
+      if (intensity >= 0 && intensity <= 1) {
+        const result = window.accountManager.setCustomization('theme.animationIntensity', intensity);
+        if (!result) {
+          invalidFields.push('Animation intensity');
+          success = false;
+        }
+      } else {
+        invalidFields.push('Animation intensity (must be 0-1)');
+        success = false;
+      }
     }
 
     return success;
@@ -2390,6 +2605,20 @@
   }
 
   // ===== Utility Functions =====
+
+  /**
+   * Apply theme mode to the document
+   * @param {string} mode - 'light' or 'dark'
+   */
+  function applyThemeToDocument(mode) {
+    if (mode === 'light') {
+      document.documentElement.classList.add('theme-light');
+      document.documentElement.classList.remove('theme-dark');
+    } else {
+      document.documentElement.classList.add('theme-dark');
+      document.documentElement.classList.remove('theme-light');
+    }
+  }
 
   /**
    * Get page display name

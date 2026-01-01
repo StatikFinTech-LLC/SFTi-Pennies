@@ -621,6 +621,17 @@ class AccountManager {
     const theme = this.config.customization.theme;
     const root = document.documentElement;
     
+    // Apply theme mode (light/dark)
+    if (theme.mode) {
+      if (theme.mode === 'light') {
+        root.classList.add('theme-light');
+        root.classList.remove('theme-dark');
+      } else {
+        root.classList.add('theme-dark');
+        root.classList.remove('theme-light');
+      }
+    }
+    
     // Map customization colors to CSS custom properties
     if (theme.primaryColor) {
       root.style.setProperty('--accent-green', theme.primaryColor);
@@ -633,6 +644,24 @@ class AccountManager {
     }
     if (theme.backgroundColor) {
       root.style.setProperty('--bg-secondary', theme.backgroundColor);
+    }
+    if (theme.redColor) {
+      root.style.setProperty('--accent-red', theme.redColor);
+    }
+    if (theme.blueColor) {
+      root.style.setProperty('--accent-blue', theme.blueColor);
+    }
+    if (theme.borderColor) {
+      root.style.setProperty('--border-color', theme.borderColor);
+    }
+    if (theme.glowColor) {
+      root.style.setProperty('--glow-color', theme.glowColor);
+    }
+    if (theme.glassOpacity) {
+      root.style.setProperty('--glass-opacity-light', theme.glassOpacity);
+    }
+    if (theme.glassBlur) {
+      root.style.setProperty('--glass-blur-medium', `${theme.glassBlur}px`);
     }
   }
 

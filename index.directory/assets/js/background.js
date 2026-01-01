@@ -20,6 +20,16 @@ class BackgroundAnimation {
     // Matrix-style digital rain characters: numbers, letters, and special symbols
     this.symbols = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*()_+-=[]{}|;:,.<>?/~`'.split('');
     
+    // Animation intensity constants
+    this.BASE_RESET_THRESHOLD = 0.975;
+    this.INTENSITY_ADJUSTMENT = 0.02;
+    
+    // Cached animation intensity
+    this.cachedIntensity = 1.0;
+    this.cachedDropSpeed = 3;
+    this.cachedResetThreshold = this.BASE_RESET_THRESHOLD;
+    this.lastIntensityUpdate = Date.now();
+    
     // Bind methods
     this.animate = this.animate.bind(this);
     this.resizeCanvas = this.resizeCanvas.bind(this);
@@ -113,13 +123,46 @@ class BackgroundAnimation {
   }
   
   animate() {
-    // Semi-transparent black for trail effect
-    this.ctx.fillStyle = 'rgba(10, 14, 39, 0.05)';
+    // Get animation intensity (0.0 to 1.0) - check every second for changes
+    const now = Date.now();
+    if (now - this.lastIntensityUpdate > 1000) {
+      let intensity = 1.0;
+      if (window.accountManager) {
+        const theme = window.accountManager.getCustomization('theme');
+        if (theme && typeof theme.animationIntensity === 'number') {
+          intensity = theme.animationIntensity;
+        }
+      }
+      
+      // Update cached values if intensity changed
+      if (intensity !== this.cachedIntensity) {
+        this.cachedIntensity = intensity;
+        this.cachedDropSpeed = Math.max(1, Math.round(1 + (intensity * 2)));
+        this.cachedResetThreshold = this.BASE_RESET_THRESHOLD + (this.INTENSITY_ADJUSTMENT * (1 - intensity));
+      }
+      this.lastIntensityUpdate = now;
+    }
+    
+    const intensity = this.cachedIntensity;
+    
+    // Skip animation if intensity is 0
+    if (intensity === 0) {
+      this.ctx.fillStyle = 'rgba(10, 14, 39, 1)';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      return;
+    }
+    
+    // Adjust trail effect based on intensity
+    const trailOpacity = 0.05 * intensity;
+    this.ctx.fillStyle = `rgba(10, 14, 39, ${trailOpacity})`;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     
-    // Set text style
-    this.ctx.fillStyle = '#00ff88';
+    // Set text style with intensity-based opacity
+    this.ctx.fillStyle = `rgba(0, 255, 136, ${intensity})`;
     this.ctx.font = '15px JetBrains Mono, monospace';
+    
+    // Use cached drop speed
+    const dropSpeed = this.cachedDropSpeed;
     
     // Draw symbols
     for (let i = 0; i < this.drops.length; i++) {
@@ -130,13 +173,13 @@ class BackgroundAnimation {
       
       this.ctx.fillText(symbol, x, y);
       
-      // Reset drop to top randomly
-      if (y > this.canvas.height && Math.random() > 0.975) {
+      // Reset drop to top randomly (use cached threshold)
+      if (y > this.canvas.height && Math.random() > this.cachedResetThreshold) {
         this.drops[i] = 0;
       }
       
-      // Increment Y coordinate
-      this.drops[i]++;
+      // Increment Y coordinate based on speed
+      this.drops[i] += dropSpeed;
     }
     
     this.animationFrameId = requestAnimationFrame(this.animate);
