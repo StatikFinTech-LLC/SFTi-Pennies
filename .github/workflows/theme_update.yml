@@ -1,0 +1,81 @@
+name: Theme Update Pipeline
+
+# Trigger on changes to theme.c/ directory
+on:
+  push:
+    paths:
+      - 'index.directory/theme.c/**'
+      - '.github/scripts/theme_parser.py'
+      - '.github/workflows/theme_update.yml'
+  workflow_dispatch:
+
+# Permissions for committing changes
+permissions:
+  contents: write
+
+jobs:
+  update-theme:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml==6.0.1 matplotlib==3.8.2
+      
+      - name: Test theme parser
+        run: |
+          echo "Testing theme parser..."
+          python .github/scripts/theme_parser.py
+      
+      - name: Regenerate all-trades.html with new theme
+        run: |
+          echo "Step 1: Parsing trades..."
+          python .github/scripts/parse_trades.py
+          
+          echo "Step 2: Regenerating all-trades.html..."
+          python .github/scripts/generate_index.py
+      
+      - name: Regenerate trade detail pages with new theme
+        run: |
+          echo "Step 3: Regenerating trade detail pages..."
+          python .github/scripts/generate_trade_pages.py
+      
+      - name: Inject theme into static HTML files
+        run: |
+          echo "Step 4: Injecting theme into static HTML files..."
+          python .github/scripts/inject_theme_to_static_html.py
+      
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      
+      - name: Commit theme-updated files
+        run: |
+          git add index.html index.directory/*.html index.directory/trades/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-update: Apply theme changes to all HTML pages [skip ci]"
+            git push
+          fi
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-updated-pages
+          path: |
+            index.html
+            index.directory/*.html
+            index.directory/trades/

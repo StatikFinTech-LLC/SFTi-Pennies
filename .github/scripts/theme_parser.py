@@ -308,7 +308,7 @@ def generate_css_variables(theme: Dict[str, Any]) -> str:
     css_vars.append(f"--glass-opacity-light: {glass.get('opacity', 0.55)};")
     css_vars.append(f"--glass-blur-medium: {glass.get('blur', 45)}px;")
     
-    return "\n    ".join(css_vars)
+    return "\n        ".join(css_vars)
 
 
 def generate_inline_style(theme: Dict[str, Any]) -> str:
@@ -324,10 +324,29 @@ def generate_inline_style(theme: Dict[str, Any]) -> str:
     css_vars = generate_css_variables(theme)
     
     return f"""<style>
-  :root {{
-    {css_vars}
-  }}
-</style>"""
+    :root {{
+        {css_vars}
+    }}
+    </style>"""
+
+
+def get_theme_value(theme: Dict[str, Any], category: str, key: str, default: Any) -> Any:
+    """
+    Safely retrieve a theme value with nested dictionary access.
+    
+    Args:
+        theme: Theme configuration dictionary
+        category: Category (e.g., 'colors', 'glass', 'header')
+        key: Property key within category
+        default: Default value if not found
+        
+    Returns:
+        Theme value or default
+        
+    Example:
+        >>> color = get_theme_value(theme, 'colors', 'primary_color', '#00ff88')
+    """
+    return theme.get(category, {}).get(key, default)
 
 
 # Standalone execution for testing

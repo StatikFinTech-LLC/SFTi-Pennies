@@ -29,7 +29,7 @@ from globals_utils import setup_imports, calculate_time_in_trade
 # Setup imports
 setup_imports(__file__)
 from utils import load_trades_index
-# TODO: Integrate theme_parser for theme-aware HTML generation in the future.
+from theme_parser import load_theme_config, generate_inline_style, get_theme_value
 
 
 def generate_trade_html(trade):
@@ -42,6 +42,10 @@ def generate_trade_html(trade):
     Returns:
         str: HTML content
     """
+    # Load theme configuration
+    theme = load_theme_config()
+    theme_styles = generate_inline_style(theme)
+    
     # Extract trade data
     trade_number = trade.get("trade_number", 0)
     ticker = trade.get("ticker", "UNKNOWN")
@@ -131,7 +135,7 @@ def generate_trade_html(trade):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Trade #{trade_number} - {ticker} details and analysis">
-  <meta name="theme-color" content="#00ff88">
+  <meta name="theme-color" content="{get_theme_value(theme, 'colors', 'primary_color', '#00ff88')}">
   
   <title>Trade #{trade_number} - {ticker} - SFTi-Pennies</title>
   
@@ -156,6 +160,9 @@ def generate_trade_html(trade):
   
   <!-- Icons -->
   <link rel="icon" type="image/png" sizes="192x192" href="../assets/icons/icon-192.png">
+  
+  <!-- Theme CSS Variables -->
+  {theme_styles}
 </head>
 <body data-page="trade-detail">
   <canvas id="bg-canvas" data-component-type="background" data-component-id="particle-canvas" data-customizable="true"></canvas>

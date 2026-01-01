@@ -15,6 +15,7 @@ import json
 import os
 import shutil
 from navbar_template import get_navbar_html
+from theme_parser import load_theme_config, generate_inline_style, get_theme_value
 
 
 def main():
@@ -53,6 +54,11 @@ def create_trade_list_html(trades):
     Args:
         trades (list): List of trade dictionaries
     """
+    # Load theme configuration
+    print("Loading theme configuration...")
+    theme = load_theme_config()
+    theme_styles = generate_inline_style(theme)
+    
     # Generate table rows
     rows = []
 
@@ -120,7 +126,7 @@ def create_trade_list_html(trades):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Complete list of all recorded trades">
-    <meta name="theme-color" content="#00ff88">
+    <meta name="theme-color" content="{get_theme_value(theme, 'colors', 'primary_color', '#00ff88')}">
     
     <title>All Trades - SFTi-Pennies</title>
     
@@ -143,6 +149,9 @@ def create_trade_list_html(trades):
     
     <!-- Icons -->
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
+    
+    <!-- Theme CSS Variables -->
+    {theme_styles}
     
     <style>
         table {{

@@ -77,13 +77,76 @@ The build workflow reads theme files and injects CSS variables into generated HT
 
 ## Integration with Build System
 
-The theme system integrates with the existing build pipeline:
+The theme system integrates with the existing build pipeline through automated GitHub Actions workflows:
 
-1. **User commits** theme markdown file changes
-2. **GitHub Actions** triggers on changes to `theme.c/` directory
-3. **Python scripts** parse theme files and extract values
-4. **HTML generation** applies theme values to generated pages
-5. **Deployment** updates live site with new theme
+### Workflow: `theme_update.yml`
+
+**Triggers:**
+- Push to `index.directory/theme.c/` directory
+- Changes to `.github/scripts/theme_parser.py`
+- Manual workflow dispatch
+
+**Steps:**
+1. **User commits** theme markdown file changes (e.g., update colors in `theme.colors.md`)
+2. **GitHub Actions** automatically triggers `theme_update.yml` workflow
+3. **Theme parser** loads and validates all theme configuration files
+4. **HTML generation** regenerates Python-generated pages with new theme:
+   - `index.directory/all-trades.html` - Main trades listing
+   - `index.directory/trades/*.html` - Individual trade detail pages
+5. **Theme injection** updates all static HTML pages with new theme:
+   - `index.html` - Homepage
+   - `index.directory/analytics.html` - Analytics page
+   - `index.directory/add-trade.html` - Add trade form
+   - `index.directory/add-note.html` - Add note form
+   - `index.directory/add-pdf.html` - Add PDF form
+   - `index.directory/books.html` - Books index
+   - `index.directory/notes.html` - Notes index
+   - `index.directory/review.html` - Review page
+   - `index.directory/import.html` - Import page
+   - `index.directory/customization.html` - Customization page
+   - `index.directory/all-weeks.html` - Weekly summaries
+6. **Auto-commit** pushes all updated HTML files back to the repository
+7. **Deployment** GitHub Pages serves updated pages with new theme
+
+**Example Usage:**
+```bash
+# Update a theme color
+cd index.directory/theme.c
+vim theme.colors.md  # Change primary_color to #ff00ff
+git add theme.colors.md
+git commit -m "Update primary color to pink"
+git push
+
+# Workflow automatically runs and updates ALL HTML pages
+# No manual intervention needed!
+```
+
+**Workflow File:** `.github/workflows/theme_update.yml`
+
+### Affected HTML Files
+
+When theme files change, **ALL HTML pages** are automatically updated with new theme CSS variables:
+
+**Python-Generated Pages** (regenerated from scratch):
+- `index.directory/all-trades.html` - Main trades listing
+- `index.directory/trades/*.html` - Individual trade detail pages
+
+**Static HTML Pages** (theme CSS injected):
+- `index.html` - Homepage
+- `index.directory/analytics.html` - Analytics dashboard
+- `index.directory/add-trade.html` - Trade entry form
+- `index.directory/add-note.html` - Note entry form
+- `index.directory/add-pdf.html` - PDF upload form
+- `index.directory/books.html` - Books library
+- `index.directory/notes.html` - Notes library
+- `index.directory/review.html` - Trade review interface
+- `index.directory/import.html` - Data import interface
+- `index.directory/customization.html` - Theme customization UI
+- `index.directory/all-weeks.html` - Weekly performance summaries
+
+All pages use the same theme configuration from `theme.c/` markdown files, ensuring **uniform styling** across the entire application.
+
+The `trade_pipeline.yml` workflow also uses theme integration for its regular page generation.
 
 ## Customization Categories
 

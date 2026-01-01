@@ -14,6 +14,164 @@ This directory contains GitHub Actions workflow definitions that automate the SF
 #### Purpose
 Automatically processes new trades, generates analytics, creates visualizations, and deploys the updated trading journal to GitHub Pages.
 
+---
+
+### `theme_update.yml`
+**Automated theme update pipeline for HTML regeneration**
+
+#### Purpose
+Automatically detects theme customization changes in markdown files and regenerates affected HTML pages with updated theme styling.
+
+#### Trigger Conditions
+
+The workflow runs when:
+
+1. **Push events** to:
+   - `index.directory/theme.c/**` - Theme markdown files
+   - `.github/scripts/theme_parser.py` - Theme parser updates
+   - `.github/workflows/theme_update.yml` - Workflow file updates
+
+2. **Manual trigger** via:
+   - GitHub Actions UI (workflow_dispatch)
+
+#### Workflow Steps
+
+```yaml
+1. Checkout Repository
+   ↓
+2. Set up Python 3.11
+   ↓
+3. Install Python Dependencies
+   ↓
+4. Test Theme Parser
+   ↓
+5. Regenerate all-trades.html
+   ↓
+6. Regenerate Trade Detail Pages
+   ↓
+7. Inject Theme into Static HTML Files
+   ↓
+8. Commit Theme-Updated Files
+   ↓
+9. Upload Artifacts
+```
+
+#### Step Details
+
+**1-3. Setup**
+Same as trade_pipeline.yml - checkout, Python setup, install dependencies (pyyaml, matplotlib)
+
+**4. Test Theme Parser**
+```yaml
+- name: Test theme parser
+  run: python .github/scripts/theme_parser.py
+```
+Validates theme markdown files and ensures parser works correctly.
+
+**5. Regenerate all-trades.html**
+```yaml
+- name: Regenerate all-trades.html with new theme
+  run: |
+    python .github/scripts/parse_trades.py
+    python .github/scripts/generate_index.py
+```
+Regenerates the main trades listing page with updated theme CSS variables.
+
+**6. Regenerate Trade Detail Pages**
+```yaml
+- name: Regenerate trade detail pages with new theme
+  run: python .github/scripts/generate_trade_pages.py
+```
+Updates all individual trade pages with new theme styling.
+
+**7. Inject Theme into Static HTML Files**
+```yaml
+- name: Inject theme into static HTML files
+  run: python .github/scripts/inject_theme_to_static_html.py
+```
+Injects theme CSS variables into all static HTML files (index.html, analytics.html, add-trade.html, etc.). This ensures **all** HTML pages use the same theme configuration, not just Python-generated ones.
+
+**8. Commit Theme-Updated Files**
+```yaml
+- name: Commit theme-updated files
+  run: |
+    git add index.html index.directory/*.html index.directory/trades/
+    if git diff --staged --quiet; then
+      echo "No changes to commit"
+    else
+      git commit -m "Auto-update: Apply theme changes to all HTML pages [skip ci]"
+      git push
+    fi
+```
+Automatically commits and pushes **all** updated HTML pages (static and generated). The `[skip ci]` tag prevents infinite workflow loops.
+
+**9. Upload Artifacts**
+```yaml
+- name: Upload artifacts
+  uses: actions/upload-artifact@v4
+  with:
+    name: theme-updated-pages
+    path: |
+      index.html
+      index.directory/*.html
+      index.directory/trades/
+```
+Uploads all regenerated and updated pages as artifacts for verification.
+
+#### Execution Time
+- **Total Duration:** ~1-2 minutes
+- **Fast:** When only a few trade pages exist
+- **Slower:** With many trade detail pages to regenerate
+
+#### Permissions Required
+
+```yaml
+permissions:
+  contents: write      # For committing regenerated HTML files
+```
+
+#### Theme Integration
+
+The workflow automatically:
+1. Reads theme values from `index.directory/theme.c/*.md` files
+2. Parses YAML front matter to extract colors, glass effects, etc.
+3. Generates CSS custom properties (--accent-green, --glass-opacity, etc.)
+4. Injects theme styles into HTML `<head>` sections
+5. Updates meta theme-color tags dynamically
+
+**Supported Theme Files:**
+- `theme.colors.md` - Global color palette
+- `theme.glass.md` - Glass effects (opacity, blur)
+- `theme.header.md` - Header/navbar styling
+- `theme.glowbubble.*.color.md` - Individual bubble glow colors
+
+#### Example Usage
+
+```bash
+# Update primary color in theme
+cd index.directory/theme.c
+vim theme.colors.md
+
+# Change: primary_color: "#00ff88"
+# To:     primary_color: "#ff00ff"
+
+git add theme.colors.md
+git commit -m "Change primary color to pink"
+git push
+
+# Workflow automatically:
+# 1. Detects theme.c/ change
+# 2. Regenerates all-trades.html
+# 3. Regenerates all trade detail pages
+# 4. Commits updated HTML back to repo
+# 5. GitHub Pages deploys changes
+```
+
+---
+
+### `trade_pipeline.yml` (continued)
+**Main automation pipeline for trade processing and site deployment**
+
 #### Trigger Conditions
 
 The workflow runs when:
@@ -485,7 +643,8 @@ steps:
 ## Workflow Status
 
 Current workflows:
-- ✅ `trade_pipeline.yml` - Active and functional
+- ✅ `trade_pipeline.yml` - Active and functional (trade processing)
+- ✅ `theme_update.yml` - Active and functional (theme updates)
 
 Planned workflows:
 - 🔄 `backup.yml` - Automated backups
@@ -494,6 +653,6 @@ Planned workflows:
 
 ---
 
-**Last Updated:** October 2025  
-**Workflow Count:** 1  
+**Last Updated:** January 2026  
+**Workflow Count:** 2  
 **Purpose:** Automated processing and deployment
