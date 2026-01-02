@@ -1,11 +1,11 @@
 {
-  "starting_balance": 1000.00,
+  "starting_balance": 1000,
   "deposits": [],
   "withdrawals": [],
   "account_opening_date": null,
   "notes": "Starting balance is your initial capital. Add deposits separately to track internal investments.",
   "version": "1.0",
-  "last_updated": "2026-01-01T22:00:00.000Z",
+  "last_updated": "2026-01-02T00:08:49.713Z",
   "customization": {
     "theme": {
       "primaryColor": "#00ff88",
@@ -17,7 +17,7 @@
       "borderColor": "#27272a",
       "glowColor": "#00ff88",
       "mode": "dark",
-      "animationIntensity": 1.0,
+      "animationIntensity": 1,
       "glassOpacity": 0.55,
       "glassBlur": 45,
       "backgroundType": "digital-rain"
