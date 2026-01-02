@@ -1,11 +1,11 @@
 {
-  "starting_balance": 402,
+  "starting_balance": 1000,
   "deposits": [],
   "withdrawals": [],
   "account_opening_date": null,
   "notes": "Starting balance is your initial capital. Add deposits separately to track internal investments.",
   "version": "1.0",
-  "last_updated": "2026-01-02T00:08:54.459Z",
+  "last_updated": "2026-01-02T00:15:55.441Z",
   "customization": {
     "theme": {
       "primaryColor": "#00ff88",
