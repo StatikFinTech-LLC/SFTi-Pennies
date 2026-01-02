@@ -8,9 +8,9 @@
     {
       "label": "Portfolio Value",
       "data": [
-        1000,
-        959.86,
-        983.82
+        402,
+        361.86,
+        385.82
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
