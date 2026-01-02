@@ -1,28 +1,10 @@
 {
-  "labels": [
-    "Pre-Market",
-    "Morning",
-    "Intra-Day"
-  ],
+  "labels": [],
   "datasets": [
     {
-      "label": "Average P&L ($)",
-      "data": [
-        -5.73,
-        10.38,
-        3.2
-      ],
-      "backgroundColor": [
-        "#ff4757",
-        "#00ff88",
-        "#00ff88"
-      ],
-      "borderColor": [
-        "#ff4757",
-        "#00ff88",
-        "#00ff88"
-      ],
-      "borderWidth": 2
+      "label": "Average P&L",
+      "data": [],
+      "backgroundColor": []
     }
   ]
 }

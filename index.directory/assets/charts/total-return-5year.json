@@ -1,14 +1,14 @@
 {
   "labels": [
-    "2020 Q4",
-    "2025 Q4"
+    "2021 Q1",
+    "2026 Q1"
   ],
   "datasets": [
     {
       "label": "Total Return %",
       "data": [
         0,
-        -1.62
+        0
       ],
       "borderColor": "#00d4ff",
       "backgroundColor": "rgba(0, 212, 255, 0.1)",

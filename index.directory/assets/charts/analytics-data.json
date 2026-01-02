@@ -1,204 +1,26 @@
 {
-  "expectancy": -1.62,
-  "profit_factor": 0.74,
-  "max_win_streak": 3,
-  "max_loss_streak": 3,
-  "max_drawdown": -47.94,
-  "kelly_criterion": -17.4,
-  "sharpe_ratio": 0.1,
-  "r_multiple_distribution": {
-    "labels": [
-      "< -2R",
-      "-2R to -1R",
-      "-1R to 0R",
-      "0R to 1R",
-      "1R to 2R",
-      "2R to 3R",
-      "> 3R"
-    ],
-    "data": [
-      0,
-      1,
-      4,
-      1,
-      0,
-      2,
-      2
-    ],
-    "avg_r_multiple": 1.24,
-    "median_r_multiple": 0.08
-  },
-  "mae_mfe_analysis": {
-    "available": false,
-    "message": "MAE/MFE analysis requires intraday price data collection. This feature will be available once intraday high/low prices are tracked for each trade.",
-    "mae_avg": 0,
-    "mfe_avg": 0,
-    "note": "To enable this metric, add 'intraday_high' and 'intraday_low' fields to trade entries."
-  },
-  "by_strategy": {
-    "VWAP Hold": {
-      "total_trades": 2,
-      "winning_trades": 2,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 20.27,
-      "avg_pnl": 10.13,
-      "expectancy": 10.13
-    },
-    "Breakout": {
-      "total_trades": 6,
-      "winning_trades": 2,
-      "losing_trades": 4,
-      "win_rate": 33.3,
-      "total_pnl": -32.75,
-      "avg_pnl": -5.46,
-      "expectancy": -5.46
-    },
-    "VWAP Bounce": {
-      "total_trades": 1,
-      "winning_trades": 0,
-      "losing_trades": 1,
-      "win_rate": 0.0,
-      "total_pnl": -6.9,
-      "avg_pnl": -6.9,
-      "expectancy": -6.9
-    },
-    "Continuation": {
-      "total_trades": 1,
-      "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 3.2,
-      "avg_pnl": 3.2,
-      "expectancy": 3.2
-    }
-  },
-  "by_setup": {
-    "VWAP Reclaim": {
-      "total_trades": 1,
-      "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 7.8,
-      "avg_pnl": 7.8,
-      "expectancy": 7.8
-    },
-    "Dip n Rip": {
-      "total_trades": 1,
-      "winning_trades": 0,
-      "losing_trades": 1,
-      "win_rate": 0.0,
-      "total_pnl": -25.08,
-      "avg_pnl": -25.08,
-      "expectancy": -25.08
-    },
-    "7 O'clock Spike": {
-      "total_trades": 3,
-      "winning_trades": 0,
-      "losing_trades": 3,
-      "win_rate": 0.0,
-      "total_pnl": -30.66,
-      "avg_pnl": -10.22,
-      "expectancy": -10.22
-    },
-    "VWAP Bounce": {
-      "total_trades": 2,
-      "winning_trades": 1,
-      "losing_trades": 1,
-      "win_rate": 50.0,
-      "total_pnl": -3.7,
-      "avg_pnl": -1.85,
-      "expectancy": -1.85
-    },
-    "Bull Flag": {
-      "total_trades": 1,
-      "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 14.7,
-      "avg_pnl": 14.7,
-      "expectancy": 14.7
-    },
-    "H.O.D Breakout": {
-      "total_trades": 2,
-      "winning_trades": 2,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 20.76,
-      "avg_pnl": 10.38,
-      "expectancy": 10.38
-    }
-  },
-  "by_session": {
-    "Pre-Market": {
-      "total_trades": 7,
-      "winning_trades": 2,
-      "losing_trades": 5,
-      "win_rate": 28.6,
-      "total_pnl": -40.14,
-      "avg_pnl": -5.73,
-      "expectancy": -5.73
-    },
-    "Morning": {
-      "total_trades": 2,
-      "winning_trades": 2,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 20.76,
-      "avg_pnl": 10.38,
-      "expectancy": 10.38
-    },
-    "Intra-Day": {
-      "total_trades": 1,
-      "winning_trades": 1,
-      "losing_trades": 0,
-      "win_rate": 100.0,
-      "total_pnl": 3.2,
-      "avg_pnl": 3.2,
-      "expectancy": 3.2
-    }
-  },
+  "expectancy": 0,
+  "profit_factor": 0,
+  "max_win_streak": 0,
+  "max_loss_streak": 0,
+  "max_drawdown": 0,
+  "kelly_criterion": 0,
+  "by_strategy": {},
+  "by_setup": {},
+  "by_session": {},
   "drawdown_series": {
-    "labels": [
-      "11/03",
-      "11/03",
-      "11/04",
-      "11/05",
-      "11/05",
-      "11/06",
-      "11/06",
-      "11/10",
-      "11/12",
-      "11/12"
-    ],
-    "values": [
-      0.0,
-      -25.08,
-      -40.18,
-      -47.08,
-      -32.38,
-      -38.22,
-      -47.94,
-      -35.47,
-      -27.18,
-      -23.98
-    ]
+    "labels": [],
+    "values": []
   },
   "drawdowns": {
-    "classic_percent": -4.76,
-    "inception_percent": -4.01
-  },
-  "returns": {
-    "total_return_percent": -1.62,
-    "avg_return_percent": -0.1618,
-    "avg_risk_percent": 1.253,
-    "avg_position_size_percent": 6.89
+    "classic_percent": 0,
+    "inception_percent": 0
   },
   "account": {
     "starting_balance": 1000,
     "total_deposits": 0,
-    "total_pnl": -16.18,
-    "portfolio_value": 983.82
+    "total_pnl": 0,
+    "portfolio_value": 1000
   },
-  "generated_at": "2026-01-02T00:18:28.927455"
+  "generated_at": "2026-01-02T00:24:35.509284"
 }

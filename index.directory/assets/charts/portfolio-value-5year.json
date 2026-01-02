@@ -1,14 +1,14 @@
 {
   "labels": [
-    "2020 Q4",
-    "2025 Q4"
+    "2021 Q1",
+    "2026 Q1"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
         1000,
-        983.82
+        1000
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",

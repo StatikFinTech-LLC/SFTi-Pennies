@@ -1,40 +1,12 @@
 {
-  "labels": [
-    "2025-11-03",
-    "2025-11-03",
-    "2025-11-04",
-    "2025-11-05",
-    "2025-11-05",
-    "2025-11-06",
-    "2025-11-06",
-    "2025-11-10",
-    "2025-11-12",
-    "2025-11-12"
-  ],
+  "labels": [],
   "datasets": [
     {
       "label": "Equity Curve",
-      "data": [
-        1007.8,
-        982.72,
-        967.62,
-        960.72,
-        975.42,
-        969.58,
-        959.86,
-        972.33,
-        980.62,
-        983.82
-      ],
-      "borderColor": "#ff4757",
-      "backgroundColor": "rgba(255, 71, 87, 0.1)",
-      "fill": true,
-      "tension": 0.4,
-      "pointRadius": 4,
-      "pointHoverRadius": 6,
-      "pointBackgroundColor": "#ff4757",
-      "pointBorderColor": "#0a0e27",
-      "pointBorderWidth": 2
+      "data": [],
+      "borderColor": "#00ff88",
+      "backgroundColor": "rgba(0, 255, 136, 0.1)",
+      "tension": 0.4
     }
   ]
 }

@@ -1,40 +1,13 @@
 {
-  "labels": [
-    "11/03",
-    "11/03",
-    "11/04",
-    "11/05",
-    "11/05",
-    "11/06",
-    "11/06",
-    "11/10",
-    "11/12",
-    "11/12"
-  ],
+  "labels": [],
   "datasets": [
     {
       "label": "Drawdown %",
-      "data": [
-        0.0,
-        -2.49,
-        -3.99,
-        -4.67,
-        -3.21,
-        -3.79,
-        -4.76,
-        -3.52,
-        -2.7,
-        -2.38
-      ],
+      "data": [],
       "borderColor": "#ff4757",
       "backgroundColor": "rgba(255, 71, 87, 0.2)",
       "fill": true,
-      "tension": 0.4,
-      "pointRadius": 3,
-      "pointHoverRadius": 5,
-      "pointBackgroundColor": "#ff4757",
-      "pointBorderColor": "#0a0e27",
-      "pointBorderWidth": 2
+      "tension": 0.4
     }
   ]
 }

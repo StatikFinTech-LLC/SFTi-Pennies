@@ -1,52 +1,10 @@
 {
-  "labels": [
-    "CHR",
-    "BNAI",
-    "LPTX",
-    "MSPR",
-    "PSTV",
-    "SMX",
-    "OSRH",
-    "SCNX",
-    "PHIO"
-  ],
+  "labels": [],
   "datasets": [
     {
-      "label": "Total P&L ($)",
-      "data": [
-        14.7,
-        12.47,
-        11.49,
-        7.8,
-        -5.84,
-        -6.9,
-        -9.72,
-        -15.1,
-        -25.08
-      ],
-      "backgroundColor": [
-        "#00ff88",
-        "#00ff88",
-        "#00ff88",
-        "#00ff88",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757"
-      ],
-      "borderColor": [
-        "#00ff88",
-        "#00ff88",
-        "#00ff88",
-        "#00ff88",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757",
-        "#ff4757"
-      ],
-      "borderWidth": 2
+      "label": "Total P&L",
+      "data": [],
+      "backgroundColor": []
     }
   ]
 }
