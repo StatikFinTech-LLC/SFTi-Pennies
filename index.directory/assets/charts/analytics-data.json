@@ -195,10 +195,10 @@
     "avg_position_size_percent": 6.89
   },
   "account": {
-    "starting_balance": 1000.0,
+    "starting_balance": 1000,
     "total_deposits": 0,
     "total_pnl": -16.18,
     "portfolio_value": 983.82
   },
-  "generated_at": "2026-01-01T22:43:22.799978"
+  "generated_at": "2026-01-02T00:09:29.855294"
 }
