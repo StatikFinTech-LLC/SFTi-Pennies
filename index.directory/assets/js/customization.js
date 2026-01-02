@@ -960,21 +960,70 @@
     const theme = window.accountManager.getCustomization('theme') || {};
     const bgPrimary = theme.backgroundColor || DEFAULT_COLORS.BG_PRIMARY;
     const bgSecondary = theme.secondaryColor || DEFAULT_COLORS.BG_SECONDARY;
-    const backgroundType = theme.backgroundType || 'digital-rain';
+    const backgroundId = theme.backgroundId || 'digital-rain';
+    const backgroundBlur = theme.backgroundBlur || 0;
+    const backgroundParallax = theme.backgroundParallax || 0;
     
     return `
-      <!-- Background Type Selection -->
+      <!-- Background Theme Selection -->
       <div class="customization-form-group">
-        <label for="background-type" class="customization-label">
-          Background Animation
+        <label class="customization-label">
+          🎨 Background Themes
         </label>
-        <select id="background-type" class="customization-select">
-          <option value="digital-rain" ${backgroundType === 'digital-rain' ? 'selected' : ''}>Digital Rain (Default)</option>
-          <option value="gradient" ${backgroundType === 'gradient' ? 'selected' : ''}>Gradient</option>
-          <option value="solid" ${backgroundType === 'solid' ? 'selected' : ''}>Solid Color</option>
-        </select>
+        <p class="customization-help-text" style="margin-bottom: 1rem;">
+          Choose from animated, gradient, pattern, or solid backgrounds.
+        </p>
+        <div id="background-themes-grid" class="background-themes-grid" data-selected="${backgroundId}">
+          <!-- Background options loaded dynamically -->
+          <div class="background-theme-loading">Loading backgrounds...</div>
+        </div>
+      </div>
+      
+      <!-- Blur Control -->
+      <div class="customization-form-group">
+        <label for="background-blur" class="customization-label">
+          Background Blur: <span id="blur-amount-value">${backgroundBlur}px</span>
+        </label>
+        <input type="range" id="background-blur" class="customization-range" 
+               min="0" max="50" step="5" value="${backgroundBlur}"
+               aria-label="Background blur slider">
+        <div class="intensity-labels">
+          <span class="intensity-label-start">None</span>
+          <span class="intensity-label-mid">Medium</span>
+          <span class="intensity-label-end">Heavy</span>
+        </div>
         <p class="customization-help-text">
-          Choose the animated background style for your journal. Digital Rain is the default Matrix-style animation.
+          Add a blur effect to the background for a softer, more focused appearance.
+        </p>
+      </div>
+      
+      <!-- Parallax Control -->
+      <div class="customization-form-group">
+        <label for="background-parallax" class="customization-label">
+          Parallax Effect: <span id="parallax-value">${backgroundParallax > 0 ? (backgroundParallax * 100).toFixed(0) + '%' : 'Off'}</span>
+        </label>
+        <input type="range" id="background-parallax" class="customization-range" 
+               min="0" max="0.7" step="0.1" value="${backgroundParallax}"
+               aria-label="Parallax effect slider">
+        <div class="intensity-labels">
+          <span class="intensity-label-start">Off</span>
+          <span class="intensity-label-mid">Subtle</span>
+          <span class="intensity-label-end">Strong</span>
+        </div>
+        <p class="customization-help-text">
+          Enable parallax scrolling for depth effect (works best with gradient/pattern backgrounds).
+        </p>
+      </div>
+      
+      <hr style="border: none; border-top: 1px solid var(--border-color); margin: 2rem 0;">
+      
+      <!-- Custom Colors Section -->
+      <div class="customization-form-group">
+        <label class="customization-label" style="font-size: 1rem; margin-bottom: 1rem;">
+          🎨 Custom Colors Override
+        </label>
+        <p class="customization-help-text" style="margin-bottom: 1rem;">
+          Fine-tune the primary and secondary colors used in backgrounds.
         </p>
       </div>
       
@@ -989,9 +1038,6 @@
           <input type="text" id="bg-primary-text" class="color-text-input" value="${bgPrimary}" 
                  placeholder="${DEFAULT_COLORS.BG_PRIMARY}" aria-label="Primary background hex value">
         </div>
-        <p class="customization-help-text">
-          Main page background color. For Digital Rain, this is the base color behind the animation.
-        </p>
       </div>
       
       <div class="customization-form-group">
@@ -1005,24 +1051,18 @@
           <input type="text" id="bg-secondary-text" class="color-text-input" value="${bgSecondary}" 
                  placeholder="${DEFAULT_COLORS.BG_SECONDARY}" aria-label="Secondary background hex value">
         </div>
-        <p class="customization-help-text">
-          Used for cards, containers, and elevated surfaces. For Gradient backgrounds, this creates the gradient end color.
-        </p>
       </div>
       
+      <!-- Live Preview -->
       <div class="preview-box">
-        <h4 class="preview-box-title">Background Preview</h4>
-        <div id="bg-preview" class="bg-preview-container" data-bg-type="${backgroundType}" style="background: ${bgPrimary};">
+        <h4 class="preview-box-title">Live Preview</h4>
+        <div id="bg-preview" class="bg-preview-container" data-bg-id="${backgroundId}" style="background: ${bgPrimary};">
           <div class="bg-preview-card" style="background: ${bgSecondary};">
             <p style="color: var(--text-primary);">Sample Card Content</p>
             <p style="color: var(--text-secondary); font-size: 0.875rem;">Secondary text</p>
           </div>
         </div>
       </div>
-      
-      <p class="customization-help-tip" style="margin-top: 1rem;">
-        💡 <strong>Tip:</strong> More backgrounds coming in Issue 8! Including nebulas, abstract patterns, and custom images.
-      </p>
     `;
   }
 
@@ -1238,37 +1278,85 @@
 
   /**
    * Render Glowing Bubbles customization
+   * Shows all 6 navigation bubbles: Account, Add Trade, Books, Notes, Trades, Mentors
    */
   function renderBubblesCustomization() {
     return `
       <div class="customization-form-group">
         <label class="customization-label">Mobile Navigation Bubbles</label>
         <p class="customization-help-text">
-          Customize the glowing navigation bubbles shown on mobile devices. Each bubble can have its own color and glow effect.
+          The 6 glowing navigation bubbles shown at the bottom of the screen on mobile devices. Each bubble has a unique color and glow animation.
         </p>
       </div>
       
       <div class="preview-box">
-        <h4 class="preview-box-title">Bubble Preview</h4>
-        <div class="preview-bubbles" id="bubbles-preview">
-          <div class="preview-bubble" style="--bubble-color: var(--accent-green);">
-            <span>+</span>
-            <span class="preview-bubble-label">Add Trade</span>
+        <h4 class="preview-box-title">All Navigation Bubbles</h4>
+        <div class="preview-bubbles-full" id="bubbles-preview">
+          <!-- Account Bubble (Purple) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-account" style="border-color: rgba(147, 51, 234, 0.6); color: rgba(147, 51, 234, 1); box-shadow: 0 4px 24px rgba(147, 51, 234, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Account</span>
           </div>
-          <div class="preview-bubble" style="--bubble-color: rgba(100, 255, 218, 1);">
-            <span>📚</span>
-            <span class="preview-bubble-label">Books</span>
+          
+          <!-- Add Trade Bubble (Green) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-add-trade" style="border-color: rgba(0, 255, 136, 0.6); color: var(--accent-green); box-shadow: 0 4px 24px rgba(0, 255, 136, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Add Trade</span>
           </div>
-          <div class="preview-bubble" style="--bubble-color: rgba(147, 51, 234, 1);">
-            <span>📝</span>
-            <span class="preview-bubble-label">Notes</span>
+          
+          <!-- Books Bubble (Cyan) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-books" style="border-color: rgba(100, 255, 218, 0.6); color: rgba(100, 255, 218, 1); box-shadow: 0 4px 24px rgba(100, 255, 218, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Books</span>
           </div>
-          <div class="preview-bubble" style="--bubble-color: rgba(251, 191, 36, 1);">
-            <span>📊</span>
-            <span class="preview-bubble-label">Trades</span>
+          
+          <!-- Notes Bubble (Purple/Violet) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-notes" style="border-color: rgba(147, 51, 234, 0.6); color: rgba(147, 51, 234, 1); box-shadow: 0 4px 24px rgba(147, 51, 234, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Notes</span>
+          </div>
+          
+          <!-- Trades Bubble (Yellow) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-trades" style="border-color: rgba(251, 191, 36, 0.6); color: rgba(251, 191, 36, 1); box-shadow: 0 4px 24px rgba(251, 191, 36, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Trades</span>
+          </div>
+          
+          <!-- Mentors Bubble (Pink) -->
+          <div class="preview-bubble-item">
+            <div class="preview-bubble-real bubble-mentors" style="border-color: rgba(236, 72, 153, 0.6); color: rgba(236, 72, 153, 1); box-shadow: 0 4px 24px rgba(236, 72, 153, 0.3);">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <span class="preview-bubble-name">Mentors</span>
           </div>
         </div>
       </div>
+      
+      <p class="customization-help-tip" style="margin-top: 1rem;">
+        💡 <strong>Note:</strong> These bubbles appear only on mobile screens (768px and below). They provide quick navigation to key features.
+      </p>
       
       <div class="customization-coming-soon" style="margin-top: 1.5rem;">
         <h4>✨ Individual Bubble Colors - Coming Soon</h4>
@@ -1358,45 +1446,99 @@
    * Render Charts customization
    */
   function renderChartsCustomization() {
+    const theme = window.accountManager.getCustomization('theme') || {};
+    const chartProfitColor = theme.chartProfitColor || DEFAULT_COLORS.PRIMARY;
+    const chartLossColor = theme.chartLossColor || DEFAULT_COLORS.RED;
+    const chartGridColor = theme.chartGridColor || 'rgba(39, 39, 42, 0.5)';
+    const chartStyle = theme.chartStyle || 'bars';
+    
     return `
       <div class="customization-form-group">
         <label class="customization-label">Charts & Analytics</label>
         <p class="customization-help-text">
-          Customize chart colors, grid lines, tooltips, and data visualization styles.
+          Customize chart colors, styles, and data visualization appearance.
         </p>
       </div>
       
+      <!-- Chart Style Selection -->
+      <div class="customization-form-group">
+        <label for="chart-style" class="customization-label">
+          Chart Style
+        </label>
+        <select id="chart-style" class="customization-select">
+          <option value="bars" ${chartStyle === 'bars' ? 'selected' : ''}>Bar Chart</option>
+          <option value="line" ${chartStyle === 'line' ? 'selected' : ''}>Line Chart</option>
+          <option value="area" ${chartStyle === 'area' ? 'selected' : ''}>Area Chart</option>
+        </select>
+        <p class="customization-help-text">
+          Choose how your trading data is visualized in charts.
+        </p>
+      </div>
+      
+      <!-- Chart Colors -->
+      <div class="customization-form-group">
+        <label for="chart-profit-color" class="customization-label">
+          Profit Color
+        </label>
+        <div class="color-input-group">
+          <div class="color-picker-wrapper">
+            <input type="color" id="chart-profit-color" value="${chartProfitColor}" aria-label="Chart profit color">
+          </div>
+          <input type="text" id="chart-profit-color-text" class="color-text-input" value="${chartProfitColor}" 
+                 placeholder="${DEFAULT_COLORS.PRIMARY}" aria-label="Chart profit color hex value">
+        </div>
+        <p class="customization-help-text">
+          Color for winning trades and positive values.
+        </p>
+      </div>
+      
+      <div class="customization-form-group">
+        <label for="chart-loss-color" class="customization-label">
+          Loss Color
+        </label>
+        <div class="color-input-group">
+          <div class="color-picker-wrapper">
+            <input type="color" id="chart-loss-color" value="${chartLossColor}" aria-label="Chart loss color">
+          </div>
+          <input type="text" id="chart-loss-color-text" class="color-text-input" value="${chartLossColor}" 
+                 placeholder="${DEFAULT_COLORS.RED}" aria-label="Chart loss color hex value">
+        </div>
+        <p class="customization-help-text">
+          Color for losing trades and negative values.
+        </p>
+      </div>
+      
+      <!-- Live Preview -->
       <div class="preview-box">
-        <h4 class="preview-box-title">Chart Color Scheme</h4>
+        <h4 class="preview-box-title">Chart Preview</h4>
         <div class="preview-chart" id="chart-preview">
-          <div class="preview-chart-bars">
-            <div class="preview-chart-bar positive" style="height: 60%;">
-              <span>Win</span>
+          <div class="preview-chart-bars" id="chart-bars-preview">
+            <div class="preview-chart-bar positive" style="height: 60%; background: ${chartProfitColor};">
+              <span>+$150</span>
             </div>
-            <div class="preview-chart-bar negative" style="height: 40%;">
-              <span>Loss</span>
+            <div class="preview-chart-bar negative" style="height: 40%; background: ${chartLossColor};">
+              <span>-$80</span>
             </div>
-            <div class="preview-chart-bar positive" style="height: 80%;">
-              <span>Win</span>
+            <div class="preview-chart-bar positive" style="height: 80%; background: ${chartProfitColor};">
+              <span>+$220</span>
             </div>
-            <div class="preview-chart-bar positive" style="height: 55%;">
-              <span>Win</span>
+            <div class="preview-chart-bar positive" style="height: 55%; background: ${chartProfitColor};">
+              <span>+$120</span>
             </div>
-            <div class="preview-chart-bar negative" style="height: 30%;">
-              <span>Loss</span>
+            <div class="preview-chart-bar negative" style="height: 30%; background: ${chartLossColor};">
+              <span>-$45</span>
             </div>
           </div>
           <div class="preview-chart-legend">
-            <span class="preview-legend-item positive">● Profits</span>
-            <span class="preview-legend-item negative">● Losses</span>
+            <span class="preview-legend-item" id="legend-profit" style="color: ${chartProfitColor};">● Profits</span>
+            <span class="preview-legend-item" id="legend-loss" style="color: ${chartLossColor};">● Losses</span>
           </div>
         </div>
       </div>
       
-      <div class="customization-coming-soon" style="margin-top: 1.5rem;">
-        <h4>📊 Chart Color Palettes - Coming Soon</h4>
-        <p>Choose from preset color schemes or create custom chart colors.</p>
-      </div>
+      <p class="customization-help-tip" style="margin-top: 1rem;">
+        💡 <strong>Tip:</strong> Chart colors are applied across all analytics pages including Dashboard, Analytics, and Trade Review.
+      </p>
     `;
   }
 
@@ -1404,6 +1546,11 @@
    * Render Buttons customization
    */
   function renderButtonsCustomization() {
+    const theme = window.accountManager.getCustomization('theme') || {};
+    const primaryColor = theme.primaryColor || DEFAULT_COLORS.PRIMARY;
+    const accentColor = theme.accentColor || DEFAULT_COLORS.ACCENT;
+    const redColor = theme.redColor || DEFAULT_COLORS.RED;
+    
     return `
       <div class="customization-form-group">
         <label class="customization-label">Buttons</label>
@@ -1414,11 +1561,31 @@
       
       <div class="preview-box">
         <h4 class="preview-box-title">Button Styles</h4>
-        <div class="preview-buttons" id="buttons-preview">
-          <button class="preview-btn primary">Primary Action</button>
-          <button class="preview-btn secondary">Secondary</button>
-          <button class="preview-btn danger">Delete</button>
-          <button class="preview-btn ghost">Ghost Button</button>
+        <div class="preview-buttons-grid" id="buttons-preview">
+          <div class="button-preview-item">
+            <button class="preview-btn-demo primary" style="background: ${primaryColor}; color: #000;">
+              Primary Action
+            </button>
+            <span class="button-label">Primary</span>
+          </div>
+          <div class="button-preview-item">
+            <button class="preview-btn-demo secondary" style="border-color: ${primaryColor}; color: ${primaryColor};">
+              Secondary
+            </button>
+            <span class="button-label">Secondary</span>
+          </div>
+          <div class="button-preview-item">
+            <button class="preview-btn-demo danger" style="background: ${redColor}; color: #fff;">
+              Delete
+            </button>
+            <span class="button-label">Danger</span>
+          </div>
+          <div class="button-preview-item">
+            <button class="preview-btn-demo ghost">
+              Ghost Button
+            </button>
+            <span class="button-label">Ghost</span>
+          </div>
         </div>
       </div>
       
@@ -1737,8 +1904,50 @@
       case 'page-messages':
         setupPageMessageListeners();
         break;
+      case 'charts':
+        setupChartsListeners();
+        break;
       // Other categories will use default form handling
     }
+  }
+
+  /**
+   * Setup Charts customization listeners
+   */
+  function setupChartsListeners() {
+    // Chart style selector
+    const chartStyleSelect = document.getElementById('chart-style');
+    if (chartStyleSelect) {
+      chartStyleSelect.addEventListener('change', (e) => {
+        state.pendingChanges['theme.chartStyle'] = e.target.value;
+      });
+    }
+    
+    // Profit color
+    setupColorPairListeners('chart-profit-color', 'chart-profit-color-text', (value) => {
+      // Update preview bars
+      document.querySelectorAll('#chart-bars-preview .positive').forEach(bar => {
+        bar.style.background = value;
+      });
+      // Update legend
+      const legendProfit = document.getElementById('legend-profit');
+      if (legendProfit) legendProfit.style.color = value;
+      
+      state.pendingChanges['theme.chartProfitColor'] = value;
+    });
+    
+    // Loss color
+    setupColorPairListeners('chart-loss-color', 'chart-loss-color-text', (value) => {
+      // Update preview bars
+      document.querySelectorAll('#chart-bars-preview .negative').forEach(bar => {
+        bar.style.background = value;
+      });
+      // Update legend
+      const legendLoss = document.getElementById('legend-loss');
+      if (legendLoss) legendLoss.style.color = value;
+      
+      state.pendingChanges['theme.chartLossColor'] = value;
+    });
   }
 
   /**
@@ -1972,21 +2181,36 @@
    * Setup background customization listeners
    */
   function setupBackgroundListeners() {
-    // Background type selector
-    const bgTypeSelect = document.getElementById('background-type');
-    if (bgTypeSelect) {
-      bgTypeSelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        state.pendingChanges['theme.backgroundType'] = value;
-        updateBackgroundPreview(value);
+    // Load background themes from JSON
+    loadBackgroundThemes();
+    
+    // Blur slider
+    const blurSlider = document.getElementById('background-blur');
+    const blurValue = document.getElementById('blur-amount-value');
+    if (blurSlider && blurValue) {
+      blurSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        blurValue.textContent = `${val}px`;
+        state.pendingChanges['theme.backgroundBlur'] = val;
+        updateBackgroundPreviewEffects();
+      });
+    }
+    
+    // Parallax slider
+    const parallaxSlider = document.getElementById('background-parallax');
+    const parallaxValue = document.getElementById('parallax-value');
+    if (parallaxSlider && parallaxValue) {
+      parallaxSlider.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        parallaxValue.textContent = val > 0 ? `${(val * 100).toFixed(0)}%` : 'Off';
+        state.pendingChanges['theme.backgroundParallax'] = val;
       });
     }
 
     setupColorPairListeners('bg-primary', 'bg-primary-text', (value) => {
       const preview = document.getElementById('bg-preview');
       if (preview) {
-        const bgType = preview.dataset.bgType || 'digital-rain';
-        updateBackgroundPreview(bgType, value);
+        updateBackgroundPreviewEffects();
       }
       state.pendingChanges['theme.backgroundColor'] = value;
       // Apply live CSS variable update for immediate visual feedback
@@ -1998,13 +2222,207 @@
       const preview = document.getElementById('bg-preview');
       if (card) card.style.background = value;
       if (preview) {
-        const bgType = preview.dataset.bgType || 'digital-rain';
-        updateBackgroundPreview(bgType, null, value);
+        updateBackgroundPreviewEffects();
       }
       state.pendingChanges['theme.secondaryColor'] = value;
       // Apply live CSS variable update for immediate visual feedback
       applyLiveThemeColor('secondaryColor', value);
     });
+  }
+
+  /**
+   * Load background themes from themes.json
+   */
+  async function loadBackgroundThemes() {
+    const grid = document.getElementById('background-themes-grid');
+    if (!grid) return;
+    
+    try {
+      const response = await fetch('assets/themes/themes.json');
+      if (!response.ok) {
+        throw new Error(`Failed to load themes.json (HTTP ${response.status})`);
+      }
+      const themesData = await response.json();
+      
+      renderBackgroundThemesGrid(themesData.backgrounds, grid);
+    } catch (error) {
+      console.warn('[Customization] Could not load themes.json, falling back to built-in backgrounds. Error:', error.message);
+      // Fallback to built-in backgrounds - users will see a subset of available themes
+      renderBackgroundThemesGrid(getDefaultBackgrounds(), grid);
+    }
+  }
+  
+  /**
+   * Get default backgrounds if themes.json is unavailable
+   */
+  function getDefaultBackgrounds() {
+    return [
+      { id: 'digital-rain', name: 'Digital Rain', type: 'canvas-animation', category: 'animated', default: true },
+      { id: 'gradient-dark-blue', name: 'Deep Ocean', type: 'gradient', category: 'gradient', css: 'linear-gradient(135deg, #0a192f 0%, #112240 50%, #1a365d 100%)' },
+      { id: 'gradient-purple-haze', name: 'Purple Haze', type: 'gradient', category: 'gradient', css: 'linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 50%, #1e1b4b 100%)' },
+      { id: 'solid-dark', name: 'Solid Dark', type: 'solid', category: 'solid', css: '#0a0e27' },
+      { id: 'pattern-dots', name: 'Dot Matrix', type: 'pattern', category: 'pattern', css: 'radial-gradient(circle, rgba(0, 255, 136, 0.03) 1px, transparent 1px)', cssSize: '20px 20px', baseColor: '#0a0e27' }
+    ];
+  }
+  
+  /**
+   * Render background themes grid
+   */
+  function renderBackgroundThemesGrid(backgrounds, container) {
+    const selectedId = container.dataset.selected || 'digital-rain';
+    
+    // Group by category
+    const categories = {
+      animated: [],
+      gradient: [],
+      pattern: [],
+      solid: []
+    };
+    
+    backgrounds.forEach(bg => {
+      if (categories[bg.category]) {
+        categories[bg.category].push(bg);
+      }
+    });
+    
+    let html = '';
+    
+    // Render each category
+    Object.entries(categories).forEach(([category, items]) => {
+      if (items.length === 0) return;
+      
+      const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+      html += `<div class="background-category-label">${categoryName}</div>`;
+      
+      items.forEach(bg => {
+        const isSelected = bg.id === selectedId;
+        const previewStyle = getBackgroundPreviewStyle(bg);
+        
+        html += `
+          <button 
+            class="background-theme-item ${isSelected ? 'selected' : ''}"
+            data-bg-id="${bg.id}"
+            data-bg-type="${bg.type}"
+            data-bg-css="${escapeHtml(bg.css || '')}"
+            ${bg.cssSize ? `data-bg-size="${bg.cssSize}"` : ''}
+            ${bg.baseColor ? `data-bg-base="${bg.baseColor}"` : ''}
+            title="${bg.description || bg.name}"
+            aria-label="${bg.name}"
+            aria-pressed="${isSelected}"
+          >
+            <div class="background-theme-preview" style="${previewStyle}">
+              ${bg.type === 'canvas-animation' ? '<span class="bg-animated-indicator">✨</span>' : ''}
+            </div>
+            <span class="background-theme-name">${bg.name}</span>
+          </button>
+        `;
+      });
+    });
+    
+    container.innerHTML = html;
+    
+    // Add click listeners
+    container.querySelectorAll('.background-theme-item').forEach(btn => {
+      btn.addEventListener('click', handleBackgroundThemeSelect);
+    });
+  }
+  
+  /**
+   * Get CSS preview style for a background theme
+   */
+  function getBackgroundPreviewStyle(bg) {
+    if (bg.type === 'canvas-animation') {
+      // Show a representation of animated backgrounds
+      return 'background: linear-gradient(135deg, #0a0e27 0%, rgba(0, 255, 136, 0.1) 50%, #0a0e27 100%);';
+    }
+    if (bg.type === 'solid') {
+      return `background: ${bg.css};`;
+    }
+    if (bg.type === 'pattern') {
+      return `background: ${bg.baseColor || '#0a0e27'}; background-image: ${bg.css}; ${bg.cssSize ? `background-size: ${bg.cssSize};` : ''}`;
+    }
+    // Gradient or animated-gradient
+    return `background: ${bg.css};`;
+  }
+  
+  /**
+   * Handle background theme selection
+   */
+  function handleBackgroundThemeSelect(e) {
+    const btn = e.currentTarget;
+    const bgId = btn.dataset.bgId;
+    const bgType = btn.dataset.bgType;
+    const bgCss = btn.dataset.bgCss;
+    const bgSize = btn.dataset.bgSize;
+    const bgBase = btn.dataset.bgBase;
+    
+    // Update selection state
+    const container = document.getElementById('background-themes-grid');
+    container.querySelectorAll('.background-theme-item').forEach(item => {
+      item.classList.remove('selected');
+      item.setAttribute('aria-pressed', 'false');
+    });
+    btn.classList.add('selected');
+    btn.setAttribute('aria-pressed', 'true');
+    
+    // Store pending changes
+    state.pendingChanges['theme.backgroundId'] = bgId;
+    state.pendingChanges['theme.backgroundType'] = bgType;
+    if (bgCss) state.pendingChanges['theme.backgroundCss'] = bgCss;
+    if (bgSize) state.pendingChanges['theme.backgroundSize'] = bgSize;
+    if (bgBase) state.pendingChanges['theme.backgroundBase'] = bgBase;
+    
+    // Update preview
+    updateBackgroundPreviewFromSelection(bgId, bgType, bgCss, bgSize, bgBase);
+  }
+  
+  /**
+   * Update background preview from theme selection
+   */
+  function updateBackgroundPreviewFromSelection(bgId, bgType, bgCss, bgSize, bgBase) {
+    const preview = document.getElementById('bg-preview');
+    if (!preview) return;
+    
+    preview.dataset.bgId = bgId;
+    
+    const blurAmount = document.getElementById('background-blur')?.value || 0;
+    let filterStyle = blurAmount > 0 ? `filter: blur(${blurAmount}px);` : '';
+    
+    if (bgType === 'canvas-animation') {
+      // For canvas animations, just show base color in preview
+      const primaryColor = document.getElementById('bg-primary-text')?.value || DEFAULT_COLORS.BG_PRIMARY;
+      preview.style.cssText = `background: ${primaryColor}; ${filterStyle}`;
+    } else if (bgType === 'solid') {
+      preview.style.cssText = `background: ${bgCss}; ${filterStyle}`;
+    } else if (bgType === 'pattern') {
+      preview.style.cssText = `background: ${bgBase || '#0a0e27'}; background-image: ${bgCss}; ${bgSize ? `background-size: ${bgSize};` : ''} ${filterStyle}`;
+    } else {
+      // Gradient
+      preview.style.cssText = `background: ${bgCss}; ${filterStyle}`;
+    }
+  }
+  
+  /**
+   * Update background preview effects (blur)
+   */
+  function updateBackgroundPreviewEffects() {
+    const preview = document.getElementById('bg-preview');
+    if (!preview) return;
+    
+    const selectedBtn = document.querySelector('.background-theme-item.selected');
+    if (selectedBtn) {
+      const bgId = selectedBtn.dataset.bgId;
+      const bgType = selectedBtn.dataset.bgType;
+      const bgCss = selectedBtn.dataset.bgCss;
+      const bgSize = selectedBtn.dataset.bgSize;
+      const bgBase = selectedBtn.dataset.bgBase;
+      updateBackgroundPreviewFromSelection(bgId, bgType, bgCss, bgSize, bgBase);
+    } else {
+      // Default preview
+      const blurAmount = document.getElementById('background-blur')?.value || 0;
+      const primaryColor = document.getElementById('bg-primary-text')?.value || DEFAULT_COLORS.BG_PRIMARY;
+      preview.style.cssText = `background: ${primaryColor}; ${blurAmount > 0 ? `filter: blur(${blurAmount}px);` : ''}`;
+    }
   }
 
   /**

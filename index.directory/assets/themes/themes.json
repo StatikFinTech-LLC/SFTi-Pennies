@@ -1,0 +1,159 @@
+{
+  "version": "1.0.0",
+  "backgrounds": [
+    {
+      "id": "digital-rain",
+      "name": "Digital Rain",
+      "description": "Matrix-style animated digital rain effect",
+      "type": "canvas-animation",
+      "category": "animated",
+      "default": true,
+      "settings": {
+        "color": "#00ff88",
+        "density": 0.15,
+        "speed": 1.0
+      }
+    },
+    {
+      "id": "gradient-dark-blue",
+      "name": "Deep Ocean",
+      "description": "Deep blue gradient for a calm trading atmosphere",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(135deg, #0a192f 0%, #112240 50%, #1a365d 100%)"
+    },
+    {
+      "id": "gradient-purple-haze",
+      "name": "Purple Haze",
+      "description": "Cosmic purple gradient with blue undertones",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(135deg, #1a0f2e 0%, #2d1b4e 50%, #1e1b4b 100%)"
+    },
+    {
+      "id": "gradient-emerald",
+      "name": "Emerald Forest",
+      "description": "Deep green gradient for nature-inspired vibes",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(135deg, #0f1f0f 0%, #1a2e1a 50%, #0d3320 100%)"
+    },
+    {
+      "id": "gradient-sunset",
+      "name": "Sunset Trader",
+      "description": "Warm orange and purple dusk gradient",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(135deg, #1a0f1f 0%, #2d1b3d 50%, #331a1a 100%)"
+    },
+    {
+      "id": "gradient-midnight",
+      "name": "Midnight",
+      "description": "Pure dark gradient with subtle depth",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(180deg, #0d0d0d 0%, #1a1a2e 50%, #0a0a1a 100%)"
+    },
+    {
+      "id": "solid-dark",
+      "name": "Solid Dark",
+      "description": "Pure dark background for minimal distraction",
+      "type": "solid",
+      "category": "solid",
+      "css": "#0a0e27"
+    },
+    {
+      "id": "solid-charcoal",
+      "name": "Charcoal",
+      "description": "Neutral dark gray background",
+      "type": "solid",
+      "category": "solid",
+      "css": "#1a1a1a"
+    },
+    {
+      "id": "solid-navy",
+      "name": "Navy Blue",
+      "description": "Deep navy blue solid background",
+      "type": "solid",
+      "category": "solid",
+      "css": "#0a192f"
+    },
+    {
+      "id": "pattern-dots",
+      "name": "Dot Matrix",
+      "description": "Subtle dot pattern overlay",
+      "type": "pattern",
+      "category": "pattern",
+      "css": "radial-gradient(circle, rgba(0, 255, 136, 0.03) 1px, transparent 1px)",
+      "cssSize": "20px 20px",
+      "baseColor": "#0a0e27"
+    },
+    {
+      "id": "pattern-grid",
+      "name": "Grid Lines",
+      "description": "Subtle grid pattern for structure",
+      "type": "pattern",
+      "category": "pattern",
+      "css": "linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px)",
+      "cssSize": "50px 50px",
+      "baseColor": "#0a0e27"
+    },
+    {
+      "id": "pattern-diagonal",
+      "name": "Diagonal Lines",
+      "description": "Diagonal stripe pattern",
+      "type": "pattern",
+      "category": "pattern",
+      "css": "repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 255, 136, 0.02) 10px, rgba(0, 255, 136, 0.02) 20px)",
+      "baseColor": "#0a0e27"
+    },
+    {
+      "id": "aurora",
+      "name": "Northern Lights",
+      "description": "Aurora borealis inspired gradient animation",
+      "type": "animated-gradient",
+      "category": "animated",
+      "css": "linear-gradient(45deg, #0a0e27, #0f2027, #203a43, #0a0e27)",
+      "animation": "aurora-shift 15s ease infinite"
+    },
+    {
+      "id": "nebula",
+      "name": "Cosmic Nebula",
+      "description": "Deep space nebula gradient",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "radial-gradient(ellipse at 20% 80%, rgba(120, 0, 200, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0, 150, 200, 0.1) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(100, 0, 150, 0.08) 0%, transparent 70%), linear-gradient(180deg, #0a0e27 0%, #1a1033 50%, #0a0e27 100%)"
+    },
+    {
+      "id": "starfield",
+      "name": "Starfield",
+      "description": "Static starfield pattern",
+      "type": "pattern",
+      "category": "pattern",
+      "css": "radial-gradient(1px 1px at 20px 30px, white, transparent), radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.5), transparent), radial-gradient(1px 1px at 50px 160px, white, transparent), radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.7), transparent), radial-gradient(1px 1px at 130px 80px, white, transparent), radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,0.5), transparent)",
+      "cssSize": "200px 200px",
+      "baseColor": "#0a0e27"
+    },
+    {
+      "id": "trading-floor",
+      "name": "Trading Floor",
+      "description": "Dark gradient with subtle green accent",
+      "type": "gradient",
+      "category": "gradient",
+      "css": "linear-gradient(180deg, #0a0e27 0%, rgba(0, 255, 136, 0.03) 50%, #0a0e27 100%)"
+    }
+  ],
+  "blurPresets": [
+    { "id": "none", "name": "None", "value": 0 },
+    { "id": "subtle", "name": "Subtle", "value": 5 },
+    { "id": "light", "name": "Light", "value": 15 },
+    { "id": "medium", "name": "Medium", "value": 30 },
+    { "id": "heavy", "name": "Heavy", "value": 50 }
+  ],
+  "parallaxPresets": [
+    { "id": "none", "name": "None", "value": 0 },
+    { "id": "subtle", "name": "Subtle", "value": 0.3 },
+    { "id": "medium", "name": "Medium", "value": 0.5 },
+    { "id": "strong", "name": "Strong", "value": 0.7 }
+  ]
+}
