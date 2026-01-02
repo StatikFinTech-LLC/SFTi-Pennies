@@ -30,9 +30,9 @@ _To be filled in manually during review_
 
 ## Strategy Breakdown
 
+- **VWAP Hold**: 2 trades, $20.27 P&L
 - **Breakout**: 6 trades, $-32.75 P&L
 - **VWAP Bounce**: 1 trades, $-6.90 P&L
-- **VWAP Hold**: 2 trades, $20.27 P&L
 - **Continuation**: 1 trades, $3.20 P&L
 
 ## Next Period Goals
@@ -43,4 +43,4 @@ _To be filled in manually during review_
 
 ---
 
-**Generated**: 2026-01-02 00:10:53
+**Generated**: 2026-01-02 00:18:26
