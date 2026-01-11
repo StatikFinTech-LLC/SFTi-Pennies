@@ -1,14 +1,14 @@
 {
   "labels": [
-    "12/03",
-    "01/02"
+    "12/12",
+    "01/11"
   ],
   "datasets": [
     {
       "label": "Portfolio Value",
       "data": [
-        400,
-        400
+        0,
+        0
       ],
       "borderColor": "#00ff88",
       "backgroundColor": "rgba(0, 255, 136, 0.1)",
