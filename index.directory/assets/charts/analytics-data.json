@@ -17,10 +17,10 @@
     "inception_percent": 0
   },
   "account": {
-    "starting_balance": 400,
+    "starting_balance": 0,
     "total_deposits": 0,
     "total_pnl": 0,
-    "portfolio_value": 400
+    "portfolio_value": 0
   },
-  "generated_at": "2026-01-11T01:44:32.241942"
+  "generated_at": "2026-01-11T01:53:32.639465"
 }
